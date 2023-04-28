@@ -25,5 +25,23 @@ npm test
 npm run lint
 ```
 
-Test
+# How to use firebase in components
+Import and use Firebase in your React components: In any React component where you want to use Firebase, import the initialized app and analytics instances from the firebaseConfig.js file. For example:
 
+```javascript
+Copy code
+import React from 'react';
+import { app, analytics } from './firebaseConfig';
+
+function MyComponent() {
+  // Use Firebase app and analytics here
+  // ...
+
+  return (
+    <div>
+      {/* Your component JSX */}
+    </div>
+  );
+}```
+
+export default MyComponent;
