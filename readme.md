@@ -3,12 +3,18 @@
 npm install
 
 # How to make contribution
+## Contribute On Codebase
 1. Checkout out your own branch ==**Do not work on master!**==
 2. Make a issue on the things you are doing
 3. working on own barnch
 4. after test and self-review make a PR ==**Test your code locally before PR and Do not use action for your self-rivew**==
 5. Ask for approval
 
+## Contribute on peer-review
+Approve Issues or PRs
+1. Add your comment with indicating the sections
+2. If Approved, then comment on your approve with approved
+3. If Rejected, indicate where the improve may get occurs.
 
 # How to make a test file
 1. go to ./src/tests/
