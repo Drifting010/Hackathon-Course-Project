@@ -17,10 +17,13 @@ npm install
 # Package Version
 node.js: 16
 eslint: 8.39
+database: firebase
 
 # How to run test locally
 ```  
 npm test
 npm run lint
 ```
+
+Test
 
