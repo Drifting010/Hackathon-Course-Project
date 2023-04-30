@@ -27,6 +27,7 @@ database: firebase
 
 # How to run test locally
 ```  
+npm ci
 npm test
 npm run lint
 ```
