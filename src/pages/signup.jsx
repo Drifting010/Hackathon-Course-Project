@@ -118,74 +118,58 @@ export default function Signup() {
 
     return (
         <>
-            <div className='prompt'>
-                <h3>Create a new account</h3>
-            </div>
-            <div className='form_participant'>
-                <form>
-                    <div className='field'>
-                        <input type="hidden" name="role" value="participant" />
-                    </div>
-                    <div className='field'>
-                        <div className='label'>
-                            <label htmlFor="first_name">First Name</label>
+            <div className='container'>
+                <div className='form_participant'>
+                    <form>
+                        <div className='hidden'>
+                            <input type="hidden" name="role" value="participant" />
                         </div>
-                        <div className='inputVal'>
-                            <input type='text' name='firstName' value={firstName} onChange={handleFirstNameChange} />
+                        <div className='prompt'>
+                            <h3>Create a new account</h3>
                         </div>
-                    </div>
-                    <div className='field'>
-                        <div className='label'>
-                            <label htmlFor="last_name">Last Name</label>
+                        <div className='field'>
+                            <div className='inputVal'>
+                                <input type='text' name='firstName' value={firstName} onChange={handleFirstNameChange} placeholder='First Name' />
+                            </div>
                         </div>
-                        <div className='inputVal'>
-                            <input type='text' name='lastName' value={lastName} onChange={handleLastNameChange} />
+                        <div className='field'>
+                            <div className='inputVal'>
+                                <input type='text' name='lastName' value={lastName} onChange={handleLastNameChange} placeholder='Last Name' />
+                            </div>
                         </div>
-                    </div>
-                    <div className='field'>
-                        <div className='label'>
-                            <label htmlFor="username">Username</label>
+                        <div className='field'>
+                            <div className='inputVal'>
+                                <input type='text' name='username' value={username} onChange={handleUsernameChange} placeholder='Username' /><br />
+                                <span>{errorMessage.username}</span>
+                            </div>
                         </div>
-                        <div className='inputVal'>
-                            <input type='text' name='username' value={username} onChange={handleUsernameChange} />
-                            <span>{errorMessage.username}</span>
+                        <div className='field'>
+                            <div className='inputVal'>
+                                <input type='text' name='email' value={email} onChange={handleEmailChange} placeholder='Email' /><br />
+                                <span>{errorMessage.email}</span>
+                            </div>
                         </div>
-                    </div>
-                    <div className='field'>
-                        <div className='label'>
-                            <label htmlFor="email">Email</label>
+                        <div className='field'>
+                            <div className='inputVal'>
+                                <input type='password' name='pwd' value={pwd} onChange={handlePwdChange} placeholder='Password' /><br />
+                                <span>{errorMessage.pwd}</span>
+                            </div>
                         </div>
-                        <div className='inputVal'>
-                            <input type='text' name='email' value={email} onChange={handleEmailChange} />
-                            <span>{errorMessage.email}</span>
+                        <div className='field'>
+                            <div className='inputVal'>
+                                <input type='password' name='pwdConfirm' value={pwdConfirm} onChange={handlePwdConfirmChange} placeholder='Confirm Password' /><br />
+                                <span>{errorMessage.pwdConfirm}</span>
+                            </div>
                         </div>
-                    </div>
-                    <div className='field'>
-                        <div className='label'>
-                            <label htmlFor="pwd">Password</label>
+                        <div className='field'>
+                            <button type='submit' disabled={!formValid}>Register</button>
                         </div>
-                        <div className='inputVal'>
-                            <input type='text' name='pwd' value={pwd} onChange={handlePwdChange} />
-                            <span>{errorMessage.pwd}</span>
-                        </div>
-                    </div>
-                    <div className='field'>
-                        <div className='label'>
-                            <label htmlFor="pwdConfirm">Password Confirm</label>
-                        </div>
-                        <div className='inputVal'>
-                            <input type='text' name='pwdConfirm' value={pwdConfirm} onChange={handlePwdConfirmChange} />
-                            <span>{errorMessage.pwdConfirm}</span>
-                        </div>
-                    </div>
-                    <div className='field'>
-                        <button type='submit' disabled={!formValid}>Register</button>
-                    </div>
-                </form>
-            </div>
-            {/* <div className='form_host'>
+                    </form>
+                </div>
+                {/* <div className='form_host'>
 
             </div> */}
+            </div>
         </>
     )
 }
