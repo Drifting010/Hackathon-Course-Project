@@ -1,15 +1,48 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import './signup.css'
 
 export default function Signup() {
     // state: input value
+    const [formData, setFormData] = useState({});
+    const [isSubmitting, setSubmitting] = useState(false);
+
+    useEffect(() => {
+        if (isSubmitting) {
+            axios.post('api/form-submit', formData)
+                .then(() => {
+                    console.log('Form submitted successfully!')
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+                .finally(() => {
+                    setSubmitting(false);
+                })
+        }
+    }, [formData, isSubmitting]);
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // handleFormDataChange('role','')
+        setSubmitting(true);
+    }
+
+    const handleFormDataChange = (name, value) => {
+        setFormData({
+            ...formData,
+            [name]: value
+        })
+    }
+
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [pwd, setPwd] = useState('');
     const [pwdConfirm, setPwdConfirm] = useState('');
+    const [orgName, setOrgName] = useState('');
+
     // state: value validity
     const [usernameValid, setUsernameValid] = useState(false);
     const [emailValid, setEmailValid] = useState(false);
@@ -20,39 +53,67 @@ export default function Signup() {
     // state: error message
     const [errorMessage, setErrorMessage] = useState({});
 
+    // state: role selection
+    const [isParticipantSelected, setParticipantSelected] = useState(true);
+    const [isHostSelected, setHostSelected] = useState(false);
+
     // change state: input value
     const handleFirstNameChange = (event) => {
-        const value = event.target.value;
+        const { name, value } = event.target;
         setFirstName(value);
+        handleFormDataChange(name, value);
     }
 
     const handleLastNameChange = (event) => {
-        const value = event.target.value;
+        const { name, value } = event.target;
+        handleFormDataChange(name, value);
         setLastName(value);
     }
 
     const handleUsernameChange = (event) => {
-        const value = event.target.value;
+        const { name, value } = event.target;
+        handleFormDataChange(name, value);
         setUsername(value);
         validateField('username', value);
     }
 
     const handleEmailChange = (event) => {
-        const value = event.target.value;
+        const { name, value } = event.target;
+        handleFormDataChange(name, value);
         setEmail(value);
         validateField('email', value);
     }
 
     const handlePwdChange = (event) => {
-        const value = event.target.value;
+        const { name, value } = event.target;
+        handleFormDataChange(name, value);
         setPwd(value);
         validateField('pwd', value);
     }
 
     const handlePwdConfirmChange = (event) => {
-        const value = event.target.value;
+        const { name, value } = event.target;
+        handleFormDataChange(name, value);
         setPwdConfirm(value);
         validateField('pwdConfirm', value);
+    }
+
+    const handleOrgNameChange = (event) => {
+        const { name, value } = event.target;
+        handleFormDataChange(name, value);
+        setOrgName(value);
+    }
+
+    const handleParticipantClick = () => {
+        setFormData('role', 'participant');
+        setParticipantSelected(true);
+        setHostSelected(false);
+    }
+
+    const handleHostClick = () => {
+        setFormData('role', 'host');
+        setHostSelected(true);
+        setParticipantSelected(false);
     }
 
     // validate input value 
@@ -119,56 +180,95 @@ export default function Signup() {
     return (
         <>
             <div className='container'>
-                <div className='form_participant'>
-                    <form>
-                        <div className='hidden'>
-                            <input type="hidden" name="role" value="participant" />
-                        </div>
-                        <div className='prompt'>
-                            <h3>Create a new account</h3>
-                        </div>
-                        <div className='field'>
-                            <div className='inputVal'>
-                                <input type='text' name='firstName' value={firstName} onChange={handleFirstNameChange} placeholder='First Name' />
-                            </div>
-                        </div>
-                        <div className='field'>
-                            <div className='inputVal'>
-                                <input type='text' name='lastName' value={lastName} onChange={handleLastNameChange} placeholder='Last Name' />
-                            </div>
-                        </div>
-                        <div className='field'>
-                            <div className='inputVal'>
-                                <input type='text' name='username' value={username} onChange={handleUsernameChange} placeholder='Username' /><br />
-                                <span>{errorMessage.username}</span>
-                            </div>
-                        </div>
-                        <div className='field'>
-                            <div className='inputVal'>
-                                <input type='text' name='email' value={email} onChange={handleEmailChange} placeholder='Email' /><br />
-                                <span>{errorMessage.email}</span>
-                            </div>
-                        </div>
-                        <div className='field'>
-                            <div className='inputVal'>
-                                <input type='password' name='pwd' value={pwd} onChange={handlePwdChange} placeholder='Password' /><br />
-                                <span>{errorMessage.pwd}</span>
-                            </div>
-                        </div>
-                        <div className='field'>
-                            <div className='inputVal'>
-                                <input type='password' name='pwdConfirm' value={pwdConfirm} onChange={handlePwdConfirmChange} placeholder='Confirm Password' /><br />
-                                <span>{errorMessage.pwdConfirm}</span>
-                            </div>
-                        </div>
-                        <div className='field'>
-                            <button type='submit' disabled={!formValid}>Register</button>
-                        </div>
-                    </form>
-                </div>
-                {/* <div className='form_host'>
+                <div className='form'>
+                    <div className='prompt'>
 
-            </div> */}
+                        Create a new account
+                    </div>
+                    <div className='role_selection'>
+                        <button
+                            className={`button ${isParticipantSelected ? 'active' : ''}`}
+                            onClick={handleParticipantClick}>
+                            Participant</button>
+                        <button
+                            className={`button ${isHostSelected ? 'active' : ''}`}
+                            onClick={handleHostClick}>
+                            Host</button>
+                    </div>
+                    <div className={`form_submit ${isParticipantSelected ? '' : 'hidden'}`}>
+
+                        <form onSubmit={handleSubmit} style={{ width: '280px', height: '435px' }}>
+                            <div className='field'>
+                                <div className='inputVal'>
+                                    <input type='text' name='firstName' value={firstName} onChange={handleFirstNameChange} placeholder='First Name' />
+                                </div>
+                            </div>
+                            <div className='field'>
+                                <div className='inputVal'>
+                                    <input type='text' name='lastName' value={lastName} onChange={handleLastNameChange} placeholder='Last Name' />
+                                </div>
+                            </div>
+                            <div className='field'>
+                                <div className='inputVal'>
+                                    <input type='text' name='username' value={username} onChange={handleUsernameChange} placeholder='Username' /><br />
+                                    <span>{errorMessage.username}</span>
+                                </div>
+                            </div>
+                            <div className='field'>
+                                <div className='inputVal'>
+                                    <input type='text' name='email' value={email} onChange={handleEmailChange} placeholder='Email' /><br />
+                                    <span>{errorMessage.email}</span>
+                                </div>
+                            </div>
+                            <div className='field'>
+                                <div className='inputVal'>
+                                    <input type='password' name='pwd' value={pwd} onChange={handlePwdChange} placeholder='Password' /><br />
+                                    <span>{errorMessage.pwd}</span>
+                                </div>
+                            </div>
+                            <div className='field'>
+                                <div className='inputVal'>
+                                    <input type='password' name='pwdConfirm' value={pwdConfirm} onChange={handlePwdConfirmChange} placeholder='Confirm Password' /><br />
+                                    <span>{errorMessage.pwdConfirm}</span>
+                                </div>
+                            </div>
+                            <div className='field'>
+                                <button type='submit' disabled={!formValid}>Register</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div className={`form_submit ${isHostSelected ? '' : 'hidden'}`}>
+
+                        <form onSubmit={handleSubmit} style={{ width: '280px', height: '435px' }}>
+                            <div className='field'>
+                                <div className='inputVal'>
+                                    <input type='text' name='orgname' value={orgName} onChange={handleOrgNameChange} placeholder='Orgnisation Name' />
+                                </div>
+                            </div>
+                            <div className='field'>
+                                <div className='inputVal'>
+                                    <input type='text' name='email' value={email} onChange={handleEmailChange} placeholder='Email' /><br />
+                                    <span>{errorMessage.email}</span>
+                                </div>
+                            </div>
+                            <div className='field'>
+                                <div className='inputVal'>
+                                    <input type='password' name='pwd' value={pwd} onChange={handlePwdChange} placeholder='Password' /><br />
+                                    <span>{errorMessage.pwd}</span>
+                                </div>
+                            </div>
+                            <div className='field'>
+                                <div className='inputVal'>
+                                    <input type='password' name='pwdConfirm' value={pwdConfirm} onChange={handlePwdConfirmChange} placeholder='Confirm Password' /><br />
+                                    <span>{errorMessage.pwdConfirm}</span>
+                                </div>
+                            </div>
+                            <div className='field'>
+                                <button type='submit' disabled={!formValid}>Register</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </>
     )
