@@ -1,6 +1,7 @@
 // MyComponent.jsx
 import React, { useState } from 'react';
 
+// eslint-disable-next-line react/function-component-definition
 const MyComponent = () => {
   const [count, setCount] = useState(0);
 
@@ -8,10 +9,11 @@ const MyComponent = () => {
     setCount(count + 1);
   };
 
+  /* eslint-disable react/jsx-one-expression-per-line */
   return (
     <div>
       <h1>Count: {count}</h1>
-      <button onClick={handleClick}>Increment</button>
+      <button type="button" onClick={handleClick}>Increment</button>
     </div>
   );
 };
