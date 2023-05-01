@@ -1,6 +1,5 @@
 module.exports = {
     // ...
-    testPathIgnorePatterns: ['/node_modules/', '/frontendTest/'],
     transform: {
       '^.+\\.(js|jsx)$': 'babel-jest',
     },
@@ -9,5 +8,6 @@ module.exports = {
     },
     moduleFileExtensions: ['js', 'jsx', 'json'],
     testEnvironment: 'node',
+    testPathIgnorePatterns: ['/node_modules/', '/frontend-tests/'],
   };
   
