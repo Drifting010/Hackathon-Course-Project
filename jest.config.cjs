@@ -1,5 +1,6 @@
 module.exports = {
     // ...
+    testPathIgnorePatterns: ['/node_modules/', '/frontendTest/'],
     transform: {
       '^.+\\.(js|jsx)$': 'babel-jest',
     },
