@@ -17,7 +17,7 @@ Approve Issues or PRs
 3. If Rejected, indicate where the improve may get occurs.
 
 # How to make a test file
-1. go to ./src/tests/
+1. go to root directory '__tests__' folder
 2. make a test file named with xxxx.***test.js***  Jest will automatically discover and run test files with the .test.js or .spec.js extension within the src directory.
 
 # Package Version

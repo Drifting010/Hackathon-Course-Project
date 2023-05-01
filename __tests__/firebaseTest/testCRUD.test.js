@@ -1,7 +1,7 @@
-import { getUser, getHackathon } from '../../src/pages/testPages/firebase/firebaseFunction';
+import { getUser, getHackathon } from '../../src/Components/firebase/firebaseFunction';
 
 // Mock the functions that interact with Firestore
-jest.mock('../../src/pages/testPages/firebase/firebaseFunction', () => ({
+jest.mock('../../src/Components/firebase/firebaseFunction', () => ({
   // ... other mocked functions
   getUser: jest.fn(() =>
     Promise.resolve({

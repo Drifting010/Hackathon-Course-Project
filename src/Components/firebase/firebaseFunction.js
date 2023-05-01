@@ -2,7 +2,7 @@
 import {
   collection, doc, setDoc, getDoc,
 } from 'firebase/firestore';
-import { db, auth } from '../../../firebaseConfig';
+import { db, auth } from '../../firebaseConfig';
 
 const addUser = async (user) => {
   try {

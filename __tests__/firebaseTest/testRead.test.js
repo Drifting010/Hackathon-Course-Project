@@ -1,5 +1,5 @@
 import { initializeTestApp } from "@firebase/rules-unit-testing";
-import { getHackathon } from "../../src/pages/testPages/firebase/firebaseFunction";
+import { getHackathon } from "../../src/Components/firebase/firebaseFunction";
 
 const testHackathonId = "hackathon1";
 const testApp = initializeTestApp({
