@@ -21,8 +21,10 @@
 - [ ] New functions and methods have additional comments added to document their usage
 
 ### Local Build
--[] To be update
-
+-[] npm ci
+-[] npm test
+-[] npm run lint
+ 
 ### GitHub
 
 - [ ] Target branch has been set correctly
