@@ -7,9 +7,9 @@ jest.mock('../../src/Components/firebase/firebaseFunction', () => ({
     Promise.resolve({
       uid: 'test-user-id',
       email: 'test@example.com',
-      username: 'testuser',
       role: 'participant',
       profile: {
+        username: 'testuser',
         firstName: 'John',
         lastName: 'Doe',
         organization: 'Test Org',
@@ -42,9 +42,9 @@ test('getUser reads user data from Firestore', async () => {
   expect(userData).toEqual({
     uid: 'test-user-id',
     email: 'test@example.com',
-    username: 'testuser',
     role: 'participant',
     profile: {
+      username: 'testuser',
       firstName: 'John',
       lastName: 'Doe',
       organization: 'Test Org',
