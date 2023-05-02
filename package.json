@@ -13,6 +13,13 @@
     "test": "npm run test:backend && npm run test:frontend"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.8",
+    "@emotion/styled": "^11.10.8",
+    "@fontsource/roboto": "^4.5.8",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/lab": "^5.0.0-alpha.128",
+    "@mui/material": "^5.12.2",
+    "@mui/styled-engine-sc": "^5.12.0",
     "@vitejs/plugin-react-swc": "^3.3.0",
     "firebase": "^9.21.0",
     "jsdom": "^21.1.1",

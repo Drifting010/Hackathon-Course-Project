@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useLocation } from 'react-router-dom';
-import { ParticipantHeader } from './participantPages'
+import { ParticipantHeader } from './'
 
 export function HeaderWrapper() {
     const location = useLocation();
@@ -12,7 +12,7 @@ export function HeaderWrapper() {
 
     // Header2 covers 8 pages
     if (location.pathname.startsWith('/participant_home') || location.pathname.startsWith('/explore_hackathons') || location.pathname.startsWith('/my_events') ||
-        location.pathname.startsWith('/page7') || location.pathname.startsWith('/page8') || location.pathname.startsWith('/page9') ||
+        location.pathname.startsWith('/register_hackathons') || location.pathname.startsWith('/page8') || location.pathname.startsWith('/page9') ||
         location.pathname.startsWith('/page10') || location.pathname.startsWith('/page11')) {
         return <ParticipantHeader />;
     }
