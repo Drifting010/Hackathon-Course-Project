@@ -19,7 +19,8 @@ Approve Issues or PRs
 
 # How to make a test file
 1. go to root directory '__tests__' folder
-2. make a test file named with xxxx.***test.js***  Jest will automatically discover and run test files with the .test.js or .spec.js extension within the src directory.
+2. backend tests go to 'backend-tests' and 'frontend-tests' for frontend tests
+3. make a test file named with xxxx.***test.js***  Jest will automatically discover and run test files with the .test.js or .spec.js extension within the src directory.
 
 # Package Version
 node.js: 16
