@@ -8,5 +8,6 @@ module.exports = {
     },
     moduleFileExtensions: ['js', 'jsx', 'json'],
     testEnvironment: 'node',
+    testPathIgnorePatterns: ['/node_modules/', '/frontend-tests/'],
   };
   
