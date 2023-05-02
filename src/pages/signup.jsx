@@ -24,7 +24,6 @@ export default function Signup() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // handleFormDataChange('role','')
         setSubmitting(true);
     }
 
@@ -35,16 +34,11 @@ export default function Signup() {
         })
     }
 
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [pwd, setPwd] = useState('');
     const [pwdConfirm, setPwdConfirm] = useState('');
-    const [orgName, setOrgName] = useState('');
 
     // state: value validity
-    const [usernameValid, setUsernameValid] = useState(false);
     const [emailValid, setEmailValid] = useState(false);
     const [pwdValid, setPwdValid] = useState(false);
     const [pwdConfirmValid, setPwdConfirmValid] = useState(false);
@@ -58,25 +52,6 @@ export default function Signup() {
     const [isHostSelected, setHostSelected] = useState(false);
 
     // change state: input value
-    const handleFirstNameChange = (event) => {
-        const { name, value } = event.target;
-        setFirstName(value);
-        handleFormDataChange(name, value);
-    }
-
-    const handleLastNameChange = (event) => {
-        const { name, value } = event.target;
-        handleFormDataChange(name, value);
-        setLastName(value);
-    }
-
-    const handleUsernameChange = (event) => {
-        const { name, value } = event.target;
-        handleFormDataChange(name, value);
-        setUsername(value);
-        validateField('username', value);
-    }
-
     const handleEmailChange = (event) => {
         const { name, value } = event.target;
         handleFormDataChange(name, value);
@@ -98,12 +73,6 @@ export default function Signup() {
         validateField('pwdConfirm', value);
     }
 
-    const handleOrgNameChange = (event) => {
-        const { name, value } = event.target;
-        handleFormDataChange(name, value);
-        setOrgName(value);
-    }
-
     const handleParticipantClick = () => {
         setFormData('role', 'participant');
         setParticipantSelected(true);
@@ -117,11 +86,6 @@ export default function Signup() {
     }
 
     // validate input value 
-    const validateUsername = (username) => {
-        const regex = /^[a-zA-Z0-9]+$/;
-        return regex.test(username);
-    }
-
     const validateEmail = (email) => {
         const emailRegex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
         return emailRegex.test(email);
@@ -137,16 +101,11 @@ export default function Signup() {
 
     const validateField = (fieldName, value) => {
         let fieldValidationErrors = errorMessage;
-        let isUsernameValid = usernameValid;
         let isEmailValid = emailValid;
         let isPwdValid = pwdValid;
         let isPwdConfirmValid = pwdConfirmValid;
 
         switch (fieldName) {
-            case 'username':
-                isUsernameValid = validateUsername(value);
-                fieldValidationErrors.username = isUsernameValid ? '' : 'Username is invalid';
-                break;
             case 'email':
                 isEmailValid = validateEmail(value);
                 fieldValidationErrors.email = isEmailValid ? '' : 'Email is invalid';
@@ -164,7 +123,6 @@ export default function Signup() {
         }
 
         setErrorMessage(fieldValidationErrors);
-        setUsernameValid(isUsernameValid);
         setEmailValid(isEmailValid);
         setPwdValid(isPwdValid);
         setPwdConfirmValid(isPwdConfirmValid);
@@ -173,7 +131,7 @@ export default function Signup() {
     }
 
     const validateForm = () => {
-        setFormValid(usernameValid && emailValid && pwdValid && pwdConfirmValid);
+        setFormValid(emailValid && pwdValid && pwdConfirmValid);
     }
 
 
@@ -198,25 +156,10 @@ export default function Signup() {
                     <div className={`form_submit ${isParticipantSelected ? '' : 'hidden'}`}>
 
                         <form onSubmit={handleSubmit} style={{ width: '280px', height: '435px' }}>
+                            
                             <div className='field'>
                                 <div className='inputVal'>
-                                    <input type='text' name='firstName' value={firstName} onChange={handleFirstNameChange} placeholder='First Name' />
-                                </div>
-                            </div>
-                            <div className='field'>
-                                <div className='inputVal'>
-                                    <input type='text' name='lastName' value={lastName} onChange={handleLastNameChange} placeholder='Last Name' />
-                                </div>
-                            </div>
-                            <div className='field'>
-                                <div className='inputVal'>
-                                    <input type='text' name='username' value={username} onChange={handleUsernameChange} placeholder='Username' /><br />
-                                    <span>{errorMessage.username}</span>
-                                </div>
-                            </div>
-                            <div className='field'>
-                                <div className='inputVal'>
-                                    <input type='text' name='email' value={email} onChange={handleEmailChange} placeholder='Email' /><br />
+                                    <input type='text' name='email' value={email} onChange={handleEmailChange} placeholder='Email (Participant)' /><br />
                                     <span>{errorMessage.email}</span>
                                 </div>
                             </div>
@@ -233,21 +176,17 @@ export default function Signup() {
                                 </div>
                             </div>
                             <div className='field'>
-                                <button type='submit' disabled={!formValid}>Register</button>
+                                <button type='submit' disabled={!formValid}>Next</button>
                             </div>
                         </form>
                     </div>
                     <div className={`form_submit ${isHostSelected ? '' : 'hidden'}`}>
 
                         <form onSubmit={handleSubmit} style={{ width: '280px', height: '435px' }}>
+                            
                             <div className='field'>
                                 <div className='inputVal'>
-                                    <input type='text' name='orgname' value={orgName} onChange={handleOrgNameChange} placeholder='Orgnisation Name' />
-                                </div>
-                            </div>
-                            <div className='field'>
-                                <div className='inputVal'>
-                                    <input type='text' name='email' value={email} onChange={handleEmailChange} placeholder='Email' /><br />
+                                    <input type='text' name='email' value={email} onChange={handleEmailChange} placeholder='Email (Host)' /><br />
                                     <span>{errorMessage.email}</span>
                                 </div>
                             </div>
@@ -264,7 +203,7 @@ export default function Signup() {
                                 </div>
                             </div>
                             <div className='field'>
-                                <button type='submit' disabled={!formValid}>Register</button>
+                                <button type='submit' disabled={!formValid}>Next</button>
                             </div>
                         </form>
                     </div>

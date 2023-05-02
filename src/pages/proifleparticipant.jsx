@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import './profileparticipant.css'
 
-export default function Signup() {
+export default function Profileparticipant() {
     // state: input value
     const [formData, setFormData] = useState({});
     const [isSubmitting, setSubmitting] = useState(false);
