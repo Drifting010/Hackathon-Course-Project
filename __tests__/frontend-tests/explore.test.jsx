@@ -5,7 +5,7 @@ import Explopre from "../../src/pages/explore";
 
 
 describe("Explopre", () => {
-  it("renders all elements correctly", () => {
+  it("renders all elements correctly, all elements appeared on the page", () => {
     const { getAllByRole, getAllByTestId } = render(<Explopre />);
 
     // test buttons

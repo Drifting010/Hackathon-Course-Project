@@ -12,10 +12,13 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { LinearProgress } from "@mui/material";
 
+// An array of card objects to be displayed
 const cards = [1, 2, 3];
 
+// Creating a Material-UI theme object
 const theme = createTheme();
 
+// Exporting a React functional component named "Explopre"
 export default function Explopre() {
   return (
     <ThemeProvider theme={theme}>
@@ -27,6 +30,7 @@ export default function Explopre() {
           pb: 2,
         }}
       >
+        {/* three button */}
         <Container maxWidth="md">
           <Stack
             sx={{ pt: 4 }}
@@ -40,6 +44,7 @@ export default function Explopre() {
           </Stack>
         </Container>
       </Box>
+      {/* display cards */}
       <Container sx={{ py: 2 }} maxWidth="md">
         <Grid container spacing={4}>
           {cards.map((card) => (
