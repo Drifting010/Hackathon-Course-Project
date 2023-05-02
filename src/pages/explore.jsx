@@ -25,7 +25,7 @@ export default function Explopre() {
       <CssBaseline />
       <Box
         sx={{
-          bgcolor: "background.paper",
+          bgcolor: 'background.paper',
           pt: 8,
           pb: 2,
         }}
@@ -51,9 +51,9 @@ export default function Explopre() {
             <Grid item key={card} xs={12} sm={6} md={4}>
               <Card
                 sx={{
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
                 }}
                 data-testid="card"
               >
@@ -70,7 +70,7 @@ export default function Explopre() {
                   <Typography>prize pool $1000</Typography>
                   <Stack direction="row" alignItems="center" spacing={2}>
                     <LinearProgress
-                      sx={{ height: 10, width: "60%" }}
+                      sx={{ height: 10, width: '60%' }}
                       color="secondary"
                       variant="determinate"
                       value={50}
