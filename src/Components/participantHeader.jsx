@@ -79,11 +79,12 @@ export default function ParticipantHeader() {
                             Switch to Hosting
                         </Button>
                         <Tooltip>
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} data-testid="avatar-button">
                                 <Avatar alt="Remy Sharp" src="/static/images/avatar/xx.jpg" />
                             </IconButton>
                         </Tooltip>
                         <Menu
+                            data-testid="user-menu"
                             sx={{ mt: '45px' }}
                             id="menu-appbar"
                             anchorEl={anchorElUser}
@@ -99,7 +100,7 @@ export default function ParticipantHeader() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            <MenuItem key="profile" onClick={handleCloseUserMenu}>
+                            <MenuItem key="profile" onClick={handleCloseUserMenu} data-testid="menu-item-profile">
                                 <Typography
                                     textAlign="center"
                                     component="a"

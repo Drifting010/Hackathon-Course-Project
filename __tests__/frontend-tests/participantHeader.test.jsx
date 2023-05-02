@@ -20,35 +20,26 @@ describe('ParticipantHeader', () => {
         expect(switchToHosting).toBeInTheDocument();
     });
 
-    // this test has some issue to be updated!
-    // test('opens and closes user menu when avatar is clicked', async () => {
-    //     render(<ParticipantHeader />);
-    //     // Update this line to use getByTestId
-    //     const avatarButtons = screen.getAllByTestId('avatar-button');
+    test('opens and closes user menu when avatar is clicked', async () => {
+        render(<ParticipantHeader />);
 
-    //     // Assuming the first avatar button is the one you want to interact with
-    //     const avatarButton = avatarButtons[0];
+        // Get the avatar buttons by test id
+        const avatarButtons = screen.getAllByTestId('avatar-button');
 
-    //     // Open user menu
-    //     fireEvent.click(avatarButton);
-    //     const profileMenuItem = await screen.findByText('Profile');
-    //     const accountMenuItem = await screen.findByText('Account');
-    //     const dashboardMenuItem = await screen.findByText('Dashboard');
-    //     const logoutMenuItem = await screen.findByText('Logout');
+        // Check if the menu is open
+        const userMenu = screen.getByTestId('user-menu');
+        expect(userMenu).toHaveAttribute('open', 'true');
 
-    //     expect(profileMenuItem).toBeInTheDocument();
-    //     expect(accountMenuItem).toBeInTheDocument();
-    //     expect(dashboardMenuItem).toBeInTheDocument();
-    //     expect(logoutMenuItem).toBeInTheDocument();
+        // Open user menu
+        fireEvent.click(avatarButtons[0]);
 
-    //     // Close user menu by clicking the avatar button again
-    //     fireEvent.click(avatarButton);
+        // Check if the menu is closed
+        expect(userMenu).toHaveAttribute('open', 'false');
 
-    //     // Wait for the user menu to close
-    //     await waitFor(() => expect(screen.queryByText('Profile')).not.toBeInTheDocument());
-    //     await waitFor(() => expect(screen.queryByText('Account')).not.toBeInTheDocument());
-    //     await waitFor(() => expect(screen.queryByText('Dashboard')).not.toBeInTheDocument());
-    //     await waitFor(() => expect(screen.queryByText('Logout')).not.toBeInTheDocument());
-    // });
+        // Wait for menu items to disappear
+        await waitFor(() => expect(screen.queryByTestId('menu-item-profile')).not.toBeInTheDocument());
+    });
+
+
 
 });
