@@ -14,12 +14,16 @@ import AdbIcon from '@mui/icons-material/Adb';
 import Link from '@mui/material/Link';
 
 export default function ParticipantHeader() {
+
+    //Make the user menu is closed
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
+    //When the avatar button is clicked, handleOpenUserMenu is called and sets anchorElUser to the event.currentTarget 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
 
+    //When the user menu is open and any of the menu items are clicked, the handleCloseUserMenu function is called, setting the anchorElUser state back to null.
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
@@ -79,8 +83,8 @@ export default function ParticipantHeader() {
                             Switch to Hosting
                         </Button>
                         <Tooltip>
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} data-testid="avatar-button">
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/xx.jpg" />
+                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                <Avatar alt="Remy Sharp" src="/static/images/avatar/xx.jpg" data-testid="avatar-button" />
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -99,12 +103,13 @@ export default function ParticipantHeader() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            <MenuItem key="profile" onClick={handleCloseUserMenu} data-testid="menu-item-profile">
+                            <MenuItem key="profile" onClick={handleCloseUserMenu} >
                                 <Typography
                                     textAlign="center"
                                     component="a"
                                     href="#"
                                     sx={{ textDecoration: 'none', color: 'black' }}
+                                    data-testid="menu-item-profile"
                                 >
                                     Profile
                                 </Typography>
@@ -115,6 +120,7 @@ export default function ParticipantHeader() {
                                     component="a"
                                     href="#"
                                     sx={{ textDecoration: 'none', color: 'black' }}
+                                    data-testid="menu-item-account"
                                 >
                                     Account
                                 </Typography>
@@ -125,6 +131,7 @@ export default function ParticipantHeader() {
                                     component="a"
                                     href="#"
                                     sx={{ textDecoration: 'none', color: 'black' }}
+                                    data-testid="menu-item-dashboard"
                                 >
                                     Dashboard
                                 </Typography>
@@ -135,6 +142,7 @@ export default function ParticipantHeader() {
                                     component="a"
                                     href="#"
                                     sx={{ textDecoration: 'none', color: 'black' }}
+                                    data-testid="menu-item-logout"
                                 >
                                     Logout
                                 </Typography>

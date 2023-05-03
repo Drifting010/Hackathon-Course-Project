@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, screen, waitFor } from '@testing-library/react';
+import { render, screen, cleanup, fireEvent, waitFor, within } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import ParticipantHeader from "../../src/Components/participantHeader";
 
@@ -7,6 +7,8 @@ describe('ParticipantHeader', () => {
     beforeEach(() => {
         render(<ParticipantHeader />);
     });
+
+    afterEach(cleanup)
 
     test('renders logo and navigation links', () => {
         const logo = screen.getByText('LOGO');
@@ -21,11 +23,24 @@ describe('ParticipantHeader', () => {
     });
 
     test('opens and closes user menu when avatar is clicked', async () => {
-        render(<ParticipantHeader />);
+        const avatarButton = screen.getByTestId('avatar-button');
+
+        // Open user menu by clicking the avatar button and four menu items exist
+        fireEvent.click(avatarButton);
+
+        const profileMenuItem = screen.getByTestId('menu-item-profile');
+        const accountMenuItem = screen.getByTestId('menu-item-account');
+        const dashboardMenuItem = screen.getByTestId('menu-item-dashboard');
+        const logoutMenuItem = screen.getByTestId('menu-item-logout');
+
+        expect(profileMenuItem).toBeInTheDocument();
+        expect(accountMenuItem).toBeInTheDocument();
+        expect(dashboardMenuItem).toBeInTheDocument();
+        expect(logoutMenuItem).toBeInTheDocument();
+
+        // Close user menu by clicking the avatar button again
+        fireEvent.click(avatarButton);
 
     });
-
-
-
 
 });
