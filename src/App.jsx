@@ -4,13 +4,12 @@ import Signup from './pages/signup'
 // import Profileparticipant from './pages/proifleparticipant'
 
 function App() {
-
   return (
     <>
       <Signup />
       {/* <Profileparticipant /> */}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
