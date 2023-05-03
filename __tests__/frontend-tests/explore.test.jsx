@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, getAllByTestId } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import Explopre from '../../src/pages/explore';
+import Explopre from '../../src/pages/participantPages/explore';
 
 describe('Explopre', () => {
   it('renders all elements correctly, all elements appeared on the page', () => {
