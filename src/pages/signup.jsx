@@ -192,13 +192,13 @@ export default function Signup() {
                             </div>
                             <div className='field'>
                                 <div className='inputVal'>
-                                    <input type='password' name='pwd' value={pwd} onChange={handlePwdChange} placeholder='Password' /><br />
+                                    <input type='password' name='pwd' value={pwd} onChange={handlePwdChange} placeholder='Password (Host)' /><br />
                                     <span>{errorMessage.pwd}</span>
                                 </div>
                             </div>
                             <div className='field'>
                                 <div className='inputVal'>
-                                    <input type='password' name='pwdConfirm' value={pwdConfirm} onChange={handlePwdConfirmChange} placeholder='Confirm Password' /><br />
+                                    <input type='password' name='pwdConfirm' value={pwdConfirm} onChange={handlePwdConfirmChange} placeholder='Confirm Password (Host)' /><br />
                                     <span>{errorMessage.pwdConfirm}</span>
                                 </div>
                             </div>
