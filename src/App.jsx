@@ -10,8 +10,6 @@ import { ExploreHackathons } from './pages/participantPages'
 import { MyEvents } from './pages/participantPages'
 import { RegisterHackathons } from './pages/participantPages'
 import { Home } from './pages'
-import { Header } from './pages'
-import { Footer } from './pages'
 import './App.css'
 
 export default function App() {
@@ -26,18 +24,7 @@ export default function App() {
           <HeaderWrapper />
           <main>
             <Routes>
-              <Route>
-                <Container maxWidth="lg">
-                  <Header />
-                  <main>
-                    <Home />
-                  </main>
-                </Container>
-                <Footer
-                  title="Hackathon"
-                  description="Something here to give the footer a purpose!"
-                />
-              </Route>
+              <Route path="/home" element={<Home />} />
               <Route path="/participant_home" element={<ParticipantHome />} />
               <Route path="/explore_hackathons" element={<ExploreHackathons />} />
               <Route path="/my_events" element={<MyEvents />} />
