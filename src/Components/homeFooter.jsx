@@ -2,13 +2,13 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
+import { Link } from 'react-router-dom'
 
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" to="/home" >
         Your Website
       </Link>{' '}
       {new Date().getFullYear()}
@@ -18,13 +18,13 @@ function Copyright() {
 }
 
 function Footer(props) {
-  const { description, title } = props;
+  const { description } = props;
 
   return (
     <Box component="footer" sx={{ bgcolor: 'background.paper', py: 6 }}>
       <Container maxWidth="lg">
         <Typography variant="h6" align="center" gutterBottom>
-          {title}
+          HACKATHON
         </Typography>
         <Typography
           variant="subtitle1"

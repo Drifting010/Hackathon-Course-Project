@@ -4,6 +4,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HeaderWrapper } from './Components/headerWrapper';
+import { HomeFooter } from './Components/';
 //part two - signed in participant
 import { ParticipantHome } from './pages/participantPages'
 import { ExploreHackathons } from './pages/participantPages'
@@ -31,6 +32,7 @@ export default function App() {
               <Route path="/register_hackathons" element={<RegisterHackathons />} />
             </Routes>
           </main>
+          <HomeFooter />
         </Container>
       </BrowserRouter>
     </ThemeProvider>
