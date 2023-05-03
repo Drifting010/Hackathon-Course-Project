@@ -3,7 +3,7 @@ import { render, screen, cleanup, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import HomeHeader from "../../src/Components/homeHeader";
 
-describe('ParticipantHeader', () => {
+describe('HomeHeader', () => {
     beforeEach(() => {
         render(<HomeHeader />);
     });
