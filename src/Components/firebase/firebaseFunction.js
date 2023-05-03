@@ -5,7 +5,7 @@ import {
 import { db, auth ,provider} from '../../firebaseConfig';
 import { signInWithPopup, signInWithEmailAndPassword ,signOut, createUserWithEmailAndPassword} from 'firebase/auth';
 
-
+// Add a new hackathon to the 'hackathons' collection
 const addHackathon = async (hackathon) => {
   try {
     const hackathonRef = doc(collection(db, 'hackathons'), hackathon.id);
@@ -15,6 +15,7 @@ const addHackathon = async (hackathon) => {
   }
 };
 
+// Create a new user with email and password authentication and store their data in the 'users' collection
 const createUserWithEmailAndPasswordFunction = async (
   email,
   password,
@@ -43,6 +44,7 @@ const createUserWithEmailAndPasswordFunction = async (
   }
 };
 
+// Sign in a user with their email and password
 const signInWithEmailAndPasswordFunction = async (email, password) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -56,6 +58,7 @@ const signInWithEmailAndPasswordFunction = async (email, password) => {
   }
 };
 
+// Sign in a user with their Google account
 const signInWithGoogleFunction = async () => {
   signInWithPopup(auth, provider).then((result) => {
     const credential = provider.credentialFromResult(result);
@@ -77,6 +80,7 @@ const signInWithGoogleFunction = async () => {
 
 };
 
+// Sign out the currently authenticated user
 const signOutFunction = () => 
   signOut(auth).then(() => {
   console.log("signout successfully")
@@ -84,7 +88,7 @@ const signOutFunction = () =>
   console.error('Error signing out', error);
 }) 
 
-
+// Get user data from the 'users' collection by email
 const getUser = async (email) => {
   try {
     const userRef = doc(collection(db, 'users'), email);
@@ -102,6 +106,7 @@ const getUser = async (email) => {
   }
 };
 
+// Get hackathon data from the 'hackathons' collection by hackathon ID
 const getHackathon = async (hackathonId) => {
   try {
     const hackathonRef = doc(collection(db, 'hackathons'), hackathonId);
