@@ -84,7 +84,6 @@ export default function ParticipantHeader() {
                             </IconButton>
                         </Tooltip>
                         <Menu
-                            data-testid="user-menu"
                             sx={{ mt: '45px' }}
                             id="menu-appbar"
                             anchorEl={anchorElUser}
