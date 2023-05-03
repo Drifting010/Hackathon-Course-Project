@@ -159,19 +159,19 @@ export default function Signup() {
                             
                             <div className='field'>
                                 <div className='inputVal'>
-                                    <input type='text' name='email' value={email} onChange={handleEmailChange} placeholder='Email (Participant)' /><br />
+                                    <input type='text' role='textbox' name='email' value={email} onChange={handleEmailChange} placeholder='Email (Participant)' /><br />
                                     <span>{errorMessage.email}</span>
                                 </div>
                             </div>
                             <div className='field'>
                                 <div className='inputVal'>
-                                    <input type='password' name='pwd' value={pwd} onChange={handlePwdChange} placeholder='Password' /><br />
+                                    <input type='password' role='textbox' name='pwd' value={pwd} onChange={handlePwdChange} placeholder='Password (Participant)' /><br />
                                     <span>{errorMessage.pwd}</span>
                                 </div>
                             </div>
                             <div className='field'>
                                 <div className='inputVal'>
-                                    <input type='password' name='pwdConfirm' value={pwdConfirm} onChange={handlePwdConfirmChange} placeholder='Confirm Password' /><br />
+                                    <input type='password' role='textbox' name='pwdConfirm' value={pwdConfirm} onChange={handlePwdConfirmChange} placeholder='Confirm Password (Participant)' /><br />
                                     <span>{errorMessage.pwdConfirm}</span>
                                 </div>
                             </div>
@@ -186,19 +186,19 @@ export default function Signup() {
                             
                             <div className='field'>
                                 <div className='inputVal'>
-                                    <input type='text' name='email' value={email} onChange={handleEmailChange} placeholder='Email (Host)' /><br />
+                                    <input type='text' role='textbox' name='email' value={email} onChange={handleEmailChange} placeholder='Email (Host)' /><br />
                                     <span>{errorMessage.email}</span>
                                 </div>
                             </div>
                             <div className='field'>
                                 <div className='inputVal'>
-                                    <input type='password' name='pwd' value={pwd} onChange={handlePwdChange} placeholder='Password (Host)' /><br />
+                                    <input type='password' role='textbox' name='pwd' value={pwd} onChange={handlePwdChange} placeholder='Password (Host)' /><br />
                                     <span>{errorMessage.pwd}</span>
                                 </div>
                             </div>
                             <div className='field'>
                                 <div className='inputVal'>
-                                    <input type='password' name='pwdConfirm' value={pwdConfirm} onChange={handlePwdConfirmChange} placeholder='Confirm Password (Host)' /><br />
+                                    <input type='password' role='textbox' name='pwdConfirm' value={pwdConfirm} onChange={handlePwdConfirmChange} placeholder='Confirm Password (Host)' /><br />
                                     <span>{errorMessage.pwdConfirm}</span>
                                 </div>
                             </div>
