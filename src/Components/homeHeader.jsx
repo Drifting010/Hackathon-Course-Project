@@ -1,19 +1,13 @@
 import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
@@ -23,75 +17,39 @@ import ListItemText from '@mui/material/ListItemText';
 import List from '@mui/material/List';
 import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
+import AdbIcon from '@mui/icons-material/Adb';
 
+// Define the width of the drawer and navigation items
 const drawerWidth = 240;
-const navItems = ['Home', 'About', 'Contact'];
+const navItems = ['Features', 'Services', 'blog', 'About'];
 
-const Search = styled('div')(({ theme }) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(3),
-        width: 'auto',
-    },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
-        padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: '20ch',
-        },
-    },
-}));
-
+// Header component
 export default function Header(props) {
-
+    // Set state for menu and mobile menu
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
+    // Check if menu and mobile menu are open
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-    const handleProfileMenuOpen = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
+    // Close mobile menu
     const handleMobileMenuClose = () => {
         setMobileMoreAnchorEl(null);
     };
 
+    // Close menu and mobile menu
     const handleMenuClose = () => {
         setAnchorEl(null);
         handleMobileMenuClose();
     };
 
+    // Open mobile menu
     const handleMobileMenuOpen = (event) => {
         setMobileMoreAnchorEl(event.currentTarget);
     };
 
+    // Set ID and render for primary menu
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
         <Menu
@@ -114,6 +72,7 @@ export default function Header(props) {
         </Menu>
     );
 
+    // Set ID and render for mobile menu
     const mobileMenuId = 'primary-search-account-menu-mobile';
     const renderMobileMenu = (
         <Menu
@@ -131,26 +90,19 @@ export default function Header(props) {
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
-            <MenuItem>
-                <IconButton size="large" color="inherit">
-                    <Badge>
-                        <MailIcon />
-                    </Badge>
-                </IconButton>
-                <p>Messages</p>
-            </MenuItem>
+
             <MenuItem>
                 <IconButton
                     size="large"
                     color="inherit"
                 >
                     <Badge>
-                        <NotificationsIcon />
+                        <AccountCircle />
                     </Badge>
                 </IconButton>
-                <p>Notifications</p>
+                <p>Login</p>
             </MenuItem>
-            <MenuItem onClick={handleProfileMenuOpen}>
+            <MenuItem>
                 <IconButton
                     size="large"
                     aria-label="account of current user"
@@ -160,17 +112,21 @@ export default function Header(props) {
                 >
                     <AccountCircle />
                 </IconButton>
-                <p>Account</p>
+                <p>Signup</p>
             </MenuItem>
         </Menu>
     );
 
+    // Get window from props and set state for mobile drawer
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
+    // Toggle mobile drawer
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
     };
+
+    // Define content for drawer
     const drawer = (
         <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
             <Typography variant="h6" sx={{ my: 2 }}>
@@ -188,21 +144,20 @@ export default function Header(props) {
             </List>
         </Box>
     );
+
+    // Define container for drawer
     const container = window !== undefined ? () => window().document.body : undefined;
 
     return (
+        // The main container for the header, using Box component from Material UI
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="open drawer"
-                        sx={{ mr: 2 }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
+
+                    {/* AdbIcon component from Material UI, hidden on extra-small screens */}
+                    <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+
+                    {/* Typography component from Material UI, showing the title of the header, hidden on extra-small and small screens */}
                     <Typography
                         variant="h6"
                         noWrap
@@ -211,51 +166,39 @@ export default function Header(props) {
                     >
                         Hackathon
                     </Typography>
-                    <Search>
-                        <SearchIconWrapper>
-                            <SearchIcon />
-                        </SearchIconWrapper>
-                        <StyledInputBase
-                            placeholder="Search…"
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </Search>
 
-                    <Box sx={{ flexGrow: 1 }} />
+                    {/* Box component with flexGrow property, pushing the nav items to the right */}
+                    <Box sx={{ flexGrow: 50 }} />
+
+                    {/* Box component with buttons for navigation, hidden on extra-small and small screens */}
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                            {navItems.map((item) => (
-                                <Button key={item} sx={{ color: '#fff' }}>
-                                    {item}
-                                </Button>
-                            ))}
-                        </Box>
-                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        
-                        <IconButton size="large" color="inherit">
-                            <Badge>
-                                <MailIcon />
-                            </Badge>
-                        </IconButton>
-                        <IconButton
-                            size="large"
-                            color="inherit"
-                        >
-                            <Badge>
-                                <NotificationsIcon />
-                            </Badge>
-                        </IconButton>
-                        <IconButton
-                            size="large"
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-controls={menuId}
-                            aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
-                            color="inherit"
-                        >
-                            <AccountCircle />
-                        </IconButton>
+                        {navItems.map((item) => (
+                            <Button key={item} sx={{ color: '#fff' }}>
+                                {item}
+                            </Button>
+                        ))}
                     </Box>
+
+                    {/* Box component with flexGrow property, pushing the login and signup buttons to the right */}
+                    <Box sx={{ flexGrow: 1 }} />
+
+                    {/* Box component with login and signup buttons, hidden on extra-small screens */}
+                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                        <Button variant="outlined"
+                            sx={{
+                                color: 'white',
+                                fontWeight: 'bold',
+                            }
+                            }>Login</Button>
+                        <Button variant="contained"
+                            sx={{
+                                fontWeight: 'bold',
+                            }
+                            }>Sign up</Button>
+
+                    </Box>
+
+                    {/* Box component with the mobile menu button, hidden on medium screens */}
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
                             size="large"
@@ -270,6 +213,8 @@ export default function Header(props) {
                     </Box>
                 </Toolbar>
             </AppBar>
+
+            {/* Box component with navigation drawer, only visible on extra-small and small screens */}
             <Box component="nav">
                 <Drawer
                     container={container}
@@ -287,7 +232,11 @@ export default function Header(props) {
                     {drawer}
                 </Drawer>
             </Box>
+
+            {/* Render mobile menu */}
             {renderMobileMenu}
+
+            {/* Render menu */}
             {renderMenu}
         </Box>
     );
