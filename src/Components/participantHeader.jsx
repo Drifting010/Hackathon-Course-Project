@@ -15,24 +15,29 @@ import Link from '@mui/material/Link';
 
 export default function ParticipantHeader() {
 
-    //Make the user menu is closed
+    // useState hook to handle user menu opening and closing
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-    //When the avatar button is clicked, handleOpenUserMenu is called and sets anchorElUser to the event.currentTarget 
+    // Function called when the avatar button is clicked, opens the user menu 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
 
-    //When the user menu is open and any of the menu items are clicked, the handleCloseUserMenu function is called, setting the anchorElUser state back to null.
+    // Function called when a menu item is clicked, closes the user menu
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
 
+    // Render JSX
     return (
+        // AppBar component for the top app bar
         <AppBar position="static">
+            {/* Container for content within the AppBar */}
             <Container maxWidth="xl">
+                {/* Toolbar for displaying navigation items and actions */}
                 <Toolbar disableGutters>
 
+                    {/* First Box: Contains navigation links for "Explore Hackathons" and "My Events" */}
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         <nav>
                             <Link
@@ -52,6 +57,7 @@ export default function ParticipantHeader() {
                         </nav>
                     </Box>
 
+                    {/* Second Box: Contains the logo and AdbIcon */}
                     <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
                         <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
                         <Typography
@@ -73,8 +79,10 @@ export default function ParticipantHeader() {
                         </Typography>
                     </Box>
 
+                    {/* Third Box: Empty box used for spacing, visible only on medium screens and up */}
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} />
 
+                    {/* Fourth Box: Contains the "Switch to Hosting" button and user menu with avatar */}
                     <Box sx={{ flexGrow: 0 }}>
                         <Button
                             href="#"

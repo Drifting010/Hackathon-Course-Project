@@ -15,6 +15,8 @@ export default function RegisterHackathons() {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
+
+            {/* Box component to create a container that fills the viewport height and centers its content */}
             <Box
                 sx={{
                     bgcolor: 'background.paper',
@@ -25,6 +27,7 @@ export default function RegisterHackathons() {
                 }}
             >
                 <Container maxWidth="md">
+                    {/* Typography component for displaying the hackathon registration title */}
                     <Typography
                         component="h4"
                         variant="h4"
@@ -36,6 +39,7 @@ export default function RegisterHackathons() {
                         Register Project Event bengal tiger
                     </Typography>
 
+                    {/* Typography component for displaying the hackathon rules and information */}
                     <Typography
                         variant="h5"
                         align="left"
@@ -46,6 +50,7 @@ export default function RegisterHackathons() {
                         Infor from host about rules for the hackathon
                     </Typography>
 
+                    {/* Box component wrapping the first TextField and providing margin-bottom */}
                     <Box width="100%" mb={5}>
                         <TextField
                             required
@@ -58,6 +63,7 @@ export default function RegisterHackathons() {
                         />
                     </Box>
 
+                    {/* Box component wrapping the second TextField and providing margin-bottom */}
                     <Box width="100%" mb={5}>
                         <TextField
                             required
@@ -69,12 +75,15 @@ export default function RegisterHackathons() {
                         />
                     </Box>
 
+                    {/* ButtonGroup component to group Cancel and Register buttons */}
                     <ButtonGroup
                         disableElevation
                         variant="contained"
                         aria-label="Disabled elevation buttons"
                     >
+                        {/* Cancel button to cancel the registration process */}
                         <Button sx={{ mr: 2, textTransform: 'none' }}>Cancel</Button>
+                        {/* Register button to submit the registration information */}
                         <Button sx={{ textTransform: 'none' }}>Register</Button>
                     </ButtonGroup>
 
