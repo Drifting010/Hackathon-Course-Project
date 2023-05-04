@@ -126,7 +126,7 @@ export default function ParticipantHeader() {
                                 <Typography
                                     textAlign="center"
                                     component="a"
-                                    href="#"
+                                    href="./account"
                                     sx={{ textDecoration: 'none', color: 'black' }}
                                     data-testid="menu-item-account"
                                 >

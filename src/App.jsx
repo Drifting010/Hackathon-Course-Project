@@ -10,6 +10,7 @@ import { ParticipantHome } from './pages/participantPages'
 import { ExploreHackathons } from './pages/participantPages'
 import { MyEvents } from './pages/participantPages'
 import { RegisterHackathons } from './pages/participantPages'
+import { AccountSetting } from './pages/participantPages'
 import { Home } from './pages'
 import './App.css'
 
@@ -30,6 +31,7 @@ export default function App() {
               <Route path="/explore_hackathons" element={<ExploreHackathons />} />
               <Route path="/my_events" element={<MyEvents />} />
               <Route path="/register_hackathons" element={<RegisterHackathons />} />
+              <Route path="/account" element={<AccountSetting />} />
             </Routes>
           </main>
           <HomeFooter />

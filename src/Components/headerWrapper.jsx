@@ -13,7 +13,7 @@ export function HeaderWrapper() {
 
     // Header2 covers 8 pages
     if (location.pathname.startsWith('/participant_home') || location.pathname.startsWith('/explore_hackathons') || location.pathname.startsWith('/my_events') ||
-        location.pathname.startsWith('/register_hackathons') || location.pathname.startsWith('/page8') || location.pathname.startsWith('/page9') ||
+        location.pathname.startsWith('/register_hackathons') || location.pathname.startsWith('/account') || location.pathname.startsWith('/page9') ||
         location.pathname.startsWith('/page10') || location.pathname.startsWith('/page11')) {
         return <ParticipantHeader />;
     }
@@ -25,5 +25,5 @@ export function HeaderWrapper() {
     // }
 
     // Default header if no conditions are met
-    // return <Header1 />;
+    // return <HomeHeader />;
 }
