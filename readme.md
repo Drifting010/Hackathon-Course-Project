@@ -2,6 +2,7 @@
 当前为空脚手架（Vite搭建），大家clone之后只需要安装依赖即可
 npm install
 
+使用的UI框架为Material UI
 # How to make contribution
 ## Contribute On Codebase
 1. Checkout out your own branch ==**Do not work on master!**==
