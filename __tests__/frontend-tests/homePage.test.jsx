@@ -1,14 +1,14 @@
 import React from "react";
 import { render} from "@testing-library/react";
-import ParticipantHome from "../../src/pages/participantPages/participantHome";
+import HomePage from "../../src/pages/homePage";
 
-describe("ParticipantHome", () => {
+describe("HomePage", () => {
     it("renders all elements correctly, all elements appeared on the page", () => {
-        const { getAllByTestId } = render(<ParticipantHome />);
+        const { getAllByTestId } = render(<HomePage />);
 
         // test cards
         const cards = getAllByTestId("card", { container: document.body });
-        expect(cards).toHaveLength(6);
+        expect(cards).toHaveLength(3);
 
     });
 });
