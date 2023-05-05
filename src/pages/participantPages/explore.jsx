@@ -12,8 +12,10 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { LinearProgress } from "@mui/material";
 import { getHackathon } from "../../Components/firebase/firebaseFunction";
+import { getHackathonByTag } from "../../Components/firebase/firebaseFunction";
 import { useState, useEffect } from "react";
 import TemporaryDrawer from "../../Components/TemporaryDrawer";
+import {addHackathon} from "../../Components/firebase/firebaseFunction"
 
 // An array of card objects to be displayed
 // const cards = [1, 2, 3];
@@ -23,22 +25,35 @@ const theme = createTheme();
 
 // Exporting a React functional component named 'Explopre'
 export default function Explopre() {
-  // const HackathonId = "hackathon1";
-  const [HackathonId, setHackathonId] = useState("hackathon1");
-  const [data, setData] = useState(null);
+  const [tag, setHackathonTag] = useState('');
+  const [cards, setData] = useState([]);
   useEffect(() => {
     async function fetchData() {
-      const Data = await getHackathon(HackathonId);
+      const Data = await getHackathonByTag(tag);
       setData(Data);
     }
 
     fetchData();
-  }, [HackathonId]);
-  const cards = [data];
+  }, [tag]);
 
   function onTagClick(tag) {
-    setHackathonId(tag);
-    console.log(tag);
+    setHackathonTag(tag);
+  }
+
+  async function writeHackthon() {
+    const hackathon = {
+      id: 'hackathon12',
+      title: 'xinya',
+      prizePool: 10000,
+      status: 'ongoing',
+      hackathonDescription: 'xinya',
+      startDate: new Date('2023-05-06'),
+      endDate: new Date('2023-05-31'),
+      numberOfRegistrations: 100,
+      members: ['user1', 'user2', 'user3'],
+      tag: "Python"
+    }
+    await addHackathon(hackathon);
   }
 
   return (
@@ -63,6 +78,7 @@ export default function Explopre() {
             <Button variant="outlined">Ongoing</Button>
             <Button variant="outlined">Finished</Button>
             <TemporaryDrawer onTagClick={onTagClick} />
+            <Button variant="outlined" onClick={writeHackthon}>write</Button>
           </Stack>
         </Container>
       </Box>
@@ -86,9 +102,9 @@ export default function Explopre() {
                   alt="random"
                 />
                 <CardContent sx={{ flexGrow: 1 }}>
-                  {data && (
+                  {card && (
                     <Typography gutterBottom variant="h5" component="h2">
-                      {data.title}
+                      {card.tag}
                     </Typography>
                   )}
                   <Typography>prize pool $1000</Typography>

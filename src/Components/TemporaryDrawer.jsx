@@ -30,7 +30,7 @@ export default function TemporaryDrawer({onTagClick}) {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {['hackathon1', 'hackathon2', 'hackathon3', 'hackathon4'].map((tag) => (
+        {['JavaScript', 'Python', 'C++', 'Red'].map((tag) => (
           <ListItem key={tag} disablePadding>
             <ListItemButton onClick={() => {
                 // Call the onTagClick function with the selected tag as an argument
