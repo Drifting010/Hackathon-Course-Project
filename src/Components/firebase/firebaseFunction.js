@@ -1,17 +1,10 @@
 /* eslint-disable no-console */
 import {
-  collection, doc, setDoc, getDoc,
+  collection, doc, setDoc, getDoc
 } from 'firebase/firestore';
-import { db, auth } from '../../firebaseConfig';
+import { db, auth ,provider} from '../../firebaseConfig';
+import { signInWithPopup, signInWithEmailAndPassword ,signOut, createUserWithEmailAndPassword} from 'firebase/auth';
 
-const addUser = async (user) => {
-  try {
-    const userRef = doc(collection(db, 'users'), user.uid);
-    await setDoc(userRef, user);
-  } catch (error) {
-    console.error('Error adding user: ', error);
-  }
-};
 
 const addHackathon = async (hackathon) => {
   try {
@@ -22,7 +15,7 @@ const addHackathon = async (hackathon) => {
   }
 };
 
-const createUserWithEmailAndPassword = async (
+const createUserWithEmailAndPasswordFunction = async (
   email,
   password,
   username,
@@ -30,33 +23,79 @@ const createUserWithEmailAndPassword = async (
   profile,
 ) => {
   try {
-    const result = await auth.createUserWithEmailAndPassword(email, password);
-    const user = {
-      uid: result.user.uid,
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const { user } = userCredential;
+
+    const userData = {
+      uid: user.uid,
       email,
       username,
       role,
       profile,
     };
-    const userRef = doc(collection(db, 'users'), user.uid);
-    await setDoc(userRef, user);
+
+    const userRef = doc(collection(db, 'users'), email);
+    await setDoc(userRef, userData);
+
+    console.log('User created successfully');
   } catch (error) {
     console.error('Error creating user: ', error);
   }
 };
 
-const getUser = async (uid) => {
+const signInWithEmailAndPasswordFunction = async (email, password) => {
   try {
-    const userRef = doc(collection(db, 'users'), uid);
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    return user;
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.error(`Error signing in: ${errorCode} - ${errorMessage}`);
+    return null;
+  }
+};
+
+const signInWithGoogleFunction = async () => {
+  signInWithPopup(auth, provider).then((result) => {
+    const credential = provider.credentialFromResult(result);
+    // The signed-in user info.
+    const user = credential.user;
+    if (user){
+      console.log('user exist');
+    }else{
+      console.log('user not exist');
+    }
+    return user;
+    // IdP data available using getAdditionalUserInfo(result)
+    // ...
+  }).catch((error) => {
+    // Handle Errors here.
+    console.log('sign in with google function',error);
+    // ...
+  });
+
+};
+
+const signOutFunction = () => 
+  signOut(auth).then(() => {
+  console.log("signout successfully")
+}).catch((error) => {
+  console.error('Error signing out', error);
+}) 
+
+
+const getUser = async (email) => {
+  try {
+    const userRef = doc(collection(db, 'users'), email);
     const userSnapshot = await getDoc(userRef);
 
     if (!userSnapshot.exists) {
-      console.error(`User with ID '${uid}' not found`);
+      console.error(`User with email '${email}' not found`);
       return null;
     }
-
     const userData = userSnapshot.data();
-    return { ...userData, uid };
+    return { ...userData, email };
   } catch (error) {
     console.error('Error getting user data:', error);
     return null;
@@ -82,9 +121,11 @@ const getHackathon = async (hackathonId) => {
 };
 
 export {
-  addUser,
   addHackathon,
-  createUserWithEmailAndPassword,
+  createUserWithEmailAndPasswordFunction,
+  signInWithGoogleFunction,
+  signInWithEmailAndPasswordFunction,
+  signOutFunction,
   getUser,
   getHackathon,
 };
