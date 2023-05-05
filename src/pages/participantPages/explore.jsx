@@ -11,15 +11,36 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { LinearProgress } from '@mui/material';
+import { getHackathon } from "../../Components/firebase/firebaseFunction";
+import { useState, useEffect } from "react";
+import TemporaryDrawer from '../../Components/TemporaryDrawer'
 
 // An array of card objects to be displayed
-const cards = [1, 2, 3];
+// const cards = [1, 2, 3];
 
 // Creating a Material-UI theme object
 const theme = createTheme();
 
 // Exporting a React functional component named 'Explopre'
 export default function Explopre() {
+  // const HackathonId = "hackathon1";
+  const [HackathonId, setHackathonId] = useState('hackathon1')
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    async function fetchData() {
+      const Data = await getHackathon(HackathonId);
+      setData(Data);
+    }
+
+    fetchData();
+  }, [HackathonId]);
+  const cards = [data];
+
+  function onTagClick(tag) {
+    setHackathonId(tag)
+    console.log(tag);
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -41,6 +62,7 @@ export default function Explopre() {
             <Button variant="outlined">All</Button>
             <Button variant="outlined">Ongoing</Button>
             <Button variant="outlined">Finished</Button>
+            <TemporaryDrawer onTagClick={onTagClick} />
           </Stack>
         </Container>
       </Box>
@@ -65,7 +87,7 @@ export default function Explopre() {
                 />
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    title
+                    {data.title}
                   </Typography>
                   <Typography>prize pool $1000</Typography>
                   <Stack direction="row" alignItems="center" spacing={2}>
