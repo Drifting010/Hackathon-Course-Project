@@ -163,6 +163,20 @@ const getMultipleDocuments = async (collectionName,condition1, operator, conditi
   }
 };
 
+const getHackathonByTag = async (tag) => {
+  try {
+    const hackathonsRef = collection(db, "hackathons");
+    const querySnapshot = await getDocs(query(hackathonsRef, where("tag", "==", tag)));
+    const hackathons = [];
+    querySnapshot.forEach((doc) => {
+      hackathons.push({ id: doc.id, ...doc.data() });
+    });
+    return hackathons;
+  } catch (error) {
+    console.error("Error getting hackathons by tag: ", error);
+  }
+};
+
 export {
   addHackathon,
   createUserWithEmailAndPasswordFunction,
@@ -174,4 +188,5 @@ export {
   getAllDocumentations,
   getDocumentInCollectionById,
   getMultipleDocuments,
+  getHackathonByTag,
 };
