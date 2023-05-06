@@ -6,8 +6,24 @@ import GoogleIcon from '@mui/icons-material/Google';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
+import { signInWithPopup } from "firebase/auth";
+import { useEffect, useState } from "react";
+import {auth,provider} from '../firebaseConfig.js'
+
 
 function Login() {
+    const [value,setValue] = useState('');
+    const handleGoogleLogin = () => {
+        signInWithPopup(auth,provider).then((data)=>{
+            setValue(data.user.email);
+            localStorage.setItem("email",data.user.email)
+        })
+    }
+
+    useEffect(()=>{
+        setValue(localStorage.getItem("email"))
+    })
+
     return (
         <div>
             <h1>Log in to your account</h1>
@@ -17,6 +33,7 @@ function Login() {
                     sx={{backgroundColor: 'darkgray', ':hover': {backgroundColor: 'dimgray'},marginLeft: '10px',marginRight: '10px'}}
                     variant="contained"
                     startIcon={<GoogleIcon/>}
+                    onClick={handleGoogleLogin}
                 >
                     Google
                 </Button>
