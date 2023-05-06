@@ -10,51 +10,43 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { LinearProgress } from "@mui/material";
-import { getHackathon } from "../../Components/firebase/firebaseFunction";
-import { getHackathonByTag } from "../../Components/firebase/firebaseFunction";
 import { useState, useEffect } from "react";
 import TemporaryDrawer from "../../Components/TemporaryDrawer";
-import {addHackathon} from "../../Components/firebase/firebaseFunction"
+import HackathonList from './HackathonList'
+
+const initialFilters = { tag: null, offset: null, status: null}
+const limit = 10
 
 // An array of card objects to be displayed
-// const cards = [1, 2, 3];
+const cards = [1, 2, 3];
 
 // Creating a Material-UI theme object
 const theme = createTheme();
 
 // Exporting a React functional component named 'Explopre'
 export default function Explopre() {
-  const [tag, setHackathonTag] = useState('');
-  const [cards, setData] = useState([]);
-  useEffect(() => {
-    async function fetchData() {
-      const Data = await getHackathonByTag(tag);
-      setData(Data);
-    }
+  const [filters, setFilters] = useState(initialFilters )
 
-    fetchData();
-  }, [tag]);
+  useEffect(() => {
+    setFilters(initialFilters)
+  }, [])
 
   function onTagClick(tag) {
-    setHackathonTag(tag);
+    setFilters({ ...initialFilters, tag })
   }
 
-  async function writeHackthon() {
-    const hackathon = {
-      id: 'hackathon12',
-      title: 'xinya',
-      prizePool: 10000,
-      status: 'ongoing',
-      hackathonDescription: 'xinya',
-      startDate: new Date('2023-05-06'),
-      endDate: new Date('2023-05-31'),
-      numberOfRegistrations: 100,
-      members: ['user1', 'user2', 'user3'],
-      tag: "Python"
-    }
-    await addHackathon(hackathon);
+  function onAllClick() {
+    setFilters({ ...initialFilters, tag: null })
   }
+
+  function onOngoingClick() {
+    setFilters({ ...initialFilters, status: "ongoing" })
+  }
+
+  function onFinishedClick() {
+    setFilters({ ...initialFilters, status: "ended" })
+  }
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -74,56 +66,17 @@ export default function Explopre() {
             spacing={2}
             justifyContent="flex-start"
           >
-            <Button variant="outlined">All</Button>
-            <Button variant="outlined">Ongoing</Button>
-            <Button variant="outlined">Finished</Button>
+            <Button variant="outlined" onClick={onAllClick}>All</Button>
+            <Button variant="outlined" onClick={onOngoingClick}>Ongoing</Button>
+            <Button variant="outlined" onClick={onFinishedClick}>Finished</Button>
             <TemporaryDrawer onTagClick={onTagClick} />
-            <Button variant="outlined" onClick={writeHackthon}>write</Button>
           </Stack>
         </Container>
       </Box>
       {/* display cards */}
-      <Container sx={{ py: 2 }} maxWidth="md">
-        <Grid container spacing={4}>
-          {cards.map((card) => (
-            <Grid item key={card} xs={12} sm={6} md={4}>
-              <Card
-                sx={{
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-                data-testid="card"
-              >
-                <CardMedia
-                  component="img"
-                  sx={{}}
-                  image="https://source.unsplash.com/random"
-                  alt="random"
-                />
-                <CardContent sx={{ flexGrow: 1 }}>
-                  {card && (
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {card.tag}
-                    </Typography>
-                  )}
-                  <Typography>prize pool $1000</Typography>
-                  <Stack direction="row" alignItems="center" spacing={2}>
-                    <LinearProgress
-                      sx={{ height: 10, width: "60%" }}
-                      color="secondary"
-                      variant="determinate"
-                      value={50}
-                    />
-                    <Typography fontSize="10px">Apply in 30 days</Typography>
-                  </Stack>
-                  <Typography>ongoing</Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
+      <Box>
+        <HackathonList filters={filters}/>
+      </Box>
     </ThemeProvider>
   );
 }
