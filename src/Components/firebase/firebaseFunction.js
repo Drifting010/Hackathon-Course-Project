@@ -2,8 +2,9 @@
 import {
   collection, doc, setDoc, getDoc, getDocs, query, where
 } from 'firebase/firestore';
-import { db, auth ,provider} from '../../firebaseConfig';
+import { db, auth } from '../../firebaseConfig';
 import { signInWithPopup, signInWithEmailAndPassword ,signOut, createUserWithEmailAndPassword} from 'firebase/auth';
+import { useQuery } from 'react-query';
 
 // Add a new hackathon to the 'hackathons' collection
 const addHackathon = async (hackathon) => {
@@ -58,27 +59,27 @@ const signInWithEmailAndPasswordFunction = async (email, password) => {
   }
 };
 
-// Sign in a user with their Google account
-const signInWithGoogleFunction = async () => {
-  signInWithPopup(auth, provider).then((result) => {
-    const credential = provider.credentialFromResult(result);
-    // The signed-in user info.
-    const user = credential.user;
-    if (user){
-      console.log('user exist');
-    }else{
-      console.log('user not exist');
-    }
-    return user;
-    // IdP data available using getAdditionalUserInfo(result)
-    // ...
-  }).catch((error) => {
-    // Handle Errors here.
-    console.log('sign in with google function',error);
-    // ...
-  });
+// // Sign in a user with their Google account
+// const signInWithGoogleFunction = async () => {
+//   signInWithPopup(auth, provider).then((result) => {
+//     const credential = provider.credentialFromResult(result);
+//     // The signed-in user info.
+//     const user = credential.user;
+//     if (user){
+//       console.log('user exist');
+//     }else{
+//       console.log('user not exist');
+//     }
+//     return user;
+//     // IdP data available using getAdditionalUserInfo(result)
+//     // ...
+//   }).catch((error) => {
+//     // Handle Errors here.
+//     console.log('sign in with google function',error);
+//     // ...
+//   });
 
-};
+// };
 
 // Sign out the currently authenticated user
 const signOutFunction = () => 
@@ -180,7 +181,7 @@ const getHackathonByTag = async (tag) => {
 export {
   addHackathon,
   createUserWithEmailAndPasswordFunction,
-  signInWithGoogleFunction,
+  // signInWithGoogleFunction,
   signInWithEmailAndPasswordFunction,
   signOutFunction,
   getUser,
