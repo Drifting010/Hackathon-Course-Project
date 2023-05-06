@@ -1,9 +1,10 @@
 /* eslint-disable no-console */
 import {
-  collection, doc, setDoc, getDoc
+  collection, doc, setDoc, getDoc, query, where, limit, getDocs
 } from 'firebase/firestore';
-import { db, auth ,provider} from '../../firebaseConfig';
+import { db, auth } from '../../firebaseConfig';
 import { signInWithPopup, signInWithEmailAndPassword ,signOut, createUserWithEmailAndPassword} from 'firebase/auth';
+import { useQuery } from 'react-query';
 
 // Add a new hackathon to the 'hackathons' collection
 const addHackathon = async (hackathon) => {
@@ -58,27 +59,27 @@ const signInWithEmailAndPasswordFunction = async (email, password) => {
   }
 };
 
-// Sign in a user with their Google account
-const signInWithGoogleFunction = async () => {
-  signInWithPopup(auth, provider).then((result) => {
-    const credential = provider.credentialFromResult(result);
-    // The signed-in user info.
-    const user = credential.user;
-    if (user){
-      console.log('user exist');
-    }else{
-      console.log('user not exist');
-    }
-    return user;
-    // IdP data available using getAdditionalUserInfo(result)
-    // ...
-  }).catch((error) => {
-    // Handle Errors here.
-    console.log('sign in with google function',error);
-    // ...
-  });
+// // Sign in a user with their Google account
+// const signInWithGoogleFunction = async () => {
+//   signInWithPopup(auth, provider).then((result) => {
+//     const credential = provider.credentialFromResult(result);
+//     // The signed-in user info.
+//     const user = credential.user;
+//     if (user){
+//       console.log('user exist');
+//     }else{
+//       console.log('user not exist');
+//     }
+//     return user;
+//     // IdP data available using getAdditionalUserInfo(result)
+//     // ...
+//   }).catch((error) => {
+//     // Handle Errors here.
+//     console.log('sign in with google function',error);
+//     // ...
+//   });
 
-};
+// };
 
 // Sign out the currently authenticated user
 const signOutFunction = () => 
@@ -125,12 +126,68 @@ const getHackathon = async (hackathonId) => {
   }
 };
 
+// get data by filters
+function useHackthonsQuery({ filters }) {
+  // Define the query to fetch data from Firebase.
+  const q = query(
+    collection(db, 'hackathons'),
+    where('tag', '==', filters.tag),
+    limit(10)
+  );
+
+  // Use the `useQuery` hook to fetch data.
+  return useQuery(
+    // Pass an array with the query as the first argument to `useQuery`.
+    [q],
+    // Object with options for the query.
+    {
+      placeholderData: {
+        hackathons: [],
+        hackathonsCount: null,
+      },
+      keepPreviousData: true,
+      // Custom fetch function to fetch data from Firebase.
+      fetcher: async () => {
+        const querySnapshot = await getDocs(q);
+        const hackathons = querySnapshot.docs.map((doc) => doc.data());
+        return { hackathons, hackathonsCount: hackathons.length };
+      },
+    }
+  );
+}
+
+// get by Tag without query
+const getHackathonByTag = async (filters) => {
+  try {
+    const hackathonsRef = collection(db, "hackathons");
+    let queryRef = query(hackathonsRef);
+    if ((filters.tag !== null) && (filters.status !== null)) {
+      queryRef = query(hackathonsRef, where("tag", "==", filters.tag),where("status", "==", filters.status));
+    } else if (filters.tag !== null && filters.status === null) {
+      queryRef = query(hackathonsRef, where("tag", "==", filters.tag));
+    } else if (filters.tag === null && filters.status !== null){
+      queryRef = query(hackathonsRef, where("status", "==", filters.status));
+    }
+    const querySnapshot = await getDocs(queryRef);
+    const hackathons = [];
+    querySnapshot.forEach((doc) => {
+      hackathons.push({ id: doc.id, ...doc.data() });
+    });
+    return hackathons;
+  } catch (error) {
+    console.error("Error getting hackathons by tag: ", error);
+  }
+};
+
+
 export {
   addHackathon,
   createUserWithEmailAndPasswordFunction,
-  signInWithGoogleFunction,
+  // signInWithGoogleFunction,
   signInWithEmailAndPasswordFunction,
   signOutFunction,
   getUser,
   getHackathon,
+  useHackthonsQuery,
+  getHackathonByTag
 };
