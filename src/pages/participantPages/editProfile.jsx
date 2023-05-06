@@ -54,6 +54,7 @@ export default function EditProfile() {
         setIsSaveHovered(false);
     };
 
+    // State for uploaded avatar
     const [uploadedAvatar, setUploadedAvatar] = React.useState(null);
 
     // Event handler for avatar upload
@@ -72,7 +73,7 @@ export default function EditProfile() {
         <ThemeProvider theme={theme}>
             <CssBaseline />
 
-            {/* Box component to create a container that fills the viewport height and centers its content */}
+            {/* Container for the whole form */}
             <Box
                 sx={{
                     bgcolor: "background.paper",
@@ -87,6 +88,7 @@ export default function EditProfile() {
             >
                 <Container maxWidth="md">
                     <Stack spacing={4} alignItems="flex-start">
+                        {/* Edit Profile title */}
                         <Typography
                             component="h5"
                             variant="h5"
@@ -98,7 +100,9 @@ export default function EditProfile() {
                             Edit Profile
                         </Typography>
 
+                        {/* Avatar and User Name */}
                         <Stack direction="row" spacing={2} alignItems="center">
+                            {/* Avatar upload button */}
                             <IconButton
                                 color="primary"
                                 aria-label="upload picture"
@@ -113,6 +117,7 @@ export default function EditProfile() {
                                 <Avatar src={uploadedAvatar} />
                             </IconButton>
 
+                            {/* User Name input field */}
                             <TextField
                                 id="outlined-username"
                                 label="User Name"
@@ -121,7 +126,9 @@ export default function EditProfile() {
                             />
                         </Stack>
 
+                        {/* First Name and Last Name input fields */}
                         <Stack direction="row" spacing={2} alignItems="center">
+                            {/* First Name input field */}
                             <TextField
                                 id="outlined-firstname"
                                 label="First Name"
@@ -129,6 +136,7 @@ export default function EditProfile() {
 
                             />
 
+                            {/* Last Name input field */}
                             <TextField
                                 id="outlined-lastname"
                                 label="Last Name"
@@ -136,8 +144,10 @@ export default function EditProfile() {
                             />
                         </Stack>
 
+                        {/* Country selection dropdown */}
                         <CountrySelect />
 
+                        {/* Interests selection dropdown */}
                         <Autocomplete
                             multiple
                             id="outlined-multi"
@@ -154,6 +164,7 @@ export default function EditProfile() {
                             style={{ width: 500 }}
                         />
 
+                        {/* Skills selection dropdown */}
                         <Autocomplete
                             multiple
                             id="outlined-multi"
@@ -170,6 +181,7 @@ export default function EditProfile() {
                             style={{ width: 500 }}
                         />
 
+                        {/* Bio input field */}
                         <TextField
                             id="outlined-helperText"
                             label="Bio"
@@ -177,6 +189,7 @@ export default function EditProfile() {
                             style={{ width: 500 }}
                         />
 
+                        {/* Radio buttons for Student and Working professional */}
                         <FormControl>
                             <RadioGroup
                                 row
@@ -188,7 +201,9 @@ export default function EditProfile() {
                             </RadioGroup>
                         </FormControl>
 
+                        {/* Cancel and Save buttons */}
                         <Stack direction="row" spacing={4}>
+                            {/* Cancel button */}
                             <Button
                                 onMouseEnter={handleCancelMouseEnter}
                                 onMouseLeave={handleCancelMouseLeave}
@@ -198,6 +213,7 @@ export default function EditProfile() {
                                 Cancel
                             </Button>
 
+                            {/* Save button */}
                             <Button
                                 onMouseEnter={handleSaveMouseEnter}
                                 onMouseLeave={handleSaveMouseLeave}

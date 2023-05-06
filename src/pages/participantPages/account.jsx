@@ -19,18 +19,21 @@ import Stack from '@mui/material/Stack';
 const theme = createTheme();
 
 export default function AccountSetting() {
-
+    
+    // States to manage password and confirm password visibility
     const [showPassword, setShowPassword] = React.useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
 
+    // Functions to toggle password and confirm password visibility
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
 
+    // Function to prevent default behavior on mousedown event in the password field
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
 
-    // State for Cancel and Save buttons hover
+    // States for Cancel and Save buttons hover
     const [isCancelHovered, setIsCancelHovered] = React.useState(false);
     const [isSaveHovered, setIsSaveHovered] = React.useState(false);
 
@@ -51,11 +54,12 @@ export default function AccountSetting() {
         setIsSaveHovered(false);
     };
 
-    // 
+    // States for managing password and confirm password values and password mismatch
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordMismatch, setPasswordMismatch] = useState(false);
 
+    // Functions to handle changes in password and confirm password fields
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
     };
@@ -64,6 +68,7 @@ export default function AccountSetting() {
         setConfirmPassword(e.target.value);
     };
 
+    // Function to handle the onBlur event for the confirm password field, checking for a mismatch
     const handleConfirmPasswordBlur = (e) => {
         if (e.target.value !== '' && e.target.value !== password) {
             setPasswordMismatch(true);
@@ -86,7 +91,7 @@ export default function AccountSetting() {
                 }}
             >
                 <Container maxWidth="sm">
-
+                    {/* Account setting title */}
                     <Typography
                         component="h4"
                         variant="h4"
@@ -98,7 +103,9 @@ export default function AccountSetting() {
                         Account setting
                     </Typography>
 
+                    {/* Password and Confirm Password inputs wrapped in a Stack component */}
                     <Stack spacing={2}>
+                        {/* Password input field */}
                         <Box width="25ch">
                             <FormControl sx={{ m: 1 }} variant="standard">
                                 <InputLabel htmlFor="standard-adornment-password">
@@ -123,7 +130,8 @@ export default function AccountSetting() {
                                 />
                             </FormControl>
                         </Box>
-
+                        
+                         {/* Confirm password input field */}
                         <Box width="25ch">
                             <FormControl sx={{ m: 1 }} variant="standard">
                                 <InputLabel htmlFor="standard-adornment-confirm-password">
@@ -149,15 +157,18 @@ export default function AccountSetting() {
                                 />
                             </FormControl>
                         </Box>
-
+                        
+                        {/* Password mismatch error message */}
                         <Box width="30ch">
                             {passwordMismatch && (
                                 <Alert severity="error">Passwords do not match!</Alert>
                             )}
                         </Box>
                     </Stack>
-
+                    
+                    {/* Cancel and Save buttons */}
                     <Box sx={{ mt: 3 }}> {/* Add margin-top to the ButtonGroup */}
+                        {/* Cancel button */}
                         <Button
                             onMouseEnter={handleCancelMouseEnter}
                             onMouseLeave={handleCancelMouseLeave}
@@ -166,7 +177,8 @@ export default function AccountSetting() {
                         >
                             Cancel
                         </Button>
-
+                        
+                        {/* Save button */}
                         <Button
                             onMouseEnter={handleSaveMouseEnter}
                             onMouseLeave={handleSaveMouseLeave}

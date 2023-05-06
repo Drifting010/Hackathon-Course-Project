@@ -5,14 +5,17 @@ import Autocomplete from '@mui/material/Autocomplete';
 
 export default function CountrySelect() {
     return (
+        // Autocomplete component for country selection
         <Autocomplete
             id="country-select-demo"
             sx={{ width: 500 }}
-            options={countries}
+            options={countries} // Array of country objects
             autoHighlight
-            getOptionLabel={(option) => option.label}
+            getOptionLabel={(option) => option.label} // Display country label in the input field
             renderOption={(props, option) => (
+                // Customize the rendering of each option in the dropdown list
                 <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+                    {/* Display the country flag */}
                     <img
                         loading="lazy"
                         width="20"
@@ -20,10 +23,12 @@ export default function CountrySelect() {
                         srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
                         alt=""
                     />
+                    {/* Display the country label and country code */}
                     {option.label} ({option.code})
                 </Box>
             )}
             renderInput={(params) => (
+                // Customize the input field for country selection
                 <TextField
                     {...params}
                     label="Choose a country"
