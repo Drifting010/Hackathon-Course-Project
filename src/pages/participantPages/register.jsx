@@ -6,11 +6,31 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
 
 const theme = createTheme();
 
 export default function RegisterHackathons() {
+
+    // State for Cancel and Register buttons hover
+    const [isCancelHovered, setIsCancelHovered] = React.useState(false);
+    const [isRegisterHovered, setIsRegisterHovered] = React.useState(false);
+
+    // Event handlers for Cancel and Register buttons hover
+    const handleCancelMouseEnter = () => {
+        setIsCancelHovered(true);
+    };
+
+    const handleCancelMouseLeave = () => {
+        setIsCancelHovered(false);
+    };
+
+    const handleRegisterMouseEnter = () => {
+        setIsRegisterHovered(true);
+    };
+
+    const handleRegisterMouseLeave = () => {
+        setIsRegisterHovered(false);
+    };
 
     return (
         <ThemeProvider theme={theme}>
@@ -75,11 +95,24 @@ export default function RegisterHackathons() {
                         />
                     </Box>
 
-                        {/* Cancel button to cancel the registration process */}
-                        <Button sx={{ mr: 2, textTransform: 'none' }}>Cancel</Button>
-                        {/* Register button to submit the registration information */}
-                        <Button sx={{ textTransform: 'none' }}>Register</Button>
-                    </ButtonGroup>
+                    {/* Cancel button to cancel the registration process */}
+                    <Button
+                        onMouseEnter={handleCancelMouseEnter}
+                        onMouseLeave={handleCancelMouseLeave}
+                        sx={{ mr: 2, textTransform: 'none' }}
+                        variant={isCancelHovered ? 'contained' : 'outlined'}
+                    >
+                        Cancel
+                    </Button>
+                    {/* Register button to submit the registration information */}
+                    <Button
+                        onMouseEnter={handleRegisterMouseEnter}
+                        onMouseLeave={handleRegisterMouseLeave}
+                        sx={{ textTransform: 'none' }}
+                        variant={isRegisterHovered ? 'contained' : 'outlined'}
+                    >
+                        Register
+                    </Button>
 
                 </Container>
             </Box>
