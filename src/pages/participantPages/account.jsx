@@ -21,7 +21,6 @@ export default function AccountSetting() {
                 }}
             >
                 <Container maxWidth="md">
-                    {/* Typography component for displaying the hackathon registration title */}
                     <Typography
                         component="h4"
                         variant="h4"
@@ -36,8 +35,6 @@ export default function AccountSetting() {
 
                 </Container>
             </Box>
-
-
         </ThemeProvider>
     );
 }

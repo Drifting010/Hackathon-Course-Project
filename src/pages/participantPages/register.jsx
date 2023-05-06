@@ -75,12 +75,6 @@ export default function RegisterHackathons() {
                         />
                     </Box>
 
-                    {/* ButtonGroup component to group Cancel and Register buttons */}
-                    <ButtonGroup
-                        disableElevation
-                        variant="contained"
-                        aria-label="Disabled elevation buttons"
-                    >
                         {/* Cancel button to cancel the registration process */}
                         <Button sx={{ mr: 2, textTransform: 'none' }}>Cancel</Button>
                         {/* Register button to submit the registration information */}
