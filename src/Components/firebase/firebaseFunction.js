@@ -4,7 +4,6 @@ import {
 } from 'firebase/firestore';
 import { db, auth } from '../../firebaseConfig';
 import { signInWithPopup, signInWithEmailAndPassword ,signOut, createUserWithEmailAndPassword} from 'firebase/auth';
-import { useQuery } from 'react-query';
 
 // Add a new hackathon to the 'hackathons' collection
 const addHackathon = async (hackathon) => {
