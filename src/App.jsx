@@ -12,7 +12,6 @@ import { MyEvents } from './pages/participantPages'
 import { RegisterHackathons } from './pages/participantPages'
 import { EditProfile } from './pages/participantPages'
 import { AccountSetting } from './pages/participantPages'
-import { Home } from './pages'
 import './App.css'
 
 export default function App() {
