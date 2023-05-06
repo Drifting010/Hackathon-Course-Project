@@ -28,7 +28,7 @@ import TemporaryDrawer from "../../Components/TemporaryDrawer";
 import HackathonList from './HackathonList'
 
 const initialFilters = { tag: null, offset: null, status: null}
-const limit = 10
+// const limit = 10
 
 // An array of card objects to be displayed
 const cards = [1, 2, 3];
