@@ -12,6 +12,7 @@ import { MyEvents } from './pages/participantPages'
 import { RegisterHackathons } from './pages/participantPages'
 import { Home } from './pages'
 import './App.css'
+import PublishHackathonPage from './pages/publishHackathonPage';
 
 export default function App() {
 
@@ -30,6 +31,7 @@ export default function App() {
               <Route path="/explore_hackathons" element={<ExploreHackathons />} />
               <Route path="/my_events" element={<MyEvents />} />
               <Route path="/register_hackathons" element={<RegisterHackathons />} />
+              <Route path="/publish_hackathon" element={<PublishHackathonPage />} />
             </Routes>
           </main>
           <HomeFooter />
