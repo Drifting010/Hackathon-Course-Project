@@ -81,12 +81,12 @@ const signInWithEmailAndPasswordFunction = async (email, password) => {
 // };
 
 // Sign out the currently authenticated user
-const signOutFunction = () => 
+const signOutFunction = () =>
   signOut(auth).then(() => {
-  console.log("signout successfully")
-}).catch((error) => {
-  console.error('Error signing out', error);
-}) 
+    console.log("signout successfully")
+  }).catch((error) => {
+    console.error('Error signing out', error);
+  })
 
 // Get user data from the 'users' collection by email
 const getUser = async (email) => {
