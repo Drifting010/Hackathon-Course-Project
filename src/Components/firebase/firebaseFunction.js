@@ -2,8 +2,8 @@
 import {
   collection, doc, setDoc, getDoc, addDoc
 } from 'firebase/firestore';
-import { db, auth ,provider} from '../../firebaseConfig';
-import { signInWithPopup, signInWithEmailAndPassword ,signOut, createUserWithEmailAndPassword} from 'firebase/auth';
+import { db, auth, provider } from '../../firebaseConfig';
+import { signInWithPopup, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from 'firebase/auth';
 
 // Add a new hackathon to the 'hackathons' collection
 const addHackathon = async (hackathon) => {
@@ -64,9 +64,9 @@ const signInWithGoogleFunction = async () => {
     const credential = provider.credentialFromResult(result);
     // The signed-in user info.
     const user = credential.user;
-    if (user){
+    if (user) {
       console.log('user exist');
-    }else{
+    } else {
       console.log('user not exist');
     }
     return user;
@@ -74,19 +74,19 @@ const signInWithGoogleFunction = async () => {
     // ...
   }).catch((error) => {
     // Handle Errors here.
-    console.log('sign in with google function',error);
+    console.log('sign in with google function', error);
     // ...
   });
 
 };
 
 // Sign out the currently authenticated user
-const signOutFunction = () => 
+const signOutFunction = () =>
   signOut(auth).then(() => {
-  console.log("signout successfully")
-}).catch((error) => {
-  console.error('Error signing out', error);
-}) 
+    console.log("signout successfully")
+  }).catch((error) => {
+    console.error('Error signing out', error);
+  })
 
 // Get user data from the 'users' collection by email
 const getUser = async (email) => {
