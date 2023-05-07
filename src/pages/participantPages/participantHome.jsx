@@ -7,12 +7,12 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {  ThemeProvider } from '@mui/material/styles';
+import theme from '../../Components/theme';
 import { Pagination } from '@mui/lab';
 import { EmojiPeople } from '@mui/icons-material';
 
 const cards = [1, 2, 3, 4, 5, 6];
-const theme = createTheme();
 
 export default function ParticipantHome() {
 

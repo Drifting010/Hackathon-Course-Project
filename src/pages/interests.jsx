@@ -1,11 +1,10 @@
 import * as React from 'react';
 import TagsSelector from '../Components/tagsSelector'
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '../Components/theme';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-
-const theme = createTheme();
 
 export default function Interests({ TagsSelectorComponent = TagsSelector }) {
     // Sample tags for the user to choose from
