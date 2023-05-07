@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import {
-  collection, doc, setDoc, getDoc, Firestore
+  collection, doc, setDoc, getDoc, getDocs, query, where
 } from 'firebase/firestore';
 import { db, auth ,provider} from '../../firebaseConfig';
 import { signInWithPopup, signInWithEmailAndPassword ,signOut, createUserWithEmailAndPassword} from 'firebase/auth';
@@ -126,17 +126,42 @@ const getHackathon = async (hackathonId) => {
 };
 
 const getAllDocumentations = async (collectionName) => {
+  try{
+    const querySnapshot = await getDocs(collection(db, collectionName));
+    const documentations = querySnapshot.docs;
+    return documentations;
+  }catch (error){
+    console.error('Error getting all documentations', error);
+  }
+  
+};
+
+const getDocumentInCollectionById = async (collectionName, documentId) => {
   try {
-    const snapshot = await db.collection(collectionName).get();
-    const documents = snapshot.docs.map((doc) => ({email: doc.email, ...doc.data()}));
-    console.log(documents);
-    return documents;
+    const docRef = doc (db, collectionName, documentId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log('Document data', docSnap.data());
+      return docSnap.data();
+    }
   } catch (error) {
-    console.error('Error fetching hackathons', error);
-    return [];
+    console.error('Error fetching document', error);
+    return null;
   }
 };
 
+const getMultipleDocuments = async (collectionName,condition1, operator, condition2) => {
+  try {
+    const q = query(collection(db, collectionName), where (condition1,operator,condition2));
+
+    const querySnapshot = await getDocs(q);
+    return querySnapshot;
+  }catch (error) {
+    console.error('Error fetching document', error);
+    return null;
+  }
+};
 
 export {
   addHackathon,
@@ -147,4 +172,6 @@ export {
   getUser,
   getHackathon,
   getAllDocumentations,
+  getDocumentInCollectionById,
+  getMultipleDocuments,
 };
