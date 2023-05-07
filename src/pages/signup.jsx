@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './signup.css';
-import { createParticipant, createHost } from '../Components/firebase/firebaseFunction';
+import { createParticipant } from '../Components/firebase/firebaseFunction';
 
 export default function Signup() {
     // state: value validity
