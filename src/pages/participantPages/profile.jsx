@@ -6,86 +6,91 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-// import { getUser } from '../../Components/firebase/firebaseFunction';
-// import { auth } from '../../firebaseConfig';
+import { getUser } from '../../Components/firebase/firebaseFunction';
+import { auth } from '../../firebaseConfig';
 
 const theme = createTheme();
 
 export default function Profile() {
-    // Define a state variable 'user' and a function 'setUser' to update it
-    // Initially, 'user' is set to 'null'
-    // const [user, setUser] = React.useState(null);
+    const [user, setUser] = React.useState(null);
+    const [loading, setLoading] = React.useState(true);
 
-    // Use the useEffect hook to set up side effects and clean them up when the component is unmounted
-    // React.useEffect(() => {
-    //     const unsubscribe = auth.onAuthStateChanged(async (userAuth) => {
-    //         if (userAuth) {
-    //             const userEmail = userAuth.email;
-    //             const userData = await getUser(userEmail);
-    //             setUser(userData);
-    //         }
-    //     });
+    React.useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // const userAuth = await auth.currentUser;
+                const userAuth = { email: 'testParticipant@example.com' };
+                if (userAuth) {
+                    const userEmail = userAuth.email;
+                    const userData = await getUser(userEmail);
+                    setUser(userData);
+                }
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    //     // Clean up the listener when the component is unmounted
-    //     return () => unsubscribe();
-    // }, []);
+        fetchData();
+    }, []);
 
-    // If the 'user' state variable is not set (i.e., it's 'null'), display a loading message.
-    // if (!user) {
-    //     return <div>Loading...</div>;
-    // }
+    console.log(user);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    minHeight: '100vh',
-                }}
-            >
-                <Grid container justifyContent="center" alignItems="center" direction="column" spacing={4}>
+            {user ? (
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        minHeight: '100vh',
+                    }}
+                >
+                    <Grid container justifyContent="center" alignItems="center" direction="column" spacing={4}>
 
-                    <Grid item>
-                        {/* src={user.profile.userIcon} */}
-                        <Avatar />
-                    </Grid>
+                        <Grid item>
+                            <Avatar src={user.profile.userIcon} />
+                        </Grid>
 
-                    <Grid item>
-                        <Typography>
-                            {/* {user.profile.username} */}
-                            UserName
-                        </Typography>
-                    </Grid>
+                        <Grid item>
+                            <Typography>
+                                {user.first_name} {user.last_name}
+                            </Typography>
+                        </Grid>
 
-                    <Grid item>
-                        <Grid container alignItems="center" direction="row" spacing={1}>
-                            <Grid item>
-                                <LocationOnOutlinedIcon />
-                            </Grid>
+                        <Grid item>
+                            <Grid container alignItems="center" direction="row" spacing={1}>
+                                <Grid item>
+                                    <LocationOnOutlinedIcon />
+                                </Grid>
 
-                            <Grid item>
-                                <Typography>
-                                    {/* {user.profile.Country} */}
-                                    Country
-                                </Typography>
+                                <Grid item>
+                                    <Typography>
+                                        {user.profile.Country}
+                                    </Typography>
+                                </Grid>
                             </Grid>
                         </Grid>
+
+                        <Grid item>
+                            <Typography>
+                                {user.profile.Description}
+                            </Typography>
+                        </Grid>
+
                     </Grid>
-
-                    <Grid item>
-                        <Typography>
-                            {/* {user.profile.Description} */}
-                            Description
-                        </Typography>
-                    </Grid>
-
-
-                </Grid>
-            </Box>
+                </Box>
+            ) : (
+                <div>Loading...</div>
+            )}
         </ThemeProvider>
     );
 }
