@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useLocation } from 'react-router-dom';
 import { ParticipantHeader } from './'
 import { HomeHeader } from './'
+import { HostHeader } from './'
 
 export function HeaderWrapper() {
     const location = useLocation();
@@ -19,10 +20,11 @@ export function HeaderWrapper() {
     }
 
     // Header3 covers 4 pages
-    // if (location.pathname.startsWith('/page12') || location.pathname.startsWith('/page13') || location.pathname.startsWith('/page14') ||
-    //     location.pathname.startsWith('/page15')) {
-    //     return <Header3 />;
-    // }
+    if (location.pathname.startsWith('/host_home') || location.pathname.startsWith('/dashboard') || location.pathname.startsWith('/data_analytics') ||
+        location.pathname.startsWith('/help_centre') || location.pathname.startsWith('/host_account') || location.pathname.startsWith('/host_editprofile') ||
+        location.pathname.startsWith('/host_profile') || location.pathname.startsWith('/page11')) {
+        return <HostHeader />;
+    }
 
     // Default header if no conditions are met
     // return <HomeHeader />;
