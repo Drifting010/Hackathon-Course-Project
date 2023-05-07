@@ -86,6 +86,7 @@ test("sign in with email and password and sign out", async () => {
     });
   });
 
+  console.log(userCreated);
   expect(userCreated).not.toBeNull();
 
   // Get the user data from Firestore
