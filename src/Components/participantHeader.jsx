@@ -70,12 +70,12 @@ export default function ParticipantHeader() {
                                 display: { xs: 'none', md: 'flex' },
                                 fontFamily: 'monospace',
                                 fontWeight: 700,
-                                letterSpacing: '.3rem',
                                 color: 'inherit',
                                 textDecoration: 'none',
                             }}
                         >
-                            LOGO
+                            {/* LOGO */}
+                            Hackathon  
                         </Typography>
                     </Box>
 
@@ -115,7 +115,7 @@ export default function ParticipantHeader() {
                                 <Typography
                                     textAlign="center"
                                     component="a"
-                                    href="#"
+                                    href="./profile"
                                     sx={{ textDecoration: 'none', color: 'black' }}
                                     data-testid="menu-item-profile"
                                 >
@@ -126,7 +126,7 @@ export default function ParticipantHeader() {
                                 <Typography
                                     textAlign="center"
                                     component="a"
-                                    href="#"
+                                    href="./account"
                                     sx={{ textDecoration: 'none', color: 'black' }}
                                     data-testid="menu-item-account"
                                 >
