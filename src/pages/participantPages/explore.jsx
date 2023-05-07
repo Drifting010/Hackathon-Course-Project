@@ -4,7 +4,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '../../Components/theme';
 import { useState, useEffect } from 'react';
 import TemporaryDrawer from '../../Components/TemporaryDrawer';
 import HackathonList from './HackathonList'
