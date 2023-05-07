@@ -163,17 +163,19 @@ const getMultipleDocuments = async (collectionName,condition1, operator, conditi
   }
 };
 
-const getHackathonByTag = async (tag) => {
+// get hackathons by Tag
+const getHackathonByTag = async (filters) => {
   try {
-    const hackathonsRef = collection(db, "hackathons");
-    const querySnapshot = await getDocs(query(hackathonsRef, where("tag", "==", tag)));
-    const hackathons = [];
-    querySnapshot.forEach((doc) => {
-      hackathons.push({ id: doc.id, ...doc.data() });
-    });
-    return hackathons;
+    const docRef = doc (db, collectionName, documentId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log('Document data', docSnap.data());
+      return docSnap.data();
+    }
   } catch (error) {
-    console.error("Error getting hackathons by tag: ", error);
+    console.error('Error fetching document', error);
+    return null;
   }
 };
 
