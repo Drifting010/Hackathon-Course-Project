@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import {
-  collection, doc, setDoc, getDoc
+  collection, doc, setDoc, getDoc, Firestore
 } from 'firebase/firestore';
 import { db, auth ,provider} from '../../firebaseConfig';
 import { signInWithPopup, signInWithEmailAndPassword ,signOut, createUserWithEmailAndPassword} from 'firebase/auth';
@@ -125,6 +125,19 @@ const getHackathon = async (hackathonId) => {
   }
 };
 
+const getAllDocumentations = async (collectionName) => {
+  try {
+    const snapshot = await db.collection(collectionName).get();
+    const documents = snapshot.docs.map((doc) => ({email: doc.email, ...doc.data()}));
+    console.log(documents);
+    return documents;
+  } catch (error) {
+    console.error('Error fetching hackathons', error);
+    return [];
+  }
+};
+
+
 export {
   addHackathon,
   createUserWithEmailAndPasswordFunction,
@@ -133,5 +146,5 @@ export {
   signOutFunction,
   getUser,
   getHackathon,
+  getAllDocumentations,
 };
-

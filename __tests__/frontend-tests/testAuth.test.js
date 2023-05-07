@@ -4,10 +4,11 @@ import {
   signInWithEmailAndPasswordFunction,
   signOutFunction,
   getUser,
+  getAllDocumentations,
   app,
 } from "../../src/Components/firebase/firebaseFunction";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-
+import { db } from "../../src/firebaseConfig";
 
 /// Replace this with your Firebase mocks or test Firebase instance
 const testAuth = getAuth();
@@ -21,7 +22,13 @@ test("create user with email and password", async () => {
   const profile = "https://example.com/profile.jpg";
 
   // Call the createUserWithEmailAndPassword function
-  await createUserWithEmailAndPasswordFunction(email, password, username, role, profile);
+  await createUserWithEmailAndPasswordFunction(
+    email,
+    password,
+    username,
+    role,
+    profile
+  );
   const user = await getUser(email);
 
   // Verify that the user was created
@@ -36,7 +43,7 @@ test("create user with email and password", async () => {
 });
 
 // This may get tested after the SignUp page get created
-// // Test signInWithGoogle 
+// // Test signInWithGoogle
 // test("sign in with Google", async () => {
 //   // Call the signInWithGoogle function
 //   const user = await signInWithGoogleFunction();
@@ -62,7 +69,13 @@ test("sign in with email and password and sign out", async () => {
   const email = "testSignIn@example.com";
   const password = "testpassword";
 
-  await createUserWithEmailAndPasswordFunction(email, password, username, role, profile);
+  await createUserWithEmailAndPasswordFunction(
+    email,
+    password,
+    username,
+    role,
+    profile
+  );
 
   // Call the signInWithEmailAndPassword function
   await signInWithEmailAndPasswordFunction(email, password);
@@ -99,7 +112,6 @@ test("sign in with email and password and sign out", async () => {
   await signOutFunction();
 });
 
-
 // Test signUserOut
 test("sign out user", async () => {
   // Create and sign in the user first
@@ -132,4 +144,16 @@ test("sign out user", async () => {
   // Verify that the user was signed out
   const currentUser = testAuth.currentUser;
   expect(currentUser).toBeNull();
+});
+
+// Test getAllDocumentations
+test('retrieve all documentaion correctly', async () => {
+  // Add mock data to the collection
+  const hackathonCollection = 'hackathons';
+
+  // Call the getAllHackathons function
+  const result = await getAllDocumentations(hackathonCollection);
+
+  // Check if the result contains the correct data
+  expect(result.length).not.toBeNull;
 });
