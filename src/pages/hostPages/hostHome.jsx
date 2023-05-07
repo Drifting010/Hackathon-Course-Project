@@ -9,16 +9,13 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import { LinearProgress } from '@mui/material';
 import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
+import theme from '../../Components/theme';
 
 // An array of card objects to be displayed
 const cards = [1, 2, 3];
-
-// Creating a Material-UI theme object
-const theme = createTheme();
 
 // Exporting a React functional component named 'Explopre'
 export default function HostHome() {

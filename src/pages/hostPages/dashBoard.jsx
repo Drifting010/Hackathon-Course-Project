@@ -9,15 +9,14 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import { LinearProgress } from '@mui/material';
 import Box from '@mui/material/Box';
+import theme from '../../Components/theme';
 
 // An array of card objects to be displayed
 const cards = [1];
 
-// Creating a Material-UI theme object
-const theme = createTheme();
 
 export default function DeshBoard(props) {
   return (
