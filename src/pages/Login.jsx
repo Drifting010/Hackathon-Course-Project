@@ -12,7 +12,10 @@ import {auth,provider} from '../firebaseConfig.js'
 
 
 function Login() {
+    //State variable of Google signin email
     const [value,setValue] = useState('');
+
+    //Attempt google login and set email to variable in local storage
     const handleGoogleLogin = () => {
         signInWithPopup(auth,provider).then((data)=>{
             setValue(data.user.email);
@@ -23,6 +26,10 @@ function Login() {
     useEffect(()=>{
         setValue(localStorage.getItem("email"))
     })
+
+    //State variables to control email and password
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     return (
         <div>
@@ -66,6 +73,8 @@ function Login() {
                     name="email-required"
                     id="email-required"
                     label="Enter email"
+                    value={email}
+                    onChange={(e)=> {setEmail(e.target.value)}}
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
@@ -81,6 +90,8 @@ function Login() {
                     label="Password"
                     type="password"
                     required
+                    value={password}
+                    onChange={(e)=> {setPassword(e.target.value)}}
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
