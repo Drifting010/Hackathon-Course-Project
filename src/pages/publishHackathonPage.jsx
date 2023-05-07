@@ -1,7 +1,6 @@
-import { useState } from "react"
+import * as React from 'react';
 import PublishEssentials from "../Components/Publish/publishEssentials";
 import { Box, Button } from "@mui/material";
-import PublishBonus from "../Components/Publish/publishBonus";
 
 function PublishHackathonPage() {
     return (
