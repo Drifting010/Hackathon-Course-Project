@@ -27,7 +27,7 @@ function Login() {
     return (
         <div>
             <h1>Log in to your account</h1>
-            <p>Welcome back</p>
+            <p>Welcome back {value}</p>
             <div>
                 <Button
                     sx={{backgroundColor: 'darkgray', ':hover': {backgroundColor: 'dimgray'},marginLeft: '10px',marginRight: '10px'}}
@@ -63,6 +63,7 @@ function Login() {
             <div className={styles.container}>
                 <TextField
                     required
+                    name="email-required"
                     id="email-required"
                     label="Enter email"
                     InputProps={{

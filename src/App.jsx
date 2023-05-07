@@ -19,6 +19,7 @@ import { Profile } from './pages/participantPages'
 import { EditProfile } from './pages/participantPages'
 import { AccountSetting } from './pages/participantPages'
 import './App.css'
+import Login from './pages/Login';
 
 export default function App() {
 
@@ -41,6 +42,7 @@ export default function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/edit_profile" element={<EditProfile />} />
               <Route path="/account" element={<AccountSetting />} />
+              <Route path="/login" element={<Login/>}/>
             </Routes>
           </main>
           <HomeFooter />
