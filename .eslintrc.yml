@@ -1,19 +1,24 @@
-extends:
-  - airbnb
-  - plugin:react/recommended
-plugins:
-  - react
+root: true
 parserOptions:
-  ecmaVersion: 2021
+  ecmaVersion: 2020
   sourceType: module
   ecmaFeatures:
     jsx: true
 env:
   browser: true
-  node: true
   es6: true
-rules: {}
-  # Add your custom rules here
+  node: true
+  jest: true
+extends:
+  - "eslint:recommended"
+  - "plugin:react/recommended"
 settings:
   react:
-    version: detect
+    version: "detect"
+plugins:
+  - react
+  - import
+rules:
+  "import/no-extraneous-dependencies": "off"
+ignorePatterns:
+  - "/__test__/"
