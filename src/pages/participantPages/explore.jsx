@@ -20,12 +20,12 @@ const theme = createTheme();
 
 // Exporting a React functional component named 'Explopre'
 export default function Explopre() {
+
   const [filters, setFilters] = useState(initialFilters )
 
   useEffect(() => {
     setFilters(initialFilters)
   }, [])
-
   function onTagClick(tag) {
     setFilters({ ...initialFilters, tag })
   }
@@ -41,6 +41,7 @@ export default function Explopre() {
   function onFinishedClick() {
     setFilters({ ...initialFilters, status: "ended" })
   }
+
 
 
   return (

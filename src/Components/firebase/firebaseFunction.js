@@ -166,16 +166,35 @@ const getMultipleDocuments = async (collectionName,condition1, operator, conditi
 // get hackathons by Tag
 const getHackathonByTag = async (filters) => {
   try {
-    const hackathonsRef = collection(db, "hackathons");
-    let queryRef = query(hackathonsRef);
-    if ((filters.tag !== null) && (filters.status !== null)) {
-      queryRef = query(hackathonsRef, where("tag", "==", filters.tag),where("status", "==", filters.status));
-    } else if (filters.tag !== null && filters.status === null) {
-      queryRef = query(hackathonsRef, where("tag", "==", filters.tag));
-    } else if (filters.tag === null && filters.status !== null){
-      queryRef = query(hackathonsRef, where("status", "==", filters.status));
+    const docRef = doc (db, collectionName, documentId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log('Document data', docSnap.data());
+      return docSnap.data();
     }
-    const querySnapshot = await getDocs(queryRef);
+  } catch (error) {
+    console.error('Error fetching document', error);
+    return null;
+  }
+};
+
+const getMultipleDocuments = async (collectionName,condition1, operator, condition2) => {
+  try {
+    const q = query(collection(db, collectionName), where (condition1,operator,condition2));
+
+    const querySnapshot = await getDocs(q);
+    return querySnapshot;
+  }catch (error) {
+    console.error('Error fetching document', error);
+    return null;
+  }
+};
+
+const getHackathonByTag = async (tag) => {
+  try {
+    const hackathonsRef = collection(db, "hackathons");
+    const querySnapshot = await getDocs(query(hackathonsRef, where("tag", "==", tag)));
     const hackathons = [];
     querySnapshot.forEach((doc) => {
       hackathons.push({ id: doc.id, ...doc.data() });
