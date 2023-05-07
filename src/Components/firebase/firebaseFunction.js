@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 import {
-  collection, doc, setDoc, getDoc, addDoc
+  collection, doc, setDoc, getDoc, getDocs, query, where
 } from 'firebase/firestore';
-import { db, auth, provider } from '../../firebaseConfig';
-import { signInWithPopup, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from 'firebase/auth';
+import { db, auth } from '../../firebaseConfig';
+import { signInWithPopup, signInWithEmailAndPassword ,signOut, createUserWithEmailAndPassword} from 'firebase/auth';
 
 // Add a new hackathon to the 'hackathons' collection
 const addHackathon = async (hackathon) => {
@@ -58,27 +58,27 @@ const signInWithEmailAndPasswordFunction = async (email, password) => {
   }
 };
 
-// Sign in a user with their Google account
-const signInWithGoogleFunction = async () => {
-  signInWithPopup(auth, provider).then((result) => {
-    const credential = provider.credentialFromResult(result);
-    // The signed-in user info.
-    const user = credential.user;
-    if (user) {
-      console.log('user exist');
-    } else {
-      console.log('user not exist');
-    }
-    return user;
-    // IdP data available using getAdditionalUserInfo(result)
-    // ...
-  }).catch((error) => {
-    // Handle Errors here.
-    console.log('sign in with google function', error);
-    // ...
-  });
+// // Sign in a user with their Google account
+// const signInWithGoogleFunction = async () => {
+//   signInWithPopup(auth, provider).then((result) => {
+//     const credential = provider.credentialFromResult(result);
+//     // The signed-in user info.
+//     const user = credential.user;
+//     if (user){
+//       console.log('user exist');
+//     }else{
+//       console.log('user not exist');
+//     }
+//     return user;
+//     // IdP data available using getAdditionalUserInfo(result)
+//     // ...
+//   }).catch((error) => {
+//     // Handle Errors here.
+//     console.log('sign in with google function',error);
+//     // ...
+//   });
 
-};
+// };
 
 // Sign out the currently authenticated user
 const signOutFunction = () =>
@@ -125,38 +125,68 @@ const getHackathon = async (hackathonId) => {
   }
 };
 
-/**
- * create a user with the role of participant in DB
- */
-const createParticipant = async (email, password, role) => {
+const getAllDocumentations = async (collectionName) => {
+  try{
+    const querySnapshot = await getDocs(collection(db, collectionName));
+    const documentations = querySnapshot.docs;
+    return documentations;
+  }catch (error){
+    console.error('Error getting all documentations', error);
+  }
+  
+};
+
+const getDocumentInCollectionById = async (collectionName, documentId) => {
   try {
-    const participantsCollectionRef = collection(db, 'participants');
-    await addDoc(participantsCollectionRef, { email: email, password: password, role: role });
+    const docRef = doc (db, collectionName, documentId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log('Document data', docSnap.data());
+      return docSnap.data();
+    }
   } catch (error) {
-    console.error('Error creating participant: ', error);
+    console.error('Error fetching document', error);
+    return null;
   }
 };
 
-/**
- * create a user with the role of host in DB
- */
-const createHost = async (email, password, role) => {
+const getMultipleDocuments = async (collectionName,condition1, operator, condition2) => {
   try {
-    const hostCollectionRef = collection(db, 'host');
-    await addDoc(hostCollectionRef, { email: email, password: password, role: role });
-  } catch (error) {
-    console.error('Error creating host: ', error);
+    const q = query(collection(db, collectionName), where (condition1,operator,condition2));
+
+    const querySnapshot = await getDocs(q);
+    return querySnapshot;
+  }catch (error) {
+    console.error('Error fetching document', error);
+    return null;
   }
-}
+};
+
+const getHackathonByTag = async (tag) => {
+  try {
+    const hackathonsRef = collection(db, "hackathons");
+    const querySnapshot = await getDocs(query(hackathonsRef, where("tag", "==", tag)));
+    const hackathons = [];
+    querySnapshot.forEach((doc) => {
+      hackathons.push({ id: doc.id, ...doc.data() });
+    });
+    return hackathons;
+  } catch (error) {
+    console.error("Error getting hackathons by tag: ", error);
+  }
+};
 
 export {
   addHackathon,
   createUserWithEmailAndPasswordFunction,
-  signInWithGoogleFunction,
+  // signInWithGoogleFunction,
   signInWithEmailAndPasswordFunction,
   signOutFunction,
   getUser,
   getHackathon,
-  createParticipant, // Draft by Leo
-  createHost // Draft by Leo
+  getAllDocumentations,
+  getDocumentInCollectionById,
+  getMultipleDocuments,
+  getHackathonByTag,
 };

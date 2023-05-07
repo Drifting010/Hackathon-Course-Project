@@ -4,10 +4,13 @@ import {
   signInWithEmailAndPasswordFunction,
   signOutFunction,
   getUser,
+  getAllDocumentations,
+  getDocumentInCollectionById,
+  getMultipleDocuments,
   app,
 } from "../../src/Components/firebase/firebaseFunction";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-
+import { db } from "../../src/firebaseConfig";
 
 /// Replace this with your Firebase mocks or test Firebase instance
 const testAuth = getAuth();
@@ -21,7 +24,13 @@ test("create user with email and password", async () => {
   const profile = "https://example.com/profile.jpg";
 
   // Call the createUserWithEmailAndPassword function
-  await createUserWithEmailAndPasswordFunction(email, password, username, role, profile);
+  await createUserWithEmailAndPasswordFunction(
+    email,
+    password,
+    username,
+    role,
+    profile
+  );
   const user = await getUser(email);
 
   // Verify that the user was created
@@ -36,7 +45,7 @@ test("create user with email and password", async () => {
 });
 
 // This may get tested after the SignUp page get created
-// // Test signInWithGoogle 
+// // Test signInWithGoogle
 // test("sign in with Google", async () => {
 //   // Call the signInWithGoogle function
 //   const user = await signInWithGoogleFunction();
@@ -62,7 +71,13 @@ test("sign in with email and password and sign out", async () => {
   const email = "testSignIn@example.com";
   const password = "testpassword";
 
-  await createUserWithEmailAndPasswordFunction(email, password, username, role, profile);
+  await createUserWithEmailAndPasswordFunction(
+    email,
+    password,
+    username,
+    role,
+    profile
+  );
 
   // Call the signInWithEmailAndPassword function
   await signInWithEmailAndPasswordFunction(email, password);
@@ -86,6 +101,7 @@ test("sign in with email and password and sign out", async () => {
     });
   });
 
+  console.log(userCreated);
   expect(userCreated).not.toBeNull();
 
   // Get the user data from Firestore
@@ -97,7 +113,6 @@ test("sign in with email and password and sign out", async () => {
   // Sign out the user
   await signOutFunction();
 });
-
 
 // Test signUserOut
 test("sign out user", async () => {
@@ -131,4 +146,48 @@ test("sign out user", async () => {
   // Verify that the user was signed out
   const currentUser = testAuth.currentUser;
   expect(currentUser).toBeNull();
+});
+
+// Test getAllDocumentations
+test('retrieve all documentaion correctly', async () => {
+  // Add mock data to the collection
+  const hackathonCollection = 'hackathons';
+
+  // Call the getAllHackathons function
+  const result = await getAllDocumentations(hackathonCollection);
+  console.log(result)
+
+  // Check if the result contains the correct data
+  expect(result.length).not.toEqual(0);
+});
+
+// Test getDocumentInCollectionById
+test("get document in collection by id", async () => {
+  // Create a test collection and a sample document
+  const testCollection = "users";
+  const testId =  "testHost@example.com";
+
+  // Call the getDocumentInCollectionById function with the testCollection and sampleDoc.id
+  const documentData = await getDocumentInCollectionById(testCollection, testId);
+  console.log(documentData);
+  // Verify that the document data is correct
+  expect(documentData.email).toEqual(testId);
+});
+
+// Test getMultipleDocuments
+test("retrieve multiple documents based on condition", async () => {
+  // Add sample data to the collection
+  const testCollection = "users";
+  const testRole = "host";
+
+  // You may need to set up some test data in the "users" collection with role "host" before running the test
+
+  // Call the getMultipleDocuments function with the testCollection and the conditions
+  const documents = await getMultipleDocuments(testCollection, "role", "==", testRole);
+
+  // Check if the documents meet the conditions
+  expect(documents.docs.length).toBeGreaterThan(0);
+  documents.docs.forEach((doc) => {
+    expect(doc.data().role).toEqual(testRole);
+  });
 });
