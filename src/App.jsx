@@ -9,6 +9,7 @@ import { HeaderWrapper } from './Components/headerWrapper';
 import { HomeFooter } from './Components/';
 //part one - onboarding
 import { Home } from './pages'
+import Signup from './pages/signup'
 import { Interests } from './pages'
 //part two - signed in participant
 import { ParticipantHome } from './pages/participantPages'
@@ -32,6 +33,7 @@ export default function App() {
           <main>
             <Routes>
               <Route path="/home" element={<Home />} />
+              <Route path="/signup" element={<Signup />} />
               <Route path="/interests" element={<Interests />} />
               <Route path="/participant_home" element={<ParticipantHome />} />
               <Route path="/explore_hackathons" element={<ExploreHackathons />} />
