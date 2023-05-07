@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import {
-  collection, doc, setDoc, getDoc,
+  collection, doc, setDoc, getDoc, addDoc
 } from 'firebase/firestore';
 import { db, auth } from '../../firebaseConfig';
 
@@ -81,10 +81,36 @@ const getHackathon = async (hackathonId) => {
   }
 };
 
+/**
+ * create a user with the role of participant in DB
+ */
+const createParticipant = async (email, password, role) => {
+  try {
+    const participantsCollectionRef = collection(db, 'participants');
+    await addDoc(participantsCollectionRef, { email: email, password: password, role: role });
+  } catch (error) {
+    console.error('Error creating participant: ', error);
+  }
+};
+
+/**
+ * create a user with the role of host in DB
+ */
+const createHost = async (email, password, role) => {
+  try {
+    const hostCollectionRef = collection(db, 'host');
+    await addDoc(hostCollectionRef, { email: email, password: password, role: role });
+  } catch (error) {
+    console.error('Error creating host: ', error);
+  }
+}
+
 export {
   addUser,
   addHackathon,
   createUserWithEmailAndPassword,
   getUser,
   getHackathon,
+  createParticipant, // Draft by Leo
+  createHost // Draft by Leo
 };

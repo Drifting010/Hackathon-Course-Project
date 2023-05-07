@@ -1,39 +1,21 @@
 import '@testing-library/jest-dom';
 import { expect, it } from 'vitest';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import Signup from '../../src/pages/signup';
 
-
-describe("Signup", () => {
+describe('Signup', () => {
     it('Renders all input and button elements correctly', () => {
         // render component
-        const { getAllByRole } = render(<Signup />);
+        const { getByPlaceholderText, getByText } = render(<Signup />);
 
-        // obtain elements
-        const inputs = getAllByRole('textbox');
-        const buttons = getAllByRole('button');
-
-        // test
-        expect(inputs.length).toBe(6);
-        expect(buttons).toHaveLength(4);
+        // test: input and button elements are rendered 
+        expect(getByPlaceholderText('Email (Participant)')).toBeInTheDocument();
+        expect(getByPlaceholderText('Password (Participant)')).toBeInTheDocument();
+        expect(getByPlaceholderText('Confirm Password (Participant)')).toBeInTheDocument();
+        expect(getByPlaceholderText('Email (Host)')).toBeInTheDocument();
+        expect(getByPlaceholderText('Password (Host)')).toBeInTheDocument();
+        expect(getByPlaceholderText('Confirm Password (Host)')).toBeInTheDocument();
+        expect(getByText('Participant')).toBeInTheDocument();
+        expect(getByText('Host')).toBeInTheDocument();
     });
-
-    it('Renders user input correctly', () => {
-        const intputPlaceholders = [
-            'Email (Participant)',
-            'Password (Participant)',
-            'Confirm Password (Participant)',
-            'Email (Host)',
-            'Password (Host)',
-            'Confirm Password (Host)'
-        ]
-
-        // render component
-        const { getByPlaceholderText} = render(<Signup />);
-
-        // test
-        intputPlaceholders.forEach((item)=>{
-            expect(getByPlaceholderText(item)).toBeDefined();
-        })
-    })
 })

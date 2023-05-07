@@ -1,43 +1,8 @@
 import { useState, useEffect } from 'react';
-
-import './signup.css'
+import './signup.css';
+import { createParticipant, createHost } from '../Components/firebase/firebaseFunction';
 
 export default function Signup() {
-    // state: input value
-    const [formData, setFormData] = useState({});
-    const [isSubmitting, setSubmitting] = useState(false);
-
-    useEffect(() => {
-        if (isSubmitting) {
-            axios.post('api/form-submit', formData)
-                .then(() => {
-                    console.log('Form submitted successfully!')
-                })
-                .catch(error => {
-                    console.log(error);
-                })
-                .finally(() => {
-                    setSubmitting(false);
-                })
-        }
-    }, [formData, isSubmitting]);
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        setSubmitting(true);
-    }
-
-    const handleFormDataChange = (name, value) => {
-        setFormData({
-            ...formData,
-            [name]: value
-        })
-    }
-
-    const [email, setEmail] = useState('');
-    const [pwd, setPwd] = useState('');
-    const [pwdConfirm, setPwdConfirm] = useState('');
-
     // state: value validity
     const [emailValid, setEmailValid] = useState(false);
     const [pwdValid, setPwdValid] = useState(false);
@@ -51,52 +16,100 @@ export default function Signup() {
     const [isParticipantSelected, setParticipantSelected] = useState(true);
     const [isHostSelected, setHostSelected] = useState(false);
 
-    // change state: input value
-    const handleEmailChange = (event) => {
-        const { name, value } = event.target;
-        handleFormDataChange(name, value);
-        setEmail(value);
-        validateField('email', value);
+    // state: form submit check
+    const [success, setSuccess] = useState('');
+
+    // state: input value
+    const [formData, setFormData] = useState({
+        p_email: '',
+        p_pwd: '',
+        p_pwdConfirm: '',
+        h_email: '',
+        h_pwd: '',
+        h_pwdConfirm: '',
+        role: 'participant' // by default
+    });
+    const [isSubmitting, setSubmitting] = useState(false);
+
+    // form submit
+    useEffect(() => {
+        // console.log(formData);
+        if (isSubmitting) {
+            let email, password;
+            const { p_email, p_pwd, h_email, h_pwd, role } = formData;
+
+            if (role === 'participant') {
+                email = p_email;
+                password = p_pwd;
+            } else {
+                email = h_email;
+                password = h_pwd;
+            }
+            // subimt form data to firebase database
+            createParticipant(email, password, role)
+                .then(() => {
+                    console.log('Form submitted successfully!');
+                    setSuccess('Form submitted successfully!');
+                })
+                .catch(error => {
+                    console.log('Error: ', error);
+                })
+                .finally(() => {
+                    setSubmitting(false);
+                })
+        }
+    }, [formData, isSubmitting]);
+
+    // form data validity check
+    useEffect(() => {
+        validateForm();
+    }, [emailValid, pwdValid, pwdConfirmValid]);
+
+    // functions: handle changes of state
+    const handleFormSubmit = (event) => {
+        event.preventDefault();
+        setSubmitting(true);
     }
 
-    const handlePwdChange = (event) => {
+    const handleFormDataChange = (event) => {
         const { name, value } = event.target;
-        handleFormDataChange(name, value);
-        setPwd(value);
-        validateField('pwd', value);
-    }
-
-    const handlePwdConfirmChange = (event) => {
-        const { name, value } = event.target;
-        handleFormDataChange(name, value);
-        setPwdConfirm(value);
-        validateField('pwdConfirm', value);
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+        validateField(name, value);
     }
 
     const handleParticipantClick = () => {
-        setFormData('role', 'participant');
+        setFormData({
+            ...formData,
+            role: 'participant'
+        });
         setParticipantSelected(true);
         setHostSelected(false);
     }
 
     const handleHostClick = () => {
-        setFormData('role', 'host');
+        setFormData({
+            ...formData,
+            role: 'host'
+        });
         setHostSelected(true);
         setParticipantSelected(false);
     }
 
-    // validate input value 
+    // funcions: user input validity check 
     const validateEmail = (email) => {
         const emailRegex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
         return emailRegex.test(email);
     }
 
-    const validatePassword = (pwd) => {
-        return pwd.length >= 8;
+    const validatePassword = (password) => {
+        return password.length >= 8;
     }
 
     const validateConfirmPassword = (pwdConfirm) => {
-        return pwdConfirm === pwd;
+        return pwdConfirm === formData.p_pwd || pwdConfirm === formData.h_pwd;
     }
 
     const validateField = (fieldName, value) => {
@@ -106,41 +119,39 @@ export default function Signup() {
         let isPwdConfirmValid = pwdConfirmValid;
 
         switch (fieldName) {
-            case 'email':
+            case 'p_email':
+            case 'h_email':
                 isEmailValid = validateEmail(value);
+                setEmailValid(isEmailValid);
                 fieldValidationErrors.email = isEmailValid ? '' : 'Email is invalid';
                 break;
-            case 'pwd':
+            case 'p_pwd':
+            case 'h_pwd':
                 isPwdValid = validatePassword(value);
+                setPwdValid(isPwdValid);
                 fieldValidationErrors.pwd = isPwdValid ? '' : 'Password must be at least 8 characters';
                 break;
-            case 'pwdConfirm':
+            case 'p_pwdConfirm':
+            case 'h_pwdConfirm':
                 isPwdConfirmValid = validateConfirmPassword(value);
+                setPwdConfirmValid(isPwdConfirmValid);
                 fieldValidationErrors.pwdConfirm = isPwdConfirmValid ? '' : 'Passwords do not match';
                 break;
             default:
                 break;
         }
-
         setErrorMessage(fieldValidationErrors);
-        setEmailValid(isEmailValid);
-        setPwdValid(isPwdValid);
-        setPwdConfirmValid(isPwdConfirmValid);
-
-        validateForm();
     }
 
     const validateForm = () => {
         setFormValid(emailValid && pwdValid && pwdConfirmValid);
     }
 
-
     return (
         <>
             <div className='container'>
                 <div className='form'>
                     <div className='prompt'>
-
                         Create a new account
                     </div>
                     <div className='role_selection'>
@@ -153,62 +164,63 @@ export default function Signup() {
                             onClick={handleHostClick}>
                             Host</button>
                     </div>
-                    <div className={`form_submit ${isParticipantSelected ? '' : 'hidden'}`}>
+                    <div className={`form_submit ${isParticipantSelected ? '' : 'hidden'}`} data-testid='participant-form'>
 
-                        <form onSubmit={handleSubmit} style={{ width: '280px', height: '435px' }}>
-                            
+                        <form onSubmit={(event) => { handleFormSubmit(event) }} style={{ width: '280px', height: '435px' }}>
+
                             <div className='field'>
                                 <div className='inputVal'>
-                                    <input type='text' role='textbox' name='email' value={email} onChange={handleEmailChange} placeholder='Email (Participant)' /><br />
+                                    <input type='text' role='textbox' name='p_email' value={formData.p_email} onChange={(event) => { handleFormDataChange(event) }} placeholder='Email (Participant)' /><br />
                                     <span>{errorMessage.email}</span>
                                 </div>
                             </div>
                             <div className='field'>
                                 <div className='inputVal'>
-                                    <input type='password' role='textbox' name='pwd' value={pwd} onChange={handlePwdChange} placeholder='Password (Participant)' /><br />
+                                    <input type='password' role='textbox' name='p_pwd' value={formData.p_pwd} onChange={(event) => { handleFormDataChange(event) }} placeholder='Password (Participant)' /><br />
                                     <span>{errorMessage.pwd}</span>
                                 </div>
                             </div>
                             <div className='field'>
                                 <div className='inputVal'>
-                                    <input type='password' role='textbox' name='pwdConfirm' value={pwdConfirm} onChange={handlePwdConfirmChange} placeholder='Confirm Password (Participant)' /><br />
+                                    <input type='password' role='textbox' name='p_pwdConfirm' value={formData.p_pwdConfirm} onChange={(event) => { handleFormDataChange(event) }} placeholder='Confirm Password (Participant)' /><br />
                                     <span>{errorMessage.pwdConfirm}</span>
                                 </div>
                             </div>
                             <div className='field'>
-                                <button type='submit' disabled={!formValid}>Next</button>
+                                <button data-testid='submit_participant' type='submit' name='participant_proceed' disabled={!formValid}>Participant Proceed</button><br />
+                                <span>{success}</span>
                             </div>
                         </form>
                     </div>
-                    <div className={`form_submit ${isHostSelected ? '' : 'hidden'}`}>
+                    <div className={`form_submit ${isHostSelected ? '' : 'hidden'}`} data-testid='host-form'>
 
-                        <form onSubmit={handleSubmit} style={{ width: '280px', height: '435px' }}>
-                            
+                        <form onSubmit={(event) => { handleFormSubmit(event) }} style={{ width: '280px', height: '435px' }}>
+
                             <div className='field'>
                                 <div className='inputVal'>
-                                    <input type='text' role='textbox' name='email' value={email} onChange={handleEmailChange} placeholder='Email (Host)' /><br />
-                                    <span>{errorMessage.email}</span>
+                                    <input type='text' role='textbox' name='h_email' value={formData.h_email} onChange={(event) => { handleFormDataChange(event) }} placeholder='Email (Host)' /><br />
+                                    {/* <span>{errorMessage.email}</span> */}
                                 </div>
                             </div>
                             <div className='field'>
                                 <div className='inputVal'>
-                                    <input type='password' role='textbox' name='pwd' value={pwd} onChange={handlePwdChange} placeholder='Password (Host)' /><br />
-                                    <span>{errorMessage.pwd}</span>
+                                    <input type='password' role='textbox' name='h_pwd' value={formData.h_pwd} onChange={(event) => { handleFormDataChange(event) }} placeholder='Password (Host)' /><br />
+                                    {/* <span>{errorMessage.pwd}</span> */}
                                 </div>
                             </div>
                             <div className='field'>
                                 <div className='inputVal'>
-                                    <input type='password' role='textbox' name='pwdConfirm' value={pwdConfirm} onChange={handlePwdConfirmChange} placeholder='Confirm Password (Host)' /><br />
-                                    <span>{errorMessage.pwdConfirm}</span>
+                                    <input type='password' role='textbox' name='h_pwdConfirm' value={formData.h_pwdConfirm} onChange={(event) => { handleFormDataChange(event) }} placeholder='Confirm Password (Host)' /><br />
+                                    {/* <span>{errorMessage.pwdConfirm}</span> */}
                                 </div>
                             </div>
                             <div className='field'>
-                                <button type='submit' disabled={!formValid}>Next</button>
+                                <button data-testid='submit_host' type='submit' name='host_proceed' disabled={!formValid}>Host Proceed</button>
                             </div>
                         </form>
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     )
 }

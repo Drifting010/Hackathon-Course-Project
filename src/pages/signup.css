@@ -73,12 +73,6 @@
     text-align: center;
 }
 
-/* .form .form_participant .form_submit {
-    height: 435;
-    width: 280px;
-
-} */
-
 .hidden {
     display: none;
 }
@@ -106,7 +100,7 @@
     background-color: #1c74d4;
     border: none;
     color: white;
-    padding: 10px 40px;
+    padding: 10px 20px;
     margin-top: 5px;
     margin-bottom: 40px;
     text-align: center;
