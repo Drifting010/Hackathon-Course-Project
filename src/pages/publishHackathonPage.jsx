@@ -2,10 +2,8 @@ import { useState } from "react"
 import PublishEssentials from "../Components/Publish/publishEssentials";
 import { Box, Button } from "@mui/material";
 import PublishBonus from "../Components/Publish/publishBonus";
-import PublishRegistration from "../Components/Publish/publishRegistration";
 
-function publishHackathonPage() {
-    const [page,setPage] = useState(1);
+function PublishHackathonPage() {
     return (
         <>
         <Box
@@ -16,9 +14,10 @@ function publishHackathonPage() {
                 width: '500px',
             }}
         >
+            {/* Essential information for hosting hackathon */}
             <PublishEssentials/>
+
             {/* <PublishBonus/> */}
-            <PublishRegistration/>
 
             <div>
                 <Button
@@ -33,4 +32,4 @@ function publishHackathonPage() {
     )
 }
 
-export default publishHackathonPage;
+export default PublishHackathonPage;
