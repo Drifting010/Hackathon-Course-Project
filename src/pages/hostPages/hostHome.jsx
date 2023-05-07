@@ -30,7 +30,7 @@ export default function HostHome() {
                     pb: 2,
                 }}
             >
-                <Alert sx={{}} severity="info">This is an info alert — check it out!</Alert>
+                <Alert sx={{}} severity="info" onClose={() => {}}>You are now in the host view</Alert>
                 <CssBaseline />
                 {/* four button */}
                 <Container maxWidth="md" sx={{pt: 4}}>
