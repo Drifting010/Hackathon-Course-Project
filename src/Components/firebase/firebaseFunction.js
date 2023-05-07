@@ -179,32 +179,6 @@ const getHackathonByTag = async (filters) => {
   }
 };
 
-const getMultipleDocuments = async (collectionName,condition1, operator, condition2) => {
-  try {
-    const q = query(collection(db, collectionName), where (condition1,operator,condition2));
-
-    const querySnapshot = await getDocs(q);
-    return querySnapshot;
-  }catch (error) {
-    console.error('Error fetching document', error);
-    return null;
-  }
-};
-
-const getHackathonByTag = async (tag) => {
-  try {
-    const hackathonsRef = collection(db, "hackathons");
-    const querySnapshot = await getDocs(query(hackathonsRef, where("tag", "==", tag)));
-    const hackathons = [];
-    querySnapshot.forEach((doc) => {
-      hackathons.push({ id: doc.id, ...doc.data() });
-    });
-    return hackathons;
-  } catch (error) {
-    console.error("Error getting hackathons by tag: ", error);
-  }
-};
-
 export {
   addHackathon,
   createUserWithEmailAndPasswordFunction,
