@@ -1,4 +1,6 @@
 import { Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField } from "@mui/material";
+import { padding } from "@mui/system";
+import { bottom } from "@popperjs/core";
 
 function PublishEssentials() {
     return (
@@ -8,9 +10,11 @@ function PublishEssentials() {
                     required
                     id="hackathon-name"
                     label="Hackathon name"
+                    sx = {{paddingTop:'10px',paddingBottom:'10px'}}
+                    fullWidth
                 />
             </div>
-
+{/* 
             <FormControl>
                 <FormLabel id="hackathon-setting">This hackathon is</FormLabel>
                 <RadioGroup
@@ -22,7 +26,7 @@ function PublishEssentials() {
                     <FormControlLabel value="in-person" control={<Radio />} label="in-person" />
                     <FormControlLabel value="hybrid" control={<Radio />} label="hybrid" />
                 </RadioGroup>
-            </FormControl>
+            </FormControl> */}
 
             <div>
                 <TextField
@@ -30,6 +34,8 @@ function PublishEssentials() {
                     label="Hackathon description"
                     multiline
                     rows={4}
+                    sx = {{paddingTop:'10px',paddingBottom:'10px'}}
+                    fullWidth
                 />
             </div>
 

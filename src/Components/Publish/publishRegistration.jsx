@@ -1,18 +1,27 @@
-import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField } from "@mui/material";
+import { Box, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField } from "@mui/material";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import dayjs, { Dayjs } from 'dayjs';
+import { useState } from "react";
 
 function PublishRegistration() {
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+
+
     return (
         <div>
-            <div>
+            {/* <div>
                 <TextField
                     required
                     id="number-of-teammates"
                     label="Maximum number of members allowed"
                     helperText="As this is a teams event, this is a default question"
+                    sx = {{paddingTop:'10px',paddingBottom:'10px'}}
                 />
             </div>
 
-            <FormControl>
+            <FormControl sx = {{paddingTop:'10px',paddingBottom:'10px'}}>
                 <FormLabel id="hackathon-setting">Which age group do you belong to?</FormLabel>
                 <RadioGroup
                     aria-labelledby="hackathon-setting-label"
@@ -31,6 +40,7 @@ function PublishRegistration() {
                     required
                     id="organization-name"
                     label="Organization name"
+                    sx = {{paddingTop:'10px',paddingBottom:'10px'}}
                 />
             </div>
 
@@ -39,8 +49,35 @@ function PublishRegistration() {
                     required
                     id="host-name"
                     label="Host name"
+                    sx = {{paddingTop:'10px',paddingBottom:'10px'}}
                 />
-            </div>
+            </div> */}
+            <Box
+                sx = {{paddingTop:'10px',paddingBottom:'10px',display:'flex'}}
+            >
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <Box
+                        sx = {{width:'50%',paddingRight:'50px'}}
+                    >
+                        <DatePicker
+                            label="Start Date"
+                            value={startDate}
+                            onChange={(newValue) => setStartDate(newValue)}
+                        />
+                    </Box>
+                    <Box
+                        sx = {{width:'50%',paddingLeft:'50px'}}
+                    >
+                        <DatePicker
+                            label="End Date"
+                            value={endDate}
+                            onChange={(newValue) => setEndDate(newValue)}
+                        />
+                    </Box>
+                </LocalizationProvider>
+            </Box>
+
+
         </div>
     )
 }

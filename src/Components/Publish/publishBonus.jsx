@@ -1,6 +1,6 @@
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField } from "@mui/material";
 
-function PublishOrganizer() {
+function PublishBonus() {
     return (
         <div>
             <div>
@@ -35,4 +35,4 @@ function PublishOrganizer() {
     )
 }
 
-export default PublishOrganizer;
+export default PublishBonus;

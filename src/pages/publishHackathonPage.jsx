@@ -1,29 +1,34 @@
 import { useState } from "react"
 import PublishEssentials from "../Components/Publish/publishEssentials";
-import { Button } from "@mui/material";
-import PublishOrganizer from "../Components/Publish/publishOrganizer";
+import { Box, Button } from "@mui/material";
+import PublishBonus from "../Components/Publish/publishBonus";
 import PublishRegistration from "../Components/Publish/publishRegistration";
 
 function publishHackathonPage() {
     const [page,setPage] = useState(1);
     return (
         <>
-            <div>
-                Page {page} of 7
-            </div>
+        <Box
+            sx={{
+                bgcolor: 'background.paper',
+                justifyContent: 'center',
+                paddingTop: '50px',
+                width: '500px',
+            }}
+        >
             <PublishEssentials/>
-            <PublishOrganizer/>
+            {/* <PublishBonus/> */}
             <PublishRegistration/>
 
             <div>
-                <Button>
-                    Save Draft
-                </Button>
-
-                <Button>
-                    Next
+                <Button
+                    sx={{backgroundColor: 'orange', ':hover': {backgroundColor: 'sandybrown'},marginTop:'50px'}}
+                    variant="contained"
+                >
+                    Publish
                 </Button>
             </div>
+        </Box>
         </>
     )
 }
