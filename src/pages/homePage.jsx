@@ -16,9 +16,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 // An array to hold some dummy card values
 const cards = [1, 2, 3];
 
-// Creating a new Material UI theme
-const theme = createTheme();
-
 // Defining the main Album component as the default export
 export default function Album() {
   // Rendering the Album component and returning JSX elements

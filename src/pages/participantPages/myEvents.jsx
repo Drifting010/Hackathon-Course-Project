@@ -16,9 +16,6 @@ import Box from '@mui/material/Box';
 // An array of card objects to be displayed
 const cards = [1];
 
-// Creating a Material-UI theme object
-const theme = createTheme();
-
 export default function MyEvents(props) {
   return (
     <div>

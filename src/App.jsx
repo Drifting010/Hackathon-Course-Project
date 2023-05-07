@@ -22,8 +22,6 @@ import './App.css'
 
 export default function App() {
 
-  const theme = createTheme();
-
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>

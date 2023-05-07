@@ -9,8 +9,6 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import { getUser } from '../../Components/firebase/firebaseFunction';
 import { auth } from '../../firebaseConfig';
 
-const theme = createTheme();
-
 export default function Profile() {
     const [user, setUser] = React.useState(null);
     const [loading, setLoading] = React.useState(true);

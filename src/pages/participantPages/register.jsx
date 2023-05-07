@@ -7,8 +7,6 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 
-const theme = createTheme();
-
 export default function RegisterHackathons() {
 
     // State for Cancel and Register buttons hover

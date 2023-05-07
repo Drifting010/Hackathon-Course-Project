@@ -15,9 +15,6 @@ const initialFilters = { tag: null, offset: null, status: null}
 // An array of card objects to be displayed
 const cards = [1, 2, 3];
 
-// Creating a Material-UI theme object
-const theme = createTheme();
-
 // Exporting a React functional component named 'Explopre'
 export default function Explopre() {
 
