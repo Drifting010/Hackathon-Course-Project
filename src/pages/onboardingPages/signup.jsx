@@ -168,7 +168,7 @@ export default function Signup() {
                             mb: '10px',
                             fontFamily: 'Inter',
                             fontStyle: 'normal',
-                            fontSize: '18px',
+                            fontSize: '25px',
                             fontWeight: 700,
                             letterSpacing: '0.75px',
                             color: '#FFFFFF',

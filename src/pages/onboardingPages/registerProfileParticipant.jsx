@@ -56,9 +56,11 @@ export default function RegisterProfileParticipant() {
             <Box
                 sx={{
                     display: 'flex',
+                    flexDirection: 'column', 
                     justifyContent: 'center',
                     alignItems: 'center',
-                    minHeight: '100vh',
+                    minHeight: '100vh', 
+                    pt: '5rem', 
                 }}
             >
                 {/* Inner Box containing the form */}
@@ -100,7 +102,7 @@ export default function RegisterProfileParticipant() {
                         name="username"
                         value={username}
                         onChange={handleFormDataChange}
-                        sx={{ mb: '20px', width: '450px', background: '#21262D' }}
+                        sx={{ mb: '20px', width: '500px', background: '#21262D' }}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -178,7 +180,7 @@ export default function RegisterProfileParticipant() {
                         name="description"
                         value={description}
                         onChange={handleFormDataChange}
-                        sx={{ mb: '30px', width: '450px', background: '#21262D' }}
+                        sx={{ mb: '30px', width: '500px', background: '#21262D' }}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -195,7 +197,7 @@ export default function RegisterProfileParticipant() {
                             name="participant_proceed"
                             disabled={!formValid}
                             sx={{
-                                width: '450px',
+                                width: '500px',
                                 height: '40px',
                                 background: '#FF9300',
                                 color: '#F7F7FC',

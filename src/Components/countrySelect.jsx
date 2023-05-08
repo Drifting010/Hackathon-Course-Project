@@ -11,7 +11,7 @@ export default function CountrySelect({ value, onChange }) {
         // Autocomplete component for country selection
         <Autocomplete
             id="country-select-demo"
-            sx={{ width: '450px', background: '#21262D' }}
+            sx={{ width: '500px', background: '#21262D' }}
             options={countries} // Array of country objects
             autoHighlight
             value={value}
