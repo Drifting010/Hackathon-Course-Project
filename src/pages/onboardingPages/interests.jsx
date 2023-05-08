@@ -1,7 +1,7 @@
 import * as React from 'react';
-import TagsSelector from '../Components/tagsSelector'
+import TagsSelector from '../../Components/tagsSelector'
 import { ThemeProvider } from '@mui/material/styles';
-import theme from '../Components/theme';
+import theme from '../../Components/theme';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
