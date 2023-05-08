@@ -4,7 +4,8 @@ import {
 } from 'firebase/firestore';
 import { db, auth, storage } from '../../firebaseConfig';
 import {  ref, uploadBytes, getDownloadURL} from 'firebase/storage';
-import { signInWithPopup, signInWithEmailAndPassword ,signOut, createUserWithEmailAndPassword,updateProfile} from 'firebase/auth';
+import { //signInWithPopup,
+   signInWithEmailAndPassword ,signOut, createUserWithEmailAndPassword,updateProfile} from 'firebase/auth';
 
 // Add a new hackathon to the 'hackathons' collection
 const addHackathon = async (hackathon) => {
@@ -235,12 +236,13 @@ const downLoadFile = (fileRef) => {
     xhr.responseType = 'blob';
     xhr.onload = (event) => {
       const blob = xhr.response;
+      return [event, blob];
     }
     xhr.open('GET', url);
     xhr.send();
   })
   .catch((error) => {
-    console.error('error download file')
+    console.error('error download file', error)
   })
  };
 

@@ -1,6 +1,6 @@
 import {
   createUserWithEmailAndPasswordFunction,
-  signInWithGoogleFunction,
+  //signInWithGoogleFunction,
   signInWithEmailAndPasswordFunction,
   signOutFunction,
   getUser,
@@ -9,7 +9,7 @@ import {
   getMultipleDocuments,
 } from "../../src/Components/firebase/firebaseFunction";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { app, auth } from '../../src/firebaseConfig';
+import { app } from '../../src/firebaseConfig';
 
 /// Replace this with your Firebase mocks or test Firebase instance
 const testAuth = getAuth();

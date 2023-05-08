@@ -1,5 +1,5 @@
 import { test } from 'vitest';
-import { getDownloadURL, ref } from 'firebase/storage';
+import { ref } from 'firebase/storage';
 import { downLoadFile } from '../../src/Components/firebase/firebaseFunction';
 import { storage } from '../../src/firebaseConfig';
 
