@@ -17,7 +17,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import { getCurrentUser, upload } from '../../../src/Components/firebase/firebaseFunction';
+import { getCurrentUser, uploadIcon } from '../../../src/Components/firebase/firebaseFunction';
 import { useEffect } from 'react';
 
 const interests = [
@@ -39,9 +39,12 @@ export default function EditProfile() {
     const [isCancelHovered, setIsCancelHovered] = React.useState(false);
     const [isSaveHovered, setIsSaveHovered] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
-    const currentUser = getCurrentUser;
+    const currentUser = getCurrentUser();
     // State for uploaded avatar
-    const [uploadedAvatar, setUploadedAvatar] = React.useState(currentUser.photoURL);
+    if (currentUser != null ){
+        const [uploadedAvatar, setUploadedAvatar] = React.useState(currentUser.photoURL);
+    }
+    const [uploadedAvatar, setUploadedAvatar] = React.useState(null);
 
     useEffect(() => {
         if (currentUser != null )
@@ -69,7 +72,8 @@ export default function EditProfile() {
     const handleAvatarUpload = (event) => {
         const file = event.target.files[0];
         if (file) {
-            upload(file, currentUser.email,setLoading)
+            console.log(currentUser.email);
+            uploadIcon(file, currentUser.email ,setLoading)
         }
     };
 

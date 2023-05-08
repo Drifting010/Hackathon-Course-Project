@@ -1,11 +1,12 @@
 /* eslint-disable no-console */
 import {
-  collection, doc, setDoc, getDoc, getDocs, query, where
+  collection, doc, setDoc, getDoc, getDocs, query, where,
 } from 'firebase/firestore';
 import { db, auth, storage } from '../../firebaseConfig';
-import {  getStorage, ref, uploadBytes, getDownloadURL,uploadBytesResumable} from 'firebase/storage';
-import { signInWithPopup, signInWithEmailAndPassword ,signOut, createUserWithEmailAndPassword, onAuthStateChanged, getAuth} from 'firebase/auth';
-import { useEffect, useState } from 'react';
+import {  ref, uploadBytes, getDownloadURL} from 'firebase/storage';
+import { signInWithPopup, signInWithEmailAndPassword ,signOut, createUserWithEmailAndPassword,updateProfile} from 'firebase/auth';
+import { dirname } from 'path';
+
 // Add a new hackathon to the 'hackathons' collection
 const addHackathon = async (hackathon) => {
   try {
@@ -190,27 +191,58 @@ const getHackathonByTag = async (filters) => {
   }
 };
 
-const upload = async (file, userId, setLoding) => {
+//upload file onto firebase storage
+const uploadIcon = async (file, userId, setLoading) => {
   const fileRef = ref(storage, 'userIcons/' + userId);
 
-  setLoding(true);
+  setLoading(true);
 
   const snapshot = await uploadBytes(fileRef, file);
-
+  
+  console.log(snapshot);
+  const photoURL = await getDownloadURL(fileRef)
+  const currentUser = getCurrentUser();
+  if (currentUser != null) {
+    updateProfile(getCurrentUser(), {photoURL});
+  }
+  
   setLoading(false);
   alert("uploaded!")
-
+  return photoURL;
 }
 
-const saveUserPhotoURLToFirestore = async (userId, imageURL) => {
-  try {
-    const userRef = doc(db, 'users', userId);
-    await setDoc (userRef, {photoURL: imageURL} ,{merge:true});
-    console.log("User photo URL saved for user:", userId);
-  } catch (error) {
-    console.error("Error saving user photo URL to Firestore:", error);
-  }
+//Upload files with given file reference in db and file
+const uploadFile = async (file, fileRef) => {
+
+  const snapshot = await uploadBytes(fileRef, file);
+  
+  console.log(snapshot);
+  const downLoadURL = await getDownloadURL(fileRef)
+  alert("uploaded!")
+  return downLoadURL;
 }
+
+const setRef = async (userId, dir) => {
+  const fileRef = ref(storage, dir + '/' + userId);
+
+  return fileRef;
+}
+
+//download file from storage via given ref
+const downLoadFile = async (fileRef) => {
+  getDownloadURL(fileRef).then((url) => {
+    const xhr =new XMLHttpRequest();
+    xhr.responseType = 'blob';
+    xhr.onload = (event) => {
+      const blob = xhr.response;
+    }
+    xhr.open('GET', url);
+    xhr.send();
+  })
+  .catch((error) => {
+    console.error('error download file')
+  })
+ };
 
 //Get Current User
 const getCurrentUser = () => {
@@ -234,7 +266,9 @@ export {
   getDocumentInCollectionById,
   getMultipleDocuments,
   getHackathonByTag,
-  upload,
-  saveUserPhotoURLToFirestore,
+  uploadIcon,
   getCurrentUser,
+  uploadFile,
+  downLoadFile,
+  setRef,
 };

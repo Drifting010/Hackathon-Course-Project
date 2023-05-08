@@ -7,7 +7,6 @@ import {
   getAllDocumentations,
   getDocumentInCollectionById,
   getMultipleDocuments,
-  storage,
 } from "../../src/Components/firebase/firebaseFunction";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { app, auth } from '../../src/firebaseConfig';
