@@ -1,12 +1,12 @@
 import * as React from 'react';
 import TagsSelector from '../Components/tagsSelector'
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '../Components/theme';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-const theme = createTheme();
-
+// This is the main function that returns the interests component
 export default function Interests({ TagsSelectorComponent = TagsSelector }) {
     // Sample tags for the user to choose from
     const tags = ['Tag 1', 'Tag 2', 'Tag 3', 'Tag 4', 'Tag 5', 'Tag 6', 'Tag 7', 'Tag 8', 'Tag 9', 'Tag 10', 'Tag 11', 'Tag 12'];

@@ -224,3 +224,31 @@ export default function Signup() {
         </>
     )
 }
+                            <div className='field'>
+                                <div className='inputVal'>
+                                    <input type='text' role='textbox' name='h_email' value={formData.h_email} onChange={(event) => { handleFormDataChange(event) }} placeholder='Email (Host)' /><br />
+                                    {/* <span>{errorMessage.email}</span> */}
+                                </div>
+                            </div>
+                            <div className='field'>
+                                <div className='inputVal'>
+                                    <input type='password' role='textbox' name='h_pwd' value={formData.h_pwd} onChange={(event) => { handleFormDataChange(event) }} placeholder='Password (Host)' /><br />
+                                    {/* <span>{errorMessage.pwd}</span> */}
+                                </div>
+                            </div>
+                            <div className='field'>
+                                <div className='inputVal'>
+                                    <input type='password' role='textbox' name='h_pwdConfirm' value={formData.h_pwdConfirm} onChange={(event) => { handleFormDataChange(event) }} placeholder='Confirm Password (Host)' /><br />
+                                    {/* <span>{errorMessage.pwdConfirm}</span> */}
+                                </div>
+                            </div>
+                            <div className='field'>
+                                <button data-testid='submit_host' type='submit' name='host_proceed' disabled={!formValid}>Host Proceed</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div >
+        </>
+    )
+}
