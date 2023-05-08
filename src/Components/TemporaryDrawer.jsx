@@ -7,6 +7,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 
+// This is the main function that returns the temporaryDrawer component
 export default function TemporaryDrawer({onTagClick}) {
   const [state, setState] = React.useState(false);
 

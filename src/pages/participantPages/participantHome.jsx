@@ -14,6 +14,7 @@ import { EmojiPeople } from '@mui/icons-material';
 
 const cards = [1, 2, 3, 4, 5, 6];
 
+// This is the main function that returns the participantHome component
 export default function ParticipantHome() {
 
     // Handle the page change event of the Pagination component

@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import HttpsOutlinedIcon from '@mui/icons-material/HttpsOutlined';
 
 
+// This is the main function that returns the accountSetting component
 export default function AccountSetting() {
 
     // States for managing password and confirm password values and error messages
