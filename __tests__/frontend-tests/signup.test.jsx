@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, fireEvent } from '@testing-library/react';
-import Signup from '../../src/pages/signup';
+import Signup from '../../src/pages/onboardingPages/signup';
 
 describe('Signup', () => {
     it('Renders all input and button elements correctly', () => {
