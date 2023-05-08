@@ -2,12 +2,9 @@ import React, { useState } from 'react';
 import { Button, Grid, Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 
-// TagsSelector component takes an array of tags and an onSubmit function as props
 const TagsSelector = ({ tags, onSubmit }) => {
-    // Initialize selectedTags state to hold the currently selected tags
     const [selectedTags, setSelectedTags] = useState([]);
 
-    // Function to handle the selection and deselection of tags
     const handleTagClick = (tag) => {
         if (selectedTags.includes(tag)) {
             setSelectedTags(selectedTags.filter((t) => t !== tag));
@@ -16,7 +13,6 @@ const TagsSelector = ({ tags, onSubmit }) => {
         }
     };
 
-    // Function to handle the submission of selected tags
     const handleSubmit = () => {
         onSubmit(selectedTags);
     };
@@ -24,8 +20,6 @@ const TagsSelector = ({ tags, onSubmit }) => {
     return (
         <>
             <Box>
-
-                {/* Create a grid container to display the tags in a responsive layout */}
                 <Grid container justifyContent="center">
                     <Grid item xs={12} sm={6}>
                         <Box display="flex" justifyContent="space-around" flexWrap="wrap">
@@ -36,18 +30,15 @@ const TagsSelector = ({ tags, onSubmit }) => {
                                         sx={{
                                             padding: '7px 16px',
                                             gap: '8px',
-
                                             height: '32px',
                                             background: '#21262D',
                                             borderRadius: '39px',
                                             border: selectedTags.includes(tag) ? '1px solid #FF9300' : 'none',
                                         }}
-
                                         onClick={() => handleTagClick(tag)}
                                     >
                                         <Typography
                                             sx={{
-
                                                 fontFamily: 'Inter',
                                                 fontStyle: 'normal',
                                                 fontWeight: 500,
@@ -67,10 +58,7 @@ const TagsSelector = ({ tags, onSubmit }) => {
                     </Grid>
                 </Grid>
 
-                {/* Create a grid container for the Submit button */}
-
-                <Box mt={2} display="flex" justifyContent="flex-start" sx={{ ml: '140px' }}>
-                    {/* Create a Submit button that changes its appearance when hovered */}
+                <Box mt={2} display="flex" justifyContent="flex-start" sx={{ ml: '120px' }} >
                     <Button
                         type="submit"
                         onClick={handleSubmit}
@@ -90,7 +78,6 @@ const TagsSelector = ({ tags, onSubmit }) => {
                         Submit
                     </Button>
                 </Box>
-
 
             </Box >
         </>
