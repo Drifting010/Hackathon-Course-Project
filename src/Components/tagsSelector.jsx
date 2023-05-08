@@ -22,15 +22,16 @@ const TagsSelector = ({ tags, onSubmit }) => {
             <Box>
                 <Grid container justifyContent="center">
                     <Grid item xs={12} sm={6}>
-                        <Box display="flex" justifyContent="space-around" flexWrap="wrap">
-                            {/* Map the tags to Button components */}
+                        <Box display="flex" justifyContent="flex-start" flexWrap="wrap" gap={1}>
                             {tags.map((tag) => (
-                                <Box key={tag} m={1}>
+                                <Box key={tag} m={1} width="20%" >
                                     <Button
+                                        fullWidth
                                         sx={{
                                             padding: '7px 16px',
                                             gap: '8px',
                                             height: '32px',
+                                            minWidth: '100px',
                                             background: '#21262D',
                                             borderRadius: '39px',
                                             border: selectedTags.includes(tag) ? '1px solid #FF9300' : 'none',
@@ -58,7 +59,7 @@ const TagsSelector = ({ tags, onSubmit }) => {
                     </Grid>
                 </Grid>
 
-                <Box mt={2} display="flex" justifyContent="flex-start" sx={{ ml: '120px' }} >
+                <Box mt={2} display="flex" justifyContent="flex-start" sx={{ ml: '240px' }} >
                     <Button
                         type="submit"
                         onClick={handleSubmit}
@@ -78,8 +79,7 @@ const TagsSelector = ({ tags, onSubmit }) => {
                         Submit
                     </Button>
                 </Box>
-
-            </Box >
+            </Box>
         </>
     );
 };

@@ -37,12 +37,12 @@ export default function Interests({ TagsSelectorComponent = TagsSelector }) {
                     }}
                 >
                     <Grid container justifyContent="center">
-                        <Grid item xs={12} sm={8}>
+                        <Grid item xs={12} sm={10}>
                             {/* Display a heading for the interests selection */}
                             <Typography
                                 sx={{
                                     mb: '20px',
-                                    ml:'140px',
+                                    ml:'240px',
                                     fontFamily: 'Inter',
                                     fontStyle: 'normal',
                                     fontSize: '25px',
@@ -58,7 +58,7 @@ export default function Interests({ TagsSelectorComponent = TagsSelector }) {
                             <Typography
                                 sx={{
                                     mb: '20px',
-                                    ml:'140px',
+                                    ml:'240px',
                                     fontFamily: 'Inter',
                                     fontStyle: 'normal',
                                     fontSize: '14px',
