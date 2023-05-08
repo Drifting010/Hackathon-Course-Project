@@ -2,6 +2,8 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import InputAdornment from '@mui/material/InputAdornment';
+import PublicOutlinedIcon from '@mui/icons-material/PublicOutlined';
 
 // This is the main function that returns the countrySelect component
 export default function CountrySelect() {
@@ -9,7 +11,7 @@ export default function CountrySelect() {
         // Autocomplete component for country selection
         <Autocomplete
             id="country-select-demo"
-            sx={{ width: 500 }}
+            sx={{ width: '450px', background: '#21262D' }}
             options={countries} // Array of country objects
             autoHighlight
             getOptionLabel={(option) => option.label} // Display country label in the input field
@@ -36,6 +38,14 @@ export default function CountrySelect() {
                     inputProps={{
                         ...params.inputProps,
                         autoComplete: 'new-password', // disable autocomplete and autofill
+                    }}
+                    InputProps={{
+                        ...params.InputProps,
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <PublicOutlinedIcon />
+                            </InputAdornment>
+                        ),
                     }}
                 />
             )}
