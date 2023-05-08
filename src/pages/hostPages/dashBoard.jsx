@@ -10,17 +10,17 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { ThemeProvider } from '@mui/material/styles';
+import theme from '../../Components/theme';
 import { LinearProgress } from '@mui/material';
 import Box from '@mui/material/Box';
-import theme from '../../Components/theme';
 
 // An array of card objects to be displayed
 const cards = [1];
 
-// This is the main function that returns the dashboard component
-export default function DeshBoard(props) {
+// This is the main function that returns the Dashboard component
+export default function Dashboard(props) {
   return (
-    <div sx={{}}>
+    <div>
       {props.isLoggedIn && props.data ? (
         <ThemeProvider theme={theme}>
           <CssBaseline />
@@ -37,28 +37,27 @@ export default function DeshBoard(props) {
                     }}
                     data-testid="card"
                   >
-                    {/* card image */}
                     <CardMedia
                       component="img"
                       sx={{}}
                       image="https://source.unsplash.com/random"
                       alt="random"
                     />
-                    {/* card content */}
                     <CardContent sx={{ flexGrow: 1 }}>
-                      {/* card title */}
                       <Typography gutterBottom variant="h5" component="h2">
                         title
                       </Typography>
-                      {/* card prize pool */}
                       <Typography>prize pool $1000</Typography>
-                      {/* progress bar */}
                       <Stack direction="row" alignItems="center" spacing={2}>
-                        <LinearProgress />
-                        <Typography variant="body2" color="text.secondary">
-                          60%
-                        </Typography>
+                        <LinearProgress
+                          sx={{ height: 10, width: '60%' }}
+                          color="secondary"
+                          variant="determinate"
+                          value={50}
+                        />
+                        <Typography fontSize="10px">Apply in 30 days</Typography>
                       </Stack>
+                      <Typography>ongoing</Typography>
                     </CardContent>
                   </Card>
                 </Grid>
@@ -67,12 +66,29 @@ export default function DeshBoard(props) {
           </Container>
         </ThemeProvider>
       ) : (
-        // if user is not logged in or data is not available, show login button
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-          <Button variant="contained" component={Link} to="/login">
-            Login
-          </Button>
-        </Box>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Container sx={{ py: 2 }} maxWidth="md">
+            <Box align="center">
+              <img src="src\Icons\EmptyIcon.png" alt="Currently my event is empty" width="50%" height="50%"/>
+            </Box>
+            <Typography
+              component="h1"
+              variant="h5"
+              align="center"
+              color="text.primary"
+              gutterBottom
+            >
+              You havent hosted any hackathon.
+            </Typography>
+            <Typography variant="h8" align="center" color="text.secondary" paragraph>
+              The hackathons hosted by you will be shown here
+            </Typography>
+            <Box align="center">
+              <Button variant="outlined" text-decoration="none"> <Link to="/host_home">Host a Hackathon now</Link></Button>
+            </Box>
+          </Container>
+        </ThemeProvider>
       )}
     </div>
   );
