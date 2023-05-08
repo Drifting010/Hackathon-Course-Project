@@ -4,7 +4,10 @@ import '@testing-library/jest-dom/extend-expect';
 import RegisterProfileHost from '../../src/pages/onboardingPages/registerProfileHost';
 import { countries } from "../../src/Components/countrySelect";
 
+// Describe a test suite for the RegisterProfileHost component
 describe("RegisterProfileHost", () => {
+
+    // Test case: Check if the component renders all elements correctly
     it("renders all elements correctly, all elements appeared on the page", () => {
         const { getByRole, getByLabelText } = render(<RegisterProfileHost />);
 
@@ -49,6 +52,7 @@ describe("RegisterProfileHost", () => {
         });
     });
 
+    // Test case: Check if the 'Host Proceed' button is disabled when the form is invalid
     it("disables 'Host Proceed' button when form is invalid", () => {
         // Render the component
         render(<RegisterProfileHost />);

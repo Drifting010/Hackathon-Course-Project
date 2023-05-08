@@ -4,7 +4,10 @@ import '@testing-library/jest-dom/extend-expect';
 import RegisterProfileParticipant from '../../src/pages/onboardingPages/registerProfileParticipant';
 import { countries } from "../../src/Components/countrySelect";
 
+// Describe a test suite for the RegisterProfileParticipant component
 describe("RegisterProfileParticipant", () => {
+
+    // Test case: Check if the component renders all elements correctly
     it("renders all elements correctly, all elements appeared on the page", () => {
         const { getByRole, getByLabelText } = render(<RegisterProfileParticipant />);
 
@@ -48,6 +51,7 @@ describe("RegisterProfileParticipant", () => {
         });
     });
 
+    // Test case: Check if the 'Participant Proceed' button is disabled when the form is invalid
     it("disables 'Participant Proceed' button when form is invalid", () => {
         // Render the component
         render(<RegisterProfileParticipant />);
