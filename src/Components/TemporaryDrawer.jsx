@@ -6,6 +6,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
+import { getAllTags } from './firebase/firebaseFunction';
 
 export default function TemporaryDrawer({onTagClick}) {
   const [state, setState] = React.useState(false);
@@ -21,6 +22,16 @@ export default function TemporaryDrawer({onTagClick}) {
     setState({ state, [anchor]: open });
   };
 
+  // get tags from firebase
+  const [tags, setTags] = React.useState([])
+  React.useEffect(() => {
+    async function fetchData() {
+      const Data = await getAllTags('hackathonTags');
+      setTags(Data);
+    }
+    fetchData();
+  }, []);
+
   // Define a function that renders the list of tags for the drawer
   const list = (anchor) => (
     <Box
@@ -30,7 +41,8 @@ export default function TemporaryDrawer({onTagClick}) {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {['JavaScript', 'Python', 'C++', 'Red'].map((tag) => (
+        {/* {['JavaScript', 'Python', 'C++', 'Red'].map((tag) => ( */}
+        {tags.map((tag) => (
           <ListItem key={tag} disablePadding>
             <ListItemButton onClick={() => {
                 // Call the onTagClick function with the selected tag as an argument

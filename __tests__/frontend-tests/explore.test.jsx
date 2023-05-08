@@ -5,7 +5,7 @@ import Explopre from '../../src/pages/participantPages/explore';
 
 describe('Explopre', () => {
   it('renders all elements correctly, all elements appeared on the page', () => {
-    const { getAllByRole, getAllByTestId } = render(<Explopre />);
+    const { getAllByRole } = render(<Explopre />);
 
     // test buttons
     const buttonLabels = ['All', 'Ongoing', 'Finished', 'TAG'];
