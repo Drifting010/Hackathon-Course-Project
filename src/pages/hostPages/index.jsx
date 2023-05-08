@@ -1,0 +1,7 @@
+export { default as HostHome } from './hostHome'
+export { default as Dashboard } from './dashBoard'
+export { default as DataAnalytics } from './dataAnalytics'
+export { default as HelpCentre } from './helpCentre'
+export { default as HostAccountSetting } from './hostAccount'
+export { default as HostProfile } from './hostProfile'
+export { default as HostEditprofile } from './hostEditprofile'

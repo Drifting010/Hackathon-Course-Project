@@ -13,6 +13,7 @@ import { LinearProgress } from '@mui/material';
 const initialFilters = { tag: null, offset: null, status: null }
 // const limit = 10
 
+// This is the main function that returns the hackathonList component
 function HackathonList({ filters = initialFilters }) {
   // const [offset, setOffset] = useState(0)
   const [data, setData] = useState([]);

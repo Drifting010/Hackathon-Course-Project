@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { ThemeProvider } from '@mui/material/styles';
-import theme from '../../Components/theme';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -17,8 +16,8 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import { getCurrentUser, upload } from '../../../src/Components/firebase/firebaseFunction';
-import { useEffect } from 'react';
+
+import theme from '../../Components/theme';
 
 const interests = [
     'Abc',
@@ -32,21 +31,12 @@ const skills = [
     'Cba',
 ];
 
-// This is the main function that returns the editProfile component
-export default function EditProfile() {
+// This is the main function that returns the hostEditprofile component
+export default function HostEditprofile() {
 
     // State for Cancel and Save buttons hover
     const [isCancelHovered, setIsCancelHovered] = React.useState(false);
     const [isSaveHovered, setIsSaveHovered] = React.useState(false);
-    const [loading, setLoading] = React.useState(false);
-    const currentUser = getCurrentUser;
-    // State for uploaded avatar
-    const [uploadedAvatar, setUploadedAvatar] = React.useState(currentUser.photoURL);
-
-    useEffect(() => {
-        if (currentUser != null )
-        setUploadedAvatar(currentUser.photoURL);
-    },[currentUser])
 
     // Event handlers for Cancel and Save buttons hover
     const handleCancelMouseEnter = () => {
@@ -65,11 +55,18 @@ export default function EditProfile() {
         setIsSaveHovered(false);
     };
 
+    // State for uploaded avatar
+    const [uploadedAvatar, setUploadedAvatar] = React.useState(null);
+
     // Event handler for avatar upload
     const handleAvatarUpload = (event) => {
         const file = event.target.files[0];
         if (file) {
-            upload(file, currentUser.email,setLoading)
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setUploadedAvatar(reader.result);
+            };
+            reader.readAsDataURL(file);
         }
     };
 
@@ -111,7 +108,6 @@ export default function EditProfile() {
                                 color="primary"
                                 aria-label="upload picture"
                                 component="label"
-                                disabled = {loading}
                             >
                                 <input
                                     hidden

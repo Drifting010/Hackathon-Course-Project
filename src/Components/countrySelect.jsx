@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
+// This is the main function that returns the countrySelect component
 export default function CountrySelect() {
     return (
         // Autocomplete component for country selection
