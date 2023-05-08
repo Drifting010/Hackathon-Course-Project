@@ -2,7 +2,6 @@ import CountrySelect, { countries } from '../../src/Components/countrySelect';
 import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
 import '@testing-library/jest-dom/extend-expect';
-import sinon from 'sinon';
 
 describe("CountrySelect component", () => {
     it("renders the Autocomplete component correctly", () => {
