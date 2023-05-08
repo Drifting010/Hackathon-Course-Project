@@ -14,10 +14,11 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+
 import theme from '../../Components/theme';
 
-// This is the main function that returns the accountSetting component
-export default function AccountSetting() {
+// This is the main function that returns the hostAccountSetting component
+export default function HostAccountSetting() {
     
     // States to manage password and confirm password visibility
     const [showPassword, setShowPassword] = React.useState(false);

@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 
+// This is the main function that returns the registerHackathons component
 export default function RegisterHackathons() {
 
     // State for Cancel and Register buttons hover

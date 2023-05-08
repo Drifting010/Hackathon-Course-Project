@@ -13,8 +13,8 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Link from '@mui/material/Link';
 
-// This is the main function that returns the participantHeader component
-export default function ParticipantHeader() {
+// This is the main function that returns the hostHeader component
+export default function HostHeader() {
 
     // useState hook to handle user menu opening and closing
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -43,17 +43,24 @@ export default function ParticipantHeader() {
                         <nav>
                             <Link
                                 variant="button"
-                                href="./explore_hackathons"
+                                href="./dashboard"
                                 sx={{ my: 2, mr: 2, color: 'white', display: 'inline-block', textTransform: 'none', textDecoration: 'none' }}
                             >
-                                Explore Hackathons
+                                Dashboard
                             </Link>
                             <Link
                                 variant="button"
-                                href="./my_events"
+                                href="./data_analytics"
+                                sx={{ my: 2, mr: 2, color: 'white', display: 'inline-block', textTransform: 'none', textDecoration: 'none' }}
+                            >
+                                Data Analytics
+                            </Link>
+                            <Link
+                                variant="button"
+                                href="./help_centre"
                                 sx={{ my: 2, color: 'white', display: 'inline-block', textTransform: 'none', textDecoration: 'none' }}
                             >
-                                My Events
+                                Help Centre
                             </Link>
                         </nav>
                     </Box>
@@ -65,7 +72,7 @@ export default function ParticipantHeader() {
                             variant="h6"
                             noWrap
                             component="a"
-                            href="./participant_home"
+                            href="./host_home"
                             sx={{
                                 mr: 2,
                                 display: { xs: 'none', md: 'flex' },
@@ -89,7 +96,7 @@ export default function ParticipantHeader() {
                             href="#"
                             sx={{ my: 2, mr: 2, color: 'white', display: 'inline-block', textTransform: 'none' }}
                         >
-                            Switch to Hosting
+                            Switch to attending
                         </Button>
                         <Tooltip>
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -116,7 +123,7 @@ export default function ParticipantHeader() {
                                 <Typography
                                     textAlign="center"
                                     component="a"
-                                    href="./profile"
+                                    href="./host_profile"
                                     sx={{ textDecoration: 'none', color: 'black' }}
                                     data-testid="menu-item-profile"
                                 >
@@ -127,22 +134,11 @@ export default function ParticipantHeader() {
                                 <Typography
                                     textAlign="center"
                                     component="a"
-                                    href="./account"
+                                    href="./host_account"
                                     sx={{ textDecoration: 'none', color: 'black' }}
                                     data-testid="menu-item-account"
                                 >
                                     Account
-                                </Typography>
-                            </MenuItem>
-                            <MenuItem key="dashboard" onClick={handleCloseUserMenu}>
-                                <Typography
-                                    textAlign="center"
-                                    component="a"
-                                    href="#"
-                                    sx={{ textDecoration: 'none', color: 'black' }}
-                                    data-testid="menu-item-dashboard"
-                                >
-                                    Dashboard
                                 </Typography>
                             </MenuItem>
                             <MenuItem key="logout" onClick={handleCloseUserMenu}>
