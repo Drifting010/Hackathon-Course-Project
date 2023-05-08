@@ -7,14 +7,15 @@ import {
   getAllDocumentations,
   getDocumentInCollectionById,
   getMultipleDocuments,
-  app,
+  storage,
 } from "../../src/Components/firebase/firebaseFunction";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { db } from "../../src/firebaseConfig";
+import { app, auth } from '../../src/firebaseConfig';
 
 /// Replace this with your Firebase mocks or test Firebase instance
 const testAuth = getAuth();
 app;
+
 // Test createUserWithEmailAndPassword
 test("create user with email and password", async () => {
   const email = "test@example.com";
@@ -64,6 +65,7 @@ test("create user with email and password", async () => {
 // });
 
 // Test signInWithEmailAndPassword
+// Test signInWithEmailAndPassword
 test("sign in with email and password and sign out", async () => {
   const username = "TestUser";
   const role = "user";
@@ -82,37 +84,41 @@ test("sign in with email and password and sign out", async () => {
   // Call the signInWithEmailAndPassword function
   await signInWithEmailAndPasswordFunction(email, password);
 
-  // Verify that the user was created
-  const userCreated = await new Promise((resolve) => {
-    const unsubscribe = onAuthStateChanged(testAuth, (user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        resolve(user);
-      } else {
-        // User is signed out
-        resolve(null);
-      }
+  let unsubscribe;
+
+  try {
+    // Verify that the user was created
+    const userCreated = await new Promise((resolve) => {
+      unsubscribe = onAuthStateChanged(testAuth, (user) => {
+        if (user) {
+          // User is signed in, see docs for a list of available properties
+          // https://firebase.google.com/docs/reference/js/firebase.User
+          resolve(user);
+        } else {
+          // User is signed out
+          resolve(null);
+        }
+      });
     });
 
-    // Cleanup the listener when the test is done
-    afterEach(() => {
+    console.log(userCreated);
+    expect(userCreated).not.toBeNull();
+
+    // Get the user data from Firestore
+    const userData = await getUser(userCreated.email);
+
+    // Verify that the user data is correct
+    expect(userData.email).toEqual(userCreated.email);
+
+    // Sign out the user
+    await signOutFunction();
+  } finally {
+    if (unsubscribe) {
       unsubscribe();
-    });
-  });
-
-  console.log(userCreated);
-  expect(userCreated).not.toBeNull();
-
-  // Get the user data from Firestore
-  const userData = await getUser(userCreated.email);
-
-  // Verify that the user data is correct
-  expect(userData.email).toEqual(userCreated.email);
-
-  // Sign out the user
-  await signOutFunction();
+    }
+  }
 });
+
 
 // Test signUserOut
 test("sign out user", async () => {

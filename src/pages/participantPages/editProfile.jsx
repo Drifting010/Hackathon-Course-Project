@@ -17,6 +17,8 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
+import { getCurrentUser, upload } from '../../../src/Components/firebase/firebaseFunction';
+import { useEffect } from 'react';
 
 const interests = [
     'Abc',
@@ -35,6 +37,15 @@ export default function EditProfile() {
     // State for Cancel and Save buttons hover
     const [isCancelHovered, setIsCancelHovered] = React.useState(false);
     const [isSaveHovered, setIsSaveHovered] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
+    const currentUser = getCurrentUser;
+    // State for uploaded avatar
+    const [uploadedAvatar, setUploadedAvatar] = React.useState(currentUser.photoURL);
+
+    useEffect(() => {
+        if (currentUser != null )
+        setUploadedAvatar(currentUser.photoURL);
+    },[currentUser])
 
     // Event handlers for Cancel and Save buttons hover
     const handleCancelMouseEnter = () => {
@@ -53,18 +64,11 @@ export default function EditProfile() {
         setIsSaveHovered(false);
     };
 
-    // State for uploaded avatar
-    const [uploadedAvatar, setUploadedAvatar] = React.useState(null);
-
     // Event handler for avatar upload
     const handleAvatarUpload = (event) => {
         const file = event.target.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setUploadedAvatar(reader.result);
-            };
-            reader.readAsDataURL(file);
+            upload(file, currentUser.email,setLoading)
         }
     };
 
@@ -106,6 +110,7 @@ export default function EditProfile() {
                                 color="primary"
                                 aria-label="upload picture"
                                 component="label"
+                                disabled = {loading}
                             >
                                 <input
                                     hidden

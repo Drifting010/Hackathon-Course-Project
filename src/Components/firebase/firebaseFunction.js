@@ -2,9 +2,10 @@
 import {
   collection, doc, setDoc, getDoc, getDocs, query, where
 } from 'firebase/firestore';
-import { db, auth } from '../../firebaseConfig';
-import { signInWithPopup, signInWithEmailAndPassword ,signOut, createUserWithEmailAndPassword} from 'firebase/auth';
-
+import { db, auth, storage } from '../../firebaseConfig';
+import {  getStorage, ref, uploadBytes, getDownloadURL,uploadBytesResumable} from 'firebase/storage';
+import { signInWithPopup, signInWithEmailAndPassword ,signOut, createUserWithEmailAndPassword, onAuthStateChanged, getAuth} from 'firebase/auth';
+import { useEffect, useState } from 'react';
 // Add a new hackathon to the 'hackathons' collection
 const addHackathon = async (hackathon) => {
   try {
@@ -125,6 +126,7 @@ const getHackathon = async (hackathonId) => {
   }
 };
 
+//Get all documentations of one collection
 const getAllDocumentations = async (collectionName) => {
   try{
     const querySnapshot = await getDocs(collection(db, collectionName));
@@ -136,6 +138,7 @@ const getAllDocumentations = async (collectionName) => {
   
 };
 
+//Get the document by specify the id
 const getDocumentInCollectionById = async (collectionName, documentId) => {
   try {
     const docRef = doc (db, collectionName, documentId);
@@ -151,6 +154,7 @@ const getDocumentInCollectionById = async (collectionName, documentId) => {
   }
 };
 
+//Get documents which match query in one collection
 const getMultipleDocuments = async (collectionName,condition1, operator, condition2) => {
   try {
     const q = query(collection(db, collectionName), where (condition1,operator,condition2));
@@ -182,9 +186,41 @@ const getHackathonByTag = async (filters) => {
     });
     return hackathons;
   } catch (error) {
-    console.error("Error getting hackathons by tag: ", error);
+    console.error('Error getting hackathons by tag: ', error);
   }
 };
+
+const upload = async (file, userId, setLoding) => {
+  const fileRef = ref(storage, 'userIcons/' + userId);
+
+  setLoding(true);
+
+  const snapshot = await uploadBytes(fileRef, file);
+
+  setLoading(false);
+  alert("uploaded!")
+
+}
+
+const saveUserPhotoURLToFirestore = async (userId, imageURL) => {
+  try {
+    const userRef = doc(db, 'users', userId);
+    await setDoc (userRef, {photoURL: imageURL} ,{merge:true});
+    console.log("User photo URL saved for user:", userId);
+  } catch (error) {
+    console.error("Error saving user photo URL to Firestore:", error);
+  }
+}
+
+//Get Current User
+const getCurrentUser = () => {
+  const user = auth.currentUser;
+  if (user !== null) {
+    return user; 
+  }
+  console.error('No user signed in')
+  return null; 
+}
 
 export {
   addHackathon,
@@ -198,4 +234,7 @@ export {
   getDocumentInCollectionById,
   getMultipleDocuments,
   getHackathonByTag,
+  upload,
+  saveUserPhotoURLToFirestore,
+  getCurrentUser,
 };
