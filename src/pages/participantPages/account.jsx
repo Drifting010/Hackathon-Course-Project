@@ -1,177 +1,176 @@
 import React, { useState } from 'react';
-import { Alert } from '@mui/material';
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
+import { TextField, InputAdornment, Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import IconButton from '@mui/material/IconButton';
-import Input from '@mui/material/Input';
-import InputLabel from '@mui/material/InputLabel';
-import InputAdornment from '@mui/material/InputAdornment';
-import FormControl from '@mui/material/FormControl';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import theme from '../../Components/theme';
+import HttpsOutlinedIcon from '@mui/icons-material/HttpsOutlined';
+
 
 export default function AccountSetting() {
-    
-    // States to manage password and confirm password visibility
-    const [showPassword, setShowPassword] = React.useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
 
-    // Functions to toggle password and confirm password visibility
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
-    const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
-
-    // Function to prevent default behavior on mousedown event in the password field
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
-
-    // States for Cancel and Save buttons hover
-    const [isCancelHovered, setIsCancelHovered] = React.useState(false);
-    const [isSaveHovered, setIsSaveHovered] = React.useState(false);
-
-    // Event handlers for Cancel and Save buttons hover
-    const handleCancelMouseEnter = () => {
-        setIsCancelHovered(true);
-    };
-
-    const handleCancelMouseLeave = () => {
-        setIsCancelHovered(false);
-    };
-
-    const handleSaveMouseEnter = () => {
-        setIsSaveHovered(true);
-    };
-
-    const handleSaveMouseLeave = () => {
-        setIsSaveHovered(false);
-    };
-
-    // States for managing password and confirm password values and password mismatch
+    // States for managing password and confirm password values and error messages
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [passwordMismatch, setPasswordMismatch] = useState(false);
+    const [errorMessage, setErrorMessage] = useState({
+        pwd: '',
+        pwdConfirm: '',
+    });
+
+    // States for managing password and confirm password validity
+    const [pwdValid, setPwdValid] = useState(false);
+    const [pwdConfirmValid, setPwdConfirmValid] = useState(false);
 
     // Functions to handle changes in password and confirm password fields
     const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
+        const trimmedValue = e.target.value.trim();
+        setPassword(trimmedValue);
+        validateField('password', trimmedValue);
+    };
+
+    const handleConfirmPasswordChange = (e) => {
+        const trimmedValue = e.target.value.trim();
+        setConfirmPassword(trimmedValue);
+        validateField('confirmPassword', trimmedValue);
+    };
+
+    // Function to validate password and confirm password fields
+    const validateField = (fieldName, value) => {
+        let fieldValidationErrors = errorMessage;
+        let isPwdValid = pwdValid;
+        let isPwdConfirmValid = pwdConfirmValid;
+
+        switch (fieldName) {
+            case 'password':
+                isPwdValid = validatePassword(value);
+                setPwdValid(isPwdValid);
+                fieldValidationErrors.pwd = isPwdValid
+                    ? ''
+                    : 'Password must be at least 8 characters';
+                break;
+            case 'confirmPassword':
+                isPwdConfirmValid = validateConfirmPassword(value);
+                setPwdConfirmValid(isPwdConfirmValid);
+                fieldValidationErrors.pwdConfirm = isPwdConfirmValid
+                    ? ''
+                    : 'Passwords do not match';
+                break;
+            default:
+                break;
+        }
+        setErrorMessage(fieldValidationErrors);
+    };
+
+    // Function to validate password length
+    const validatePassword = (password) => {
+        return password.length >= 8;
+    };
+
+    // Function to validate confirm password match
+    const validateConfirmPassword = (pwdConfirm) => {
+        return pwdConfirm === password;
     };
 
     return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
+        <>
+            {/* Center-aligned content */}
             <Box
                 sx={{
                     display: 'flex',
                     justifyContent: 'center',
-                    pl: 40,
+                    alignItems: 'center',
+                    minHeight: '100vh',
                 }}
             >
-                <Container maxWidth="sm">
-                    {/* Account setting title */}
+                <Box
+                    sx={{
+                        textAlign: 'left',
+                    }}
+                >
+
+                    {/* Title: Account setting */}
                     <Typography
-                        component="h4"
-                        variant="h4"
-                        align="left" // Align the text to the left
-                        color="text.secondary"
-                        gutterBottom
-                        mb={2} // Add margin-bottom here
+                        sx={{
+                            mb: '20px',
+                            fontFamily: 'Inter',
+                            fontStyle: 'normal',
+                            fontSize: '18px',
+                            fontWeight: 700,
+                            lineHeight: '28px',
+                            letterSpacing: '0.75px',
+                            color: '#FFFFFF',
+                        }}
                     >
                         Account setting
                     </Typography>
 
-                    {/* Password and Confirm Password inputs wrapped in a Stack component */}
-                    <Stack spacing={2}>
-                        {/* Password input field */}
-                        <Box width="25ch">
-                            <FormControl sx={{ m: 1 }} variant="standard">
-                                <InputLabel htmlFor="standard-adornment-password">
-                                    Change Password
-                                </InputLabel>
-                                <Input
-                                    id="standard-adornment-password"
-                                    type={showPassword ? 'text' : 'password'}
-                                    value={password}
-                                    onChange={handlePasswordChange}
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={handleClickShowPassword}
-                                                onMouseDown={handleMouseDownPassword}
-                                            >
-                                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                />
-                            </FormControl>
-                        </Box>
-                        
-                         {/* Confirm password input field */}
-                        <Box width="25ch">
-                            <FormControl sx={{ m: 1 }} variant="standard">
-                                <InputLabel htmlFor="standard-adornment-confirm-password">
-                                    Double confirm
-                                </InputLabel>
-                                <Input
-                                    id="standard-adornment-confirm-password"
-                                    type={showConfirmPassword ? 'text' : 'password'}
-                                    value={confirmPassword}
-                                    onChange={handleConfirmPasswordChange}
-                                    onBlur={handleConfirmPasswordBlur}
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={handleClickShowConfirmPassword}
-                                                onMouseDown={handleMouseDownPassword}
-                                            >
-                                                {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                />
-                            </FormControl>
-                        </Box>
-                        
-                        {/* Password mismatch error message */}
-                        <Box width="30ch">
-                            {passwordMismatch && (
-                                <Alert severity="error">Passwords do not match!</Alert>
-                            )}
-                        </Box>
-                    </Stack>
-                    
-                    {/* Cancel and Save buttons */}
-                    <Box sx={{ mt: 3 }}> {/* Add margin-top to the ButtonGroup */}
-                        {/* Cancel button */}
+                    {/* Password TextField */}
+                    <Box width="425px" mb={3}>
+                        <TextField
+                            fullWidth
+                            label="Password"
+                            type="password"
+                            name="p_pwd"
+                            value={password}
+                            onChange={handlePasswordChange}
+                            error={!!errorMessage.pwd}
+                            helperText={errorMessage.pwd}
+                            sx={{ background: '#21262D', }}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <HttpsOutlinedIcon />
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </Box>
+
+                    {/* Password Confirm TextField */}
+                    <Box width="425px" mb={3}>
+                        <TextField
+                            fullWidth
+                            label="Confirm Password"
+                            type="password"
+                            name="p_pwdConfirm"
+                            value={confirmPassword}
+                            onChange={handleConfirmPasswordChange}
+                            error={!!errorMessage.pwdConfirm}
+                            helperText={errorMessage.pwdConfirm}
+                            sx={{ background: '#21262D', }}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <HttpsOutlinedIcon />
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </Box>
+
+                    {/* Submit button */}
+                    <Box width="425px" mb={3}>
                         <Button
-                            onMouseEnter={handleCancelMouseEnter}
-                            onMouseLeave={handleCancelMouseLeave}
-                            sx={{ mr: 2, textTransform: 'none' }}
-                            variant={isCancelHovered ? 'contained' : 'outlined'}
-                        >
-                            Cancel
-                        </Button>
-                        
-                        {/* Save button */}
-                        <Button
-                            onMouseEnter={handleSaveMouseEnter}
-                            onMouseLeave={handleSaveMouseLeave}
-                            sx={{ textTransform: 'none' }}
-                            variant={isSaveHovered ? 'contained' : 'outlined'}
+                            type="submit"
+                            name="save"
+                            disabled={!pwdValid || !pwdConfirmValid}
+                            sx={{
+                                width: '425px',
+                                height: '40px',
+                                background: '#FF9300',
+                                color: '#F7F7FC',
+                                textTransform: 'none',
+                                borderRadius: '5px',
+                                '&:disabled': {
+                                    background: 'rgba(255, 147, 0, 0.5)',
+                                },
+                            }}
                         >
                             Save
                         </Button>
                     </Box>
+
+                </Box>
             </Box>
-        </ThemeProvider>
+        </>
     );
 
 }
