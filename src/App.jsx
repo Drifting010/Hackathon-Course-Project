@@ -8,9 +8,9 @@ import { HeaderWrapper } from './Components/headerWrapper';
 // footer
 import { HomeFooter } from './Components/';
 //part one - onboarding
-import { Home } from './pages';
-import Signup from './pages/signup'
-import { Interests } from './pages';
+import { Home } from './pages/onboardingPages';
+import Signup from './pages/onboardingPages/signup'
+import { Interests } from './pages/onboardingPages';
 //part two - participant
 import { ParticipantHome } from './pages/participantPages';
 import { ExploreHackathons } from './pages/participantPages';
