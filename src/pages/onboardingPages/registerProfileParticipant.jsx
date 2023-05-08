@@ -56,11 +56,11 @@ export default function RegisterProfileParticipant() {
             <Box
                 sx={{
                     display: 'flex',
-                    flexDirection: 'column', 
+                    flexDirection: 'column',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    minHeight: '100vh', 
-                    pt: '5rem', 
+                    minHeight: '100vh',
+                    pt: '5rem',
                 }}
             >
                 {/* Inner Box containing the form */}
@@ -196,13 +196,18 @@ export default function RegisterProfileParticipant() {
                             type="submit"
                             name="participant_proceed"
                             disabled={!formValid}
+                            href='./interests'
                             sx={{
                                 width: '500px',
                                 height: '40px',
                                 background: '#FF9300',
-                                color: '#F7F7FC',
                                 textTransform: 'none',
                                 borderRadius: '5px',
+                                fontFamily: 'Inter',
+                                fontStyle: 'normal',
+                                fontWeight: 700,
+                                fontSize: '14px',
+                                color: '#F7F7FC',
                                 '&:disabled': {
                                     background: 'rgba(255, 147, 0, 0.5)',
                                 },

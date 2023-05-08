@@ -289,13 +289,18 @@ export default function Signup() {
                                     type="submit"
                                     name="participant_proceed"
                                     disabled={!formValid}
+                                    href='./register_profile_participant'
                                     sx={{
                                         width: '425px',
                                         height: '40px',
                                         background: '#FF9300',
-                                        color: '#F7F7FC',
                                         textTransform: 'none',
                                         borderRadius: '5px',
+                                        fontFamily: 'Inter',
+                                        fontStyle: 'normal',
+                                        fontWeight: 700,
+                                        fontSize: '14px',
+                                        color: '#F7F7FC',
                                         '&:disabled': {
                                             background: 'rgba(255, 147, 0, 0.5)',
                                         },
@@ -383,12 +388,18 @@ export default function Signup() {
                                     type="submit"
                                     name="host_proceed"
                                     disabled={!formValid}
+                                    href='./register_profile_host'
                                     sx={{
                                         width: '425px',
                                         height: '40px',
                                         background: '#FF9300',
                                         textTransform: 'none',
                                         borderRadius: '5px',
+                                        fontFamily: 'Inter',
+                                        fontStyle: 'normal',
+                                        fontWeight: 700,
+                                        fontSize: '14px',
+                                        color: '#F7F7FC',
                                         '&:disabled': {
                                             background: 'rgba(255, 147, 0, 0.5)',
                                         },

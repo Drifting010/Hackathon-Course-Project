@@ -2,6 +2,7 @@ import * as React from 'react';
 import TagsSelector from '../../Components/tagsSelector'
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 
 // This is the main function that returns the interests component
 export default function Interests({ TagsSelectorComponent = TagsSelector }) {
@@ -16,49 +17,66 @@ export default function Interests({ TagsSelectorComponent = TagsSelector }) {
     };
 
     return (
-        // Wrap the content in a ThemeProvider to apply the theme to child components
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            {/* Create a container with flexbox to center-align the content */}
+        <>
+            {/* Outer Box for centering the inner content */}
             <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="center"
-                width="100%"
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    minHeight: '100vh',
+                    pt: '1rem',
+                }}
             >
-                {/* Create a box to hold the Typography components and the TagsSelector */}
-                <Box width="80%">
-                    {/* Display a heading for the interests selection */}
-                    <Typography
-                        component="h4"
-                        variant="h4"
-                        align="left"
-                        color="text.secondary"
-                        mb={2}
-                        pl={23}
-                    >
-                        What are you interested in?
-                    </Typography>
+                {/* Inner Box containing the form */}
+                <Box
+                    sx={{
+                        textAlign: 'left',
+                        width: '100%',
+                    }}
+                >
+                    <Grid container justifyContent="center">
+                        <Grid item xs={12} sm={8}>
+                            {/* Display a heading for the interests selection */}
+                            <Typography
+                                sx={{
+                                    mb: '20px',
+                                    ml:'140px',
+                                    fontFamily: 'Inter',
+                                    fontStyle: 'normal',
+                                    fontSize: '25px',
+                                    fontWeight: 700,
+                                    letterSpacing: '0.75px',
+                                    color: '#FFFFFF',
+                                }}
+                            >
+                                What are you interested in?
+                            </Typography>
 
-                    {/* Display a sub-heading instructing users to select at least 5 interests */}
-                    <Typography
-                        component="h5"
-                        variant="h5"
-                        align="left"
-                        color="text.secondary"
-                        mb={2}
-                        pl={23}
-                    >
-                        Select at least 5 interests
-                    </Typography>
+                            {/* Display a sub-heading instructing users to select at least 5 interests */}
+                            <Typography
+                                sx={{
+                                    mb: '20px',
+                                    ml:'140px',
+                                    fontFamily: 'Inter',
+                                    fontStyle: 'normal',
+                                    fontSize: '14px',
+                                    fontWeight: 300,
+                                    letterSpacing: '0.75px',
+                                    color: '#FFFFFF',
+                                }}
+                            >
+                                Select at least 5 interests
+                            </Typography>
 
-                    {/* Render the TagsSelectorComponent with the provided tags and onSubmit function */}
-                    <TagsSelectorComponent tags={tags} onSubmit={handleTagsSubmit} />
-
+                            {/* Render the TagsSelectorComponent with the provided tags and onSubmit function */}
+                            <TagsSelectorComponent tags={tags} onSubmit={handleTagsSubmit} />
+                        </Grid>
+                    </Grid>
                 </Box>
             </Box>
-        </ThemeProvider>
+        </>
     );
 }
 
