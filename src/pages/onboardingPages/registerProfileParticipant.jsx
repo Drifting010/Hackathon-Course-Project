@@ -9,21 +9,24 @@ import CelebrationOutlinedIcon from '@mui/icons-material/CelebrationOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import Button from '@mui/material/Button';
 
+// Define RegisterProfileParticipant component
 export default function RegisterProfileParticipant() {
-
+    // State hooks for form validation, username, country, and description
     const [formValid, setFormValid] = useState(false);
     const [username, setUsername] = useState('');
     const [country, setCountry] = useState('');
     const [description, setDescription] = useState('');
 
+    // Event handler for form submission
     const handleFormSubmit = (event) => {
         event.preventDefault();
-        // Add your form submission logic here
+        // Add form submission logic here
     };
 
+    // Event handler for input fields' data changes
     const handleFormDataChange = (event) => {
         const { name, value } = event.target;
-
+        // Update the state based on the input field being changed
         switch (name) {
             case 'username':
                 setUsername(value.trim());
@@ -37,19 +40,23 @@ export default function RegisterProfileParticipant() {
             default:
                 break;
         }
-
+        // Validate the form after each change
         checkFormValid();
     };
 
+    // Check if the form is valid
     const checkFormValid = () => {
         const isValid = username !== '' && country !== '' && description !== '';
+        // Update form valid state
         setFormValid(isValid);
     };
 
+    // Effect hook to check form validity when any input field changes
     useEffect(() => {
         checkFormValid();
     }, [username, country, description]);
 
+    // Render the component
     return (
         <>
             {/* Outer Box for centering the inner content */}
@@ -147,7 +154,7 @@ export default function RegisterProfileParticipant() {
                         }}
                     />
 
-                    {/* Description */}
+                    {/* Description Input */}
                     <Typography
                         sx={{
                             mt: '10px',

@@ -10,22 +10,26 @@ import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined';
 import LinkOutlinedIcon from '@mui/icons-material/LinkOutlined';
 import Button from '@mui/material/Button';
 
+// Define a RegisterProfileHost component for registering a host (organization)
 export default function RegisterProfileHost() {
 
+    // State variables for form validation and form fields
     const [formValid, setFormValid] = useState(false);
     const [nameOfOrganization, setNameOfOrganization] = useState('');
     const [country, setCountry] = useState('');
     const [description, setDescription] = useState('');
     const [website, setWebsite] = useState('');
 
+    // Function to handle form submission
     const handleFormSubmit = (event) => {
         event.preventDefault();
-        // Add your form submission logic here
+        // Add form submission logic here
     };
 
+    // Function to handle form data changes
     const handleFormDataChange = (event) => {
         const { name, value } = event.target;
-
+        // Update state variables based on the input field
         switch (name) {
             case 'nameOfOrganization':
                 setNameOfOrganization(value.trim());
@@ -42,15 +46,17 @@ export default function RegisterProfileHost() {
             default:
                 break;
         }
-
+         // Check form validity
         checkFormValid();
     };
 
+    // Function to check form validity
     const checkFormValid = () => {
         const isValid = nameOfOrganization !== '' && country !== '' && description !== '' && website !== '';
         setFormValid(isValid);
     };
 
+    // Effect hook to update form validation state
     useEffect(() => {
         checkFormValid();
     }, [nameOfOrganization, country, description, website]);

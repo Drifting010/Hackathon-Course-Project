@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import { Button, Grid, Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 
+// Define the TagsSelector functional component, which takes 'tags' and 'onSubmit' as props
 const TagsSelector = ({ tags, onSubmit }) => {
+    // Initialize the selectedTags state
     const [selectedTags, setSelectedTags] = useState([]);
 
+    // Function to handle tag click events, toggling the selection state of a tag
     const handleTagClick = (tag) => {
         if (selectedTags.includes(tag)) {
             setSelectedTags(selectedTags.filter((t) => t !== tag));
@@ -13,6 +16,7 @@ const TagsSelector = ({ tags, onSubmit }) => {
         }
     };
 
+    // Function to handle form submission
     const handleSubmit = () => {
         onSubmit(selectedTags);
     };
@@ -22,9 +26,12 @@ const TagsSelector = ({ tags, onSubmit }) => {
             <Box>
                 <Grid container justifyContent="center">
                     <Grid item xs={12} sm={6}>
+                        {/* Container for tag buttons */}
                         <Box display="flex" justifyContent="flex-start" flexWrap="wrap" gap={1}>
+                            {/* Render a button for each tag in the 'tags' prop */}
                             {tags.map((tag) => (
                                 <Box key={tag} m={1} width="20%" >
+                                    {/* Style the tag button based on whether it is selected */}
                                     <Button
                                         fullWidth
                                         sx={{
@@ -38,6 +45,7 @@ const TagsSelector = ({ tags, onSubmit }) => {
                                         }}
                                         onClick={() => handleTagClick(tag)}
                                     >
+                                        {/* Display the tag text */}
                                         <Typography
                                             sx={{
                                                 fontFamily: 'Inter',
@@ -58,8 +66,10 @@ const TagsSelector = ({ tags, onSubmit }) => {
                         </Box>
                     </Grid>
                 </Grid>
-
+                
+                {/* Container for the submit button */}
                 <Box mt={2} display="flex" justifyContent="flex-start" sx={{ ml: '240px' }} >
+                    {/* Submit button with custom styles, triggers the handleSubmit function */}
                     <Button
                         type="submit"
                         onClick={handleSubmit}
