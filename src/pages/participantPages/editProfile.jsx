@@ -131,7 +131,7 @@ export default function EditProfile() {
                                 id="outlined-username"
                                 label="User Name"
                                 defaultValue=""
-
+                                sx={{ background: '#21262D' }}
                             />
                         </Stack>
 
@@ -142,7 +142,7 @@ export default function EditProfile() {
                                 id="outlined-firstname"
                                 label="First Name"
                                 defaultValue=""
-
+                                sx={{ background: '#21262D' }}
                             />
 
                             {/* Last Name input field */}
@@ -150,6 +150,7 @@ export default function EditProfile() {
                                 id="outlined-lastname"
                                 label="Last Name"
                                 defaultValue=""
+                                sx={{ background: '#21262D' }}
                             />
                         </Stack>
 
@@ -170,7 +171,7 @@ export default function EditProfile() {
                                     {children}
                                 </Popper>
                             )}
-                            style={{ width: 500 }}
+                            sx={{ width: '450px', background: '#21262D' }}
                         />
 
                         {/* Skills selection dropdown */}
@@ -187,7 +188,7 @@ export default function EditProfile() {
                                     {children}
                                 </Popper>
                             )}
-                            style={{ width: 500 }}
+                            sx={{ width: '450px', background: '#21262D' }}
                         />
 
                         {/* Bio input field */}
@@ -195,7 +196,7 @@ export default function EditProfile() {
                             id="outlined-helperText"
                             label="Bio"
                             helperText="Add more details about your organization / company and what it does"
-                            style={{ width: 500 }}
+                            sx={{ width: '450px', background: '#21262D' }}
                         />
 
                         {/* Radio buttons for Student and Working professional */}
