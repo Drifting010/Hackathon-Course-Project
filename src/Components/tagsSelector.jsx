@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
 import { Button, Grid, Box } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
+import Typography from '@mui/material/Typography';
 
-// Create a theme instance to provide consistent styling throughout the application
-const theme = createTheme();
-
-// TagsSelector component takes an array of tags and an onSubmit function as props
+// Define the TagsSelector functional component, which takes 'tags' and 'onSubmit' as props
 const TagsSelector = ({ tags, onSubmit }) => {
-    // Initialize selectedTags state to hold the currently selected tags
+    // Initialize the selectedTags state
     const [selectedTags, setSelectedTags] = useState([]);
 
-    // Function to handle the selection and deselection of tags
+    // Function to handle tag click events, toggling the selection state of a tag
     const handleTagClick = (tag) => {
         if (selectedTags.includes(tag)) {
             setSelectedTags(selectedTags.filter((t) => t !== tag));
@@ -20,72 +16,81 @@ const TagsSelector = ({ tags, onSubmit }) => {
         }
     };
 
-    // Function to handle the submission of selected tags
+    // Function to handle form submission
     const handleSubmit = () => {
         onSubmit(selectedTags);
     };
 
-    // State to track if the Submit button is hovered
-    const [isSubmitHovered, setIsSubmitHovered] = React.useState(false);
-
-    // Function to handle mouse enter event on Submit button
-    const handleSubmitMouseEnter = () => {
-        setIsSubmitHovered(true);
-    };
-
-    // Function to handle mouse leave event on Submit button
-    const handleSubmitMouseLeave = () => {
-        setIsSubmitHovered(false);
-    };
-
     return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
+        <>
             <Box>
-
-                {/* Create a grid container to display the tags in a responsive layout */}
                 <Grid container justifyContent="center">
-                    <Grid item xs={12} sm={8}>
-                        <Box display="flex" justifyContent="space-around" flexWrap="wrap">
-                            {/* Map the tags to Button components */}
-                            {tags.map((tag, index) => (
-                                <Box key={tag} m={1}>
+                    <Grid item xs={12} sm={6}>
+                        {/* Container for tag buttons */}
+                        <Box display="flex" justifyContent="flex-start" flexWrap="wrap" gap={1}>
+                            {/* Render a button for each tag in the 'tags' prop */}
+                            {tags.map((tag) => (
+                                <Box key={tag} m={1} width="20%" >
+                                    {/* Style the tag button based on whether it is selected */}
                                     <Button
+                                        fullWidth
                                         sx={{
-                                            minWidth: '150px',
-                                            padding: '6px',
+                                            padding: '7px 16px',
+                                            gap: '8px',
+                                            height: '32px',
+                                            minWidth: '100px',
+                                            background: '#21262D',
+                                            borderRadius: '39px',
+                                            border: selectedTags.includes(tag) ? '1px solid #FF9300' : 'none',
                                         }}
-                                        variant={selectedTags.includes(tag) ? 'contained' : 'outlined'}
                                         onClick={() => handleTagClick(tag)}
                                     >
-                                        {tag}
+                                        {/* Display the tag text */}
+                                        <Typography
+                                            sx={{
+                                                fontFamily: 'Inter',
+                                                fontStyle: 'normal',
+                                                fontWeight: 500,
+                                                fontSize: '14px',
+                                                textTransform: 'none',
+                                                textAlign: 'center',
+                                                letterSpacing: '0.75px',
+                                                color: selectedTags.includes(tag) ? '#FF9300' : '#C9D1D9',
+                                            }}
+                                        >
+                                            {tag}
+                                        </Typography>
                                     </Button>
                                 </Box>
                             ))}
                         </Box>
                     </Grid>
                 </Grid>
-
-                {/* Create a grid container for the Submit button */}
-                <Grid container justifyContent="center">
-                    <Grid item xs={12} sm={7.2}>
-                        <Box mt={2} display="flex" justifyContent="flex-start">
-                            {/* Create a Submit button that changes its appearance when hovered */}
-                            <Button
-                                variant={isSubmitHovered ? 'contained' : 'outlined'}
-                                onClick={handleSubmit}
-                                onMouseEnter={handleSubmitMouseEnter}
-                                onMouseLeave={handleSubmitMouseLeave}
-                                sx={{ textTransform: 'none' }}
-                            >
-                                Submit
-                            </Button>
-                        </Box>
-                    </Grid>
-                </Grid>
-
+                
+                {/* Container for the submit button */}
+                <Box mt={2} display="flex" justifyContent="flex-start" sx={{ ml: '240px' }} >
+                    {/* Submit button with custom styles, triggers the handleSubmit function */}
+                    <Button
+                        type="submit"
+                        onClick={handleSubmit}
+                        sx={{
+                            width: '425px',
+                            height: '40px',
+                            background: '#FF9300',
+                            textTransform: 'none',
+                            borderRadius: '5px',
+                            fontFamily: 'Inter',
+                            fontStyle: 'normal',
+                            fontWeight: 700,
+                            fontSize: '14px',
+                            color: '#F7F7FC',
+                        }}
+                    >
+                        Submit
+                    </Button>
+                </Box>
             </Box>
-        </ThemeProvider>
+        </>
     );
 };
 
