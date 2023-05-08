@@ -31,6 +31,7 @@ const skills = [
     'Cba',
 ];
 
+// This is the main function that returns the hostEditprofile component
 export default function HostEditprofile() {
 
     // State for Cancel and Save buttons hover

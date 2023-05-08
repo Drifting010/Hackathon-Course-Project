@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './signup.css';
 // import { createParticipant } from '../Components/firebase/firebaseFunction';
 
+// This is the main function that returns the signup component
 export default function Signup() {
     // state: value validity
     const [emailValid, setEmailValid] = useState(false);

@@ -13,6 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Link from '@mui/material/Link';
 
+// This is the main function that returns the participantHeader component
 export default function ParticipantHeader() {
 
     // useState hook to handle user menu opening and closing

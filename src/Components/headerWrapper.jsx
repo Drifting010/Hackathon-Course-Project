@@ -4,6 +4,7 @@ import { ParticipantHeader } from './'
 import { HomeHeader } from './'
 import { HostHeader } from './'
 
+// This is the main function that returns the headerWrapper component
 export function HeaderWrapper() {
     const location = useLocation();
 

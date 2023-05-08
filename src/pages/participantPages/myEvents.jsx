@@ -17,6 +17,7 @@ import Box from '@mui/material/Box';
 // An array of card objects to be displayed
 const cards = [1];
 
+// This is the main function that returns the myEvents component
 export default function MyEvents(props) {
   return (
     <div>

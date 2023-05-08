@@ -30,6 +30,7 @@ const skills = [
     'Cba',
 ];
 
+// This is the main function that returns the editProfile component
 export default function EditProfile() {
 
     // State for Cancel and Save buttons hover

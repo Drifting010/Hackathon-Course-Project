@@ -16,6 +16,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import theme from '../../Components/theme';
 
+// This is the main function that returns the accountSetting component
 export default function AccountSetting() {
     
     // States to manage password and confirm password visibility
