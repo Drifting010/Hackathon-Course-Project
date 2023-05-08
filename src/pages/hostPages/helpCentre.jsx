@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
-const theme = createTheme();
+import theme from '../../Components/theme';
 
 export default function HelpCentre() {
    

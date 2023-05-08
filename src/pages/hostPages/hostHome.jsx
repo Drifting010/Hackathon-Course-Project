@@ -17,7 +17,7 @@ import theme from '../../Components/theme';
 // An array of card objects to be displayed
 const cards = [1, 2, 3];
 
-// Exporting a React functional component named 'Explopre'
+// Exporting a React functional component named 'HostHome'
 export default function HostHome() {
     return (
         <ThemeProvider theme={theme}>

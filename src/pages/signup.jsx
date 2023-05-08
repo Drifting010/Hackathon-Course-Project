@@ -17,7 +17,7 @@ export default function Signup() {
     const [isHostSelected, setHostSelected] = useState(false);
 
     // state: form submit check
-    const [success, setSuccess] = useState('');
+    // const [success, setSuccess] = useState('');
 
     // state: input value
     const [formData, setFormData] = useState({

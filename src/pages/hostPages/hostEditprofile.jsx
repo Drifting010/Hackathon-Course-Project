@@ -17,7 +17,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 
-const theme = createTheme();
+import theme from '../../Components/theme';
 
 const interests = [
     'Abc',

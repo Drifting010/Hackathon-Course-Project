@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Alert } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -15,8 +15,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 
-
-const theme = createTheme();
+import theme from '../../Components/theme';
 
 export default function HostAccountSetting() {
     
