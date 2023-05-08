@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
 import { Button, Grid, Box } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-
-// Create a theme instance to provide consistent styling throughout the application
-const theme = createTheme();
 
 // TagsSelector component takes an array of tags and an onSubmit function as props
 const TagsSelector = ({ tags, onSubmit }) => {
@@ -23,19 +18,6 @@ const TagsSelector = ({ tags, onSubmit }) => {
     // Function to handle the submission of selected tags
     const handleSubmit = () => {
         onSubmit(selectedTags);
-    };
-
-    // State to track if the Submit button is hovered
-    const [isSubmitHovered, setIsSubmitHovered] = React.useState(false);
-
-    // Function to handle mouse enter event on Submit button
-    const handleSubmitMouseEnter = () => {
-        setIsSubmitHovered(true);
-    };
-
-    // Function to handle mouse leave event on Submit button
-    const handleSubmitMouseLeave = () => {
-        setIsSubmitHovered(false);
     };
 
     return (
