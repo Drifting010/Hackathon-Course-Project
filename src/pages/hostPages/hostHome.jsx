@@ -27,12 +27,12 @@ export default function HostHome() {
                     pb: 2,
                 }}
             >
-                <Alert sx={{}} severity="info" onClose={() => {}}>You are now in the host view</Alert>
+                <Alert sx={{}} severity="info" onClose={() => { }}>You are now in the host view</Alert>
                 <CssBaseline />
                 {/* four button */}
-                <Container maxWidth="md" sx={{pt: 4}}>
+                <Container maxWidth="md" sx={{ pt: 4 }}>
                     <Grid container spacing={2}>
-                        <Grid item xs={6} container justifyContent="flex-start">
+                        <Grid item xs={6} container justifyContent="flex-start" spacing={2}>
                             <Grid item>
                                 <Button variant="outlined">All</Button>
                             </Grid>

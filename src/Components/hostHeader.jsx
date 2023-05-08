@@ -44,7 +44,16 @@ export default function HostHeader() {
                             <Link
                                 variant="button"
                                 href="./dashboard"
-                                sx={{ my: 2, mr: 2, color: 'white', display: 'inline-block', textTransform: 'none', textDecoration: 'none' }}
+                                sx={{ 
+                                    my: 2, 
+                                    mr: 2, 
+                                    color: 'white', 
+                                    display: 'inline-block', 
+                                    textTransform: 'none', 
+                                    textDecoration: 'none',
+                                    '&:active': {
+                                        color: '#4474F1',
+                                    }, }}
                             >
                                 Dashboard
                             </Link>
@@ -93,6 +102,7 @@ export default function HostHeader() {
                     {/* Fourth Box: Contains the "Switch to Hosting" button and user menu with avatar */}
                     <Box sx={{ flexGrow: 0 }}>
                         <Button
+                            variant='outlined'
                             href="#"
                             sx={{ my: 2, mr: 2, color: 'white', display: 'inline-block', textTransform: 'none' }}
                         >
