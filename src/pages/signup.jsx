@@ -29,7 +29,6 @@ export default function Signup() {
 
     // state: form submit check
     // const [success, setSuccess] = useState('');
-    // const [success, setSuccess] = useState('');
 
     // State variables for storing form data and submitting state
     const [formData, setFormData] = useState({
@@ -58,17 +57,6 @@ export default function Signup() {
                 password = h_pwd;
             }
             // subimt form data to firebase database
-            // createParticipant(email, password, role)
-            //     .then(() => {
-            //         console.log('Form submitted successfully!');
-            //         setSuccess('Form submitted successfully!');
-            //     })
-            //     .catch(error => {
-            //         console.log('Error: ', error);
-            //     })
-            //     .finally(() => {
-            //         setSubmitting(false);
-            //     })
             // createParticipant(email, password, role)
             //     .then(() => {
             //         console.log('Form submitted successfully!');
