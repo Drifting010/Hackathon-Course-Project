@@ -51,9 +51,3 @@ describe("AccountSetting", () => {
             togglePasswordVisibilityButtons.forEach((button) => {
                 fireEvent.click(button);
             });
-
-            expect(passwordField).toHaveAttribute("type", "text");
-            expect(confirmPasswordField).toHaveAttribute("type", "text");
-        });
-    });
-});

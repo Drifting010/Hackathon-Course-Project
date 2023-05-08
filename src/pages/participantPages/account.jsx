@@ -62,28 +62,12 @@ export default function AccountSetting() {
         setPassword(e.target.value);
     };
 
-    const handleConfirmPasswordChange = (e) => {
-        setConfirmPassword(e.target.value);
-    };
-
-    // Function to handle the onBlur event for the confirm password field, checking for a mismatch
-    const handleConfirmPasswordBlur = (e) => {
-        if (e.target.value !== '' && e.target.value !== password) {
-            setPasswordMismatch(true);
-        } else {
-            setPasswordMismatch(false);
-        }
-    };
-
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <Box
                 sx={{
-                    bgcolor: 'background.paper',
-                    height: '100vh', // 100% of viewport height
                     display: 'flex',
-                    flexDirection: 'column',
                     justifyContent: 'center',
                     pl: 40,
                 }}
@@ -186,8 +170,6 @@ export default function AccountSetting() {
                             Save
                         </Button>
                     </Box>
-
-                </Container>
             </Box>
         </ThemeProvider>
     );

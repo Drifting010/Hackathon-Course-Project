@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './signup.css';
 // import { createParticipant } from '../Components/firebase/firebaseFunction';
 
 export default function Signup() {
@@ -11,13 +10,6 @@ export default function Signup() {
 
     // state: error message
     const [errorMessage, setErrorMessage] = useState({});
-
-    // state: role selection
-    const [isParticipantSelected, setParticipantSelected] = useState(true);
-    const [isHostSelected, setHostSelected] = useState(false);
-
-    // state: form submit check
-    const [success, setSuccess] = useState('');
 
     // state: input value
     const [formData, setFormData] = useState({
@@ -80,35 +72,15 @@ export default function Signup() {
         validateField(name, value);
     }
 
-    const handleParticipantClick = () => {
-        setFormData({
-            ...formData,
-            role: 'participant'
-        });
-        setParticipantSelected(true);
-        setHostSelected(false);
-    }
-
-    const handleHostClick = () => {
-        setFormData({
-            ...formData,
-            role: 'host'
-        });
-        setHostSelected(true);
-        setParticipantSelected(false);
-    }
-
     // funcions: user input validity check 
     const validateEmail = (email) => {
         const emailRegex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
         return emailRegex.test(email);
     }
-
     const validatePassword = (password) => {
         return password.length >= 8;
     }
 
-    const validateConfirmPassword = (pwdConfirm) => {
         return pwdConfirm === formData.p_pwd || pwdConfirm === formData.h_pwd;
     }
 
@@ -168,28 +140,6 @@ export default function Signup() {
 
                         <form onSubmit={(event) => { handleFormSubmit(event) }} style={{ width: '280px', height: '435px' }}>
 
-                            <div className='field'>
-                                <div className='inputVal'>
-                                    <input type='text' role='textbox' name='p_email' value={formData.p_email} onChange={(event) => { handleFormDataChange(event) }} placeholder='Email (Participant)' /><br />
-                                    <span>{errorMessage.email}</span>
-                                </div>
-                            </div>
-                            <div className='field'>
-                                <div className='inputVal'>
-                                    <input type='password' role='textbox' name='p_pwd' value={formData.p_pwd} onChange={(event) => { handleFormDataChange(event) }} placeholder='Password (Participant)' /><br />
-                                    <span>{errorMessage.pwd}</span>
-                                </div>
-                            </div>
-                            <div className='field'>
-                                <div className='inputVal'>
-                                    <input type='password' role='textbox' name='p_pwdConfirm' value={formData.p_pwdConfirm} onChange={(event) => { handleFormDataChange(event) }} placeholder='Confirm Password (Participant)' /><br />
-                                    <span>{errorMessage.pwdConfirm}</span>
-                                </div>
-                            </div>
-                            <div className='field'>
-                                <button data-testid='submit_participant' type='submit' name='participant_proceed' disabled={!formValid}>Participant Proceed</button><br />
-                                <span>{success}</span>
-                            </div>
                         </form>
                     </div>
                     <div className={`form_submit ${isHostSelected ? '' : 'hidden'}`} data-testid='host-form'>
