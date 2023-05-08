@@ -222,6 +222,7 @@ const uploadFile = async (file, fileRef) => {
   return downLoadURL;
 }
 
+//Short cut when setting ref of storage
 const setRef = async (userId, dir) => {
   const fileRef = ref(storage, dir + '/' + userId);
 
