@@ -30,6 +30,7 @@ import { HostEditprofile } from './pages/hostPages';
 
 import './App.css'
 import theme from './Components/theme';
+import SubmitHackathon from './pages/participantPages/submit';
 
 export default function App() {
 
@@ -50,6 +51,7 @@ export default function App() {
               <Route path="/explore_hackathons" element={<ExploreHackathons />} />
               <Route path="/my_events" element={<MyEvents />} />
               <Route path="/register_hackathons" element={<RegisterHackathons />} />
+              <Route path="/submit_hackathon" element={<SubmitHackathon />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/edit_profile" element={<EditProfile />} />
               <Route path="/account" element={<AccountSetting />} />
