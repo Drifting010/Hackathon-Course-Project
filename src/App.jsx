@@ -30,6 +30,7 @@ import { HostEditprofile } from './pages/hostPages';
 
 import './App.css'
 import theme from './Components/theme';
+import ForgotPasswordPage from './pages/forgotPasswordPage';
 
 export default function App() {
 
@@ -53,6 +54,7 @@ export default function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/edit_profile" element={<EditProfile />} />
               <Route path="/account" element={<AccountSetting />} />
+              <Route path='/forgot_password' element={<ForgotPasswordPage />} />
               {/* part 03 */}
               <Route path='/host_home' element={<HostHome />} />
               <Route path='/dashboard' element={<Dashboard />} />
