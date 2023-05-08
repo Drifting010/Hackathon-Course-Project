@@ -5,7 +5,6 @@ import {
 import { db, auth, storage } from '../../firebaseConfig';
 import {  ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import { signInWithPopup, signInWithEmailAndPassword ,signOut, createUserWithEmailAndPassword,updateProfile} from 'firebase/auth';
-import { dirname } from 'path';
 
 // Add a new hackathon to the 'hackathons' collection
 const addHackathon = async (hackathon) => {
@@ -230,7 +229,7 @@ const setRef = async (userId, dir) => {
 }
 
 //download file from storage via given ref
-const downLoadFile = async (fileRef) => {
+const downLoadFile = (fileRef) => {
   getDownloadURL(fileRef).then((url) => {
     const xhr =new XMLHttpRequest();
     xhr.responseType = 'blob';
