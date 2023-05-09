@@ -6,9 +6,7 @@ const theme = createTheme({
   // Define the color palette for the theme
   palette: {
     mode: 'dark', // Set the background color mode to dark (e.g., black)
-    text: {
-      primary: '#ffffff', // Set the primary text color to white
-    },
+  },
   },
   // Define the typography settings for the theme
   typography: {

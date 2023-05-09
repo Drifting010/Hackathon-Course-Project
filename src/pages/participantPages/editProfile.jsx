@@ -8,15 +8,9 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import CountrySelect from '../../Components/countrySelect'
 import Stack from '@mui/material/Stack';
-import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import Popper from '@mui/material/Popper';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
 import { getCurrentUser, uploadIcon } from '../../../src/Components/firebase/firebaseFunction';
 import { useEffect } from 'react';
 
@@ -26,20 +20,8 @@ const interests = [
     'Cba',
 ];
 
-const skills = [
-    'Abc',
-    'Bac',
-    'Cba',
-];
-
 // This is the main function that returns the editProfile component
 export default function EditProfile() {
-
-    // State for Cancel and Save buttons hover
-    const [isCancelHovered, setIsCancelHovered] = React.useState(false);
-    const [isSaveHovered, setIsSaveHovered] = React.useState(false);
-    const [loading, setLoading] = React.useState(false);
-    const currentUser = getCurrentUser();
     // State for uploaded avatar
     if (currentUser != null ){
         const [uploadedAvatar, setUploadedAvatar] = React.useState(currentUser.photoURL);
@@ -55,15 +37,12 @@ export default function EditProfile() {
     const handleCancelMouseEnter = () => {
         setIsCancelHovered(true);
     };
-
     const handleCancelMouseLeave = () => {
         setIsCancelHovered(false);
     };
-
     const handleSaveMouseEnter = () => {
         setIsSaveHovered(true);
     };
-
     const handleSaveMouseLeave = () => {
         setIsSaveHovered(false);
     };
@@ -76,6 +55,10 @@ export default function EditProfile() {
             uploadIcon(file, currentUser.email ,setLoading)
         }
     };
+
+    // 
+    
+   
 
     return (
         <ThemeProvider theme={theme}>
@@ -135,25 +118,6 @@ export default function EditProfile() {
                             />
                         </Stack>
 
-                        {/* First Name and Last Name input fields */}
-                        <Stack direction="row" spacing={2} alignItems="center">
-                            {/* First Name input field */}
-                            <TextField
-                                id="outlined-firstname"
-                                label="First Name"
-                                defaultValue=""
-                                sx={{ background: '#21262D' }}
-                            />
-
-                            {/* Last Name input field */}
-                            <TextField
-                                id="outlined-lastname"
-                                label="Last Name"
-                                defaultValue=""
-                                sx={{ background: '#21262D' }}
-                            />
-                        </Stack>
-
                         {/* Country selection dropdown */}
                         <CountrySelect />
 
@@ -174,23 +138,6 @@ export default function EditProfile() {
                             sx={{ width: '450px', background: '#21262D' }}
                         />
 
-                        {/* Skills selection dropdown */}
-                        <Autocomplete
-                            multiple
-                            id="outlined-multi"
-                            options={skills}
-                            getOptionLabel={(option) => option}
-                            renderInput={(params) => (
-                                <TextField {...params} label="Select Skills" />
-                            )}
-                            PopperComponent={({ children, ...popperProps }) => (
-                                <Popper {...popperProps} placement="bottom-start" modifiers={[{ name: 'flip', enabled: false }]}>
-                                    {children}
-                                </Popper>
-                            )}
-                            sx={{ width: '450px', background: '#21262D' }}
-                        />
-
                         {/* Bio input field */}
                         <TextField
                             id="outlined-helperText"
@@ -198,18 +145,6 @@ export default function EditProfile() {
                             helperText="Add more details about your organization / company and what it does"
                             sx={{ width: '450px', background: '#21262D' }}
                         />
-
-                        {/* Radio buttons for Student and Working professional */}
-                        <FormControl>
-                            <RadioGroup
-                                row
-                                aria-labelledby="row-radio-buttons-group-label"
-                                name="row-radio-buttons-group"
-                            >
-                                <FormControlLabel value="Student" control={<Radio />} label="Student" />
-                                <FormControlLabel value="Working professional" control={<Radio />} label="Working professional" />
-                            </RadioGroup>
-                        </FormControl>
 
                         {/* Cancel and Save buttons */}
                         <Stack direction="row" spacing={4}>
