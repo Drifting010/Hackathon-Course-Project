@@ -32,6 +32,7 @@ import { HostEditprofile } from './pages/hostPages';
 
 import './App.css'
 import theme from './Components/theme';
+import EventEdit from './pages/hostPages/eventEdit';
 
 export default function App() {
 
@@ -65,6 +66,7 @@ export default function App() {
               <Route path='/host_account' element={<HostAccountSetting />} />
               <Route path='/host_profile' element={<HostProfile />} />
               <Route path='/host_editprofile' element={<HostEditprofile />} />
+              <Route path='/host_editevent' element={<EventEdit />} />
             </Routes>
           </main>
           <HomeFooter />
