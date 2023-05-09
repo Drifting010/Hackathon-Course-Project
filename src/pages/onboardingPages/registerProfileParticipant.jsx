@@ -41,7 +41,7 @@ export default function RegisterProfileParticipant() {
                 break;
         }
         // Validate the form after each change
-        checkFormValid();
+        // checkFormValid();
     };
 
     // Check if the form is valid
@@ -108,7 +108,7 @@ export default function RegisterProfileParticipant() {
                         label="Username"
                         name="username"
                         value={username}
-                        onChange={handleFormDataChange}
+                        onChange={(event) => handleFormDataChange(event)}
                         sx={{ mb: '20px', width: '500px', background: '#21262D' }}
                         InputProps={{
                             startAdornment: (
@@ -186,7 +186,7 @@ export default function RegisterProfileParticipant() {
                         label="Description"
                         name="description"
                         value={description}
-                        onChange={handleFormDataChange}
+                        onChange={(event) => handleFormDataChange(event)}
                         sx={{ mb: '30px', width: '500px', background: '#21262D' }}
                         InputProps={{
                             startAdornment: (
@@ -223,8 +223,6 @@ export default function RegisterProfileParticipant() {
                             Participant Proceed
                         </Button>
                     </Box>
-
-
                 </Box>
             </Box>
         </>
