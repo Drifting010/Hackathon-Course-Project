@@ -118,6 +118,16 @@ const getHackathonByTag = async (filters) => {
   }
 };
 
+const getAllTags = async (collectionName) => {
+  try{
+    const querySnapshot = await getDocs(collection(db, collectionName));
+    const documentations = querySnapshot.docs.map(doc => doc.data()['label']);
+    return documentations;
+  }catch (error){
+    console.error('Error getting all tags', error);
+  }
+  
+};
 
 // CRUD Operatiosn
 // Add a new hackathon to the 'hackathons' collection
@@ -367,4 +377,5 @@ export {
   sendEmailVerification,
   getDocumentByRef,
   getUserProfile,
+  getAllTags,
 };
