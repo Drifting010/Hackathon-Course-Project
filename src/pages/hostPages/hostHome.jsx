@@ -27,24 +27,24 @@ export default function HostHome() {
                     pb: 2,
                 }}
             >
-                <Alert sx={{}} severity="info" onClose={() => { }}>You are now in the host view</Alert>
+                <Alert sx={{bgcolor:'#161B21', color:'white'}} severity="info" onClose={() => { }}>You are now in the host view</Alert>
                 <CssBaseline />
                 {/* four button */}
                 <Container maxWidth="md" sx={{ pt: 4 }}>
                     <Grid container spacing={2}>
                         <Grid item xs={6} container justifyContent="flex-start" spacing={2}>
                             <Grid item>
-                                <Button variant="outlined">All</Button>
+                                <Button variant="outlined" sx={{ color:'#4474F1', boderColor:'#4474F1' }}>All</Button>
                             </Grid>
                             <Grid item>
-                                <Button variant="outlined">Ongoing</Button>
+                                <Button variant="outlined" sx={{ color:'#4474F1', boderColor:'#4474F1' }}>Ongoing</Button>
                             </Grid>
                             <Grid item>
-                                <Button variant="outlined">Finished</Button>
+                                <Button variant="outlined" sx={{ color:'#4474F1', boderColor:'#4474F1' }}>Finished</Button>
                             </Grid>
                         </Grid>
                         <Grid item xs={6} container justifyContent="flex-end">
-                            <Button variant='contained'>Host a Hackathon</Button>
+                            <Button variant='contained' sx={{ color:'white', bgcolor:'#4474F1' }}>Host a Hackathon</Button>
                         </Grid>
                     </Grid>
                 </Container>

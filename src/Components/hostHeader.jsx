@@ -34,40 +34,73 @@ export default function HostHeader() {
         // AppBar component for the top app bar
         <AppBar position="static">
             {/* Container for content within the AppBar */}
-            <Container maxWidth="xl">
+            <Container maxWidth="xl" sx={{ bgcolor:'#0D1116' }}>
                 {/* Toolbar for displaying navigation items and actions */}
                 <Toolbar disableGutters>
 
-                    {/* First Box: Contains navigation links for "Explore Hackathons" and "My Events" */}
+                    {/* First Box: Contains navigation links for "Dashboard" "Data Analytics" and "Help Centre" */}
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         <nav>
                             <Link
                                 variant="button"
                                 href="./dashboard"
-                                sx={{ 
-                                    my: 2, 
-                                    mr: 2, 
-                                    color: 'white', 
-                                    display: 'inline-block', 
-                                    textTransform: 'none', 
+                                sx={{
+                                    my: 2,
+                                    mr: 2,
+                                    color: 'white',
+                                    display: 'inline-block',
+                                    textTransform: 'none',
                                     textDecoration: 'none',
+                                    '&:hover': {
+                                        color: '#4474F1',
+                                    },
                                     '&:active': {
                                         color: '#4474F1',
-                                    }, }}
+                                        textDecoration: 'underline',
+                                    },
+                                }}
                             >
                                 Dashboard
                             </Link>
                             <Link
                                 variant="button"
                                 href="./data_analytics"
-                                sx={{ my: 2, mr: 2, color: 'white', display: 'inline-block', textTransform: 'none', textDecoration: 'none' }}
+                                sx={{
+                                    my: 2,
+                                    mr: 2,
+                                    color: 'white',
+                                    display: 'inline-block',
+                                    textTransform: 'none',
+                                    textDecoration: 'none',
+                                    '&:hover': {
+                                        color: '#4474F1',
+                                    },
+                                    '&:active': {
+                                        color: '#4474F1',
+                                        textDecoration: 'underline',
+                                    },
+                                }}
                             >
                                 Data Analytics
                             </Link>
                             <Link
                                 variant="button"
                                 href="./help_centre"
-                                sx={{ my: 2, color: 'white', display: 'inline-block', textTransform: 'none', textDecoration: 'none' }}
+                                sx={{
+                                    my: 2,
+                                    mr: 2,
+                                    color: 'white',
+                                    display: 'inline-block',
+                                    textTransform: 'none',
+                                    textDecoration: 'none',
+                                    '&:hover': {
+                                        color: '#4474F1',
+                                    },
+                                    '&:active': {
+                                        color: '#4474F1',
+                                        textDecoration: 'underline',
+                                    },
+                                }}
                             >
                                 Help Centre
                             </Link>
@@ -92,7 +125,7 @@ export default function HostHeader() {
                             }}
                         >
                             {/* LOGO */}
-                            Hackathon  
+                            Hackathon
                         </Typography>
                     </Box>
 
@@ -104,7 +137,7 @@ export default function HostHeader() {
                         <Button
                             variant='outlined'
                             href="#"
-                            sx={{ my: 2, mr: 2, color: 'white', display: 'inline-block', textTransform: 'none' }}
+                            sx={{ my: 2, mr: 2, color: 'white', display: 'inline-block', textTransform: 'none', borderColor: '#C9D1D9' }}
                         >
                             Switch to attending
                         </Button>
