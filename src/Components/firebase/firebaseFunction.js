@@ -1,9 +1,11 @@
 /* eslint-disable no-console */
 import {
-  collection, doc, setDoc, getDoc, getDocs, query, where
+  collection, doc, setDoc, getDoc, getDocs, query, where,
 } from 'firebase/firestore';
-import { db, auth } from '../../firebaseConfig';
-import { signInWithPopup, signInWithEmailAndPassword ,signOut, createUserWithEmailAndPassword} from 'firebase/auth';
+import { db, auth, storage } from '../../firebaseConfig';
+import {  ref, uploadBytes, getDownloadURL} from 'firebase/storage';
+import { //signInWithPopup,
+   signInWithEmailAndPassword ,signOut, createUserWithEmailAndPassword,updateProfile} from 'firebase/auth';
 
 // Add a new hackathon to the 'hackathons' collection
 const addHackathon = async (hackathon) => {
@@ -81,12 +83,12 @@ const signInWithEmailAndPasswordFunction = async (email, password) => {
 // };
 
 // Sign out the currently authenticated user
-const signOutFunction = () => 
+const signOutFunction = () =>
   signOut(auth).then(() => {
-  console.log("signout successfully")
-}).catch((error) => {
-  console.error('Error signing out', error);
-}) 
+    console.log("signout successfully")
+  }).catch((error) => {
+    console.error('Error signing out', error);
+  })
 
 // Get user data from the 'users' collection by email
 const getUser = async (email) => {
@@ -125,6 +127,7 @@ const getHackathon = async (hackathonId) => {
   }
 };
 
+//Get all documentations of one collection
 const getAllDocumentations = async (collectionName) => {
   try{
     const querySnapshot = await getDocs(collection(db, collectionName));
@@ -136,6 +139,7 @@ const getAllDocumentations = async (collectionName) => {
   
 };
 
+//Get the document by specify the id
 const getDocumentInCollectionById = async (collectionName, documentId) => {
   try {
     const docRef = doc (db, collectionName, documentId);
@@ -151,6 +155,7 @@ const getDocumentInCollectionById = async (collectionName, documentId) => {
   }
 };
 
+//Get documents which match query in one collection
 const getMultipleDocuments = async (collectionName,condition1, operator, condition2) => {
   try {
     const q = query(collection(db, collectionName), where (condition1,operator,condition2));
@@ -182,7 +187,7 @@ const getHackathonByTag = async (filters) => {
     });
     return hackathons;
   } catch (error) {
-    console.error("Error getting hackathons by tag: ", error);
+    console.error('Error getting hackathons by tag: ', error);
   }
 };
 
@@ -193,14 +198,14 @@ const uploadIcon = async (file, userId, setLoading) => {
   setLoading(true);
 
   const snapshot = await uploadBytes(fileRef, file);
-
+  
   console.log(snapshot);
   const photoURL = await getDownloadURL(fileRef)
   const currentUser = getCurrentUser();
   if (currentUser != null) {
     updateProfile(getCurrentUser(), {photoURL});
   }
-
+  
   setLoading(false);
   alert("uploaded!")
   return photoURL;
@@ -210,7 +215,7 @@ const uploadIcon = async (file, userId, setLoading) => {
 const uploadFile = async (file, fileRef) => {
 
   const snapshot = await uploadBytes(fileRef, file);
-
+  
   console.log(snapshot);
   const downLoadURL = await getDownloadURL(fileRef)
   alert("uploaded!")
@@ -274,5 +279,10 @@ export {
   getDocumentInCollectionById,
   getMultipleDocuments,
   getHackathonByTag,
+  uploadIcon,
+  getCurrentUser,
+  uploadFile,
+  downLoadFile,
+  setRef,
   getAllTags,
 };
