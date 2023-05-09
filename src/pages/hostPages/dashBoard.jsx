@@ -85,7 +85,7 @@ export default function Dashboard(props) {
               The hackathons hosted by you will be shown here
             </Typography>
             <Box align="center">
-              <Button variant="contained" text-decoration="none"> <Link to="/host_home">Host a Hackathon now</Link></Button>
+              <Button  sx={{color:'white', bgcolor: '#4474F1'}} variant="contained" text-decoration="none" href='/host_home'>Host a Hackathon now</Button>
             </Box>
           </Container>
         </ThemeProvider>
