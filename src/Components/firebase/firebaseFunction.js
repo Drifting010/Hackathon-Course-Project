@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import {
-  collection, doc, setDoc, getDoc, getDocs, query, where,
+  collection, doc, setDoc, getDoc, getDocs, query, where,,
 } from 'firebase/firestore';
 import { db, auth, storage } from '../../firebaseConfig';
 import {  ref, uploadBytes, getDownloadURL} from 'firebase/storage';
@@ -189,83 +189,6 @@ const getHackathonByTag = async (filters) => {
   } catch (error) {
     console.error('Error getting hackathons by tag: ', error);
   }
-};
-
-//upload file onto firebase storage
-const uploadIcon = async (file, userId, setLoading) => {
-  const fileRef = ref(storage, 'userIcons/' + userId);
-
-  setLoading(true);
-
-  const snapshot = await uploadBytes(fileRef, file);
-  
-  console.log(snapshot);
-  const photoURL = await getDownloadURL(fileRef)
-  const currentUser = getCurrentUser();
-  if (currentUser != null) {
-    updateProfile(getCurrentUser(), {photoURL});
-  }
-  
-  setLoading(false);
-  alert("uploaded!")
-  return photoURL;
-}
-
-//Upload files with given file reference in db and file
-const uploadFile = async (file, fileRef) => {
-
-  const snapshot = await uploadBytes(fileRef, file);
-  
-  console.log(snapshot);
-  const downLoadURL = await getDownloadURL(fileRef)
-  alert("uploaded!")
-  return downLoadURL;
-}
-
-//Short cut when setting ref of storage
-const setRef = async (userId, dir) => {
-  const fileRef = ref(storage, dir + '/' + userId);
-
-  return fileRef;
-}
-
-//download file from storage via given ref
-const downLoadFile = (fileRef) => {
-  getDownloadURL(fileRef).then((url) => {
-    const xhr =new XMLHttpRequest();
-    xhr.responseType = 'blob';
-    xhr.onload = (event) => {
-      const blob = xhr.response;
-      return [event, blob];
-    }
-    xhr.open('GET', url);
-    xhr.send();
-  })
-  .catch((error) => {
-    console.error('error download file', error)
-  })
- };
-
-//Get Current User
-const getCurrentUser = () => {
-  const user = auth.currentUser;
-  if (user !== null) {
-    return user; 
-  }
-  console.error('No user signed in')
-  return null; 
-}
-
-// get all tags
-const getAllTags = async (collectionName) => {
-  try{
-    const querySnapshot = await getDocs(collection(db, collectionName));
-    const documentations = querySnapshot.docs.map(doc => doc.data()['label']);
-    return documentations;
-  }catch (error){
-    console.error('Error getting all tags', error);
-  }
-  
 };
 
 export {

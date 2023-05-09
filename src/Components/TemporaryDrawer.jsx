@@ -8,6 +8,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { getAllTags } from './firebase/firebaseFunction';
 
+// This is the main function that returns the temporaryDrawer component
 export default function TemporaryDrawer({onTagClick}) {
   const [state, setState] = React.useState(false);
 

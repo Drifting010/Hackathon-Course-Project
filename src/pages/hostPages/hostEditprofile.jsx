@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { ThemeProvider } from '@mui/material/styles';
-import theme from '../../Components/theme';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -17,8 +16,8 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import { getCurrentUser, uploadIcon } from '../../../src/Components/firebase/firebaseFunction';
-import { useEffect } from 'react';
+
+import theme from '../../Components/theme';
 
 const interests = [
     'Abc',
@@ -32,24 +31,12 @@ const skills = [
     'Cba',
 ];
 
-// This is the main function that returns the editProfile component
-export default function EditProfile() {
+// This is the main function that returns the hostEditprofile component
+export default function HostEditprofile() {
 
     // State for Cancel and Save buttons hover
     const [isCancelHovered, setIsCancelHovered] = React.useState(false);
     const [isSaveHovered, setIsSaveHovered] = React.useState(false);
-    const [loading, setLoading] = React.useState(false);
-    const currentUser = getCurrentUser();
-    // State for uploaded avatar
-    if (currentUser != null ){
-        const [uploadedAvatar, setUploadedAvatar] = React.useState(currentUser.photoURL);
-    }
-    const [uploadedAvatar, setUploadedAvatar] = React.useState(null);
-
-    useEffect(() => {
-        if (currentUser != null )
-        setUploadedAvatar(currentUser.photoURL);
-    },[currentUser])
 
     // Event handlers for Cancel and Save buttons hover
     const handleCancelMouseEnter = () => {
@@ -68,12 +55,18 @@ export default function EditProfile() {
         setIsSaveHovered(false);
     };
 
+    // State for uploaded avatar
+    const [uploadedAvatar, setUploadedAvatar] = React.useState(null);
+
     // Event handler for avatar upload
     const handleAvatarUpload = (event) => {
         const file = event.target.files[0];
         if (file) {
-            console.log(currentUser.email);
-            uploadIcon(file, currentUser.email ,setLoading)
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setUploadedAvatar(reader.result);
+            };
+            reader.readAsDataURL(file);
         }
     };
 
@@ -115,7 +108,6 @@ export default function EditProfile() {
                                 color="primary"
                                 aria-label="upload picture"
                                 component="label"
-                                disabled = {loading}
                             >
                                 <input
                                     hidden
@@ -131,7 +123,7 @@ export default function EditProfile() {
                                 id="outlined-username"
                                 label="User Name"
                                 defaultValue=""
-                                sx={{ background: '#21262D' }}
+
                             />
                         </Stack>
 
@@ -142,7 +134,7 @@ export default function EditProfile() {
                                 id="outlined-firstname"
                                 label="First Name"
                                 defaultValue=""
-                                sx={{ background: '#21262D' }}
+
                             />
 
                             {/* Last Name input field */}
@@ -150,7 +142,6 @@ export default function EditProfile() {
                                 id="outlined-lastname"
                                 label="Last Name"
                                 defaultValue=""
-                                sx={{ background: '#21262D' }}
                             />
                         </Stack>
 
@@ -171,7 +162,7 @@ export default function EditProfile() {
                                     {children}
                                 </Popper>
                             )}
-                            sx={{ width: '450px', background: '#21262D' }}
+                            style={{ width: 500 }}
                         />
 
                         {/* Skills selection dropdown */}
@@ -188,7 +179,7 @@ export default function EditProfile() {
                                     {children}
                                 </Popper>
                             )}
-                            sx={{ width: '450px', background: '#21262D' }}
+                            style={{ width: 500 }}
                         />
 
                         {/* Bio input field */}
@@ -196,7 +187,7 @@ export default function EditProfile() {
                             id="outlined-helperText"
                             label="Bio"
                             helperText="Add more details about your organization / company and what it does"
-                            sx={{ width: '450px', background: '#21262D' }}
+                            style={{ width: 500 }}
                         />
 
                         {/* Radio buttons for Student and Working professional */}
