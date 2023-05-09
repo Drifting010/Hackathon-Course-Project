@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, screen, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import Interests from '../../src/pages/interests';
+import Interests from '../../src/pages/onboardingPages/interests';
 import sinon from 'sinon';
 
 describe('Interests', () => {
