@@ -32,6 +32,7 @@ test("create user with email and password", async () => {
     profile
   );
   const user = await getUser(email);
+  console.log('This is the user data', user);
 
   // Verify that the user was created
   expect(user).not.toBeNull();
@@ -100,7 +101,6 @@ test("sign in with email and password and sign out", async () => {
       });
     });
 
-    console.log(userCreated);
     expect(userCreated).not.toBeNull();
 
     // Get the user data from Firestore
@@ -160,7 +160,6 @@ test('retrieve all documentaion correctly', async () => {
 
   // Call the getAllHackathons function
   const result = await getAllDocumentations(hackathonCollection);
-  console.log(result)
 
   // Check if the result contains the correct data
   expect(result.length).not.toEqual(0);
@@ -174,7 +173,6 @@ test("get document in collection by id", async () => {
 
   // Call the getDocumentInCollectionById function with the testCollection and sampleDoc.id
   const documentData = await getDocumentInCollectionById(testCollection, testId);
-  console.log(documentData);
   // Verify that the document data is correct
   expect(documentData.email).toEqual(testId);
 });
