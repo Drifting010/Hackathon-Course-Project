@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import {
-  collection, doc, setDoc, getDoc, getDocs, query, where, collectionGroup, arrayUnion, arrayRemove,
+  collection, doc, setDoc, getDoc, getDocs, query, where, collectionGroup, arrayUnion, arrayRemove, updateDoc
 } from 'firebase/firestore';
 import { db, auth, storage } from '../../firebaseConfig';
 import {  ref, uploadBytes, getDownloadURL} from 'firebase/storage';
@@ -17,7 +17,8 @@ const addToArray = async (collectionName, documentName, fieldName, dataToAdd ) =
   });
 };
 
-const removeFromArray = async(collectionName, documentName, fieldName, dataToAdd) => {
+//
+const removeFromArray = async(collectionName, documentName, fieldName, dataToRemove) => {
   const ref = doc(db, collectionName, documentName);
 
   await updateDoc(ref, {
@@ -29,7 +30,6 @@ const getDocumentByRef = async (ref) => {
   const snapshot = await (getDoc(ref));
   if (snapshot.exists()) {
     const document = snapshot.data();
-    console.log(document);
     return document;
   }else{
     console.log('No such document');
@@ -217,13 +217,11 @@ const sendEmailVerification = async () => {
 
 //get user profile with giving email
 const getUserProfile = async (email) => {
-  const user = getUser(email);
+  const user = await getUser(email);
   
-  console.log('this is the user', user);
-  const profileRef = user.profile;
-  const profile = await getDoc(profileRef);
-  console.log(profile, profileRef);
-  return [profile]; 
+  const profile = await getDoc(user.profile);
+  console.log('Profile is', profile.data());
+  return profile.data(); 
 }
 
 const createHostProfile = async (profileData) => {
