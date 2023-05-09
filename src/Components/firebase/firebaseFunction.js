@@ -256,6 +256,17 @@ const getCurrentUser = () => {
   return null; 
 }
 
+const getAllTags = async (collectionName) => {
+  try{
+    const querySnapshot = await getDocs(collection(db, collectionName));
+    const documentations = querySnapshot.docs.map(doc => doc.data()['label']);
+    return documentations;
+  }catch (error){
+    console.error('Error getting all tags', error);
+  }
+  
+};
+
 export {
   addHackathon,
   createUserWithEmailAndPasswordFunction,
@@ -273,4 +284,5 @@ export {
   uploadFile,
   downLoadFile,
   setRef,
+  getAllTags,
 };
