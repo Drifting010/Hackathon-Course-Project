@@ -1,9 +1,5 @@
 import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import CssBaseline from '@mui/material/CssBaseline';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -12,16 +8,8 @@ import theme from '../../Components/theme';
 import { Pagination } from '@mui/lab';
 import { EmojiPeople } from '@mui/icons-material';
 
-const cards = [1, 2, 3, 4, 5, 6];
-
 // This is the main function that returns the participantHome component
 export default function ParticipantHome() {
-
-    // Handle the page change event of the Pagination component
-    const handlePageChange = (event, value) => {
-        // Implement the logic to load new data based on the selected page
-        console.log("Selected page:", value);
-    };
 
     return (
         <ThemeProvider theme={theme}>
@@ -95,13 +83,6 @@ export default function ParticipantHome() {
                     ))}
                 </Grid>
 
-                {/* Box component to center the Pagination component */}
-                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-                    {/* Pagination component to navigate between pages of hackathons */}
-                    <Pagination count={10} color="primary" onChange={handlePageChange} />
-                </Box>
-
-            </Container>
         </ThemeProvider>
     );
 
