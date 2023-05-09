@@ -106,8 +106,9 @@ export default function EditParticipantProfile() {
                         <Typography
                             sx={{
                                 ...theme.typography,
-                                fontWeight: 600,
-                                fontSize: '18px',
+                                fontWeight: 700,
+                                fontSize: '25px',
+                                color: '#FFFFFF',
                             }}
 
                         >
