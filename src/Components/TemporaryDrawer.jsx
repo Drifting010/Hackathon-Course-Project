@@ -61,7 +61,7 @@ export default function TemporaryDrawer({onTagClick}) {
       {
         <React.Fragment>
           {/* Add a button that triggers the drawer */}
-          <Button variant="outlined" onClick={toggleDrawer('right', true)}>TAG</Button>
+          <Button variant="outlined" onClick={toggleDrawer(true)}>TAG</Button>
           {/* Add a drawer component that displays the list of tags */}
           <Drawer
             anchor={'right'}
