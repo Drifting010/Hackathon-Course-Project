@@ -1,11 +1,19 @@
 import '@testing-library/jest-dom';
-import { render, fireEvent } from '@testing-library/react';
+import { expect, it, vi } from 'vitst';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import Signup from '../../src/pages/onboardingPages/signup';
+import { AppContext } from '../../src/Components/AppContextProvider';
 
 describe('Signup', () => {
     it('Renders all input and button elements correctly', () => {
+        // Mocking function inside Signup component
+        const createUserWithEmailAndPasswordFunction = vi.fn();
         // render component
-        const { getByLabelText, getByText, getByRole } = render(<Signup />);
+        const { getByLabelText, getByText, getByRole } = render(
+            <AppContext.Provider value={{createUserWithEmailAndPasswordFunction}}>
+                <Signup />
+            </AppContext.Provider>
+        );
 
         // test: input and button elements are rendered for participant
         expect(getByLabelText('Email (Participant)')).toBeInTheDocument();
