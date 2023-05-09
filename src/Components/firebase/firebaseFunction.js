@@ -191,17 +191,6 @@ const getHackathonByTag = async (filters) => {
   }
 };
 
-const getAllTags = async (collectionName) => {
-  try{
-    const querySnapshot = await getDocs(collection(db, collectionName));
-    const documentations = querySnapshot.docs.map(doc => doc.data()['label']);
-    return documentations;
-  }catch (error){
-    console.error('Error getting all tags', error);
-  }
-  
-};
-
 //upload file onto firebase storage
 const uploadIcon = async (file, userId, setLoading) => {
   const fileRef = ref(storage, 'userIcons/' + userId);
@@ -267,6 +256,18 @@ const getCurrentUser = () => {
   return null; 
 }
 
+// get all tags
+const getAllTags = async (collectionName) => {
+  try{
+    const querySnapshot = await getDocs(collection(db, collectionName));
+    const documentations = querySnapshot.docs.map(doc => doc.data()['label']);
+    return documentations;
+  }catch (error){
+    console.error('Error getting all tags', error);
+  }
+  
+};
+
 export {
   addHackathon,
   createUserWithEmailAndPasswordFunction,
@@ -279,10 +280,10 @@ export {
   getDocumentInCollectionById,
   getMultipleDocuments,
   getHackathonByTag,
-  getAllTags,
   uploadIcon,
   getCurrentUser,
   uploadFile,
   downLoadFile,
   setRef,
+  getAllTags,
 };
