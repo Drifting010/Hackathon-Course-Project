@@ -64,7 +64,6 @@ const getAllDocumentations = async (collectionName) => {
   }catch (error){
     console.error('Error getting all documentations', error);
   }
-  
 };
 
 //Get the document by specify the id
@@ -227,27 +226,51 @@ const getUserProfile = async (email) => {
   return [profile]; 
 }
 
+const createHostProfile = async (profileData) => {
+  try{
+    const profileRef = doc(collection(db, 'hostProfiles'),profileData.user);
+    await setDoc (profileRef, profileData);
+    return profileRef;
+  } catch (error) {
+    console.error('Error creating file', error);
+  }
+}
 
-
+const createParticipantProfile = async (profileData) => {
+  try{
+    const profileRef = doc(collection(db, 'participantProfiles'),profileData.user);
+    await setDoc (profileRef, profileData);
+    return profileRef;
+  } catch (error) {
+    console.error('Error creating file', error);
+  }
+}
+ 
 // Create a new user with email and password authentication and store their data in the 'users' collection
 const createUserWithEmailAndPasswordFunction = async (
   email,
   password,
-  username,
   role,
-  profile,
+  profileData,
 ) => {
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const { user } = userCredential;
-
-    const userData = {
-      uid: user.uid,
-      email,
-      username,
-      role,
-      profile,
-    };
+    await createUserWithEmailAndPassword(auth, email, password);
+    let userData = {}; // Change this line to use let instead of const
+    if (role === 'host'){
+      const profile = await createHostProfile(profileData);
+      userData = {
+        email,
+        role: 'host',
+        profile: profile,
+      };
+    } else {
+      const profile = await createParticipantProfile(profileData);
+      userData = {
+        email,
+        role: 'participant',
+        profile: profile,
+      };
+    }
 
     const userRef = doc(collection(db, 'users'), email);
     await setDoc(userRef, userData);
@@ -257,6 +280,8 @@ const createUserWithEmailAndPasswordFunction = async (
     console.error('Error creating user: ', error);
   }
 };
+
+
 
 // Sign in a user with their email and password
 const signInWithEmailAndPasswordFunction = async (email, password) => {

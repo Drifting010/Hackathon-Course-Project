@@ -1,72 +1,59 @@
-import { getUser, getHackathon } from '../../src/Components/firebase/firebaseFunction';
+import {
+  addHackathon,
+  // signInWithGoogleFunction,
+  getUser,
+  getHackathon,
+  getAllDocumentations,
+  getDocumentInCollectionById,
+  getMultipleDocuments,
+  getHackathonByTag,
+  getCurrentUser,
+  addToArray,
+  removeFromArray,
+  getUserProfile,
+} from "../../src/Components/firebase/firebaseFunction";
 
-// Mock the functions that interact with Firestore
-jest.mock('../../src/Components/firebase/firebaseFunction', () => ({
-  // ... other mocked functions
-  getUser: jest.fn(() =>
-    Promise.resolve({
-      uid: 'test-user-id',
-      email: 'test@example.com',
-      role: 'participant',
-      profile: {
-        username: 'testuser',
-        firstName: 'John',
-        lastName: 'Doe',
-        organization: 'Test Org',
-        interestDomain: 'AI',
-      },
-    })
-  ),
-  getHackathon: jest.fn(() =>
-    Promise.resolve({
-      id: 'test-hackathon-id',
-      title: 'Test Hackathon',
-      prizePool: 10000,
-      status: 'ongoing',
-      hackathonDescription: 'A test hackathon',
-      startDate: new Date('2023-01-01'),
-      endDate: new Date('2023-01-31'),
-      numberOfRegistrations: 100,
-      members: ['user1', 'user2', 'user3'],
-    })
-  ),
-}));
+import { app, auth } from '../../src/firebaseConfig';
+app;
+const testAuth = auth;
+// Test getAllDocumentations
+test('retrieve all documentaion correctly', async () => {
+  // Add mock data to the collection
+  const hackathonCollection = 'hackathons';
 
-// ... other test cases
+  // Call the getAllHackathons function
+  const result = await getAllDocumentations(hackathonCollection);
 
-test('getUser reads user data from Firestore', async () => {
-  const uid = 'test-user-id';
-
-  const userData = await getUser(uid);
-
-  expect(userData).toEqual({
-    uid: 'test-user-id',
-    email: 'test@example.com',
-    role: 'participant',
-    profile: {
-      username: 'testuser',
-      firstName: 'John',
-      lastName: 'Doe',
-      organization: 'Test Org',
-      interestDomain: 'AI',
-    },
-  });
+  // Check if the result contains the correct data
+  expect(result.length).not.toEqual(0);
 });
 
-test('getHackathon reads hackathon data from Firestore', async () => {
-  const hackathonId = 'test-hackathon-id';
+// Test getDocumentInCollectionById
+test("get document in collection by id", async () => {
+  // Create a test collection and a sample document
+  const testCollection = "users";
+  const testId =  "testHost@example.com";
 
-  const hackathonData = await getHackathon(hackathonId);
+  // Call the getDocumentInCollectionById function with the testCollection and sampleDoc.id
+  const documentData = await getDocumentInCollectionById(testCollection, testId);
+  // Verify that the document data is correct
+  expect(documentData.email).toEqual(testId);
+});
 
-  expect(hackathonData).toEqual({
-    id: 'test-hackathon-id',
-    title: 'Test Hackathon',
-    prizePool: 10000,
-    status: 'ongoing',
-    hackathonDescription: 'A test hackathon',
-    startDate: new Date('2023-01-01'),
-    endDate: new Date('2023-01-31'),
-    numberOfRegistrations: 100,
-    members: ['user1', 'user2', 'user3'],
+// Test getMultipleDocuments
+test("retrieve multiple documents based on condition", async () => {
+  // Add sample data to the collection
+  const testCollection = "users";
+  const testRole = "host";
+
+  // You may need to set up some test data in the "users" collection with role "host" before running the test
+
+  // Call the getMultipleDocuments function with the testCollection and the conditions
+  const documents = await getMultipleDocuments(testCollection, "role", "==", testRole);
+
+  // Check if the documents meet the conditions
+  expect(documents.docs.length).toBeGreaterThan(0);
+  documents.docs.forEach((doc) => {
+    expect(doc.data().role).toEqual(testRole);
   });
 });
