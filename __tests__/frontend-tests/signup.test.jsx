@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { expect, it, vi } from 'vitst';
+import { expect, it, vi } from 'vitest';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import Signup from '../../src/pages/onboardingPages/signup';
 import { AppContext } from '../../src/Components/AppContextProvider';
