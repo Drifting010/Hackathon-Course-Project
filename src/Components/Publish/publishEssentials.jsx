@@ -1,8 +1,9 @@
-import { Box, TextField } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { useState } from "react";
 import * as React from 'react';
+import { addHackathon } from "../firebase/firebaseFunction";
 
 function PublishEssentials() {
     const [startDate, setStartDate] = useState(null);
@@ -10,6 +11,18 @@ function PublishEssentials() {
 
     const [hackathonName, setHackathonName] = useState('');
     const [hackathonDescription, setHackathonDescription] = useState('');
+
+    const handlePublish = async () => {
+        const hackathon = {
+            id: hackathonName,
+            title: hackathonName,
+            description: hackathonDescription,
+            startDate: startDate,
+            endDate: endDate
+        };
+
+        await addHackathon(hackathon);
+    }
 
     return (
         <div>
@@ -65,7 +78,7 @@ function PublishEssentials() {
                         <DatePicker
                             label="Start Date"
                             value={startDate}
-                            onChange={(newValue) => setStartDate(newValue)}
+                            onChange={(newValue) => setStartDate(newValue.$d)}
                         />
                     </Box>
                     <Box
@@ -74,12 +87,17 @@ function PublishEssentials() {
                         <DatePicker
                             label="End Date"
                             value={endDate}
-                            onChange={(newValue) => setEndDate(newValue)}
+                            onChange={(newValue) => setEndDate(newValue.$d)}
                         />
                     </Box>
                 </LocalizationProvider>
             </Box>
 
+            <Button
+                onClick={handlePublish}
+            >
+                Test
+            </Button>
         </div>
     )
 }
