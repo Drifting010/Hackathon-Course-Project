@@ -32,7 +32,7 @@ test("create user with email and password", async () => {
 
   // Verify that the user data is correct
   expect(userData.uid).toEqual(user.uid);
-  await signOutFunction();
+  signOutFunction();
 });
 
 // This may get tested after the SignUp page get created
@@ -74,7 +74,7 @@ test("sign in with email and password and sign out", async () => {
   expect(userData.email).toEqual(email);
 
   // Sign out the user
-  await signOutFunction();
+  signOutFunction();
 });
 
 // Test signUserOut

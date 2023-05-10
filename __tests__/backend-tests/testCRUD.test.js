@@ -17,6 +17,12 @@ import {
   updateParticipatedHacakthon,
   createUserWithEmailAndPasswordFunction,
   signOutFunction,
+  setWinner,
+  addDocumentToSubCollection,
+  deleteDocumentFromSubCollection,
+  updateDocumentFromSubCollection,
+  resetPassword,
+
 } from "../../src/Components/firebase/firebaseFunction";
 import { getDoc, doc, collection } from "firebase/firestore";
 import { app, auth, db } from "../../src/firebaseConfig";
@@ -149,7 +155,7 @@ describe("Firebase Functions", () => {
     const userProfile = await getUserProfile(testEmail);
     console.log("this is the userProfile", userProfile);
     expect(userProfile).not.toBeNull();
-    expect(userProfile.username).toEqual(testUsername);
+    expect(userProfile.user).toEqual(testEmail);
   });
 
   test("getCurrentUser", () => {
@@ -279,8 +285,9 @@ describe("Firebase update participants", () => {
   test("update participated hackathon", async () => {
     const hackathonId = "hackathonExample";
     const userEmail = "testParticipant@example.com";
-    await createUserWithEmailAndPasswordFunction(userEmail, testPassword);
-    await signInWithEmailAndPasswordFunction(userEmail, testPassword);
+    const testpassword = 'testpassword'
+    await createUserWithEmailAndPasswordFunction(userEmail, testpassword);
+    await signInWithEmailAndPasswordFunction(userEmail, testpassword);
 
     // Make sure the user exists in the database before running the test
     const user = await getUser(userEmail);
@@ -321,7 +328,6 @@ describe("Firebase update participants", () => {
   test("delete participated hackathon", async () => {
     const hackathonId = "hackathonExample";
     const userEmail = "testParticipant@example.com";
-
     await signInWithEmailAndPasswordFunction(userEmail, testPassword);
 
     // Make sure the user exists in the database before running the test
@@ -351,5 +357,114 @@ describe("Firebase update participants", () => {
     // Verify that the hackathon reference was deleted from the user profile
     expect(userSnapshot.exists()).toBeFalsy();
     signOutFunction();
+  });
+});
+
+describe("Firebase SubCollection Functions", () => {
+  let currentUser;
+  const testEmail = "test@example.com";
+
+  beforeAll(async () => {
+    currentUser = await signInWithEmailAndPasswordFunction(
+      testEmail,
+      testPassword
+    );
+  });
+
+  afterAll(async () => {
+    await signOutFunction();
+  });
+
+  test("addDocumentToSubCollection", async () => {
+    // Prepare test data
+    const collectionName = "testCollection";
+    const documentId = "testDocument";
+    const subCollectionName = "testSubCollection";
+    const nestedDocumentId = "testNestedDocument";
+    const data = { key: "value" };
+
+    // Call the function
+    await addDocumentToSubCollection(
+      collectionName,
+      documentId,
+      subCollectionName,
+      nestedDocumentId,
+      data
+    );
+
+    // Verify the result (check if the document was added to the subcollection)
+    const docRef = doc(db, collectionName, documentId, subCollectionName, nestedDocumentId);
+    const docSnapshot = await getDoc(docRef);
+    expect(docSnapshot.exists()).toBeTruthy();
+    expect(docSnapshot.data()).toEqual(data);
+  });
+
+  test("updateDocumentFromSubCollection", async () => {
+      // Prepare test data
+      const collectionName = "testCollection";
+      const documentId = "testDocument";
+      const subCollectionName = "testSubCollection";
+      const nestedDocumentId = "testNestedDocument";
+      const data = { key: "newValue" };
+
+      // Call the function
+      await updateDocumentFromSubCollection(
+        collectionName,
+        documentId,
+        subCollectionName,
+        nestedDocumentId,
+        data
+      );
+
+      // Verify the result (check if the document was updated in the subcollection)
+      const docRef = doc(db, collectionName, documentId, subCollectionName, nestedDocumentId);
+      const docSnapshot = await getDoc(docRef);
+      expect(docSnapshot.exists()).toBeTruthy();
+      expect(docSnapshot.data()).toEqual(data);
+    });
+
+  test("deleteDocumentFromSubCollection", async () => {
+    // Prepare test data
+    const collectionName = "testCollection";
+    const documentId = "testDocument";
+    const subCollectionName = "testSubCollection";
+    const nestedDocumentId = "testNestedDocument";
+
+    // Call the function
+    await deleteDocumentFromSubCollection(
+      collectionName,
+      documentId,
+      subCollectionName,
+      nestedDocumentId
+    );
+
+    // Verify the result (check if the document was deleted from the subcollection)
+    const docRef = doc(db, collectionName, documentId, subCollectionName, nestedDocumentId);
+    const docSnapshot = await getDoc(docRef);
+    expect(docSnapshot.exists()).toBeFalsy();
+  });
+
+  
+  test("setWinner", async () => {
+    // Prepare test data
+    const hackathonId = "testHackathon";
+    const email = "test@example.com";
+    const data = { prize: "First Prize" };
+
+    // Call the function
+    await setWinner(hackathonId, email, data);
+
+    // Verify the result (check if the winner was added to the hackathon's winners subcollection)
+  });
+
+  test("resetPassword", async () => {
+    // Prepare test data
+    const newPassword = "testpassword";
+
+    // Call the function
+    await resetPassword(newPassword);
+    await resetPassword(testPassword);
+
+    // Verify the result (check if the password was updated for the current user)
   });
 });

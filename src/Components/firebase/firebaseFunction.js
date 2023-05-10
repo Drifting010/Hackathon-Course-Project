@@ -6,7 +6,7 @@ import {
 import { db, auth, storage } from '../../firebaseConfig';
 import {  ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import { //signInWithPopup,
-   signInWithEmailAndPassword ,signOut, createUserWithEmailAndPassword,updateProfile} from 'firebase/auth';
+   signInWithEmailAndPassword ,signOut, updatePassword, createUserWithEmailAndPassword,updateProfile} from 'firebase/auth';
 
 //CRUD Operations
 //Automatically add a new item to array field
@@ -143,23 +143,20 @@ const addHackathon = async (hackathonData) => {
   }
 };
 
+//add or update the particpant to hackathons
 const updateParticipatedHacakthon = async (hackathonId, email) => {
   try {
-    const user = await getUser(email);
-    console.log('Test update user', user)
-    
     const eventRef = doc(db, 'hackathons', hackathonId, 'participants', email);
-    console.log('Test Event Ref', 'myEvents', user)
     const userRef = doc(db, 'participantProfiles', email, 'myEvents', hackathonId);
-    console.log('Test User Ref', user)
     await setDoc(eventRef, {email: email}, { merge: true });
     await setDoc(userRef, {hackathonId: hackathonId}, { merge: true })
 
   } catch (error) {
-    console.error('Error Deleting hackathon: ', error);
+    console.error('Error Updating hackathon: ', error);
   }
 };
 
+//remove the particpants from the hackathon
 const deleteParticipatedHacakthon = async (hackathonId, email) => {
   try {
     const eventRef = doc(db, 'hackathons', hackathonId, 'participants', email);
@@ -168,7 +165,49 @@ const deleteParticipatedHacakthon = async (hackathonId, email) => {
     await deleteDoc(userRef)
 
   } catch (error) {
-    console.error('Error adding hackathon: ', error);
+    console.error('Error deleting hackathon: ', error);
+  }
+};
+
+//General add sub collection documentation
+const addDocumentToSubCollection = async (collectionName, documentId, subCollectionName, nestedDocumentId, data) => {
+  try{
+    const mainDocRef = doc(db, collectionName, documentId);
+    await setDoc(mainDocRef, {}, {merge: true})
+    const subCollectionRef = collection(mainDocRef, subCollectionName);
+    const nestedDocRef = doc(subCollectionRef, nestedDocumentId);
+    await setDoc(nestedDocRef, data, {merge: true});
+  } catch (error) {
+    console.error('Error add subCollection');
+  }
+}
+
+//general remove document from the subcollection
+const deleteDocumentFromSubCollection = async (collectionName, documentId, subCollectionName, nestedDocumentId, data) => {
+  try{
+    const documentRef = doc(db, collectionName, documentId, subCollectionName, nestedDocumentId);
+    await deleteDoc(documentRef);
+  } catch (error) {
+    console.error('Error delete subCollection');
+  }
+};
+
+const updateDocumentFromSubCollection = async (collectionName, documentId, subCollectionName, nestedDocumentId, data) => {
+  try{
+    const documentRef = doc(db, collectionName, documentId, subCollectionName, nestedDocumentId);
+    await updateDoc(documentRef, data);
+  } catch (error) {
+    console.error('Error updating subCollection');
+  }
+};
+
+//Set Winner similar cause can use this as an example
+//Add single user to winner, with price
+const setWinner = async (hackathonId, email, data) => {
+  try{
+    await addDocumentToSubCollection('hackathons', hackathonId, 'winners',email, data)
+  } catch (error) {
+    console.error('Error adding winner');
   }
 };
 
@@ -228,7 +267,6 @@ const downLoadFile = (fileRef) => {
   })
  };
 
-
 //User Operations
 //Get Current User
 const getCurrentUser = () => {
@@ -272,6 +310,7 @@ const createHostProfile = async (profileData) => {
   }
 }
 
+//create profile for participants
 const createParticipantProfile = async (profileData) => {
   try{
     const profileRef = doc(collection(db, 'participantProfiles'),profileData.user);
@@ -282,6 +321,8 @@ const createParticipantProfile = async (profileData) => {
   }
 }
 
+
+//update profile for user
 const updateUserProfile = async (profileData, role) => {
   if (role == 'host') {
     await createHostProfile(profileData);
@@ -364,12 +405,30 @@ const signInWithEmailAndPasswordFunction = async (email, password) => {
 // };
 
 // Sign out the currently authenticated user
-const signOutFunction = () =>
-  signOut(auth).then(() => {
-    console.log("signout successfully")
+const signOutFunction = async () => {
+  return signOut(auth)
+    .then(() => {
+      console.log("signout successfully");
+    })
+    .catch((error) => {
+      console.error("Error signing out", error);
+    });
+};
+
+  
+//reset userPassowrd
+const resetPassword = async (newPassword) => {
+  const user = auth.currentUser;
+  updatePassword(user, newPassword).then(() => {
+    console.log('password changed succesfully')
+    // Update successful.
   }).catch((error) => {
-    console.error('Error signing out', error);
-  })
+    // An error ocurred
+    // ...
+    console.error('error resetting password', error)
+  });
+}
+
 
 // Get user data from the 'users' collection by email
 const getUser = async (email) => {
@@ -385,6 +444,7 @@ const getUser = async (email) => {
 
 export {
   addHackathon,
+  addDocumentToSubCollection,
   createUserWithEmailAndPasswordFunction,
   // signInWithGoogleFunction,
   signInWithEmailAndPasswordFunction,
@@ -397,6 +457,7 @@ export {
   getHackathonByTag,
   updateParticipatedHacakthon,
   updateUserProfile,
+  updateDocumentFromSubCollection,
   createHostProfile,
   createParticipantProfile,
   uploadIcon,
@@ -406,8 +467,11 @@ export {
   setRef,
   addToArray,
   removeFromArray,
+  setWinner,
   deleteParticipatedHacakthon,
+  deleteDocumentFromSubCollection,
   sendEmailVerification,
+  resetPassword,
   getDocumentByRef,
   getUserProfile,
   getAllTags,
