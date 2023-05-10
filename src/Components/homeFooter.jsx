@@ -18,6 +18,7 @@ function Copyright() {
   );
 }
 
+// This is the main function that returns the Footer component
 function Footer(props) {
   const { description } = props;
 

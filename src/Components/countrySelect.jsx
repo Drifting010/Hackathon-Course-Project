@@ -2,15 +2,20 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import InputAdornment from '@mui/material/InputAdornment';
+import PublicOutlinedIcon from '@mui/icons-material/PublicOutlined';
 
-export default function CountrySelect() {
+// This is the main function that returns the countrySelect component
+export default function CountrySelect({ value, onChange }) {
     return (
         // Autocomplete component for country selection
         <Autocomplete
             id="country-select-demo"
-            sx={{ width: 500 }}
+            sx={{ width: '500px', background: '#21262D' }}
             options={countries} // Array of country objects
             autoHighlight
+            value={value}
+            onChange={onChange}
             getOptionLabel={(option) => option.label} // Display country label in the input field
             renderOption={(props, option) => (
                 // Customize the rendering of each option in the dropdown list
@@ -36,6 +41,14 @@ export default function CountrySelect() {
                         ...params.inputProps,
                         autoComplete: 'new-password', // disable autocomplete and autofill
                     }}
+                    InputProps={{
+                        ...params.InputProps,
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <PublicOutlinedIcon />
+                            </InputAdornment>
+                        ),
+                    }}
                 />
             )}
         />
@@ -43,7 +56,7 @@ export default function CountrySelect() {
 }
 
 // From https://bitbucket.org/atlassian/atlaskit-mk-2/raw/4ad0e56649c3e6c973e226b7efaeb28cb240ccb0/packages/core/select/src/data/countries.js
-const countries = [
+export const countries = [
     { code: 'AD', label: 'Andorra', phone: '376' },
     {
         code: 'AE',

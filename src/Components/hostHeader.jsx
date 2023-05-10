@@ -13,8 +13,8 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Link from '@mui/material/Link';
 
-// This is the main function that returns the participantHeader component
-export default function ParticipantHeader() {
+// This is the main function that returns the hostHeader component
+export default function HostHeader() {
 
     // useState hook to handle user menu opening and closing
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -34,7 +34,7 @@ export default function ParticipantHeader() {
         // AppBar component for the top app bar
         <AppBar position="static">
             {/* Container for content within the AppBar */}
-            <Container maxWidth="xl">
+            <Container maxWidth="xl" sx={{ bgcolor: '#0D1116'}}>
                 {/* Toolbar for displaying navigation items and actions */}
                 <Toolbar disableGutters>
 
@@ -43,40 +43,83 @@ export default function ParticipantHeader() {
                         <nav>
                             <Link
                                 variant="button"
-                                href="./explore_hackathons"
-                                sx={{ my: 2, mr: 2, color: 'white', display: 'inline-block', textTransform: 'none', textDecoration: 'none' }}
+                                href="./dashboard"
+                                sx={{ 
+                                    my: 2, 
+                                    mr: 2, 
+                                    color: 'white', 
+                                    display: 'inline-block', 
+                                    textTransform: 'none', 
+                                    textDecoration: 'none',
+                                    '&:hover':{
+                                        color: '#4474F1',
+                                    },
+                                    '&:active': {
+                                        color: '#4474F1',
+                                    }, }}
                             >
-                                Explore Hackathons
+                                Dashboard
                             </Link>
                             <Link
                                 variant="button"
-                                href="./my_events"
-                                sx={{ my: 2, color: 'white', display: 'inline-block', textTransform: 'none', textDecoration: 'none' }}
+                                href="./data_analytics"
+                                sx={{ 
+                                    my: 2, 
+                                    mr: 2, 
+                                    color: 'white', 
+                                    display: 'inline-block', 
+                                    textTransform: 'none', 
+                                    textDecoration: 'none',
+                                    '&:hover':{
+                                        color: '#4474F1',
+                                    },
+                                    '&:active': {
+                                        color: '#4474F1',
+                                    }, }}
                             >
-                                My Events
+                                Data Analytics
+                            </Link>
+                            <Link
+                                variant="button"
+                                href="./help_centre"
+                                sx={{ 
+                                    my: 2, 
+                                    mr: 2, 
+                                    color: 'white', 
+                                    display: 'inline-block', 
+                                    textTransform: 'none', 
+                                    textDecoration: 'none',
+                                    '&:hover':{
+                                        color: '#4474F1',
+                                    },
+                                    '&:active': {
+                                        color: '#4474F1',
+                                    }, }}
+                            >
+                                Help Centre
                             </Link>
                         </nav>
                     </Box>
 
                     {/* Second Box: Contains the logo and AdbIcon */}
                     <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
-                        <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+                        <AdbIcon sx={{ display: { xs: 'none', md: 'flex', color: '#4474F1' }, mr: 1 }} />
                         <Typography
                             variant="h6"
                             noWrap
                             component="a"
-                            href="./participant_home"
+                            href="./host_home"
                             sx={{
                                 mr: 2,
                                 display: { xs: 'none', md: 'flex' },
                                 fontFamily: 'monospace',
                                 fontWeight: 700,
-                                color: 'inherit',
+                                color: '#4474F1',
                                 textDecoration: 'none',
                             }}
                         >
                             {/* LOGO */}
-                            Hackathon  
+                            HACKATHON
                         </Typography>
                     </Box>
 
@@ -86,10 +129,11 @@ export default function ParticipantHeader() {
                     {/* Fourth Box: Contains the "Switch to Hosting" button and user menu with avatar */}
                     <Box sx={{ flexGrow: 0 }}>
                         <Button
+                            variant='outlined'
                             href="#"
-                            sx={{ my: 2, mr: 2, color: 'white', display: 'inline-block', textTransform: 'none' }}
+                            sx={{ my: 2, mr: 2, color: 'white', display: 'inline-block', textTransform: 'none', borderColor: 'white' }}
                         >
-                            Switch to Hosting
+                            Switch to attending
                         </Button>
                         <Tooltip>
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -116,8 +160,8 @@ export default function ParticipantHeader() {
                                 <Typography
                                     textAlign="center"
                                     component="a"
-                                    href="./profile"
-                                    sx={{ textDecoration: 'none', color: 'black' }}
+                                    href="./host_profile"
+                                    sx={{ textDecoration: 'none', color: 'white' }}
                                     data-testid="menu-item-profile"
                                 >
                                     Profile
@@ -127,22 +171,11 @@ export default function ParticipantHeader() {
                                 <Typography
                                     textAlign="center"
                                     component="a"
-                                    href="./account"
-                                    sx={{ textDecoration: 'none', color: 'black' }}
+                                    href="./host_account"
+                                    sx={{ textDecoration: 'none', color: 'white' }}
                                     data-testid="menu-item-account"
                                 >
                                     Account
-                                </Typography>
-                            </MenuItem>
-                            <MenuItem key="dashboard" onClick={handleCloseUserMenu}>
-                                <Typography
-                                    textAlign="center"
-                                    component="a"
-                                    href="#"
-                                    sx={{ textDecoration: 'none', color: 'black' }}
-                                    data-testid="menu-item-dashboard"
-                                >
-                                    Dashboard
                                 </Typography>
                             </MenuItem>
                             <MenuItem key="logout" onClick={handleCloseUserMenu}>
@@ -150,7 +183,7 @@ export default function ParticipantHeader() {
                                     textAlign="center"
                                     component="a"
                                     href="#"
-                                    sx={{ textDecoration: 'none', color: 'black' }}
+                                    sx={{ textDecoration: 'none', color: 'white' }}
                                     data-testid="menu-item-logout"
                                 >
                                     Logout

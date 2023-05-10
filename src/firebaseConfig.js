@@ -1,6 +1,8 @@
-import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
-import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import * as firebase from "firebase/app";
+import { getFirestore, connectFirestoreEmulator} from 'firebase/firestore';
+import { getAuth, GoogleAuthProvider,connectAuthEmulator} from 'firebase/auth';
+import { getStorage, ref } from "firebase/storage";
+
 
 // Web app's Firebase configuration
 const firebaseConfig = {
@@ -14,9 +16,15 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const app = firebase.initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
-const provider = new GoogleAuthProvider;
+const provider = new GoogleAuthProvider();
+const storage = getStorage(app);
+const storageRef = ref(storage);
 
-export { db, auth, provider};
+const ConnectEmulator = () => {
+  connectFirestoreEmulator(db, 'localhost', 8080);
+  connectAuthEmulator(auth, 'http://localhost:9099/');
+}
+export { app, db, auth, provider, storage, storageRef, ConnectEmulator};

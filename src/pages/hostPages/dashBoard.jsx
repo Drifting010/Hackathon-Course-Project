@@ -17,8 +17,8 @@ import Box from '@mui/material/Box';
 // An array of card objects to be displayed
 const cards = [1];
 
-// This is the main function that returns the myEvents component
-export default function MyEvents(props) {
+// This is the main function that returns the Dashboard component
+export default function Dashboard(props) {
   return (
     <div>
       {props.isLoggedIn && props.data ? (
@@ -70,7 +70,7 @@ export default function MyEvents(props) {
           <CssBaseline />
           <Container sx={{ py: 2 }} maxWidth="md">
             <Box align="center">
-              <img src="src\Icons\EmptyIcon.png" alt="Currently my event is empty" width="50%" height="50%"/>
+              <img src="src\Icons\EmptyIcon.png" alt="Currently my event is empty" width="30%" height="30%"/>
             </Box>
             <Typography
               component="h1"
@@ -79,13 +79,13 @@ export default function MyEvents(props) {
               color="text.primary"
               gutterBottom
             >
-              No results found
+              You havent hosted any hackathon.
             </Typography>
             <Typography variant="h8" align="center" color="text.secondary" paragraph>
-              Try looking for other tags
+              The hackathons hosted by you will be shown here
             </Typography>
             <Box align="center">
-              <Button variant="outlined" text-decoration="none"> <Link to="/explore_hackathons">Explore Hackathons</Link></Button>
+              <Button  sx={{color:'white', bgcolor: '#4474F1'}} variant="contained" text-decoration="none" href='/host_home'>Host a Hackathon now</Button>
             </Box>
           </Container>
         </ThemeProvider>
