@@ -32,6 +32,7 @@ import { HostEditprofile } from './pages/hostPages';
 
 import './App.css'
 import theme from './Components/theme';
+import Login from './pages/Login';
 
 export default function App() {
 
@@ -49,6 +50,7 @@ export default function App() {
               <Route path="/register_profile_participant" element={<RegisterProfileParticipant />} />
               <Route path="/register_profile_host" element={<RegisterProfileHost />} />
               <Route path="/interests" element={<Interests />} />
+              <Route path="/login" element={<Login/>}/>
               {/* part 02 */}
               <Route path="/participant_home" element={<ParticipantHome />} />
               <Route path="/explore_hackathons" element={<ExploreHackathons />} />
