@@ -32,6 +32,7 @@ import { HostEditprofile } from './pages/hostPages';
 
 import './App.css'
 import theme from './Components/theme';
+import PublishHackathonPage from './pages/publishHackathonPage';
 import Login from './pages/Login';
 
 export default function App() {
@@ -67,6 +68,7 @@ export default function App() {
               <Route path='/host_account' element={<HostAccountSetting />} />
               <Route path='/host_profile' element={<HostProfile />} />
               <Route path='/host_editprofile' element={<HostEditprofile />} />
+              <Route path="/publish_hackathon" element={<PublishHackathonPage />} />
             </Routes>
           </main>
           <HomeFooter />
