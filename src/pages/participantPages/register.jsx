@@ -1,11 +1,13 @@
 import * as React from 'react';
-import {  ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../Components/theme';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import InputAdornment from '@mui/material/InputAdornment';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 
 // This is the main function that returns the registerHackathons component
 export default function RegisterHackathons() {
@@ -20,17 +22,29 @@ export default function RegisterHackathons() {
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
+                    alignItems: 'center',
+                    minHeight: '100vh',
+                    pt: '5rem',
                 }}
             >
-                <Container maxWidth="md">
+                {/* Inner Box containing the form */}
+                <Box
+                    sx={{
+                        textAlign: 'left',
+                    }}
+                >
                     {/* Typography component for displaying the hackathon registration title */}
                     <Typography
-                        component="h4"
-                        variant="h4"
                         align="left"
-                        color="text.secondary"
-                        gutterBottom
-                        mb={5} // Add margin-bottom here
+                        sx={{
+                            fontFamily: 'Inter',
+                            fontStyle: 'normal',
+                            fontSize: '24px',
+                            fontWeight: 500,
+                            letterSpacing: '0.75px',
+                            color: '#FFFFFF',
+                        }}
+                        mb={3}
                     >
                         Register Project Event bengal tiger
                     </Typography>
@@ -38,26 +52,46 @@ export default function RegisterHackathons() {
                     {/* Typography component for displaying the hackathon rules and information */}
                     <Typography
                         align="left"
-                        color="text.secondary"
-                        paragraph
-                        mb={5} // Add margin-bottom here
+                        sx={{
+                            fontFamily: 'Inter',
+                            fontStyle: 'normal',
+                            fontSize: '16px',
+                            fontWeight: 500,
+                            letterSpacing: '0.75px',
+                            color: '#FFFFFF',
+                        }}
+                        mb={3}
                     >
                         Infor from host about rules for the hackathon
                     </Typography>
 
                     {/* Box component wrapping the first TextField and providing margin-bottom */}
+                    <Box width="100%" >
                         <TextField
                             required
                             id="outlined-required"
                             label="What do you do?"
                             multiline
                             rows={4}
-                            fullWidth // Use fullWidth to take up the entire width of the parent Box
+                            sx={{
+                                border: '1px solid #30363D',
+                                borderRadius: '6px',
+                                width: '500px',
+                                mb: 4,
+                                background: '#21262D'
+                            }}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <DescriptionOutlinedIcon />
+                                    </InputAdornment>
+                                ),
+                            }}
                         />
                     </Box>
 
                     {/* Box component wrapping the second TextField and providing margin-bottom */}
-                    <Box width="100%" mb={5}>
+                    <Box width="100%" >
                         <TextField
                             required
                             id="outlined-required"
@@ -68,31 +102,71 @@ export default function RegisterHackathons() {
                                 border: '1px solid #30363D',
                                 borderRadius: '6px',
                                 width: '500px',
-                                mb:4,
+                                mb: 4,
                                 background: '#21262D'
                             }}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <DescriptionOutlinedIcon />
+                                    </InputAdornment>
+                                ),
+                            }}
                         />
+                    </Box>
 
                     {/* Cancel button to cancel the registration process */}
+                    {/* Cancel button */}
                     <Button
-                        onMouseEnter={handleCancelMouseEnter}
-                        onMouseLeave={handleCancelMouseLeave}
-                        sx={{ mr: 2, textTransform: 'none' }}
-                        variant={isCancelHovered ? 'contained' : 'outlined'}
+                        variant='outlined'
+                        sx={{
+                            mr: 2,
+                            ml: 10,
+                            textTransform: 'none',
+                            width: '142px',
+                            height: '38px',
+                            borderRadius: '10px',
+                            borderColor: '#FF9300',
+                            fontFamily: 'Inter',
+                            fontStyle: 'normal',
+                            fontWeight: 400,
+                            fontSize: '14px',
+                            color: '#FF9300',
+                            '&:hover': {
+                                borderColor: '#FF9300',
+                            },
+
+                        }}
+
                     >
                         Cancel
                     </Button>
-                    {/* Register button to submit the registration information */}
+
+                    {/* Register button */}
                     <Button
-                        onMouseEnter={handleRegisterMouseEnter}
-                        onMouseLeave={handleRegisterMouseLeave}
-                        sx={{ textTransform: 'none' }}
-                        variant={isRegisterHovered ? 'contained' : 'outlined'}
+                        variant='contained'
+                        sx={{
+                            textTransform: 'none',
+                            width: '142px',
+                            height: '38px',
+                            borderRadius: '10px',
+                            background: '#FF9300',
+                            textTransform: 'none',
+                            fontFamily: 'Inter',
+                            fontStyle: 'normal',
+                            fontWeight: 600,
+                            fontSize: '14px',
+                            color: '#FFFFFF',
+                            '&:hover': {
+                                background: '#21262D',
+                            },
+
+                        }}
                     >
                         Register
                     </Button>
 
-                </Container>
+                </Box>
             </Box>
         </ThemeProvider>
     );
