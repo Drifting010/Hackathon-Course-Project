@@ -70,7 +70,6 @@ test("retrieve multiple documents based on condition", async () => {
     "==",
     testRole
   );
-  console.log(documents);
   // Check if the documents meet the conditions
   expect(documents.docs.length).toBeGreaterThan(0);
   documents.docs.forEach((doc) => {
@@ -80,9 +79,6 @@ test("retrieve multiple documents based on condition", async () => {
 
 const testPassword = "testpassword";
 const testRole = "host";
-//const testProfilePath = '/hostProfiles/test@example.com';
-const testUsername = "Cur";
-//const testUserIcon = 'gs://a-plus-on-the-way.appspot.com/userIcons/icon.jpeg';
 
 //Define test data
 const hackathonExample = {
@@ -116,10 +112,10 @@ const hackathonExample = {
 };
 
 describe("Firebase Functions", () => {
-  let currentUser;
+  
   const testEmail = "test@example.com";
-
   beforeAll(async () => {
+    let currentUser;
     currentUser = await signInWithEmailAndPasswordFunction(
       testEmail,
       testPassword
@@ -276,8 +272,6 @@ describe("Firebase Functions", () => {
     const participantProfile = participantProfileSnapshot.data();
     expect(participantProfile).toEqual(profileData);
   });
-
-  console.log(currentUser);
 });
 
 describe("Firebase update participants", () => {
@@ -361,11 +355,10 @@ describe("Firebase update participants", () => {
 });
 
 describe("Firebase SubCollection Functions", () => {
-  let currentUser;
   const testEmail = "test@example.com";
 
   beforeAll(async () => {
-    currentUser = await signInWithEmailAndPasswordFunction(
+      await signInWithEmailAndPasswordFunction(
       testEmail,
       testPassword
     );

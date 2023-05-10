@@ -183,7 +183,7 @@ const addDocumentToSubCollection = async (collectionName, documentId, subCollect
 }
 
 //general remove document from the subcollection
-const deleteDocumentFromSubCollection = async (collectionName, documentId, subCollectionName, nestedDocumentId, data) => {
+const deleteDocumentFromSubCollection = async (collectionName, documentId, subCollectionName, nestedDocumentId) => {
   try{
     const documentRef = doc(db, collectionName, documentId, subCollectionName, nestedDocumentId);
     await deleteDoc(documentRef);
