@@ -71,7 +71,7 @@ test("create user with email and password", async () => {
 test("sign in with email and password and sign out", async () => {
   const email = "testSignIn@example.com";
   const password = "testpassword";
-  const role = "participant";
+  const role = "host";
   const profile = {
     user: email,
     Country: 'China',

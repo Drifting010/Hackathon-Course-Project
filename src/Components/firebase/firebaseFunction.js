@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import {
   collection, doc, setDoc, getDoc, getDocs, query, where,  arrayUnion, arrayRemove, updateDoc, deleteDoc
+
 } from 'firebase/firestore';
 import { db, auth, storage } from '../../firebaseConfig';
 import {  ref, uploadBytes, getDownloadURL} from 'firebase/storage';
@@ -20,6 +21,7 @@ const addToArray = async (collectionName, documentName, fieldName, dataToAdd ) =
 //
 const removeFromArray = async(collectionName, documentName, fieldName, dataToRemove) => {
   const ref = doc(db, collectionName, documentName);
+
 
   await updateDoc(ref, {
     [fieldName]: arrayRemove(dataToRemove),

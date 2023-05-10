@@ -10,37 +10,53 @@ import { useState, useEffect } from 'react';
 import TemporaryDrawer from '../../Components/TemporaryDrawer';
 import HackathonList from './HackathonList'
 
-const initialFilters = { tag: null, offset: null, status: null}
+const initialFilters = { tag: null, offset: null, status: null }
 // const limit = 10
-
-// An array of card objects to be displayed
-const cards = [1, 2, 3];
 
 // Exporting a React functional component named 'Explopre'
 export default function Explopre() {
 
-  const [filters, setFilters] = useState(initialFilters )
+  const [filters, setFilters] = useState(initialFilters);
+  const [activeBtn, setActiveBtn] = useState(null);
 
   useEffect(() => {
     setFilters(initialFilters)
   }, [])
+
   function onTagClick(tag) {
     setFilters({ ...initialFilters, tag })
   }
 
   function onAllClick() {
+    setActiveBtn('all')
     setFilters({ ...initialFilters, tag: null })
   }
 
   function onOngoingClick() {
+    setActiveBtn('ongoing')
     setFilters({ ...initialFilters, status: "ongoing" })
   }
 
   function onFinishedClick() {
+    setActiveBtn('finished')
     setFilters({ ...initialFilters, status: "ended" })
   }
 
-
+  // Function to determine button style based on active button
+  const getButtonStyle = (btn) => ({
+    color: activeBtn === btn ? '#FF9300' : '#6D7681',
+    borderRadius: '10px',
+    borderColor: activeBtn === btn ? '#FF9300' : '#6D7681',
+    fontFamily: 'Inter',
+    fontStyle: 'normal',
+    fontWeight: 500,
+    fontSize: '16px',
+    textTransform: 'none',
+    '&:hover': {
+      borderColor: '#FF9300',
+      color: '#FF9300',
+    },
+  })
 
   return (
     <ThemeProvider theme={theme}>
@@ -60,16 +76,35 @@ export default function Explopre() {
             spacing={2}
             justifyContent="flex-start"
           >
-            <Button variant="outlined" onClick={onAllClick}>All</Button>
-            <Button variant="outlined" onClick={onOngoingClick}>Ongoing</Button>
-            <Button variant="outlined" onClick={onFinishedClick}>Finished</Button>
-            <TemporaryDrawer onTagClick={onTagClick} />
+            <Button
+              variant="outlined"
+              onClick={onAllClick}
+              sx={getButtonStyle('all')}
+            >
+              All
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={onOngoingClick}
+              sx={getButtonStyle('ongoing')}
+            >
+              Ongoing
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={onFinishedClick}
+              sx={getButtonStyle('finished')}
+            >
+              Finished
+            </Button>
+            <TemporaryDrawer
+              onTagClick={onTagClick} />
           </Stack>
         </Container>
       </Box>
       {/* display cards */}
       <Box>
-        <HackathonList filters={filters}/>
+        <HackathonList filters={filters} />
       </Box>
     </ThemeProvider>
   );
