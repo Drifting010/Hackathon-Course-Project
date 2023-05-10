@@ -1,11 +1,11 @@
 import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
 import '@testing-library/jest-dom/extend-expect';
-import EditProfile from "../../src/pages/participantPages/editProfile";
+import EditParticipantProfile from "../../src/pages/participantPages/editParticipantProfile";
 
 describe("EditProfile", () => {
     it("renders all elements correctly, all elements appeared on the page", () => {
-        const { getByRole, getAllByRole, getByLabelText } = render(<EditProfile />);
+        const { getByRole, getAllByRole, getByLabelText } = render(<EditParticipantProfile />);
 
         // Test text fields render user input correctly
         it("text fields render user input correctly", () => {

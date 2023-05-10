@@ -35,9 +35,11 @@ function HackathonList({ filters = initialFilters }) {
             <Grid item key={card} xs={12} sm={6} md={4}>
               <Card
                 sx={{
-                  height: "100%",
+                  height: "300px",
                   display: "flex",
                   flexDirection: "column",
+                  border: '1px solid #30363D',
+                  borderRadius: '10px',
                 }}
                 data-testid="card"
               >
@@ -49,45 +51,78 @@ function HackathonList({ filters = initialFilters }) {
                 />
                 <CardContent sx={{ flexGrow: 1 }}>
                   {card && (
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {card.title !== undefined ? card.title : "title missing"}
+                    <Typography
+                      sx={{
+                        fontFamily: 'Inter',
+                        fontStyle: 'normal',
+                        fontWeight: 700,
+                        fontSize: '14px',
+                        color: '#FFFFFF',
+                      }}
+                    >
+                      {card.title !== undefined ? card.title : "Title missing"}
                     </Typography>
                   )}
-                  <Typography>
-                    🪙
+
+                  <Typography
+                    sx={{
+                      fontFamily: 'Inter',
+                      fontStyle: 'normal',
+                      fontWeight: 500,
+                      fontSize: '12px',
+                      color: '#C9D1D9',
+                      mb: 3
+                    }}
+                  >
                     {card.prizePool !== undefined
-                      ? card.prizePool
+                      ? `Prize pool $ ${card.prizePool}`
                       : "prizePool missing"}
                   </Typography>
+
                   <Stack direction="row" alignItems="center" spacing={2}>
                     {card.status === "ongoing" ? (
-                      <LinearProgress
-                        sx={{ height: 10, width: "60%" }}
-                        color="secondary"
-                        variant="determinate"
-                        value={
-                          card.startDate !== undefined &&
-                          card.endDate !== undefined
-                            ? hackathonPercentage(card.startDate, card.endDate)
-                            : 50
-                        }
-                      />
-                    ) : null}
-                    <Typography fontSize="9px">
-                      Apply in{" "}
-                      {card.startDate !== undefined
-                        ? daysDiff(card.startDate)
-                        : "*"}{" "}
-                      days
-                    </Typography>
+                      <>
+                        <LinearProgress
+                          sx={{ height: 10, width: "50%" }}
+                          color="secondary"
+                          variant="determinate"
+                          value={
+                            card.startDate !== undefined &&
+                              card.endDate !== undefined
+                              ? hackathonPercentage(card.startDate, card.endDate)
+                              : 50
+                          }
+                        />
+                        <Typography fontSize="9px">
+                          Apply in{" "}
+                          {card.startDate !== undefined
+                            ? daysDiff(card.startDate)
+                            : "*"}{" "}
+                          days
+                        </Typography>
+                      </>
+                    ) : (
+                      <>
+                        <Box sx={{ height: 10, width: "40%" }} />
+                        <Typography fontSize="9px">
+                          &nbsp;
+                        </Typography>
+                      </>
+                    )}
                   </Stack>
+
                   <Typography
                     style={{
-                      color: card.status === "ongoing" ? "green" : "red",
+                      color: card.status === "ongoing" ? "#7CDD74" : "#FF6262",
+                      fontFamily: 'Inter',
+                      fontStyle: 'normal',
+                      fontWeight: 700,
+                      fontSize: '12px',
                     }}
                   >
                     {card.status !== undefined ? card.status : "status missing"}
                   </Typography>
+
                 </CardContent>
               </Card>
             </Grid>

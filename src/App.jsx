@@ -19,7 +19,7 @@ import { ExploreHackathons } from './pages/participantPages';
 import { MyEvents } from './pages/participantPages';
 import { RegisterHackathons } from './pages/participantPages';
 import { Profile } from './pages/participantPages';
-import { EditProfile } from './pages/participantPages';
+import { EditParticipantProfile } from './pages/participantPages';
 import { AccountSetting } from './pages/participantPages';
 //part three - host
 import { HostHome } from './pages/hostPages';
@@ -58,7 +58,7 @@ export default function App() {
               <Route path="/my_events" element={<MyEvents />} />
               <Route path="/register_hackathons" element={<RegisterHackathons />} />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/edit_profile" element={<EditProfile />} />
+              <Route path="/edit_participant_profile" element={<EditParticipantProfile />} />
               <Route path="/account" element={<AccountSetting />} />
               {/* part 03 */}
               <Route path='/host_home' element={<HostHome />} />
