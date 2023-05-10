@@ -115,8 +115,7 @@ describe("Firebase Functions", () => {
   
   const testEmail = "test@example.com";
   beforeAll(async () => {
-    let currentUser;
-    currentUser = await signInWithEmailAndPasswordFunction(
+    await signInWithEmailAndPasswordFunction(
       testEmail,
       testPassword
     );
