@@ -1,59 +1,47 @@
-import React from "react";
-import AccountSetting from "../../src/pages/participantPages/account"
-import { render, fireEvent } from "@testing-library/react";
+import '@testing-library/jest-dom';
+import { render, fireEvent } from '@testing-library/react';
+import AccountSetting from '../../src/pages/participantPages/account';
 
-describe("AccountSetting", () => {
-    it("renders all elements correctly, all elements appeared on the page", () => {
-        const { getByRole, getAllByRole, getAllByText } = render(<AccountSetting />);
+describe('AccountSetting', () => {
+    it('Renders all input and button elements correctly', () => {
+        // render component
+        const { getByLabelText, getByText, getByRole } = render(<AccountSetting />);
+        // test: input elements are rendered for password and confirm password
+        expect(getByLabelText('Password')).toBeInTheDocument();
+        expect(getByLabelText('Confirm Password')).toBeInTheDocument();
 
-        // Test textfields - Check if the two TextFields can correctly render the user's input data
-        it("text fields render user input correctly", () => {
-            const inputValues = ["This is a password", "This is a confirmation"];
+        // test: Save button is rendered
+        const saveButton = getByRole("button", { name: "Save" });
+        expect(saveButton).toBeInTheDocument();
 
-            const textFields = getAllByRole("textbox");
-            expect(textFields).toHaveLength(2);
+        // test: Save button is disabled by default
+        expect(saveButton).toBeDisabled();
+    });
 
-            textFields.forEach((textField, index) => {
-                fireEvent.change(textField, { target: { value: inputValues[index] } });
-                expect(textField.value).toBe(inputValues[index]);
-            });
-        });
+    it('Enables save button when password and confirm password match and are at least 8 characters long', () => {
+        // render component
+        const { getByLabelText, getByRole } = render(<AccountSetting />);
 
-        // Test buttons - tests the presence and content of the buttons
-        const buttonLabels = ["Cancel", "Save"];
-        const buttons = getAllByRole("button");
-        expect(buttons).toHaveLength(4); // There are 4 buttons, including the two IconButton components
+        // input elements
+        const passwordInput = getByLabelText('Password');
+        const confirmPasswordInput = getByLabelText('Confirm Password');
 
-        buttonLabels.forEach((label) => {
-            expect(getAllByText(new RegExp(label, "i"))).toHaveLength(1);
-        });
+        // save button
+        const saveButton = getByRole("button", { name: "Save" });
 
-        // Test password visibility toggle - Check if the password visibility is toggled correctly when the IconButton is clicked
-        it("toggles password visibility correctly", () => {
-            const passwordField = getByRole("textbox", {
-                name: /change password/i,
-            });
-            const confirmPasswordField = getByRole("textbox", {
-                name: /double confirm/i,
-            });
+        // test: Save button is disabled when the password is too short
+        fireEvent.change(passwordInput, { target: { value: 'short' } });
+        fireEvent.change(confirmPasswordInput, { target: { value: 'short' } });
+        expect(saveButton).toBeDisabled();
 
-            fireEvent.change(passwordField, {
-                target: { value: "testPassword" },
-            });
-            fireEvent.change(confirmPasswordField, {
-                target: { value: "testConfirmPassword" },
-            });
+        // test: Save button is disabled when the password and confirm password do not match
+        fireEvent.change(passwordInput, { target: { value: 'longpassword' } });
+        fireEvent.change(confirmPasswordInput, { target: { value: 'longpassw0rd' } });
+        expect(saveButton).toBeDisabled();
 
-            const togglePasswordVisibilityButtons = getAllByRole("button", {
-                name: /toggle password visibility/i,
-            });
-
-            togglePasswordVisibilityButtons.forEach((button) => {
-                fireEvent.click(button);
-            });
-
-            expect(passwordField).toHaveAttribute("type", "text");
-            expect(confirmPasswordField).toHaveAttribute("type", "text");
-        });
+        // test: Save button is enabled when the password and confirm password match and are at least 8 characters long
+        fireEvent.change(passwordInput, { target: { value: 'longpassword' } });
+        fireEvent.change(confirmPasswordInput, { target: { value: 'longpassword' } });
+        expect(saveButton).toBeEnabled();
     });
 });
