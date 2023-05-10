@@ -13,7 +13,9 @@ describe('MyEvents', () => {
         <MyEvents isLoggedIn={false} data={null} />
       </BrowserRouter>
     );
-    const NoResults = screen.getByText('No results found');
-    expect(NoResults).toBeInTheDocument();
+    const noRegistered = screen.getByText("You haven't registered in any hackathon");
+    const willShow = screen.getByText("The hackathons registered by you will be shown here");
+    expect(noRegistered).toBeInTheDocument();
+    expect(willShow).toBeInTheDocument();
   });
 });

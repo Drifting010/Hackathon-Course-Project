@@ -93,7 +93,7 @@ export default function AccountSetting() {
                             mb: '20px',
                             fontFamily: 'Inter',
                             fontStyle: 'normal',
-                            fontSize: '18px',
+                            fontSize: '25px',
                             fontWeight: 700,
                             lineHeight: '28px',
                             letterSpacing: '0.75px',
