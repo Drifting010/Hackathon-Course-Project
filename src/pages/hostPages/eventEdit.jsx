@@ -1,27 +1,24 @@
 import { Avatar, Box, Button, Divider, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemSecondaryAction, ListItemText, Tab, Tabs, TextField, ThemeProvider, Typography } from "@mui/material";
 import theme from "../../Components/theme";
 import * as React from 'react';
+import { useParams } from "react-router";
+import { getHackathon } from "../../Components/firebase/firebaseFunction";
 
-function EditPanel({index,value}) {
+const TabPanel = ({children,index,value}) => { 
     return (
-        <div>
-            {index === value && <EditComponent/>}
-        </div>
-    )
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+      >
+        {children}
+      </div>
+    );
 }
 
-function SubmissionPanel({index,value}) {
-    return (
-        <div>
-            {index === value && <SubmissionList/>}
-        </div>
-    )
-}
-
-function EditComponent() {
+function EditComponent({hackathonid,title,description,setTitle,setDescription}) {
     const [isEdit,setEdit] = React.useState(false);
-    const [title,setTitle] = React.useState("Title");
-    const [description,setDescription] = React.useState("Description");
 
     const [titleBackup,setTitleBackup] = React.useState("");
     const [descBackup,setDescBackup] = React.useState("");
@@ -135,38 +132,58 @@ function SubmissionList() {
 export default function EventEdit() {
     const [value, setValue] = React.useState(0);
 
+    const { id } = useParams();
+
     const handleChange = ((e,newValue)=>{
        setValue(newValue);
     });
 
-    return(
+    const hackathon = getHackathon(id);
+    const [title,setTitle] = React.useState("test");
+    const [description,setDescription] = React.useState("test");
+    const [validHackathon,setValidHackathon] = React.useState(false);
+
+    React.useEffect(() => {
+        hackathon.then(function(result){
+            console.log(result);
+            setTitle(result.title);
+            setDescription(result.description);
+    
+            setValidHackathon(true);
+        });
+    },[id]);
+    
+
+    return validHackathon ? (
         <ThemeProvider theme={theme}>
             <Box sx={{ width: '100%' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                         <Tab label="Event page"  />
                         <Tab label="Submissions"  />
-                        <Tab label="Item Three"  />
+                        <Tab label="Registrations"/>
+                        <Tab label="Edit forms"/>
                     </Tabs>
                 </Box>
-                <EditPanel
+                <TabPanel
                     value={value}
                     index={0}
-                />
-                <SubmissionPanel
+                >
+                    <EditComponent
+                        hackathonid={id}
+                        title={title}
+                        description={description}
+                        setTitle={setTitle}
+                        setDescription={setDescription}
+                    />
+                </TabPanel>
+                <TabPanel
                     value={value}
                     index={1}
-                />
-                {/* <TabPanel value={value} index={0}>
-                    Item One
+                >
+                    <SubmissionList/>
                 </TabPanel>
-                <TabPanel value={value} index={1}>
-                    Item Two
-                </TabPanel>
-                <TabPanel value={value} index={2}>
-                    Item Three
-                </TabPanel> */}
             </Box>
         </ThemeProvider>
-    )
+    ) : (<></>)
 }
