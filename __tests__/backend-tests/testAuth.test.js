@@ -7,7 +7,7 @@ import {
   // sendEmailVerification,
 } from "../../src/Components/firebase/firebaseFunction";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { app } from '../../src/firebaseConfig';
+import { app } from "../../src/firebaseConfig";
 
 /// Replace this with your Firebase mocks or test Firebase instance
 const testAuth = getAuth();
@@ -20,13 +20,9 @@ test("create user with email and password", async () => {
   const role = "host";
 
   // Call the createUserWithEmailAndPassword function
-  await createUserWithEmailAndPasswordFunction(
-    email,
-    password,
-    role,
-  );
+  await createUserWithEmailAndPasswordFunction(email, password, role);
   const user = await getUser(email);
-  console.log('This is the user data', user);
+  console.log("This is the user data", user);
 
   // Verify that the user was created
   expect(user).not.toBeNull();
@@ -65,49 +61,21 @@ test("sign in with email and password and sign out", async () => {
   const password = "testpassword";
   const role = "host";
 
-  await createUserWithEmailAndPasswordFunction(
-    email,
-    password,
-    role,
-  );
+  await createUserWithEmailAndPasswordFunction(email, password, role);
 
   // Call the signInWithEmailAndPassword function
-  await signInWithEmailAndPasswordFunction(email, password);
+  const userCreated = await signInWithEmailAndPasswordFunction(email, password);
 
-  let unsubscribe;
+  expect(userCreated).not.toBeNull();
 
-  try {
-    // Verify that the user was created
-    const userCreated = await new Promise((resolve) => {
-      unsubscribe = onAuthStateChanged(testAuth, (user) => {
-        if (user) {
-          // User is signed in, see docs for a list of available properties
-          // https://firebase.google.com/docs/reference/js/firebase.User
-          resolve(user);
-        } else {
-          // User is signed out
-          resolve(null);
-        }
-      });
-    });
+  const userData = await getUser(email);
 
-    expect(userCreated).not.toBeNull();
+  // Verify that the user data is correct
+  expect(userData.email).toEqual(email);
 
-    // Get the user data from Firestore
-    const userData = await getUser(userCreated.email);
-
-    // Verify that the user data is correct
-    expect(userData.email).toEqual(userCreated.email);
-
-    // Sign out the user
-    await signOutFunction();
-  } finally {
-    if (unsubscribe) {
-      unsubscribe();
-    }
-  }
+  // Sign out the user
+  await signOutFunction();
 });
-
 
 // Test signUserOut
 test("sign out user", async () => {
@@ -119,7 +87,7 @@ test("sign out user", async () => {
   const newUser = await createUserWithEmailAndPasswordFunction(
     email,
     password,
-    role,
+    role
   );
 
   // Verify that the user was created
@@ -138,5 +106,3 @@ test("sign out user", async () => {
   const currentUser = testAuth.currentUser;
   expect(currentUser).toBeNull();
 });
-
-

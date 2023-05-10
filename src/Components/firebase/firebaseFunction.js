@@ -156,25 +156,21 @@ const updateParticipatedHacakthon = async (hackathonId, email) => {
     await setDoc(userRef, {hackathonId: hackathonId}, { merge: true })
 
   } catch (error) {
-    console.error('Error adding hackathon: ', error);
+    console.error('Error Deleting hackathon: ', error);
   }
 };
 
-// const deleteParticipatedHacakthon = async (hackathonId, user) => {
-//   try {
-//     const hackathonRef = doc(collection(db, 'hackathons'), hackathonId);
-//     const user = await getUser(user);
-//     const profileRef = user.profile; 
-//     const userProfile = await getUserProfile(user);
-//     const eventRef = doc(db, 'hackathons', hackathonId, 'myEvents', user);
-//     const userRef = doc(profileRef, hackathonId);
-//     await deleteDoc(eventRef, userRef, { merge: true });
-//     await deleteDoc(userRef, hackathonId, { merge: true })
+const deleteParticipatedHacakthon = async (hackathonId, email) => {
+  try {
+    const eventRef = doc(db, 'hackathons', hackathonId, 'participants', email);
+    const userRef = doc(db, 'participantProfiles', email, 'myEvents', hackathonId);
+    await deleteDoc(eventRef);
+    await deleteDoc(userRef)
 
-//   } catch (error) {
-//     console.error('Error adding hackathon: ', error);
-//   }
-// };
+  } catch (error) {
+    console.error('Error adding hackathon: ', error);
+  }
+};
 
 //File Transaction
 //upload file onto firebase storage
@@ -378,19 +374,12 @@ const signOutFunction = () =>
 // Get user data from the 'users' collection by email
 const getUser = async (email) => {
   try {
-    const userRef = doc(collection(db, 'users'), email);
+    const userRef = doc(db, 'users', email);
     const userSnapshot = await getDoc(userRef);
-
-    if (!userSnapshot.exists) {
-      console.error(`User with email '${email}' not found`);
-      return null;
-    }
-    const userData = userSnapshot.data();
-    console.log('This is userData ', userData)
-    return { ...userData, email };
+    console.log('get User', userSnapshot.data());
+    return userSnapshot.data();
   } catch (error) {
     console.error('Error getting user data:', error);
-    return null;
   }
 };
 
@@ -417,6 +406,7 @@ export {
   setRef,
   addToArray,
   removeFromArray,
+  deleteParticipatedHacakthon,
   sendEmailVerification,
   getDocumentByRef,
   getUserProfile,

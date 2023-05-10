@@ -12,6 +12,7 @@ import {
   createParticipantProfile,
   updateUserProfile,
   removeFromArray,
+  deleteParticipatedHacakthon,
   signInWithEmailAndPasswordFunction,
   updateParticipatedHacakthon,
   createUserWithEmailAndPasswordFunction,
@@ -289,18 +290,66 @@ describe("Firebase update participants", () => {
     await updateParticipatedHacakthon(hackathonId, userEmail);
 
     // Get the hackathon event reference from the database
-    const eventRef = doc(db, "hackathons", hackathonId, "participants", userEmail);
+    const eventRef = doc(
+      db,
+      "hackathons",
+      hackathonId,
+      "participants",
+      userEmail
+    );
     const eventSnapshot = await getDoc(eventRef);
 
     // Verify that the event reference was added to the myEvents subcollection
     expect(eventSnapshot.exists()).toBeTruthy();
 
     // Get the user profile reference from the database
-    const userRef = doc(db, 'participantProfiles', userEmail, 'myEvents', hackathonId);
+    const userRef = doc(
+      db,
+      "participantProfiles",
+      userEmail,
+      "myEvents",
+      hackathonId
+    );
     const userSnapshot = await getDoc(userRef);
 
     // Verify that the hackathon reference was added to the user profile
     expect(userSnapshot.exists()).toBeTruthy();
+    signOutFunction();
+  });
+
+  // Test deleteParticipatedHackathon
+  test("delete participated hackathon", async () => {
+    const hackathonId = "hackathonExample";
+    const userEmail = "testParticipant@example.com";
+
+    await signInWithEmailAndPasswordFunction(userEmail, testPassword);
+
+    // Make sure the user exists in the database before running the test
+    const user = await getUser(userEmail);
+    expect(user).not.toBeNull();
+
+    // Call the deleteParticipatedHackathon function
+    await deleteParticipatedHacakthon(hackathonId, userEmail);
+
+    // Get the hackathon event reference from the database
+    const eventRef = doc(
+      db,
+      "hackathons",
+      hackathonId,
+      "participants",
+      userEmail
+    );
+    const eventSnapshot = await getDoc(eventRef);
+
+    // Verify that the event reference was deleted from the participants subcollection
+    expect(eventSnapshot.exists()).toBeFalsy();
+
+    // Get the user profile reference from the database
+    const userRef = doc(db, 'participantProfiles', userEmail, 'myEvents', hackathonId);
+    const userSnapshot = await getDoc(userRef);
+
+    // Verify that the hackathon reference was deleted from the user profile
+    expect(userSnapshot.exists()).toBeFalsy();
     signOutFunction();
   });
 });
