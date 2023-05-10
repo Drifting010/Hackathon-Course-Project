@@ -29,7 +29,7 @@ export default function Explopre() {
 
   function onAllClick() {
     setActiveBtn('all')
-    setFilters({ ...initialFilters, tag: null })
+    setFilters({ ...initialFilters, tag: null, status:null })
   }
 
   function onOngoingClick() {
