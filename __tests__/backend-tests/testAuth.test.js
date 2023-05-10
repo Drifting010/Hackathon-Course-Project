@@ -64,14 +64,6 @@ test("sign in with email and password and sign out", async () => {
   const email = "testSignIn@example.com";
   const password = "testpassword";
   const role = "host";
-  const profile = {
-    user: email,
-    Country: 'China',
-    Description: 'pretend this is a description',
-    Tags: ['tag1', 'tag2', 'tag3'],
-    userIcon: 'gs://a-plus-on-the-way.appspot.com/userIcons/icon.jpeg',
-    username: 'Zuoyou'
-  };
 
   await createUserWithEmailAndPasswordFunction(
     email,

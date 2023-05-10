@@ -160,21 +160,21 @@ const updateParticipatedHacakthon = async (hackathonId, email) => {
   }
 };
 
-const deleteParticipatedHacakthon = async (hackathonId, user) => {
-  try {
-    const hackathonRef = doc(collection(db, 'hackathons'), hackathonId);
-    const user = await getUser(user);
-    const profileRef = user.profile; 
-    const userProfile = await getUserProfile(user);
-    const eventRef = doc(db, 'hackathons', hackathonId, 'myEvents', user);
-    const userRef = doc(profileRef, hackathonId);
-    await deleteDoc(eventRef, userRef, { merge: true });
-    await deleteDoc(userRef, hackathonId, { merge: true })
+// const deleteParticipatedHacakthon = async (hackathonId, user) => {
+//   try {
+//     const hackathonRef = doc(collection(db, 'hackathons'), hackathonId);
+//     const user = await getUser(user);
+//     const profileRef = user.profile; 
+//     const userProfile = await getUserProfile(user);
+//     const eventRef = doc(db, 'hackathons', hackathonId, 'myEvents', user);
+//     const userRef = doc(profileRef, hackathonId);
+//     await deleteDoc(eventRef, userRef, { merge: true });
+//     await deleteDoc(userRef, hackathonId, { merge: true })
 
-  } catch (error) {
-    console.error('Error adding hackathon: ', error);
-  }
-};
+//   } catch (error) {
+//     console.error('Error adding hackathon: ', error);
+//   }
+// };
 
 //File Transaction
 //upload file onto firebase storage
