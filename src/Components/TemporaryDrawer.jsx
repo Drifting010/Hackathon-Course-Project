@@ -63,7 +63,7 @@ export default function TemporaryDrawer({ onTagClick }) {
           {/* Add a button that triggers the drawer */}
           <Button
             variant="outlined"
-            onClick={toggleDrawer(anchor, true)}
+            onClick={toggleDrawer(true)}
             sx={{
               color: '#6D7681',
               borderRadius: '10px',
