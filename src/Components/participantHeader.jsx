@@ -34,7 +34,7 @@ export default function ParticipantHeader() {
         // AppBar component for the top app bar
         <AppBar position="static">
             {/* Container for content within the AppBar */}
-            <Container maxWidth="xl">
+            <Container maxWidth="xl" sx={{ bgcolor: '#0D1116' }}>
                 {/* Toolbar for displaying navigation items and actions */}
                 <Toolbar disableGutters>
 
@@ -44,14 +44,49 @@ export default function ParticipantHeader() {
                             <Link
                                 variant="button"
                                 href="./explore_hackathons"
-                                sx={{ my: 2, mr: 2, color: 'white', display: 'inline-block', textTransform: 'none', textDecoration: 'none' }}
+                                sx={{
+                                    my: 2,
+                                    mr: 4,
+                                    color: '#C9D1D9',
+                                    display: 'inline-block',
+                                    textTransform: 'none',
+                                    textDecoration: 'none',
+                                    fontFamily: 'Inter',
+                                    fontStyle: 'normal',
+                                    fontWeight: 500,
+                                    fontSize: '14px',
+                                    letterSpacing: '0.75px',
+                                    '&:hover': {
+                                        color: '#FF9300',
+                                    },
+                                    '&:active': {
+                                        color: '#FF9300',
+                                    },
+                                }}
                             >
                                 Explore Hackathons
                             </Link>
                             <Link
                                 variant="button"
                                 href="./my_events"
-                                sx={{ my: 2, color: 'white', display: 'inline-block', textTransform: 'none', textDecoration: 'none' }}
+                                sx={{
+                                    my: 2,
+                                    color: '#C9D1D9',
+                                    display: 'inline-block',
+                                    textTransform: 'none',
+                                    textDecoration: 'none',
+                                    fontFamily: 'Inter',
+                                    fontStyle: 'normal',
+                                    fontWeight: 500,
+                                    fontSize: '14px',
+                                    letterSpacing: '0.75px',
+                                    '&:hover': {
+                                        color: '#FF9300',
+                                    },
+                                    '&:active': {
+                                        color: '#FF9300',
+                                    },
+                                }}
                             >
                                 My Events
                             </Link>
@@ -60,7 +95,7 @@ export default function ParticipantHeader() {
 
                     {/* Second Box: Contains the logo and AdbIcon */}
                     <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
-                        <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+                        <AdbIcon sx={{ display: { xs: 'none', md: 'flex', color: '#FF9300' }, mr: 1 }} />
                         <Typography
                             variant="h6"
                             noWrap
@@ -71,12 +106,12 @@ export default function ParticipantHeader() {
                                 display: { xs: 'none', md: 'flex' },
                                 fontFamily: 'monospace',
                                 fontWeight: 700,
-                                color: 'inherit',
+                                color: '#FF9300',
                                 textDecoration: 'none',
                             }}
                         >
                             {/* LOGO */}
-                            Hackathon  
+                            Hackathon
                         </Typography>
                     </Box>
 
@@ -86,18 +121,37 @@ export default function ParticipantHeader() {
                     {/* Fourth Box: Contains the "Switch to Hosting" button and user menu with avatar */}
                     <Box sx={{ flexGrow: 0 }}>
                         <Button
+                            variant='outlined'
                             href="#"
-                            sx={{ my: 2, mr: 2, color: 'white', display: 'inline-block', textTransform: 'none' }}
+                            sx={{
+                                my: 2,
+                                mr: 2,
+                                color: '#C9D1D9',
+                                display: 'inline-block',
+                                textTransform: 'none',
+                                borderColor: '#C9D1D9',
+                                borderRadius: '10px',
+                                fontFamily: 'Inter',
+                                fontStyle: 'normal',
+                                fontWeight: 500,
+                                fontSize: '14px',
+                                letterSpacing: '0.75px',
+                                '&:hover': {
+                                    borderColor: '#FF9300',
+                                    color: '#FF9300',
+                                },
+                            }}
                         >
                             Switch to Hosting
                         </Button>
+
                         <Tooltip>
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar alt="Remy Sharp" src="/static/images/avatar/xx.jpg" data-testid="avatar-button" />
                             </IconButton>
                         </Tooltip>
                         <Menu
-                            sx={{ mt: '45px' }}
+                            sx={{ mt: '45px', }}
                             id="menu-appbar"
                             anchorEl={anchorElUser}
                             anchorOrigin={{
@@ -117,40 +171,73 @@ export default function ParticipantHeader() {
                                     textAlign="center"
                                     component="a"
                                     href="./profile"
-                                    sx={{ textDecoration: 'none', color: 'black' }}
+                                    sx={{
+                                        textDecoration: 'none',
+                                        color: '#C9D1D9',
+                                        fontFamily: 'Inter',
+                                        fontStyle: 'normal',
+                                        fontWeight: 500,
+                                        fontSize: '14px',
+                                        letterSpacing: '0.75px',
+                                        '&:hover': {
+                                            color: '#FF9300',
+                                        },
+                                        '&:active': {
+                                            color: '#FF9300',
+                                        },
+                                    }}
                                     data-testid="menu-item-profile"
                                 >
                                     Profile
                                 </Typography>
                             </MenuItem>
+
                             <MenuItem key="account" onClick={handleCloseUserMenu}>
                                 <Typography
                                     textAlign="center"
                                     component="a"
                                     href="./account"
-                                    sx={{ textDecoration: 'none', color: 'black' }}
+                                    sx={{
+                                        textDecoration: 'none',
+                                        color: '#C9D1D9',
+                                        fontFamily: 'Inter',
+                                        fontStyle: 'normal',
+                                        fontWeight: 500,
+                                        fontSize: '14px',
+                                        letterSpacing: '0.75px',
+                                        '&:hover': {
+                                            color: '#FF9300',
+                                        },
+                                        '&:active': {
+                                            color: '#FF9300',
+                                        },
+                                    }}
                                     data-testid="menu-item-account"
                                 >
                                     Account
                                 </Typography>
                             </MenuItem>
-                            <MenuItem key="dashboard" onClick={handleCloseUserMenu}>
-                                <Typography
-                                    textAlign="center"
-                                    component="a"
-                                    href="#"
-                                    sx={{ textDecoration: 'none', color: 'black' }}
-                                    data-testid="menu-item-dashboard"
-                                >
-                                    Dashboard
-                                </Typography>
-                            </MenuItem>
+
                             <MenuItem key="logout" onClick={handleCloseUserMenu}>
                                 <Typography
                                     textAlign="center"
                                     component="a"
                                     href="#"
-                                    sx={{ textDecoration: 'none', color: 'black' }}
+                                    sx={{
+                                        textDecoration: 'none',
+                                        color: '#C9D1D9',
+                                        fontFamily: 'Inter',
+                                        fontStyle: 'normal',
+                                        fontWeight: 500,
+                                        fontSize: '14px',
+                                        letterSpacing: '0.75px',
+                                        '&:hover': {
+                                            color: '#FF9300',
+                                        },
+                                        '&:active': {
+                                            color: '#FF9300',
+                                        },
+                                    }}
                                     data-testid="menu-item-logout"
                                 >
                                     Logout

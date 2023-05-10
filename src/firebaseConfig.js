@@ -1,6 +1,6 @@
 import * as firebase from "firebase/app";
-import { getFirestore } from 'firebase/firestore';
-import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import { getFirestore, connectFirestoreEmulator} from 'firebase/firestore';
+import { getAuth, GoogleAuthProvider,connectAuthEmulator} from 'firebase/auth';
 import { getStorage, ref } from "firebase/storage";
 
 
@@ -22,4 +22,9 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 const storage = getStorage(app);
 const storageRef = ref(storage);
-export { app, db, auth, provider, storage, storageRef};
+
+const ConnectEmulator = () => {
+  connectFirestoreEmulator(db, 'localhost', 8080);
+  connectAuthEmulator(auth, 'http://localhost:9099/');
+}
+export { app, db, auth, provider, storage, storageRef, ConnectEmulator};
