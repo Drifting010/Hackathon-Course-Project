@@ -6,7 +6,7 @@ import {
   getUser,
   // sendEmailVerification,
 } from "../../src/Components/firebase/firebaseFunction";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { app } from "../../src/firebaseConfig";
 
 /// Replace this with your Firebase mocks or test Firebase instance
