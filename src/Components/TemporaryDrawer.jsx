@@ -13,14 +13,13 @@ export default function TemporaryDrawer({ onTagClick }) {
   const [state, setState] = React.useState(false);
 
   // Define a function that toggles the drawer's open/closed state based on the anchor position
-  const toggleDrawer = (anchor, open) => (event) => {
+  const toggleDrawer = (open) => (event) => {
     // Do nothing if the key pressed is the "Tab" or "Shift" key
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
-
     // Set the new state for the drawer
-    setState({ state, [anchor]: open });
+    setState( open );
   };
 
   // get tags from firebase
@@ -34,12 +33,12 @@ export default function TemporaryDrawer({ onTagClick }) {
   }, []);
 
   // Define a function that renders the list of tags for the drawer
-  const list = (anchor) => (
+  const list = () => (
     <Box
       sx={{ width: 250 }}
       role="tag"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
     >
       <List>
         {/* {['JavaScript', 'Python', 'C++', 'Red'].map((tag) => ( */}
@@ -59,12 +58,12 @@ export default function TemporaryDrawer({ onTagClick }) {
 
   return (
     <div>
-      {['right'].map((anchor) => (
-        <React.Fragment key={anchor}>
+      {
+        <React.Fragment>
           {/* Add a button that triggers the drawer */}
           <Button
             variant="outlined"
-            onClick={toggleDrawer(anchor, true)}
+            onClick={toggleDrawer(true)}
             sx={{
               color: '#6D7681',
               borderRadius: '10px',
@@ -84,14 +83,14 @@ export default function TemporaryDrawer({ onTagClick }) {
           </Button>
           {/* Add a drawer component that displays the list of tags */}
           <Drawer
-            anchor={anchor}
-            open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
+            anchor={'right'}
+            open={state}
+            onClose={toggleDrawer(false)}
           >
-            {list(anchor)}
+            {list()}
           </Drawer>
         </React.Fragment>
-      ))}
+      }
     </div>
   );
 }
