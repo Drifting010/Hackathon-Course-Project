@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import HackathonList from '../../src/pages/participantPages/HackathonList';
+import HackathonList from '../../src/Components/HackathonList';
 
 const initialFilters = { tag: null, offset: null, status: null };
 

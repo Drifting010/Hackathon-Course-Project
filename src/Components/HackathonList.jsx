@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getHackathonByTag } from '../../Components/firebase/firebaseFunction';
+import { getHackathonByTag } from './firebase/firebaseFunction';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { LinearProgress } from '@mui/material';
-import { daysDiff, hackathonPercentage } from '../../hooks/dateFunctions';
+import { daysDiff, hackathonPercentage } from '../hooks/dateFunctions';
 
 const initialFilters = { tag: null, offset: null, status: null };
 // const limit = 10
