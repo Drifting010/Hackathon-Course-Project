@@ -23,8 +23,4 @@ const provider = new GoogleAuthProvider();
 const storage = getStorage(app);
 const storageRef = ref(storage);
 
-const ConnectEmulator = () => {
-  connectFirestoreEmulator(db, 'localhost', 8080);
-  connectAuthEmulator(auth, 'http://localhost:9099/');
-}
-export { app, db, auth, provider, storage, storageRef, ConnectEmulator};
+export { app, db, auth, provider, storage, storageRef};

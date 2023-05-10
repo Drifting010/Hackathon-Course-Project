@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import {
-  collection, doc, setDoc, getDoc, getDocs, query, where,  arrayUnion, arrayRemove, updateDoc
+  collection, doc, setDoc, getDoc, getDocs, query, where,  arrayUnion, arrayRemove, updateDoc, deleteDoc
 } from 'firebase/firestore';
 import { db, auth, storage } from '../../firebaseConfig';
 import {  ref, uploadBytes, getDownloadURL} from 'firebase/storage';
@@ -118,6 +118,7 @@ const getHackathonByTag = async (filters) => {
   }
 };
 
+//return all tags 
 const getAllTags = async (collectionName) => {
   try{
     const querySnapshot = await getDocs(collection(db, collectionName));
@@ -130,20 +131,48 @@ const getAllTags = async (collectionName) => {
 };
 
 // CRUD Operatiosn
-// Add a new hackathon to the 'hackathons' collection
-const addHackathon = async (hackathon) => {
+// Add a new hackathon or Update Hackathon to the 'hackathons' collection
+const addHackathon = async (hackathonData) => {
   try {
-    const hackathonRef = doc(collection(db, 'hackathons'), hackathon.id);
-    await setDoc(hackathonRef, hackathon);
+    const hackathonRef = doc(collection(db, 'hackathons'), hackathonData.id);
+    await setDoc(hackathonRef, hackathonData);
   } catch (error) {
     console.error('Error adding hackathon: ', error);
   }
 };
 
-const updateHackathon = async (hackathon) => {
-  console.log(hackathon);
-}
+const updateParticipatedHacakthon = async (hackathonId, email) => {
+  try {
+    const user = await getUser(email);
+    console.log('Test update user', user)
+    const profileRef = user.profile; 
+    
+    const userProfile = await getUserProfile(user);
+    const eventRef = doc(db, 'hackathons', hackathonId, 'myEvents', email);
+    const userRef = doc(profileRef, hackathonId);
+    await setDoc(eventRef, email, { merge: true });
+    await setDoc(userRef, hackathonId, { merge: true })
 
+  } catch (error) {
+    console.error('Error adding hackathon: ', error);
+  }
+};
+
+const deleteParticipatedHacakthon = async (hackathonId, user) => {
+  try {
+    const hackathonRef = doc(collection(db, 'hackathons'), hackathonId);
+    const user = await getUser(user);
+    const profileRef = user.profile; 
+    const userProfile = await getUserProfile(user);
+    const eventRef = doc(db, 'hackathons', hackathonId, 'myEvents', user);
+    const userRef = doc(profileRef, hackathonId);
+    await deleteDoc(eventRef, userRef, { merge: true });
+    await deleteDoc(userRef, hackathonId, { merge: true })
+
+  } catch (error) {
+    console.error('Error adding hackathon: ', error);
+  }
+};
 
 //File Transaction
 //upload file onto firebase storage
@@ -234,6 +263,7 @@ const getUserProfile = async (email) => {
   return profile.data(); 
 }
 
+//create profiles
 const createHostProfile = async (profileData) => {
   try{
     const profileRef = doc(collection(db, 'hostProfiles'),profileData.user);
@@ -253,17 +283,27 @@ const createParticipantProfile = async (profileData) => {
     console.error('Error creating file', error);
   }
 }
+
+const updateUserProfile = async (profileData, role) => {
+  if (role == 'host') {
+    await createHostProfile(profileData);
+  } else {
+    await createParticipantProfile(profileData);
+  }
+}
  
 // Create a new user with email and password authentication and store their data in the 'users' collection
 const createUserWithEmailAndPasswordFunction = async (
   email,
   password,
   role,
-  profileData,
 ) => {
   try {
     await createUserWithEmailAndPassword(auth, email, password);
     let userData = {}; // Change this line to use let instead of const
+    const profileData = {
+      user: email,
+    };
     if (role === 'host'){
       const profile = await createHostProfile(profileData);
       userData = {
@@ -288,8 +328,6 @@ const createUserWithEmailAndPasswordFunction = async (
     console.error('Error creating user: ', error);
   }
 };
-
-
 
 // Sign in a user with their email and password
 const signInWithEmailAndPasswordFunction = async (email, password) => {
@@ -366,7 +404,10 @@ export {
   getDocumentInCollectionById,
   getMultipleDocuments,
   getHackathonByTag,
-  updateHackathon,
+  updateParticipatedHacakthon,
+  updateUserProfile,
+  createHostProfile,
+  createParticipantProfile,
   uploadIcon,
   getCurrentUser,
   uploadFile,

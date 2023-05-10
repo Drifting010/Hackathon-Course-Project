@@ -32,7 +32,6 @@ test("create user with email and password", async () => {
     email,
     password,
     role,
-    profile
   );
   const user = await getUser(email);
   console.log('This is the user data', user);
@@ -72,7 +71,7 @@ test("create user with email and password", async () => {
 test("sign in with email and password and sign out", async () => {
   const email = "testSignIn@example.com";
   const password = "testpassword";
-  const role = "host";
+  const role = "participant";
   const profile = {
     user: email,
     Country: 'China',
@@ -86,7 +85,6 @@ test("sign in with email and password and sign out", async () => {
     email,
     password,
     role,
-    profile
   );
 
   // Call the signInWithEmailAndPassword function
@@ -146,7 +144,6 @@ test("sign out user", async () => {
     email,
     password,
     role,
-    profile
   );
 
   // Verify that the user was created
