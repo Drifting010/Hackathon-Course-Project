@@ -25,7 +25,7 @@ describe('TemporaryDrawer component', () => {
     fireEvent.click(tagButton);
   
     // wait all tags render finish
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
   
     const jsTag = getByText(/JavaScript/i, { scroll: true });
     fireEvent.click(jsTag);
