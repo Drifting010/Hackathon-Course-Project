@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { AppContext } from '../../Components/AppContextProvider'
 import TagsSelector from '../../Components/tagsSelector'
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -6,15 +7,31 @@ import Grid from '@mui/material/Grid';
 
 // This is the main function that returns the interests component
 export default function Interests({ TagsSelectorComponent = TagsSelector }) {
-    // Sample tags for the user to choose from
+    // TODO: import firebase function from Context API 3个函数 - 两个创建 1个取数
+    const { } = useContext(AppContext);
+
+    // TODO: Sample tags for the user to choose from
     const tags = ['Tag 1', 'Tag 2', 'Tag 3', 'Tag 4', 'Tag 5', 'Tag 6', 'Tag 7', 'Tag 8', 'Tag 9', 'Tag 10', 'Tag 11', 'Tag 12'];
+
+    // obtain data from local storage
+    const participantProfile = JSON.parse(window.localStorage.getItem('participantProfile'));
+    // state hook for participantProfileFinal
+    const [participantProfileFinal, setParticipantProfileFinal] = useState(participantProfile);
 
     // Function to handle the submission of selected tags
     const handleTagsSubmit = (selectedTags) => {
         console.log('Selected tags:', selectedTags);
         // Handle the selected tags, for example, send a request to the server
-
+        setParticipantProfileFinal((prevState) => ({
+            ...prevState,
+            tags: selectedTags
+        }))
     };
+
+    // TODO: firebase function - create user profile based on role
+    useEffect(async () => {
+        // await 
+    }, [participantProfileFinal])
 
     return (
         <>
@@ -42,7 +59,7 @@ export default function Interests({ TagsSelectorComponent = TagsSelector }) {
                             <Typography
                                 sx={{
                                     mb: '20px',
-                                    ml:'240px',
+                                    ml: '240px',
                                     fontFamily: 'Inter',
                                     fontStyle: 'normal',
                                     fontSize: '25px',
@@ -58,7 +75,7 @@ export default function Interests({ TagsSelectorComponent = TagsSelector }) {
                             <Typography
                                 sx={{
                                     mb: '20px',
-                                    ml:'240px',
+                                    ml: '240px',
                                     fontFamily: 'Inter',
                                     fontStyle: 'normal',
                                     fontSize: '14px',
