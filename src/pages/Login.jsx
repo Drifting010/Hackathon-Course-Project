@@ -10,11 +10,16 @@ import { signInWithPopup } from "firebase/auth";
 import { useEffect, useState } from "react";
 import {auth,provider} from '../firebaseConfig.js'
 import * as React from 'react';
+import { getCurrentUser, getUser, signInWithEmailAndPasswordFunction } from "../Components/firebase/firebaseFunction";
+import { AppContext } from "../Components/AppContextProvider";
+import { useNavigate } from "react-router";
 
 
 function Login() {
     //State variable of Google signin email
     const [value,setValue] = useState('');
+
+    const [loginFail,setLoginFail] = useState("");
 
     //Attempt google login and set email to variable in local storage
     const handleGoogleLogin = () => {
@@ -32,10 +37,38 @@ function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const { user, saveUser } = React.useContext(AppContext);
+
+    const navigate = useNavigate();
+    
+    const handleLogin = () => {
+        setLoginFail("");
+        const login = signInWithEmailAndPasswordFunction(email,password);
+        
+        login.then(function(result) {
+            if(result===null){
+                setLoginFail("Invalid username and password");
+            }else{
+                const user = getCurrentUser();
+                const userDetails = getUser(user.email);
+
+                userDetails.then(function(result){
+                    if(result.role==="participant"){
+                        navigate("/explore_hackathons");
+                    }else if(result.role==="host"){
+                        navigate("/dashboard");
+                    }
+                });
+            }
+        },function(error){
+            setLoginFail("An error occured.")
+        });
+    }
+
     return (
         <div>
             <h1>Log in to your account</h1>
-            <p>Welcome back {value}</p>
+            <p>Welcome back</p>
             <div>
                 <Button
                     sx={{backgroundColor: 'darkgray', ':hover': {backgroundColor: 'dimgray'},marginLeft: '10px',marginRight: '10px'}}
@@ -103,10 +136,12 @@ function Login() {
                 />
             </div>
             <a href="">Forgot password?</a>
+            <p style={{color:'red'}}>{loginFail}</p>
             <div>
                 <Button
                     sx={{backgroundColor: 'orange', ':hover': {backgroundColor: 'sandybrown'},width: '250px'}}
                     variant="contained"
+                    onClick={handleLogin}
                 >
                     Log in
                 </Button>
