@@ -35,7 +35,7 @@ function HackathonList({ filters = initialFilters }) {
             <Grid item key={card} xs={12} sm={6} md={4}>
               <Card
                 sx={{
-                  height: "300px",
+                  height: "320px",
                   display: "flex",
                   flexDirection: "column",
                   border: '1px solid #30363D',

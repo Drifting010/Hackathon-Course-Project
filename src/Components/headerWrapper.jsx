@@ -16,7 +16,7 @@ export function HeaderWrapper() {
     // Header2 covers 8 pages
     if (location.pathname.startsWith('/participant_home') || location.pathname.startsWith('/explore_hackathons') || location.pathname.startsWith('/my_events') ||
         location.pathname.startsWith('/register_hackathons') || location.pathname.startsWith('/account') || location.pathname.startsWith('/edit_participant_profile') ||
-        location.pathname.startsWith('/profile') || location.pathname.startsWith('/page11')) {
+        location.pathname.startsWith('/profile') || location.pathname.startsWith('/single_hackathon')) {
         return <ParticipantHeader />;
     }
 
