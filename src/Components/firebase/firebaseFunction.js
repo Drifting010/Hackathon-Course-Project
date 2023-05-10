@@ -354,7 +354,6 @@ const getUser = async (email) => {
   }
 };
 
-
 export {
   addHackathon,
   createUserWithEmailAndPasswordFunction,
