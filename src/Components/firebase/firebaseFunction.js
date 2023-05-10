@@ -145,13 +145,13 @@ const updateParticipatedHacakthon = async (hackathonId, email) => {
   try {
     const user = await getUser(email);
     console.log('Test update user', user)
-    const profileRef = user.profile; 
     
-    const userProfile = await getUserProfile(user);
-    const eventRef = doc(db, 'hackathons', hackathonId, 'myEvents', email);
-    const userRef = doc(profileRef, hackathonId);
-    await setDoc(eventRef, email, { merge: true });
-    await setDoc(userRef, hackathonId, { merge: true })
+    const eventRef = doc(db, 'hackathons', hackathonId, 'participants', email);
+    console.log('Test Event Ref', 'myEvents', user)
+    const userRef = doc(db, 'participantProfiles', email, 'myEvents', hackathonId);
+    console.log('Test User Ref', user)
+    await setDoc(eventRef, {email: email}, { merge: true });
+    await setDoc(userRef, {hackathonId: hackathonId}, { merge: true })
 
   } catch (error) {
     console.error('Error adding hackathon: ', error);
