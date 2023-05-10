@@ -8,7 +8,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../Components/theme';
 import { useState, useEffect } from 'react';
 import TemporaryDrawer from '../../Components/TemporaryDrawer';
-import HackathonList from './HackathonList'
+import HackathonList from '../../Components/HackathonList'
 
 const initialFilters = { tag: null, offset: null, status: null }
 // const limit = 10
@@ -29,7 +29,7 @@ export default function Explopre() {
 
   function onAllClick() {
     setActiveBtn('all')
-    setFilters({ ...initialFilters, tag: null })
+    setFilters({ ...initialFilters, tag: null, status:null })
   }
 
   function onOngoingClick() {
