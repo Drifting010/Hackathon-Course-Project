@@ -13,9 +13,6 @@ import HackathonList from './HackathonList'
 const initialFilters = { tag: null, offset: null, status: null}
 // const limit = 10
 
-// An array of card objects to be displayed
-const cards = [1, 2, 3];
-
 // Exporting a React functional component named 'Explopre'
 export default function Explopre() {
 
@@ -39,8 +36,6 @@ export default function Explopre() {
   function onFinishedClick() {
     setFilters({ ...initialFilters, status: "ended" })
   }
-
-
 
   return (
     <ThemeProvider theme={theme}>

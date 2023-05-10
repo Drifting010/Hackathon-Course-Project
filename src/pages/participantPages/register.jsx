@@ -5,32 +5,10 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 
 // This is the main function that returns the registerHackathons component
 export default function RegisterHackathons() {
-
-    // State for Cancel and Register buttons hover
-    const [isCancelHovered, setIsCancelHovered] = React.useState(false);
-    const [isRegisterHovered, setIsRegisterHovered] = React.useState(false);
-
-    // Event handlers for Cancel and Register buttons hover
-    const handleCancelMouseEnter = () => {
-        setIsCancelHovered(true);
-    };
-
-    const handleCancelMouseLeave = () => {
-        setIsCancelHovered(false);
-    };
-
-    const handleRegisterMouseEnter = () => {
-        setIsRegisterHovered(true);
-    };
-
-    const handleRegisterMouseLeave = () => {
-        setIsRegisterHovered(false);
-    };
 
     return (
         <ThemeProvider theme={theme}>
@@ -39,8 +17,6 @@ export default function RegisterHackathons() {
             {/* Box component to create a container that fills the viewport height and centers its content */}
             <Box
                 sx={{
-                    bgcolor: 'background.paper',
-                    height: '100vh', // 100% of viewport height
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
@@ -61,7 +37,6 @@ export default function RegisterHackathons() {
 
                     {/* Typography component for displaying the hackathon rules and information */}
                     <Typography
-                        variant="h5"
                         align="left"
                         color="text.secondary"
                         paragraph
@@ -71,12 +46,10 @@ export default function RegisterHackathons() {
                     </Typography>
 
                     {/* Box component wrapping the first TextField and providing margin-bottom */}
-                    <Box width="100%" mb={5}>
                         <TextField
                             required
                             id="outlined-required"
                             label="What do you do?"
-                            placeholder="Be creative here"
                             multiline
                             rows={4}
                             fullWidth // Use fullWidth to take up the entire width of the parent Box
@@ -91,9 +64,14 @@ export default function RegisterHackathons() {
                             label="Enter description"
                             multiline
                             rows={4}
-                            fullWidth // Use fullWidth to take up the entire width of the parent Box
+                            sx={{
+                                border: '1px solid #30363D',
+                                borderRadius: '6px',
+                                width: '500px',
+                                mb:4,
+                                background: '#21262D'
+                            }}
                         />
-                    </Box>
 
                     {/* Cancel button to cancel the registration process */}
                     <Button
