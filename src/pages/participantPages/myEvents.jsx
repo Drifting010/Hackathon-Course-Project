@@ -70,7 +70,7 @@ export default function MyEvents(props) {
           <CssBaseline />
           <Container sx={{ py: 2 }} maxWidth="md">
             <Box align="center">
-              <img src="src\Icons\EmptyIcon.png" alt="Currently my event is empty" width="50%" height="50%" />
+              <img src="src\Icons\EmptyIcon.png" alt="Currently my event is empty" width="40%" height="40%" />
             </Box>
             <Typography
               align="center"
@@ -110,7 +110,7 @@ export default function MyEvents(props) {
                   fontFamily: 'Inter',
                   fontStyle: 'normal',
                   fontWeight: 600,
-                  fontSize: '12px',
+                  fontSize: '16px',
                   color: '#F7F7FC',
                 }}
               >

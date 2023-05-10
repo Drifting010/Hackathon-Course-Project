@@ -69,7 +69,7 @@ export default function Album() {
                 fontFamily: 'Inter',
                 fontStyle: 'normal',
                 fontWeight: 600,
-                fontSize: '12px',
+                fontSize: '16px',
                 color: '#F7F7FC',
               }
               }>Try now</Button>
