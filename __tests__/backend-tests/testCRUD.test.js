@@ -62,9 +62,9 @@ test("retrieve multiple documents based on condition", async () => {
 const testEmail = 'test@example.com';
 const testPassword = 'testpassword';
 const testRole = 'host';
-const testProfilePath = '/hostProfiles/test@example.com';
+//const testProfilePath = '/hostProfiles/test@example.com';
 const testUsername = 'Cur';
-const testUserIcon = 'gs://a-plus-on-the-way.appspot.com/userIcons/icon.jpeg';
+//const testUserIcon = 'gs://a-plus-on-the-way.appspot.com/userIcons/icon.jpeg';
 
 //Define test data
 const hackathonExample = {
@@ -151,4 +151,5 @@ describe('Firebase Functions', () => {
     docData = await getDocumentInCollectionById(collectionName, documentName);
     expect(docData[fieldName]).not.toContain(dataToAdd);
   });
+  console.log(currentUser);
 });

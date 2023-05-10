@@ -4,7 +4,7 @@ import {
   signInWithEmailAndPasswordFunction,
   signOutFunction,
   getUser,
-  sendEmailVerification,
+  // sendEmailVerification,
 } from "../../src/Components/firebase/firebaseFunction";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { app } from '../../src/firebaseConfig';

@@ -1,6 +1,6 @@
 import {
   setRef,
-  getDocumentByRef,
+  // getDocumentByRef,
 } from "../../src/Components/firebase/firebaseFunction";
 
 describe("test whether ref created successfully with setRef ", () => {

@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import {
-  collection, doc, setDoc, getDoc, getDocs, query, where, collectionGroup, arrayUnion, arrayRemove, updateDoc
+  collection, doc, setDoc, getDoc, getDocs, query, where,  arrayUnion, arrayRemove, updateDoc
 } from 'firebase/firestore';
 import { db, auth, storage } from '../../firebaseConfig';
 import {  ref, uploadBytes, getDownloadURL} from 'firebase/storage';
@@ -141,7 +141,7 @@ const addHackathon = async (hackathon) => {
 };
 
 const updateHackathon = async (hackathon) => {
-
+  console.log(hackathon);
 }
 
 
@@ -366,6 +366,7 @@ export {
   getDocumentInCollectionById,
   getMultipleDocuments,
   getHackathonByTag,
+  updateHackathon,
   uploadIcon,
   getCurrentUser,
   uploadFile,
