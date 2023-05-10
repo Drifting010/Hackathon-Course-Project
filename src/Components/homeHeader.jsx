@@ -152,17 +152,24 @@ export default function Header(props) {
         // The main container for the header, using Box component from Material UI
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
-                <Toolbar>
+                <Toolbar sx={{ bgcolor: '#0D1116' }}>
 
                     {/* AdbIcon component from Material UI, hidden on extra-small screens */}
-                    <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+                    <AdbIcon sx={{ display: { xs: 'none', md: 'flex', color: '#FF9300' }, mr: 1 }} />
 
                     {/* Typography component from Material UI, showing the title of the header, hidden on extra-small and small screens */}
                     <Typography
                         variant="h6"
                         noWrap
                         component="div"
-                        sx={{ display: { xs: 'none', sm: 'block' } }}
+                        sx={{
+                            mr: 2,
+                            display: { xs: 'none', md: 'flex' },
+                            fontFamily: 'monospace',
+                            fontWeight: 700,
+                            color: '#FF9300',
+                            textDecoration: 'none',
+                        }}
                     >
                         Hackathon
                     </Typography>
@@ -171,9 +178,27 @@ export default function Header(props) {
                     <Box sx={{ flexGrow: 50 }} />
 
                     {/* Box component with buttons for navigation, hidden on extra-small and small screens */}
-                    <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                    <Box sx={{ display: { xs: 'none', sm: 'block' }, mr: 10 }}>
                         {navItems.map((item) => (
-                            <Button key={item} sx={{ color: '#fff' }}>
+                            <Button key={item} sx={{
+                                my: 2,
+                                mr: 4,
+                                color: '#C9D1D9',
+                                display: 'inline-block',
+                                textTransform: 'none',
+                                textDecoration: 'none',
+                                fontFamily: 'Inter',
+                                fontStyle: 'normal',
+                                fontWeight: 500,
+                                fontSize: '14px',
+                                letterSpacing: '0.75px',
+                                '&:hover': {
+                                    color: '#FF9300',
+                                },
+                                '&:active': {
+                                    color: '#FF9300',
+                                },
+                            }}>
                                 {item}
                             </Button>
                         ))}
@@ -186,13 +211,42 @@ export default function Header(props) {
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                         <Button variant="outlined"
                             sx={{
+                                my: 2,
+                                mr: 2,
                                 color: 'white',
+                                display: 'inline-block',
+                                textTransform: 'none',
+                                borderColor: '#0D1116',
+                                borderRadius: '10px',
+                                fontFamily: 'Inter',
+                                fontStyle: 'normal',
                                 fontWeight: 'bold',
+                                fontSize: '14px',
+                                letterSpacing: '0.75px',
+                                '&:hover': {
+                                    borderColor: '#FF9300',
+                                    color: '#FF9300',
+                                },
                             }
                             }>Login</Button>
-                        <Button variant="contained"
+                        <Button variant="outlined"
                             sx={{
+                                my: 2,
+                                mr: 2,
+                                color: 'white',
+                                display: 'inline-block',
+                                textTransform: 'none',
+                                borderColor: '#FF9300',
+                                borderRadius: '10px',
+                                fontFamily: 'Inter',
+                                fontStyle: 'normal',
                                 fontWeight: 'bold',
+                                fontSize: '14px',
+                                letterSpacing: '0.75px',
+                                '&:hover': {
+                                    borderColor: '#FF9300',
+                                    color: '#FF9300',
+                                },
                             }
                             }>Sign up</Button>
 
