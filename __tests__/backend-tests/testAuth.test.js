@@ -18,14 +18,6 @@ test("create user with email and password", async () => {
   const email = "test@example.com";
   const password = "testpassword";
   const role = "host";
-  const profile = {
-    user: email,
-    Country: 'China',
-    Description: 'pretend this is a description',
-    Tags: ['tag1', 'tag2', 'tag3'],
-    userIcon: 'gs://a-plus-on-the-way.appspot.com/userIcons/icon.jpeg',
-    username: 'Cur'
-  };
 
   // Call the createUserWithEmailAndPassword function
   await createUserWithEmailAndPasswordFunction(
@@ -131,14 +123,6 @@ test("sign out user", async () => {
   const email = "testSignOut@example.com";
   const password = "testpassword";
   const role = "host";
-  const profile = {
-    user: email,
-    Country: 'China',
-    Description: 'pretend this is a description',
-    Tags: ['tag1', 'tag2', 'tag3'],
-    userIcon: 'gs://a-plus-on-the-way.appspot.com/userIcons/icon.jpeg',
-    username: 'Maer'
-  };
 
   const newUser = await createUserWithEmailAndPasswordFunction(
     email,
