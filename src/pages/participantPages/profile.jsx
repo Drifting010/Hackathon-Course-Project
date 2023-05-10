@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {  ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../Components/theme';
 import CssBaseline from '@mui/material/CssBaseline';
 import Avatar from '@mui/material/Avatar';
@@ -19,7 +19,7 @@ export default function Profile() {
         const fetchData = async () => {
             try {
                 // const userAuth = await auth.currentUser;
-                const userAuth = { email: 'testParticipant@example.com' };
+                const userAuth = { email: 'TEST0509@TEST.com' };
                 if (userAuth) {
                     const userEmail = userAuth.email;
                     const userData = await getUser(userEmail);
@@ -62,7 +62,7 @@ export default function Profile() {
 
                         <Grid item>
                             <Typography>
-                                {user.first_name} {user.last_name}
+                                {user.username}
                             </Typography>
                         </Grid>
 
@@ -74,7 +74,7 @@ export default function Profile() {
 
                                 <Grid item>
                                     <Typography>
-                                        {user.profile.Country}
+                                        {/* {user.profile.Country} */}
                                     </Typography>
                                 </Grid>
                             </Grid>
@@ -82,7 +82,7 @@ export default function Profile() {
 
                         <Grid item>
                             <Typography>
-                                {user.profile.Description}
+                                {/* {user.profile.Description} */}
                             </Typography>
                         </Grid>
 

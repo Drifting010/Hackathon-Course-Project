@@ -18,13 +18,18 @@ describe('TemporaryDrawer component', () => {
     expect(drawer).toBeInTheDocument();
   });
 
-  test('should call the onTagClick function when a tag is clicked', () => {
+  test('should call the onTagClick function when a tag is clicked', async () => {
     const mockOnTagClick = vi.fn();
     const { getByText } = render(<TemporaryDrawer onTagClick={mockOnTagClick} />);
     const tagButton = getByText(/TAG/i);
     fireEvent.click(tagButton);
-    const jsTag = getByText(/JavaScript/i);
+  
+    // wait all tags render finish
+    await new Promise(resolve => setTimeout(resolve, 3000));
+  
+    const jsTag = getByText(/JavaScript/i, { scroll: true });
     fireEvent.click(jsTag);
     expect(mockOnTagClick).toHaveBeenCalledWith('JavaScript');
   });
+  
 });

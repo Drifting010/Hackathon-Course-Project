@@ -22,4 +22,5 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 const storage = getStorage(app);
 const storageRef = ref(storage);
+
 export { app, db, auth, provider, storage, storageRef};

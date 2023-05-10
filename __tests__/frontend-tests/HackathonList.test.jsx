@@ -1,14 +1,17 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import HackathonList from '../../src/pages/participantPages/HackathonList';
+import HackathonList from '../../src/Components/HackathonList';
+
+const initialFilters = { tag: null, offset: null, status: null };
 
 describe('HackathonList', () => {
   it('renders HackathonList correctly', () => {
-    const { getAllByTestId } = render(<HackathonList />);
+    const { getAllByTestId } = render(<HackathonList filters={initialFilters}/>);
 
-    // test HackathonList
-    const cards = getAllByTestId('hackthonList', { container: document.body });
-    expect(cards).toHaveLength(1);
+    // test HackathonList is rendered
+    const componennt = getAllByTestId('hackthonList', { container: document.body });
+    expect(componennt).toHaveLength(1);
   });
+
 });

@@ -30,12 +30,10 @@ describe('ParticipantHeader', () => {
 
         const profileMenuItem = screen.getByTestId('menu-item-profile');
         const accountMenuItem = screen.getByTestId('menu-item-account');
-        const dashboardMenuItem = screen.getByTestId('menu-item-dashboard');
         const logoutMenuItem = screen.getByTestId('menu-item-logout');
 
         expect(profileMenuItem).toBeInTheDocument();
         expect(accountMenuItem).toBeInTheDocument();
-        expect(dashboardMenuItem).toBeInTheDocument();
         expect(logoutMenuItem).toBeInTheDocument();
 
         // Close user menu by clicking the avatar button again

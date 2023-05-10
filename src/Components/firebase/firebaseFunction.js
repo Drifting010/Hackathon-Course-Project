@@ -1,112 +1,42 @@
 /* eslint-disable no-console */
 import {
-  collection, doc, setDoc, getDoc, getDocs, query, where,
+  collection, doc, setDoc, getDoc, getDocs, query, where,  arrayUnion, arrayRemove, updateDoc, deleteDoc
+
 } from 'firebase/firestore';
 import { db, auth, storage } from '../../firebaseConfig';
 import {  ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import { //signInWithPopup,
-   signInWithEmailAndPassword ,signOut, createUserWithEmailAndPassword,updateProfile} from 'firebase/auth';
+   signInWithEmailAndPassword ,signOut, updatePassword, createUserWithEmailAndPassword,updateProfile} from 'firebase/auth';
 
-// Add a new hackathon to the 'hackathons' collection
-const addHackathon = async (hackathon) => {
-  try {
-    const hackathonRef = doc(collection(db, 'hackathons'), hackathon.id);
-    await setDoc(hackathonRef, hackathon);
-  } catch (error) {
-    console.error('Error adding hackathon: ', error);
-  }
+//CRUD Operations
+//Automatically add a new item to array field
+const addToArray = async (collectionName, documentName, fieldName, dataToAdd ) => { 
+  const ref = doc(db, collectionName, documentName);
+
+  await updateDoc(ref, {
+    [fieldName]: arrayUnion(dataToAdd),
+  });
 };
 
-// Create a new user with email and password authentication and store their data in the 'users' collection
-const createUserWithEmailAndPasswordFunction = async (
-  email,
-  password,
-  username,
-  role,
-  profile,
-) => {
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const { user } = userCredential;
+//
+const removeFromArray = async(collectionName, documentName, fieldName, dataToRemove) => {
+  const ref = doc(db, collectionName, documentName);
 
-    const userData = {
-      uid: user.uid,
-      email,
-      username,
-      role,
-      profile,
-    };
 
-    const userRef = doc(collection(db, 'users'), email);
-    await setDoc(userRef, userData);
-
-    console.log('User created successfully');
-  } catch (error) {
-    console.error('Error creating user: ', error);
-  }
-};
-
-// Sign in a user with their email and password
-const signInWithEmailAndPasswordFunction = async (email, password) => {
-  try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-    return user;
-  } catch (error) {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.error(`Error signing in: ${errorCode} - ${errorMessage}`);
-    return null;
-  }
-};
-
-// // Sign in a user with their Google account
-// const signInWithGoogleFunction = async () => {
-//   signInWithPopup(auth, provider).then((result) => {
-//     const credential = provider.credentialFromResult(result);
-//     // The signed-in user info.
-//     const user = credential.user;
-//     if (user){
-//       console.log('user exist');
-//     }else{
-//       console.log('user not exist');
-//     }
-//     return user;
-//     // IdP data available using getAdditionalUserInfo(result)
-//     // ...
-//   }).catch((error) => {
-//     // Handle Errors here.
-//     console.log('sign in with google function',error);
-//     // ...
-//   });
-
-// };
-
-// Sign out the currently authenticated user
-const signOutFunction = () =>
-  signOut(auth).then(() => {
-    console.log("signout successfully")
-  }).catch((error) => {
-    console.error('Error signing out', error);
+  await updateDoc(ref, {
+    [fieldName]: arrayRemove(dataToRemove),
   })
-
-// Get user data from the 'users' collection by email
-const getUser = async (email) => {
-  try {
-    const userRef = doc(collection(db, 'users'), email);
-    const userSnapshot = await getDoc(userRef);
-
-    if (!userSnapshot.exists) {
-      console.error(`User with email '${email}' not found`);
-      return null;
-    }
-    const userData = userSnapshot.data();
-    return { ...userData, email };
-  } catch (error) {
-    console.error('Error getting user data:', error);
-    return null;
-  }
 };
+
+const getDocumentByRef = async (ref) => {
+  const snapshot = await (getDoc(ref));
+  if (snapshot.exists()) {
+    const document = snapshot.data();
+    return document;
+  }else{
+    console.log('No such document');
+  }
+}
 
 // Get hackathon data from the 'hackathons' collection by hackathon ID
 const getHackathon = async (hackathonId) => {
@@ -136,7 +66,6 @@ const getAllDocumentations = async (collectionName) => {
   }catch (error){
     console.error('Error getting all documentations', error);
   }
-  
 };
 
 //Get the document by specify the id
@@ -191,6 +120,98 @@ const getHackathonByTag = async (filters) => {
   }
 };
 
+//return all tags 
+const getAllTags = async (collectionName) => {
+  try{
+    const querySnapshot = await getDocs(collection(db, collectionName));
+    const documentations = querySnapshot.docs.map(doc => doc.data()['label']);
+    return documentations;
+  }catch (error){
+    console.error('Error getting all tags', error);
+  }
+  
+};
+
+// CRUD Operatiosn
+// Add a new hackathon or Update Hackathon to the 'hackathons' collection
+const addHackathon = async (hackathonData) => {
+  try {
+    const hackathonRef = doc(collection(db, 'hackathons'), hackathonData.id);
+    await setDoc(hackathonRef, hackathonData);
+  } catch (error) {
+    console.error('Error adding hackathon: ', error);
+  }
+};
+
+//add or update the particpant to hackathons
+const updateParticipatedHacakthon = async (hackathonId, email) => {
+  try {
+    const eventRef = doc(db, 'hackathons', hackathonId, 'participants', email);
+    const userRef = doc(db, 'participantProfiles', email, 'myEvents', hackathonId);
+    await setDoc(eventRef, {email: email}, { merge: true });
+    await setDoc(userRef, {hackathonId: hackathonId}, { merge: true })
+
+  } catch (error) {
+    console.error('Error Updating hackathon: ', error);
+  }
+};
+
+//remove the particpants from the hackathon
+const deleteParticipatedHacakthon = async (hackathonId, email) => {
+  try {
+    const eventRef = doc(db, 'hackathons', hackathonId, 'participants', email);
+    const userRef = doc(db, 'participantProfiles', email, 'myEvents', hackathonId);
+    await deleteDoc(eventRef);
+    await deleteDoc(userRef)
+
+  } catch (error) {
+    console.error('Error deleting hackathon: ', error);
+  }
+};
+
+//General add sub collection documentation
+const addDocumentToSubCollection = async (collectionName, documentId, subCollectionName, nestedDocumentId, data) => {
+  try{
+    const mainDocRef = doc(db, collectionName, documentId);
+    await setDoc(mainDocRef, {}, {merge: true})
+    const subCollectionRef = collection(mainDocRef, subCollectionName);
+    const nestedDocRef = doc(subCollectionRef, nestedDocumentId);
+    await setDoc(nestedDocRef, data, {merge: true});
+  } catch (error) {
+    console.error('Error add subCollection');
+  }
+}
+
+//general remove document from the subcollection
+const deleteDocumentFromSubCollection = async (collectionName, documentId, subCollectionName, nestedDocumentId) => {
+  try{
+    const documentRef = doc(db, collectionName, documentId, subCollectionName, nestedDocumentId);
+    await deleteDoc(documentRef);
+  } catch (error) {
+    console.error('Error delete subCollection');
+  }
+};
+
+const updateDocumentFromSubCollection = async (collectionName, documentId, subCollectionName, nestedDocumentId, data) => {
+  try{
+    const documentRef = doc(db, collectionName, documentId, subCollectionName, nestedDocumentId);
+    await updateDoc(documentRef, data);
+  } catch (error) {
+    console.error('Error updating subCollection');
+  }
+};
+
+//Set Winner similar cause can use this as an example
+//Add single user to winner, with price
+const setWinner = async (hackathonId, email, data) => {
+  try{
+    await addDocumentToSubCollection('hackathons', hackathonId, 'winners',email, data)
+  } catch (error) {
+    console.error('Error adding winner');
+  }
+};
+
+//File Transaction
 //upload file onto firebase storage
 const uploadIcon = async (file, userId, setLoading) => {
   const fileRef = ref(storage, 'userIcons/' + userId);
@@ -246,6 +267,7 @@ const downLoadFile = (fileRef) => {
   })
  };
 
+//User Operations
 //Get Current User
 const getCurrentUser = () => {
   const user = auth.currentUser;
@@ -256,8 +278,173 @@ const getCurrentUser = () => {
   return null; 
 }
 
+const sendEmailVerification = async () => {
+  const user = getCurrentUser();
+  if (user != null){
+    sendEmailVerification(user)
+      .then(() => {
+        console.log('email Verification sent');
+      })
+  } else{
+    console.log('Something went wrong');
+  }
+}
+
+//get user profile with giving email
+const getUserProfile = async (email) => {
+  const user = await getUser(email);
+  
+  const profile = await getDoc(user.profile);
+  console.log('Profile is', profile.data());
+  return profile.data(); 
+}
+
+//create profiles
+const createHostProfile = async (profileData) => {
+  try{
+    const profileRef = doc(collection(db, 'hostProfiles'),profileData.user);
+    await setDoc (profileRef, profileData);
+    return profileRef;
+  } catch (error) {
+    console.error('Error creating file', error);
+  }
+}
+
+//create profile for participants
+const createParticipantProfile = async (profileData) => {
+  try{
+    const profileRef = doc(collection(db, 'participantProfiles'),profileData.user);
+    await setDoc (profileRef, profileData);
+    return profileRef;
+  } catch (error) {
+    console.error('Error creating file', error);
+  }
+}
+
+
+//update profile for user
+const updateUserProfile = async (profileData, role) => {
+  if (role == 'host') {
+    await createHostProfile(profileData);
+  } else {
+    await createParticipantProfile(profileData);
+  }
+}
+ 
+// Create a new user with email and password authentication and store their data in the 'users' collection
+const createUserWithEmailAndPasswordFunction = async (
+  email,
+  password,
+  role,
+) => {
+  try {
+    await createUserWithEmailAndPassword(auth, email, password);
+    let userData = {}; // Change this line to use let instead of const
+    const profileData = {
+      user: email,
+    };
+    if (role === 'host'){
+      const profile = await createHostProfile(profileData);
+      userData = {
+        email,
+        role: 'host',
+        profile: profile,
+      };
+    } else {
+      const profile = await createParticipantProfile(profileData);
+      userData = {
+        email,
+        role: 'participant',
+        profile: profile,
+      };
+    }
+
+    const userRef = doc(collection(db, 'users'), email);
+    await setDoc(userRef, userData);
+
+    console.log('User created successfully');
+  } catch (error) {
+    console.error('Error creating user: ', error);
+  }
+};
+
+// Sign in a user with their email and password
+const signInWithEmailAndPasswordFunction = async (email, password) => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    return user;
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.error(`Error signing in: ${errorCode} - ${errorMessage}`);
+    return null;
+  }
+};
+
+// // Sign in a user with their Google account
+// const signInWithGoogleFunction = async () => {
+//   signInWithPopup(auth, provider).then((result) => {
+//     const credential = provider.credentialFromResult(result);
+//     // The signed-in user info.
+//     const user = credential.user;
+//     if (user){
+//       console.log('user exist');
+//     }else{
+//       console.log('user not exist');
+//     }
+//     return user;
+//     // IdP data available using getAdditionalUserInfo(result)
+//     // ...
+//   }).catch((error) => {
+//     // Handle Errors here.
+//     console.log('sign in with google function',error);
+//     // ...
+//   });
+
+// };
+
+// Sign out the currently authenticated user
+const signOutFunction = async () => {
+  return signOut(auth)
+    .then(() => {
+      console.log("signout successfully");
+    })
+    .catch((error) => {
+      console.error("Error signing out", error);
+    });
+};
+
+  
+//reset userPassowrd
+const resetPassword = async (newPassword) => {
+  const user = auth.currentUser;
+  updatePassword(user, newPassword).then(() => {
+    console.log('password changed succesfully')
+    // Update successful.
+  }).catch((error) => {
+    // An error ocurred
+    // ...
+    console.error('error resetting password', error)
+  });
+}
+
+
+// Get user data from the 'users' collection by email
+const getUser = async (email) => {
+  try {
+    const userRef = doc(db, 'users', email);
+    const userSnapshot = await getDoc(userRef);
+    console.log('get User', userSnapshot.data());
+    return userSnapshot.data();
+  } catch (error) {
+    console.error('Error getting user data:', error);
+  }
+};
+
 export {
   addHackathon,
+  addDocumentToSubCollection,
   createUserWithEmailAndPasswordFunction,
   // signInWithGoogleFunction,
   signInWithEmailAndPasswordFunction,
@@ -268,9 +455,24 @@ export {
   getDocumentInCollectionById,
   getMultipleDocuments,
   getHackathonByTag,
+  updateParticipatedHacakthon,
+  updateUserProfile,
+  updateDocumentFromSubCollection,
+  createHostProfile,
+  createParticipantProfile,
   uploadIcon,
   getCurrentUser,
   uploadFile,
   downLoadFile,
   setRef,
+  addToArray,
+  removeFromArray,
+  setWinner,
+  deleteParticipatedHacakthon,
+  deleteDocumentFromSubCollection,
+  sendEmailVerification,
+  resetPassword,
+  getDocumentByRef,
+  getUserProfile,
+  getAllTags,
 };

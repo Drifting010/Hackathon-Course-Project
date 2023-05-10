@@ -34,7 +34,7 @@ export default function HostHeader() {
         // AppBar component for the top app bar
         <AppBar position="static">
             {/* Container for content within the AppBar */}
-            <Container maxWidth="xl">
+            <Container maxWidth="xl" sx={{ bgcolor: '#0D1116'}}>
                 {/* Toolbar for displaying navigation items and actions */}
                 <Toolbar disableGutters>
 
@@ -44,21 +44,57 @@ export default function HostHeader() {
                             <Link
                                 variant="button"
                                 href="./dashboard"
-                                sx={{ my: 2, mr: 2, color: 'white', display: 'inline-block', textTransform: 'none', textDecoration: 'none' }}
+                                sx={{ 
+                                    my: 2, 
+                                    mr: 2, 
+                                    color: 'white', 
+                                    display: 'inline-block', 
+                                    textTransform: 'none', 
+                                    textDecoration: 'none',
+                                    '&:hover':{
+                                        color: '#4474F1',
+                                    },
+                                    '&:active': {
+                                        color: '#4474F1',
+                                    }, }}
                             >
                                 Dashboard
                             </Link>
                             <Link
                                 variant="button"
                                 href="./data_analytics"
-                                sx={{ my: 2, mr: 2, color: 'white', display: 'inline-block', textTransform: 'none', textDecoration: 'none' }}
+                                sx={{ 
+                                    my: 2, 
+                                    mr: 2, 
+                                    color: 'white', 
+                                    display: 'inline-block', 
+                                    textTransform: 'none', 
+                                    textDecoration: 'none',
+                                    '&:hover':{
+                                        color: '#4474F1',
+                                    },
+                                    '&:active': {
+                                        color: '#4474F1',
+                                    }, }}
                             >
                                 Data Analytics
                             </Link>
                             <Link
                                 variant="button"
                                 href="./help_centre"
-                                sx={{ my: 2, color: 'white', display: 'inline-block', textTransform: 'none', textDecoration: 'none' }}
+                                sx={{ 
+                                    my: 2, 
+                                    mr: 2, 
+                                    color: 'white', 
+                                    display: 'inline-block', 
+                                    textTransform: 'none', 
+                                    textDecoration: 'none',
+                                    '&:hover':{
+                                        color: '#4474F1',
+                                    },
+                                    '&:active': {
+                                        color: '#4474F1',
+                                    }, }}
                             >
                                 Help Centre
                             </Link>
@@ -67,7 +103,7 @@ export default function HostHeader() {
 
                     {/* Second Box: Contains the logo and AdbIcon */}
                     <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
-                        <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+                        <AdbIcon sx={{ display: { xs: 'none', md: 'flex', color: '#4474F1' }, mr: 1 }} />
                         <Typography
                             variant="h6"
                             noWrap
@@ -78,12 +114,12 @@ export default function HostHeader() {
                                 display: { xs: 'none', md: 'flex' },
                                 fontFamily: 'monospace',
                                 fontWeight: 700,
-                                color: 'inherit',
+                                color: '#4474F1',
                                 textDecoration: 'none',
                             }}
                         >
                             {/* LOGO */}
-                            Hackathon  
+                            HACKATHON
                         </Typography>
                     </Box>
 
@@ -93,8 +129,9 @@ export default function HostHeader() {
                     {/* Fourth Box: Contains the "Switch to Hosting" button and user menu with avatar */}
                     <Box sx={{ flexGrow: 0 }}>
                         <Button
+                            variant='outlined'
                             href="#"
-                            sx={{ my: 2, mr: 2, color: 'white', display: 'inline-block', textTransform: 'none' }}
+                            sx={{ my: 2, mr: 2, color: 'white', display: 'inline-block', textTransform: 'none', borderColor: 'white' }}
                         >
                             Switch to attending
                         </Button>
@@ -124,7 +161,7 @@ export default function HostHeader() {
                                     textAlign="center"
                                     component="a"
                                     href="./host_profile"
-                                    sx={{ textDecoration: 'none', color: 'black' }}
+                                    sx={{ textDecoration: 'none', color: 'white' }}
                                     data-testid="menu-item-profile"
                                 >
                                     Profile
@@ -135,7 +172,7 @@ export default function HostHeader() {
                                     textAlign="center"
                                     component="a"
                                     href="./host_account"
-                                    sx={{ textDecoration: 'none', color: 'black' }}
+                                    sx={{ textDecoration: 'none', color: 'white' }}
                                     data-testid="menu-item-account"
                                 >
                                     Account
@@ -146,7 +183,7 @@ export default function HostHeader() {
                                     textAlign="center"
                                     component="a"
                                     href="#"
-                                    sx={{ textDecoration: 'none', color: 'black' }}
+                                    sx={{ textDecoration: 'none', color: 'white' }}
                                     data-testid="menu-item-logout"
                                 >
                                     Logout
