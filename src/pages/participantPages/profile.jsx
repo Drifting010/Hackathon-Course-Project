@@ -16,7 +16,6 @@ export default function Profile() {
 
     React.useEffect(() => {
         const fetchData = async () => {
-            const currentUser = getCurrentUser();
             if (currentUser) {
                 const user = await getUser(currentUser.email);
                 setUser(user);
@@ -75,9 +74,6 @@ export default function Profile() {
 
                     </Grid>
                 </Box>
-            ) : (
-                <div>Loading...</div>
-            )}
         </ThemeProvider>
     );
 }
