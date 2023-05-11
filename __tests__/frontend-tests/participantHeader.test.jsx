@@ -11,7 +11,7 @@ describe('ParticipantHeader', () => {
     afterEach(cleanup)
 
     test('renders logo and navigation links', () => {
-        const logo = screen.getByText('Hackathon');
+        const logo = screen.getByText('H A C K A T H O N');
         const exploreHackathons = screen.getByText('Explore Hackathons');
         const myEvents = screen.getByText('My Events');
         const switchToHosting = screen.getByText('Switch to Hosting');
@@ -30,12 +30,10 @@ describe('ParticipantHeader', () => {
 
         const profileMenuItem = screen.getByTestId('menu-item-profile');
         const accountMenuItem = screen.getByTestId('menu-item-account');
-        const dashboardMenuItem = screen.getByTestId('menu-item-dashboard');
         const logoutMenuItem = screen.getByTestId('menu-item-logout');
 
         expect(profileMenuItem).toBeInTheDocument();
         expect(accountMenuItem).toBeInTheDocument();
-        expect(dashboardMenuItem).toBeInTheDocument();
         expect(logoutMenuItem).toBeInTheDocument();
 
         // Close user menu by clicking the avatar button again

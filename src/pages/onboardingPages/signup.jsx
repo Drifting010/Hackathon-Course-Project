@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-// import { createParticipant } from '../Components/firebase/firebaseFunction';
+import React, { useState, useEffect, useContext } from 'react';
+import { AppContext } from '../../Components/AppContextProvider';
 import Typography from '@mui/material/Typography';
 import FormControl from '@mui/material/FormControl';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -14,6 +14,8 @@ import HttpsOutlinedIcon from '@mui/icons-material/HttpsOutlined';
 
 // Signup function component
 export default function Signup() {
+    // Import firebase function to create a new user
+    const { createUserWithEmailAndPasswordFunction } = useContext(AppContext);
     // State variables for validity of email, password, and password confirmation fields
     const [emailValid, setEmailValid] = useState(false);
     const [pwdValid, setPwdValid] = useState(false);
@@ -44,9 +46,11 @@ export default function Signup() {
 
     // useEffect to handle form submission
     useEffect(() => {
-        // console.log(formData);
         if (isSubmitting) {
             let email, password;
+            // TEST DATA: Need to change
+            let username = 'testData', profile = 'testData';
+
             const { p_email, p_pwd, h_email, h_pwd, role } = formData;
 
             if (role === 'participant') {
@@ -56,18 +60,8 @@ export default function Signup() {
                 email = h_email;
                 password = h_pwd;
             }
-            // subimt form data to firebase database
-            // createParticipant(email, password, role)
-            //     .then(() => {
-            //         console.log('Form submitted successfully!');
-            //         setSuccess('Form submitted successfully!');
-            //     })
-            //     .catch(error => {
-            //         console.log('Error: ', error);
-            //     })
-            //     .finally(() => {
-            //         setSubmitting(false);
-            //     })
+            // Submit form data to the users collection of the firebase DB
+            createUserWithEmailAndPasswordFunction(email, password, username, role, profile);
         }
     }, [formData, isSubmitting]);
 
@@ -168,7 +162,7 @@ export default function Signup() {
                             mb: '10px',
                             fontFamily: 'Inter',
                             fontStyle: 'normal',
-                            fontSize: '18px',
+                            fontSize: '25px',
                             fontWeight: 700,
                             letterSpacing: '0.75px',
                             color: '#FFFFFF',
@@ -289,13 +283,19 @@ export default function Signup() {
                                     type="submit"
                                     name="participant_proceed"
                                     disabled={!formValid}
+                                    onClick={handleFormSubmit}
+                                    // href='./register_profile_participant'
                                     sx={{
                                         width: '425px',
                                         height: '40px',
                                         background: '#FF9300',
-                                        color: '#F7F7FC',
                                         textTransform: 'none',
                                         borderRadius: '5px',
+                                        fontFamily: 'Inter',
+                                        fontStyle: 'normal',
+                                        fontWeight: 700,
+                                        fontSize: '14px',
+                                        color: '#F7F7FC',
                                         '&:disabled': {
                                             background: 'rgba(255, 147, 0, 0.5)',
                                         },
@@ -383,12 +383,19 @@ export default function Signup() {
                                     type="submit"
                                     name="host_proceed"
                                     disabled={!formValid}
+                                    onClick={handleFormSubmit}
+                                    // href='./register_profile_host'
                                     sx={{
                                         width: '425px',
                                         height: '40px',
                                         background: '#FF9300',
                                         textTransform: 'none',
                                         borderRadius: '5px',
+                                        fontFamily: 'Inter',
+                                        fontStyle: 'normal',
+                                        fontWeight: 700,
+                                        fontSize: '14px',
+                                        color: '#F7F7FC',
                                         '&:disabled': {
                                             background: 'rgba(255, 147, 0, 0.5)',
                                         },

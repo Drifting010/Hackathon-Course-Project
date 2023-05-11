@@ -9,15 +9,19 @@ import { HeaderWrapper } from './Components/headerWrapper';
 import { HomeFooter } from './Components/';
 //part one - onboarding
 import { Home } from './pages/onboardingPages';
-import Signup from './pages/onboardingPages/signup'
+import { Signup } from './pages/onboardingPages'
 import { Interests } from './pages/onboardingPages';
+import { RegisterProfileParticipant } from './pages/onboardingPages';
+import { RegisterProfileHost } from './pages/onboardingPages'
 //part two - participant
 import { ParticipantHome } from './pages/participantPages';
 import { ExploreHackathons } from './pages/participantPages';
 import { MyEvents } from './pages/participantPages';
+import { SingleHackathon } from './pages/participantPages'
 import { RegisterHackathons } from './pages/participantPages';
+import { SubmitHackathons } from './pages/participantPages'
 import { Profile } from './pages/participantPages';
-import { EditProfile } from './pages/participantPages';
+import { EditParticipantProfile } from './pages/participantPages';
 import { AccountSetting } from './pages/participantPages';
 //part three - host
 import { HostHome } from './pages/hostPages';
@@ -30,6 +34,8 @@ import { HostEditprofile } from './pages/hostPages';
 
 import './App.css'
 import theme from './Components/theme';
+import PublishHackathonPage from './pages/publishHackathonPage';
+import Login from './pages/Login';
 
 export default function App() {
 
@@ -44,14 +50,19 @@ export default function App() {
               {/* part 01 */}
               <Route path="/home" element={<Home />} />
               <Route path="/signup" element={<Signup />} />
+              <Route path="/register_profile_participant" element={<RegisterProfileParticipant />} />
+              <Route path="/register_profile_host" element={<RegisterProfileHost />} />
               <Route path="/interests" element={<Interests />} />
+              <Route path="/login" element={<Login />} />
               {/* part 02 */}
               <Route path="/participant_home" element={<ParticipantHome />} />
               <Route path="/explore_hackathons" element={<ExploreHackathons />} />
               <Route path="/my_events" element={<MyEvents />} />
+              <Route path="/single_hackathon" element={<SingleHackathon />} />
               <Route path="/register_hackathons" element={<RegisterHackathons />} />
+              <Route path="/submit_hackathons" element={<SubmitHackathons />} />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/edit_profile" element={<EditProfile />} />
+              <Route path="/edit_participant_profile" element={<EditParticipantProfile />} />
               <Route path="/account" element={<AccountSetting />} />
               {/* part 03 */}
               <Route path='/host_home' element={<HostHome />} />
@@ -61,6 +72,7 @@ export default function App() {
               <Route path='/host_account' element={<HostAccountSetting />} />
               <Route path='/host_profile' element={<HostProfile />} />
               <Route path='/host_editprofile' element={<HostEditprofile />} />
+              <Route path="/publish_hackathon" element={<PublishHackathonPage />} />
             </Routes>
           </main>
           <HomeFooter />

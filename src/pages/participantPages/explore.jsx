@@ -6,41 +6,87 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../Components/theme';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import TemporaryDrawer from '../../Components/TemporaryDrawer';
-import HackathonList from './HackathonList'
+import HackathonList from '../../Components/HackathonList'
+import { AppContext } from '../../Components/AppContextProvider';
 
-const initialFilters = { tag: null, offset: null, status: null}
+const initialFilters = { tag: null, offset: null, status: null, username: null, role: null}
 // const limit = 10
-
-// An array of card objects to be displayed
-const cards = [1, 2, 3];
 
 // Exporting a React functional component named 'Explopre'
 export default function Explopre() {
+  const { getCurrentUser, getUser, signInWithEmailAndPasswordFunction } = useContext(AppContext);
+  const [user, setUser] = useState(null);
 
-  const [filters, setFilters] = useState(initialFilters )
-
+  // login in and get current user
+  // thia part need to be delete
+  useEffect(()=>{
+    async function signInAndSetUser() {
+      await signInWithEmailAndPasswordFunction('testparticipant@example.com','testpassword');
+      // get user info from auth function
+      const currentUser = getCurrentUser();
+      // console.log('currentUser:',currentUser)
+      // get user role and username from users
+      if (currentUser){
+        const userinfo = await getUser(currentUser.email);
+        setUser(userinfo);
+      }
+    };
+    signInAndSetUser();
+  },[]);
+  const [filters, setFilters] = useState(initialFilters);
+  const [activeBtn, setActiveBtn] = useState(null);
+  
+  // add username into filter
   useEffect(() => {
-    setFilters(initialFilters)
-  }, [])
+    if(user){
+      setFilters({ ...initialFilters, username: user.username, role: user.role})
+    }
+  }, [user])
+  
+  useEffect(() => {
+    console.log('filters: ', filters)
+  }, [filters])
+
+  // useEffect(() => {
+  //   setFilters(initialFilters)
+  // }, [])
+
   function onTagClick(tag) {
-    setFilters({ ...initialFilters, tag })
+    setFilters({ ...initialFilters, tag: tag, username: user.username, role: user.role })
   }
 
   function onAllClick() {
-    setFilters({ ...initialFilters, tag: null })
+    setActiveBtn('all')
+    setFilters({ ...initialFilters, tag: null, status:null, username: user.username, role: user.role })
   }
 
   function onOngoingClick() {
-    setFilters({ ...initialFilters, status: "ongoing" })
+    setActiveBtn('ongoing')
+    setFilters({ ...initialFilters, status: "ongoing", username: user.username, role: user.role })
   }
 
   function onFinishedClick() {
-    setFilters({ ...initialFilters, status: "ended" })
+    setActiveBtn('finished')
+    setFilters({ ...initialFilters, status: "ended", username: user.username, role: user.role })
   }
 
-
+  // Function to determine button style based on active button
+  const getButtonStyle = (btn) => ({
+    color: activeBtn === btn ? '#FF9300' : '#6D7681',
+    borderRadius: '10px',
+    borderColor: activeBtn === btn ? '#FF9300' : '#6D7681',
+    fontFamily: 'Inter',
+    fontStyle: 'normal',
+    fontWeight: 500,
+    fontSize: '16px',
+    textTransform: 'none',
+    '&:hover': {
+      borderColor: '#FF9300',
+      color: '#FF9300',
+    },
+  })
 
   return (
     <ThemeProvider theme={theme}>
@@ -60,16 +106,35 @@ export default function Explopre() {
             spacing={2}
             justifyContent="flex-start"
           >
-            <Button variant="outlined" onClick={onAllClick}>All</Button>
-            <Button variant="outlined" onClick={onOngoingClick}>Ongoing</Button>
-            <Button variant="outlined" onClick={onFinishedClick}>Finished</Button>
-            <TemporaryDrawer onTagClick={onTagClick} />
+            <Button
+              variant="outlined"
+              onClick={onAllClick}
+              sx={getButtonStyle('all')}
+            >
+              All
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={onOngoingClick}
+              sx={getButtonStyle('ongoing')}
+            >
+              Ongoing
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={onFinishedClick}
+              sx={getButtonStyle('finished')}
+            >
+              Finished
+            </Button>
+            <TemporaryDrawer
+              onTagClick={onTagClick} />
           </Stack>
         </Container>
       </Box>
       {/* display cards */}
       <Box>
-        <HackathonList filters={filters}/>
+        <HackathonList filters={filters} />
       </Box>
     </ThemeProvider>
   );
