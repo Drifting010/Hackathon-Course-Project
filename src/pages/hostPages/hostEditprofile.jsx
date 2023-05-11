@@ -18,6 +18,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 
 import theme from '../../Components/theme';
+import { AppContext } from '../../Components/AppContextProvider';
+import { getUser, getUserProfile, updateUserProfile, uploadIcon } from '../../Components/firebase/firebaseFunction';
 
 const interests = [
     'Abc',
@@ -33,7 +35,38 @@ const skills = [
 
 // This is the main function that returns the hostEditprofile component
 export default function HostEditprofile() {
+    
+    const {currentUser} = React.useContext(AppContext);
+    const [loading, setLoading] = React.useState(false);
 
+    // State for uploaded avatar
+    const [uploadedAvatar, setUploadedAvatar] = React.useState(null);
+    const [uploadedFile, setUploadedFile] = React.useState(null);
+    const [companyName,setCompanyName] = React.useState("");
+    const [country,setCountry] = React.useState(null);
+    const [bio,setBio] = React.useState("");
+    const [website,setWebsite] = React.useState("");
+
+
+    React.useEffect(()=>{
+        if(currentUser!==null){
+            setUploadedAvatar(currentUser.photoURL);
+
+            const user = getUserProfile(currentUser.email);
+            user.then(function(result){
+                setCompanyName(result.nameOfOrganization);
+                setCountry(result.country);
+                setBio(result.description);
+                setWebsite(result.website);
+            });
+        }
+    },[currentUser])
+
+    // const user = getUser(currentUser.email);
+
+    // user.then(function(result){
+    //     console.log(result.userIcon);
+    // });
     // State for Cancel and Save buttons hover
     const [isCancelHovered, setIsCancelHovered] = React.useState(false);
     const [isSaveHovered, setIsSaveHovered] = React.useState(false);
@@ -55,9 +88,6 @@ export default function HostEditprofile() {
         setIsSaveHovered(false);
     };
 
-    // State for uploaded avatar
-    const [uploadedAvatar, setUploadedAvatar] = React.useState(null);
-
     // Event handler for avatar upload
     const handleAvatarUpload = (event) => {
         const file = event.target.files[0];
@@ -65,10 +95,24 @@ export default function HostEditprofile() {
             const reader = new FileReader();
             reader.onloadend = () => {
                 setUploadedAvatar(reader.result);
+                setUploadedFile(file);
             };
             reader.readAsDataURL(file);
         }
     };
+
+    const handleSave = async () => {
+        const update = {
+            nameOfOrganization: companyName,
+            country: country,
+            description: bio,
+            website: website,
+            user: currentUser.email
+        }
+
+        await updateUserProfile(update,"host");
+        uploadIcon(uploadedFile,currentUser.email,setLoading);
+    }
 
     return (
         <ThemeProvider theme={theme}>
@@ -121,15 +165,18 @@ export default function HostEditprofile() {
                             {/* User Name input field */}
                             <TextField
                                 id="outlined-username"
-                                label="User Name"
-                                defaultValue=""
+                                label="Company Name"
+                                value={companyName}
+                                onChange={(e)=>{setCompanyName(e.target.value)}}
 
                             />
                         </Stack>
 
+                        
                         {/* First Name and Last Name input fields */}
-                        <Stack direction="row" spacing={2} alignItems="center">
-                            {/* First Name input field */}
+                        {/* <Stack direction="row" spacing={2} alignItems="center">
+                            
+                            // First Name input field
                             <TextField
                                 id="outlined-firstname"
                                 label="First Name"
@@ -137,16 +184,19 @@ export default function HostEditprofile() {
 
                             />
 
-                            {/* Last Name input field */}
+                            // Last Name input field
                             <TextField
                                 id="outlined-lastname"
                                 label="Last Name"
                                 defaultValue=""
                             />
-                        </Stack>
+                        </Stack> */}
 
                         {/* Country selection dropdown */}
-                        <CountrySelect />
+                        <CountrySelect
+                            value={country}
+                            onChange={(e,newInputVal)=>{setCountry(newInputVal)}}
+                        />
 
                         {/* Interests selection dropdown */}
                         <Autocomplete
@@ -188,6 +238,17 @@ export default function HostEditprofile() {
                             label="Bio"
                             helperText="Add more details about your organization / company and what it does"
                             style={{ width: 500 }}
+                            value={bio}
+                            onChange={(e)=>{setBio(e.target.value)}}
+                        />
+
+                        {/* Website input field */}
+                        <TextField
+                            id="outlined-helperText"
+                            label="Website"
+                            style={{ width: 500 }}
+                            value={website}
+                            onChange={(e)=>{setWebsite(e.target.value)}}
                         />
 
                         {/* Radio buttons for Student and Working professional */}
@@ -220,6 +281,7 @@ export default function HostEditprofile() {
                                 onMouseLeave={handleSaveMouseLeave}
                                 sx={{ textTransform: 'none' }}
                                 variant={isSaveHovered ? 'contained' : 'outlined'}
+                                onClick={handleSave}
                             >
                                 Save
                             </Button>
