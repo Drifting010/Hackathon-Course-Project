@@ -51,7 +51,6 @@ export default function HostEditprofile() {
     React.useEffect(()=>{
         if(currentUser!==null){
             setUploadedAvatar(currentUser.photoURL);
-            console.log(currentUser);
 
             const user = getUserProfile(currentUser.email);
             user.then(function(result){
@@ -110,8 +109,6 @@ export default function HostEditprofile() {
             website: website,
             user: currentUser.email
         }
-
-        console.log(update);
 
         await updateUserProfile(update,"host");
         uploadIcon(uploadedFile,currentUser.email,setLoading);
