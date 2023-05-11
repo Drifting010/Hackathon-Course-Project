@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getHackathonByFilterByHost, getHackathonByFilterByParticipant } from './firebase/firebaseFunction';
+import { getHackathonByFilterByHost, getHackathonByFilterByParticipant,getHackathonByTag } from './firebase/firebaseFunction';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -19,12 +19,19 @@ function HackathonList({ filters = initialFilters }) {
   // const [offset, setOffset] = useState(0)
   const [data, setData] = useState([]);
   useEffect(() => {
+    // host function
     async function fetchDataByHost() {
       const Data = await getHackathonByFilterByHost(filters);
       setData(Data);
     }
+    // participant function
     async function fetchDataByParticipant() {
       const Data = await getHackathonByFilterByParticipant(filters);
+      setData(Data);
+    }
+    // guest function
+    async function fetchDataByGuest() {
+      const Data = await getHackathonByTag(filters);
       setData(Data);
     }
     const role = filters.role;
@@ -32,6 +39,8 @@ function HackathonList({ filters = initialFilters }) {
       fetchDataByHost();
     } else if (role === 'participant') {
       fetchDataByParticipant();
+    } else {
+      fetchDataByGuest();
     }
   }, [filters]);
   // const pages = Math.ceil(data.HackathonsCount / limit)
