@@ -12,57 +12,61 @@ import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../Components/theme';
 import { LinearProgress } from '@mui/material';
 import Box from '@mui/material/Box';
+import HackathonList from '../../Components/HackathonList';
+import { AppContext } from '../../Components/AppContextProvider';
+import { useState, useEffect, useContext } from 'react';
 
 // An array of card objects to be displayed
-const cards = [1];
+// const cards = [1];
+const initialFilters = { tag: null, offset: null, status: null, username: null, role: null}
 
 // This is the main function that returns the Dashboard component
-export default function Dashboard(props) {
+export default function Dashboard() {
+  const { getCurrentUser, getUser, signInWithEmailAndPasswordFunction } = useContext(AppContext);
+  const [user, setUser] = useState(null);
+
+  // login in and get current user
+  // thia part need to be delete
+  useEffect(()=>{
+    async function signInAndSetUser() {
+      // await signInWithEmailAndPasswordFunction('testparticipant@example.com','testpassword');
+      // get user info from auth function
+      const currentUser = getCurrentUser();
+      // console.log('currentUser:',currentUser)
+      // get user role and username from users
+      if (currentUser){
+        const userinfo = await getUser(currentUser.email);
+        setUser(userinfo);
+      }
+    };
+    signInAndSetUser();
+  },[]);
+  const [filters, setFilters] = useState(initialFilters);
+  const [isHost, setisParticipant] = useState(false);
+  
+  // add username into filter
+  useEffect(() => {
+    if(user){
+      setFilters({ ...initialFilters, username: user.username, role: user.role})
+    }
+  }, [user])
+
+  useEffect(() => {
+    if (user){
+      const role = user.role
+      setisParticipant(role === 'host');
+    }
+  }, [user])
+
   return (
     <div>
-      {props.isLoggedIn && props.data ? (
+      {isHost ? (
         <ThemeProvider theme={theme}>
           <CssBaseline />
           {/* display cards */}
-          <Container sx={{ py: 2 }} maxWidth="md">
-            <Grid container spacing={4}>
-              {cards.map((card) => (
-                <Grid item key={card} xs={12} sm={6} md={4}>
-                  <Card
-                    sx={{
-                      height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                    }}
-                    data-testid="card"
-                  >
-                    <CardMedia
-                      component="img"
-                      sx={{}}
-                      image="https://source.unsplash.com/random"
-                      alt="random"
-                    />
-                    <CardContent sx={{ flexGrow: 1 }}>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        title
-                      </Typography>
-                      <Typography>prize pool $1000</Typography>
-                      <Stack direction="row" alignItems="center" spacing={2}>
-                        <LinearProgress
-                          sx={{ height: 10, width: '60%' }}
-                          color="secondary"
-                          variant="determinate"
-                          value={50}
-                        />
-                        <Typography fontSize="10px">Apply in 30 days</Typography>
-                      </Stack>
-                      <Typography>ongoing</Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          </Container>
+            <Box>
+              <HackathonList filters={filters} pagename={'dashBoard'}/>
+            </Box>
         </ThemeProvider>
       ) : (
         <ThemeProvider theme={theme}>

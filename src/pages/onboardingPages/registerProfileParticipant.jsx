@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import CountrySelect, { countries } from '../../Components/countrySelect';
@@ -11,42 +12,52 @@ import Button from '@mui/material/Button';
 
 // Define RegisterProfileParticipant component
 export default function RegisterProfileParticipant() {
+
+    // import user data stored in browser by signup page 
+    const user = JSON.parse(window.localStorage.getItem('user'));
+
+    // state: participantProfile
+    const [participantProfile, setParticipantProfile] = useState({
+        country: '',
+        description: '',
+        tags: [],
+        user: user.p_email,
+        userIcon: '',
+        username: ''
+    });
+
+    // store data in the browser
+    useEffect(() => {
+        window.localStorage.setItem('participantProfile', JSON.stringify(participantProfile));
+    }, [participantProfile]);
+
+    const [isSubmitting, setSubmitting] = useState(false);
+
     // State hooks for form validation, username, country, and description
     const [formValid, setFormValid] = useState(false);
-    const [username, setUsername] = useState('');
-    const [country, setCountry] = useState('');
-    const [description, setDescription] = useState('');
 
     // Event handler for form submission
     const handleFormSubmit = (event) => {
         event.preventDefault();
-        // Add form submission logic here
+        setSubmitting(true);
     };
 
     // Event handler for input fields' data changes
     const handleFormDataChange = (event) => {
         const { name, value } = event.target;
         // Update the state based on the input field being changed
-        switch (name) {
-            case 'username':
-                setUsername(value.trim());
-                break;
-            case 'country':
-                setCountry(value);
-                break;
-            case 'description':
-                setDescription(value.trim());
-                break;
-            default:
-                break;
-        }
-        // Validate the form after each change
-        checkFormValid();
+        setParticipantProfile((prevState) => ({
+            ...prevState,
+            [name]: value
+        }));
     };
 
     // Check if the form is valid
     const checkFormValid = () => {
-        const isValid = username !== '' && country !== '' && description !== '';
+        const isValid =
+            participantProfile.username !== ''
+            && participantProfile.country !== ''
+            && participantProfile.description !== '';
         // Update form valid state
         setFormValid(isValid);
     };
@@ -54,11 +65,12 @@ export default function RegisterProfileParticipant() {
     // Effect hook to check form validity when any input field changes
     useEffect(() => {
         checkFormValid();
-    }, [username, country, description]);
+    }, [participantProfile]);
 
     // Render the component
     return (
         <>
+            {isSubmitting && <Navigate to='/interests' />}
             {/* Outer Box for centering the inner content */}
             <Box
                 sx={{
@@ -107,8 +119,8 @@ export default function RegisterProfileParticipant() {
                     <TextField
                         label="Username"
                         name="username"
-                        value={username}
-                        onChange={handleFormDataChange}
+                        value={participantProfile.username}
+                        onChange={(event) => handleFormDataChange(event)}
                         sx={{ mb: '20px', width: '500px', background: '#21262D' }}
                         InputProps={{
                             startAdornment: (
@@ -148,7 +160,7 @@ export default function RegisterProfileParticipant() {
                     </Typography>
                     <CountrySelect
                         name="country"
-                        value={countries.find((option) => option.label === country)}
+                        value={countries.find((option) => option.label === participantProfile.country)}
                         onChange={(event, newValue) => {
                             handleFormDataChange({ target: { name: 'country', value: newValue || '' } });
                         }}
@@ -185,8 +197,8 @@ export default function RegisterProfileParticipant() {
                     <TextField
                         label="Description"
                         name="description"
-                        value={description}
-                        onChange={handleFormDataChange}
+                        value={participantProfile.description}
+                        onChange={(event) => handleFormDataChange(event)}
                         sx={{ mb: '30px', width: '500px', background: '#21262D' }}
                         InputProps={{
                             startAdornment: (
@@ -200,10 +212,9 @@ export default function RegisterProfileParticipant() {
                     {/* Submit button */}
                     <Box >
                         <Button
-                            type="submit"
+                            onClick={handleFormSubmit}
                             name="participant_proceed"
                             disabled={!formValid}
-                            href='./interests'
                             sx={{
                                 width: '500px',
                                 height: '40px',
@@ -223,8 +234,6 @@ export default function RegisterProfileParticipant() {
                             Participant Proceed
                         </Button>
                     </Box>
-
-
                 </Box>
             </Box>
         </>
