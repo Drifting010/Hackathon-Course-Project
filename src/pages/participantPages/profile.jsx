@@ -16,8 +16,11 @@ export default function Profile() {
 
     React.useEffect(() => {
         const fetchData = async () => {
-            const user = await getUser(userAuth.email);
-            setUser(user);
+            const currentUser = getCurrentUser();
+            if (currentUser) {
+                const user = await getUser(currentUser.email);
+                setUser(user);
+            }
         };
 
         fetchData();
