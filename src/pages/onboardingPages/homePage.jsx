@@ -11,7 +11,7 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import {  ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../Components/theme';
 
 // An array to hold some dummy card values
@@ -34,19 +34,21 @@ export default function Album() {
         }}
       >
         {/* Setting a maximum container width for the hero unit */}
-        <Container maxWidth="sm">
+        <Container maxWidth="md" sx={{ pt: 10 }}>
           {/* Adding the title of the website */}
           <Typography
             component="h1"
-            variant="h2"
+            variant="h3"
             align="center"
-            color="text.primary"
+            color="white"
             gutterBottom
+            fontWeight="bold"
           >
-            HACKATHON
+            Host, Join, and Win with Our <br />
+            Hackathon Platform!
           </Typography>
           {/* Adding a brief description of the website */}
-          <Typography variant="h5" align="center" color="text.secondary" paragraph>
+          <Typography variant="h6" align="center" color="#C9C9C9" paragraph>
             Some brief descriptions about the Hackathon Website, etc. Make it short and sweet, but not too short so folks
             don&apos;t simply skip over it entirely.
           </Typography>
@@ -57,8 +59,20 @@ export default function Album() {
             spacing={2}
             justifyContent="center"
           >
-            <Button variant="contained">Try now</Button>
-            <Button variant="outlined">About us</Button>
+            <Button
+              sx={{
+                width: '188px',
+                height: '52px',
+                background: '#FF9300',
+                textTransform: 'none',
+                borderRadius: '5px',
+                fontFamily: 'Inter',
+                fontStyle: 'normal',
+                fontWeight: 600,
+                fontSize: '16px',
+                color: '#F7F7FC',
+              }
+              }>Try now</Button>
           </Stack>
         </Container>
       </Box>
