@@ -443,8 +443,8 @@ const resetPassword = async (newPassword) => {
   } catch(error){
     // An error ocurred
     // ...
-    console.error('error resetting password', error)
-  };
+    console.error('error resetting password', error);
+  }
 }
 
 
