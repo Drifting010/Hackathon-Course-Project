@@ -49,7 +49,7 @@ function Login() {
                     }
                 });
             }
-        },function(error){
+        },function(){
             setLoginFail("An error occured.")
         });
     }
