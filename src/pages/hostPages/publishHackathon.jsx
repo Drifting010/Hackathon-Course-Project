@@ -113,6 +113,7 @@ function PublishHackathonPage() {
         console.log(data2);
         
         await addDocumentToSubCollection('hackathons',hackathonName,'RegistrationForm','questions',data1);
+        await addDocumentToSubCollection('hackathons',hackathonName,'SubmissionForm','questions',data2);
     }
 
     return (
