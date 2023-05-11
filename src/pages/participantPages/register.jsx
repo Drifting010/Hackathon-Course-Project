@@ -49,22 +49,6 @@ export default function RegisterHackathons() {
                         Register Project Event bengal tiger
                     </Typography>
 
-                    {/* Typography component for displaying the hackathon rules and information */}
-                    <Typography
-                        align="left"
-                        sx={{
-                            fontFamily: 'Inter',
-                            fontStyle: 'normal',
-                            fontSize: '16px',
-                            fontWeight: 500,
-                            letterSpacing: '0.75px',
-                            color: '#FFFFFF',
-                        }}
-                        mb={3}
-                    >
-                        Infor from host about rules for the hackathon
-                    </Typography>
-
                     {/* Box component wrapping the first TextField and providing margin-bottom */}
                     <Box width="100%" >
                         <TextField
