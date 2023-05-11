@@ -12,7 +12,7 @@ import HackathonList from '../../Components/HackathonList';
 import { useState, useEffect } from 'react';
 
 // An array to hold some dummy card values
-const initialFilters = { tag: null, offset: null, status: null }
+const initialFilters = { tag: null, offset: null, status: null, username: null, role: null }
 
 
 // Defining the main Album component as the default export
