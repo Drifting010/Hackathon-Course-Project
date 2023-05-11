@@ -28,7 +28,7 @@ export default function MyEvents() {
       // await signInWithEmailAndPasswordFunction('testparticipant@example.com','testpassword');
       // get user info from auth function
       const currentUser = getCurrentUser();
-      // console.log('currentUser:',currentUser)
+      console.log('currentUser:',currentUser)
       // get user role and username from users
       if (currentUser){
         const userinfo = await getUser(currentUser.email);
@@ -60,7 +60,7 @@ export default function MyEvents() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
             <Box>
-              <HackathonList filters={filters} />
+              <HackathonList filters={filters} pagename={'myEvents'}/>
             </Box>
         </ThemeProvider>
       ) : (

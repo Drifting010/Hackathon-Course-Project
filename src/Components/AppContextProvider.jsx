@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { updateUserProfile, uploadIcon, createUserWithEmailAndPasswordFunction, getCurrentUser, getUser, signInWithEmailAndPasswordFunction } from './firebase/firebaseFunction'
+import {
+    updateUserProfile, uploadIcon, createUserWithEmailAndPasswordFunction,
+    createParticipantProfile,
+    createHostProfile,
+    getAllTags,
+    getCurrentUser,
+    getUser,
+    signInWithEmailAndPasswordFunction
+} from './firebase/firebaseFunction'
 import { onAuthStateChanged } from '@firebase/auth';
 import { auth } from '../firebaseConfig';
 
@@ -18,10 +26,12 @@ export default function AppContextProvider({ children }) {
 
     const context = {
         createUserWithEmailAndPasswordFunction,
+        createParticipantProfile,
+        createHostProfile,
+        getAllTags,
         getCurrentUser,
         getUser,
         signInWithEmailAndPasswordFunction,
-        currentUser
     }
 
     return (
