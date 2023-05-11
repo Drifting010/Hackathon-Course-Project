@@ -33,7 +33,7 @@ export default function SubmitHackathons() {
                         textAlign: 'left',
                     }}
                 >
-                    {/* Typography component for displaying the hackathon registration title */}
+                    {/* Typography component for displaying the hackathon submit title */}
                     <Typography
                         align="left"
                         sx={{
@@ -126,7 +126,7 @@ export default function SubmitHackathons() {
                         Cancel
                     </Button>
 
-                    {/* Register button */}
+                    {/* Submit button */}
                     <Button
                         variant='contained'
                         sx={{

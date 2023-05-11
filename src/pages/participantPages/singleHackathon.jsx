@@ -11,16 +11,19 @@ import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined
 import { auth } from '../../firebaseConfig';
 import { getHackathonAndParticipants } from '../../Components/firebase/firebaseFunction';
 
+// This is the main functional component SingleHackathon.
 export default function SingleHackathon() {
 
+    // Current user is fetched from the firebase auth service.
     const user = auth.currentUser;
     //const user = { email: 'TEST0509@TEST.com' };
     //const user = { email: 'test0511@gmail.comm' };
 
+    // State variables are declared using React's useState hook for the hackathon details and user's registration status.
     const [hackathon, setHackathon] = React.useState(null);
-
     const [isRegistered, setIsRegistered] = React.useState(false);
 
+    // The useEffect hook runs when the component is first mounted and whenever the `user` state changes.
     React.useEffect(() => {
         const fetchData = async () => {
             const hackathonData = await getHackathonAndParticipants('BEOVWWEhOvv68qHEOFsv');
@@ -35,6 +38,7 @@ export default function SingleHackathon() {
         fetchData();
     }, [user]);
 
+    // If hackathon data is not loaded yet, display "Loading...".
     if (!hackathon) {
         return <div>Loading...</div>;
     }
@@ -48,14 +52,17 @@ export default function SingleHackathon() {
         return `${year}/${month < 10 ? '0' + month : month}/${day < 10 ? '0' + day : day}`;
     };
 
-    // Usage:
+    // The start and end dates of the hackathon are calculated.
     const startDate = formatDate(hackathon.startDate);
     const endDate = formatDate(hackathon.endDate);
 
     return (
         <>
+            {/* The main container for the hackathon details. */}
             <Container>
 
+                {/* The first Box is to create a responsive container, the second one is to create a colored background. */}
+                {/* An image is also included in the box with src and alt attributes. */}
                 <Box sx={{ width: '100%', height: 'auto', my: 2, position: 'relative' }}>
                     <Box sx={{
                         position: 'absolute',
@@ -75,6 +82,7 @@ export default function SingleHackathon() {
                     />
                 </Box>
 
+                {/* Typography component is used for displaying text. Here, it's used to display the hackathon title. */}
                 <Typography
                     sx={{
                         fontFamily: 'Inter',
@@ -91,6 +99,7 @@ export default function SingleHackathon() {
                     {hackathon.title}
                 </Typography>
 
+                {/* Button component to navigate to hackathon submission or registration based on the user's registration status. */}
                 <Button
                     href={isRegistered ? '/submit_hackathons' : '/register_hackathons'}
                     disabled={!user}
@@ -112,6 +121,7 @@ export default function SingleHackathon() {
                     {isRegistered ? 'Submit Hackathon' : 'Join Hackathon'}
                 </Button>
 
+                {/* List component to list down the hackathon details. */}
                 <List>
                     <ListItem>
                         <Box
@@ -182,7 +192,7 @@ export default function SingleHackathon() {
                     {hackathon.description}
                 </Typography>
 
-
+                {/* Heading for Judging Criteria section */}
                 <Typography
                     sx={{
                         fontFamily: 'Inter',
