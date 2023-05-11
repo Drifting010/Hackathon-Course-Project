@@ -8,9 +8,83 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import InputAdornment from '@mui/material/InputAdornment';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import { AppContext } from '../../Components/AppContextProvider';
+import { useParams } from 'react-router';
+import { addDocumentToSubCollection, getHackathon, retrieveDocFromSubCollection, retriveSubCollections } from '../../Components/firebase/firebaseFunction';
 
 // This is the main function that returns the registerHackathons component
 export default function RegisterHackathons() {
+
+    const {currentUser} = React.useContext(AppContext);
+
+    const {id} = useParams();
+
+    const [regQuestions,setRegQuestions] = React.useState([]);
+    const [requirements,setRequirements] = React.useState("");
+    const [title,setTitle] = React.useState("");
+    const [desc,setDesc] = React.useState("");
+    const [ans,setAns] = React.useState([]);
+
+    React.useEffect(()=>{
+        if(currentUser!==null){
+            const hackathon = getHackathon(id);
+            hackathon.then(function(result){
+                setRegQuestions(result.regQuestions);
+                setRequirements(result.regRequirements);
+                setTitle(result.title);
+                setDesc(result.description);
+                setAns(Array(regQuestions.length).fill(""));
+            });
+        }
+    },[currentUser]);
+
+    const handleRegister = async () => {
+        const data = {
+            user: currentUser.email,
+            questions: regQuestions,
+            answers: ans
+        }
+
+        await addDocumentToSubCollection('hackathons',id,'Registrations',currentUser.email,data);
+    }
+
+    function QuestionField({label,index}){
+        const [answer,setAnswer] = React.useState("");
+
+        const handleChange = (e) => {
+            setAnswer(e.target.value);
+
+            ans[index] = e.target.value;
+        }
+
+        return(
+            <Box width="100%" key={index}>
+                <TextField
+                    required
+                    id="outlined-required"
+                    label={label}
+                    multiline
+                    rows={4}
+                    sx={{
+                        border: '1px solid #30363D',
+                        borderRadius: '6px',
+                        width: '500px',
+                        mb: 4,
+                        background: '#21262D'
+                    }}
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <DescriptionOutlinedIcon />
+                            </InputAdornment>
+                        ),
+                    }}
+                    value={answer}
+                    onChange={handleChange}
+                />
+            </Box>
+        );
+    }
 
     return (
         <ThemeProvider theme={theme}>
@@ -46,58 +120,47 @@ export default function RegisterHackathons() {
                         }}
                         mb={6}
                     >
-                        Register Project Event bengal tiger
+                        {title}
                     </Typography>
 
-                    {/* Infor from host about questions for registering the hackathon */}
-                    <Box width="100%" >
-                        <TextField
-                            required
-                            id="outlined-required"
-                            label="What do you do?"
-                            multiline
-                            rows={4}
-                            sx={{
-                                border: '1px solid #30363D',
-                                borderRadius: '6px',
-                                width: '500px',
-                                mb: 4,
-                                background: '#21262D'
-                            }}
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <DescriptionOutlinedIcon />
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
-                    </Box>
+                    <Typography
+                        align="left"
+                        sx={{
+                            fontFamily: 'Inter',
+                            fontStyle: 'normal',
+                            fontSize: '24px',
+                            fontWeight: 500,
+                            letterSpacing: '0.75px',
+                            color: '#FFFFFF',
+                        }}
+                        mb={6}
+                    >
+                        {desc}
+                    </Typography>
 
-                    {/* Box component wrapping the second TextField and providing margin-bottom */}
-                    <Box width="100%" >
-                        <TextField
-                            required
-                            id="outlined-required"
-                            label="Enter description"
-                            multiline
-                            rows={4}
-                            sx={{
-                                border: '1px solid #30363D',
-                                borderRadius: '6px',
-                                width: '500px',
-                                mb: 4,
-                                background: '#21262D'
-                            }}
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <DescriptionOutlinedIcon />
-                                    </InputAdornment>
-                                ),
-                            }}
+                    {regQuestions.map((regQuestion,index) => (
+                        <QuestionField
+                            label={regQuestion}
+                            index={index}
+                            key={index}
                         />
-                    </Box>
+                    ))}
+                    
+
+                    <Typography
+                        align="left"
+                        sx={{
+                            fontFamily: 'Inter',
+                            fontStyle: 'normal',
+                            fontSize: '24px',
+                            fontWeight: 500,
+                            letterSpacing: '0.75px',
+                            color: '#FFFFFF',
+                        }}
+                        mb={6}
+                    >
+                        {requirements}
+                    </Typography>
 
                     {/* Cancel button to cancel the registration process */}
                     {/* Cancel button */}
@@ -145,6 +208,7 @@ export default function RegisterHackathons() {
                             },
 
                         }}
+                        onClick={handleRegister}
                     >
                         Register
                     </Button>

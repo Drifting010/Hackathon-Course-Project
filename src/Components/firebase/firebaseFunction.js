@@ -349,6 +349,23 @@ const retriveSubCollections = async (hackathonId, subCollectionName) => {
   }
 };
 
+//Retrive doc from subcollection
+const retrieveDocFromSubCollection = async (hackathonId, subCollectionName, documentId) => {
+  try{
+    const mainCollectionRef = doc(db, 'hackathons',hackathonId);
+    const subCollectionRef = collection(mainCollectionRef, subCollectionName);
+    const docRef = doc(subCollectionRef,documentId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log('Document data', docSnap.data());
+      return docSnap.data();
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 
 //File Transaction
 //upload file onto firebase storage
@@ -618,4 +635,5 @@ export {
   getHackathonByFilterByHost,
   getHackathonByFilterByParticipant,
   getHackathonAndParticipants,
+  retrieveDocFromSubCollection
 };
