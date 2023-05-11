@@ -13,8 +13,9 @@ import { getHackathonAndParticipants } from '../../Components/firebase/firebaseF
 
 export default function SingleHackathon() {
 
-    //const user =  auth.currentUser;
-    const user = { email: 'TEST0509@TEST.com' };
+    const user = auth.currentUser;
+    //const user = { email: 'TEST0509@TEST.com' };
+    //const user = { email: 'test0511@gmail.comm' };
 
     const [hackathon, setHackathon] = React.useState(null);
 
@@ -25,8 +26,6 @@ export default function SingleHackathon() {
             const hackathonData = await getHackathonAndParticipants('BEOVWWEhOvv68qHEOFsv');
             setHackathon(hackathonData);
 
-            console.log('Hackathon data:', hackathonData);
-
             // Check if the user is already registered for the hackathon
             if (user && hackathonData.participants.some(participant => participant.email === user.email)) {
                 setIsRegistered(true);
@@ -35,8 +34,6 @@ export default function SingleHackathon() {
 
         fetchData();
     }, [user]);
-
-    console.log(isRegistered);
 
     if (!hackathon) {
         return <div>Loading...</div>;
