@@ -88,32 +88,12 @@ function PublishHackathonPage() {
             startDate: startDate,
             endDate: endDate,
             regRequirements: regRequirements,
-            subRequirements: subRequirements
+            subRequirements: subRequirements,
+            regQuestions: regQuestions,
+            subQuestions: subQuestions
         };
 
         await addHackathon(hackathon);
-
-        const initialValue = {};
-
-        const data1 = regQuestions.reduce((obj, item,index) => {
-            return {
-                ...obj,
-                ['question'+index]: item,
-            };
-        },initialValue);
-
-        const data2 = subQuestions.reduce((obj, item,index) => {
-            return {
-                ...obj,
-                ['question'+index]: item,
-            };
-        },initialValue);
-
-        console.log(data1);
-        console.log(data2);
-        
-        await addDocumentToSubCollection('hackathons',hackathonName,'RegistrationForm','questions',data1);
-        await addDocumentToSubCollection('hackathons',hackathonName,'SubmissionForm','questions',data2);
     }
 
     return (
