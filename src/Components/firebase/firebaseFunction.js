@@ -617,4 +617,5 @@ export {
   getAllTags,
   getHackathonByFilterByHost,
   getHackathonByFilterByParticipant,
+  getHackathonAndParticipants,
 };
