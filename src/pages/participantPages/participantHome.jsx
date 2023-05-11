@@ -63,7 +63,7 @@ export default function ParticipantHome() {
             </Box>
 
             {/* Display the hackathon cards */}
-            <HackathonList filters={filters}/>
+            <HackathonList filters={filters} pagename={'participantHome'}/>
 
         </ThemeProvider>
     );
