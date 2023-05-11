@@ -10,6 +10,8 @@ import {
 } from './firebase/firebaseFunction'
 import { onAuthStateChanged } from '@firebase/auth';
 import { auth } from '../firebaseConfig';
+import React from 'react';
+import { addHackathon, createUserWithEmailAndPasswordFunction, getCurrentUser, getUser, signInWithEmailAndPasswordFunction, addDocumentToSubCollection } from './firebase/firebaseFunction'
 
 export const AppContext = React.createContext();
 
@@ -32,6 +34,8 @@ export default function AppContextProvider({ children }) {
         getCurrentUser,
         getUser,
         signInWithEmailAndPasswordFunction,
+        addDocumentToSubCollection,
+        addHackathon
         currentUser
     }
 
