@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { useState } from "react";
@@ -12,7 +12,15 @@ function PublishEssentials() {
     const [hackathonName, setHackathonName] = useState('');
     const [hackathonDescription, setHackathonDescription] = useState('');
 
+    const [regQuestions,setRegQuestions] = useState([]);
+
+    const handleRegQuestion = () => {
+        setRegQuestions([...regQuestions,""]);
+    }
+
     const handlePublish = async () => {
+        setRegQuestions(...regQuestions[0]="hello");
+        
         const hackathon = {
             id: hackathonName,
             title: hackathonName,
@@ -93,10 +101,25 @@ function PublishEssentials() {
                 </LocalizationProvider>
             </Box>
 
+            <Box>
+                <Typography>
+                    Registration questions
+                </Typography>
+                {regQuestions.map((regQuestion) => (
+                    <TextField
+                        value={regQuestion}
+                    />
+                ))}
+                <Button onClick={handleRegQuestion}>
+                    Add question
+                </Button>
+            </Box>
+
+
             <Button
                 onClick={handlePublish}
             >
-                Test
+                Test publish
             </Button>
         </div>
     )
