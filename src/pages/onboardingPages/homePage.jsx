@@ -85,7 +85,7 @@ export default function Album() {
       {/* Adding a container for the card section */}
       {/* display cards */}
       <Box>
-        <HackathonList filters={filters} />
+        <HackathonList filters={filters} pagename={'homePage'}/>
       </Box>
 
     </ThemeProvider>
