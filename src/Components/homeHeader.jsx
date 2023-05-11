@@ -162,6 +162,7 @@ export default function Header(props) {
                         variant="h6"
                         noWrap
                         component="div"
+                        href="./home"
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
@@ -171,7 +172,7 @@ export default function Header(props) {
                             textDecoration: 'none',
                         }}
                     >
-                        Hackathon
+                        H A C K A T H O N
                     </Typography>
 
                     {/* Box component with flexGrow property, pushing the nav items to the right */}

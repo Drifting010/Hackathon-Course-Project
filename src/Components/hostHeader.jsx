@@ -102,7 +102,7 @@ export default function HostHeader() {
                     </Box>
 
                     {/* Second Box: Contains the logo and AdbIcon */}
-                    <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+                    <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', mr: 7}}>
                         <AdbIcon sx={{ display: { xs: 'none', md: 'flex', color: '#4474F1' }, mr: 1 }} />
                         <Typography
                             variant="h6"

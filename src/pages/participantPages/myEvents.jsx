@@ -102,7 +102,7 @@ export default function MyEvents(props) {
               <Button
                 href='/explore_hackathons'
                 sx={{
-                  width: '188px',
+                  width: '250px',
                   height: '52px',
                   background: '#FF9300',
                   textTransform: 'none',
