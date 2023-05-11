@@ -119,6 +119,100 @@ const getHackathonByTag = async (filters) => {
   }
 };
 
+// get hackathons by filter by host
+const getHackathonByFilterByHost = async (filters) => {
+  try {
+    const hackathonsRef = collection(db, "hackathons");
+    let queryRef = query(hackathonsRef);
+    // find by tag + status
+    if ((filters.tag !== null) && (filters.status !== null)) {
+      queryRef = query(
+        hackathonsRef, 
+        where("tag", "==", filters.tag),
+        where("status", "==", filters.status),
+        where("host", "==", filters.username)
+        );
+    // find by tag
+    } else if (filters.tag !== null && filters.status === null) {
+      queryRef = query(
+        hackathonsRef, 
+        where("tag", "==", filters.tag),
+        where("host", "==", filters.username)
+        );
+    // find by status
+    } else if (filters.tag === null && filters.status !== null){
+      queryRef = query(
+        hackathonsRef, 
+        where("status", "==", filters.status),
+        where("host", "==", filters.username)
+        );
+    }
+    // other
+    else {
+      queryRef = query(
+        hackathonsRef, 
+        where("host", "==", filters.username)
+        );
+    }
+    const querySnapshot = await getDocs(queryRef);
+    const hackathons = [];
+    querySnapshot.forEach((doc) => {
+      hackathons.push({ id: doc.id, ...doc.data() });
+    });
+    // console.log('hackathons:',hackathons);
+    return hackathons;
+  } catch (error) {
+    console.error('Error getting hackathons by tag: ', error);
+  }
+};
+
+// get hackathons by filter by participant
+const getHackathonByFilterByParticipant = async (filters) => {
+  try {
+    const hackathonsRef = collection(db, "hackathons");
+    let queryRef = query(hackathonsRef);
+    // find by tag + status
+    if ((filters.tag !== null) && (filters.status !== null)) {
+      queryRef = query(
+        hackathonsRef, 
+        where("tag", "==", filters.tag),
+        where("status", "==", filters.status),
+        where("members", "array-contains", filters.username)
+        );
+    // find by tag
+    } else if (filters.tag !== null && filters.status === null) {
+      queryRef = query(
+        hackathonsRef, 
+        where("tag", "==", filters.tag),
+        where("members", "array-contains", filters.username)
+        );
+    // find by status
+    } else if (filters.tag === null && filters.status !== null){
+      queryRef = query(
+        hackathonsRef, 
+        where("status", "==", filters.status),
+        where("members", "array-contains", filters.username)
+        );
+    }
+    // other
+    else {
+      queryRef = query(
+        hackathonsRef, 
+        where("members", "array-contains", filters.username)
+        );
+    }
+    const querySnapshot = await getDocs(queryRef);
+    const hackathons = [];
+    querySnapshot.forEach((doc) => {
+      hackathons.push({ id: doc.id, ...doc.data() });
+    });
+    // console.log('hackathons:',hackathons);
+    return hackathons;
+  } catch (error) {
+    console.error('Error getting hackathons by tag: ', error);
+  }
+};
+
 //return all tags 
 const getAllTags = async (collectionName) => {
   try{
@@ -495,4 +589,6 @@ export {
   getDocumentByRef,
   getUserProfile,
   getAllTags,
+  getHackathonByFilterByHost,
+  getHackathonByFilterByParticipant,
 };

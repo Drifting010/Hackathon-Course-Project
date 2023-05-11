@@ -2,10 +2,17 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import Explopre from '../../src/pages/participantPages/explore';
+import { AppContext } from '../../src/Components/AppContextProvider';
 
 describe('Explopre', () => {
   it('renders all elements correctly, all elements appeared on the page', () => {
-    const { getAllByRole } = render(<Explopre />);
+    const getCurrentUser = vi.fn();
+    const getUser = vi.fn();
+    const signInWithEmailAndPasswordFunction = vi.fn();
+    const { getAllByRole } = render(
+      <AppContext.Provider value={{ getCurrentUser, getUser, signInWithEmailAndPasswordFunction }}>
+          <Explopre />
+      </AppContext.Provider>);
 
     // test buttons
     const buttonLabels = ['All', 'Ongoing', 'Finished', 'TAG'];
