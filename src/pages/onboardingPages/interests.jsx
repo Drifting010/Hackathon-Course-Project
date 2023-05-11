@@ -37,6 +37,7 @@ export default function Interests({ TagsSelectorComponent = TagsSelector }) {
     const collectionName = role === 'participant' ? 'participantTags' : 'hostTags';
     const [tags, setTags] = useState([])
 
+    // initialize tag data
     useEffect(() => {
         async function fetchData() {
             const storedTags = await getAllTags(collectionName);
@@ -46,7 +47,7 @@ export default function Interests({ TagsSelectorComponent = TagsSelector }) {
     }, []);
 
     // const tags = getAllTags('participantTags');
-    console.log(tags);
+    // console.log(tags);
 
     // console.log(participantProfile);
     // state hook for profile

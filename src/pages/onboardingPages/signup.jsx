@@ -59,13 +59,14 @@ export default function Signup() {
     // Function to handle form submission
     const handleFormSubmit = async (event) => {
         event.preventDefault();
+        // data to submit
         let email, password, role;
         email = user.role === 'participant' ? user.p_email : user.h_email;
-        // console.log(user.p_email);
         password = user.role === 'participant' ? user.p_pwd : user.h_pwd;
-        role = user.role;
+        role = user.role === 'participant' ? 'participant' : 'host';
+        // register new user
         await createUserWithEmailAndPasswordFunction(email, password, role);
-        // console.log('Submit successfully');
+        // submission approved
         setSubmitting(true);
     }
 
@@ -131,7 +132,7 @@ export default function Signup() {
         setFormValid(emailValid && pwdValid && pwdConfirmValid);
     }
 
-    console.log(isSubmitting);
+    // console.log(isSubmitting);
 
     // Render the signup form with input fields, radio buttons, and submit button
     return (
@@ -303,7 +304,6 @@ export default function Signup() {
                                     Participant Proceed
                                 </Button>
                             </Box>
-
                         </form>
                     )}
 
@@ -383,7 +383,7 @@ export default function Signup() {
                                     // type="submit"
                                     name="host_proceed"
                                     disabled={!formValid}
-                                    // onClick={handleFormSubmit}
+                                    onClick={handleFormSubmit}
                                     // href='./register_profile_host'
                                     sx={{
                                         width: '425px',

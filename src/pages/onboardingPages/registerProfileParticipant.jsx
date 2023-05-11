@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
-import { AppContext } from '../../Components/AppContextProvider';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import CountrySelect, { countries } from '../../Components/countrySelect';
@@ -13,9 +12,7 @@ import Button from '@mui/material/Button';
 
 // Define RegisterProfileParticipant component
 export default function RegisterProfileParticipant() {
-    // TODO: ??import from Context API??
-    // const { createParticipantProfile } = useContext(AppContext);
-
+    
     // import user data stored in browser by signup page 
     const user = JSON.parse(window.localStorage.getItem('user'));
 
@@ -34,22 +31,14 @@ export default function RegisterProfileParticipant() {
         window.localStorage.setItem('participantProfile', JSON.stringify(participantProfile));
     }, [participantProfile]);
 
-    // console.log('-------------------');
-    // console.log(user.p_email);
-
     const [isSubmitting, setSubmitting] = useState(false);
 
     // State hooks for form validation, username, country, and description
     const [formValid, setFormValid] = useState(false);
-    // const [username, setUsername] = useState('');
-    // const [country, setCountry] = useState('');
-    // const [description, setDescription] = useState('');
 
     // Event handler for form submission
     const handleFormSubmit = (event) => {
         event.preventDefault();
-        // TODO: ??firebase function??
-        
         setSubmitting(true);
     };
 
@@ -61,21 +50,6 @@ export default function RegisterProfileParticipant() {
             ...prevState,
             [name]: value
         }));
-        // switch (name) {
-        //     case 'username':
-        //         setUsername(value.trim());
-        //         break;
-        //     case 'country':
-        //         setCountry(value);
-        //         break;
-        //     case 'description':
-        //         setDescription(value.trim());
-        //         break;
-        //     default:
-        //         break;
-        // }
-        // Validate the form after each change
-        // checkFormValid();
     };
 
     // Check if the form is valid
