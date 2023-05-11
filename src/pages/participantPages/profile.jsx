@@ -7,10 +7,14 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-import { getCurrentUser, getUser, getUserProfile } from '../../Components/firebase/firebaseFunction';
+import { getUser, getUserProfile } from '../../Components/firebase/firebaseFunction';
+import { AppContext } from '../../Components/AppContextProvider';
 
 // This is the main function that returns the profile component
 export default function Profile() {
+
+    const currentUser  = React.useContext(AppContext).currentUser;
+
     const [user, setUser] = React.useState(null);
     const [userProfile, setUserProfile] = React.useState(null);
 
@@ -30,7 +34,7 @@ export default function Profile() {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            {user ? (
+            
                 <Box
                     sx={{
                         display: 'flex',
