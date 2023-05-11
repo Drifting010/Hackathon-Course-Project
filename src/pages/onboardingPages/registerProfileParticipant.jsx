@@ -14,7 +14,7 @@ import Button from '@mui/material/Button';
 // Define RegisterProfileParticipant component
 export default function RegisterProfileParticipant() {
     // TODO: ??import from Context API??
-    const { } = useContext(AppContext);
+    // const { createParticipantProfile } = useContext(AppContext);
 
     // import user data stored in browser by signup page 
     const user = JSON.parse(window.localStorage.getItem('user'));
@@ -49,7 +49,7 @@ export default function RegisterProfileParticipant() {
     const handleFormSubmit = (event) => {
         event.preventDefault();
         // TODO: ??firebase function??
-
+        
         setSubmitting(true);
     };
 
@@ -145,7 +145,7 @@ export default function RegisterProfileParticipant() {
                     <TextField
                         label="Username"
                         name="username"
-                        value={username}
+                        value={participantProfile.username}
                         onChange={(event) => handleFormDataChange(event)}
                         sx={{ mb: '20px', width: '500px', background: '#21262D' }}
                         InputProps={{
@@ -186,7 +186,7 @@ export default function RegisterProfileParticipant() {
                     </Typography>
                     <CountrySelect
                         name="country"
-                        value={countries.find((option) => option.label === country)}
+                        value={countries.find((option) => option.label === participantProfile.country)}
                         onChange={(event, newValue) => {
                             handleFormDataChange({ target: { name: 'country', value: newValue || '' } });
                         }}
@@ -223,7 +223,7 @@ export default function RegisterProfileParticipant() {
                     <TextField
                         label="Description"
                         name="description"
-                        value={description}
+                        value={participantProfile.description}
                         onChange={(event) => handleFormDataChange(event)}
                         sx={{ mb: '30px', width: '500px', background: '#21262D' }}
                         InputProps={{

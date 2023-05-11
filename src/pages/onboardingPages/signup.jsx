@@ -15,12 +15,8 @@ import { Navigate } from 'react-router-dom';
 
 // Signup function component
 export default function Signup() {
-    // // Import from Context API
+    // Import firebase function from Context API
     const { createUserWithEmailAndPasswordFunction } = useContext(AppContext);
-    // console.log(user.role);
-    // console.log(user.p_email);
-    // console.log(user.p_pwd);
-    // console.log(user.p_pwdConfirm);
 
     // State variables for validity of email, password, and password confirmation fields
     const [emailValid, setEmailValid] = useState(false);
@@ -35,10 +31,6 @@ export default function Signup() {
         pwdConfirm: '',
     });
 
-    // ---------------------
-    // useEffect(() => {
-    //     setUser(JSON.parse(window.localStorage.getItem('user')));
-    // }, []);
     // State variables for storing form data and submitting state
     const [user, setUser] = useState({
         p_email: '',
@@ -50,34 +42,14 @@ export default function Signup() {
         role: 'participant' // by default
     });
 
+    // store data in local storage
     useEffect(() => {
         window.localStorage.setItem('user', JSON.stringify(user));
+        window.localStorage.setItem('role', user.role);
     }, [user]);
 
+    // state hook for submit control
     const [isSubmitting, setSubmitting] = useState(false);
-
-    // useEffect to handle form submission
-    // useEffect(() => {
-    //     if (isSubmitting) {
-    //         let email, password;
-
-    //         // TEST DATA: Need to change
-    //         let username = 'testData', profile = 'testData';
-
-    //         const { p_email, p_pwd, h_email, h_pwd, role } = user;
-
-    //         // if (role === 'participant') {
-    //         //     email = p_email;
-    //         //     password = p_pwd;
-    //         // } else {
-    //         //     email = h_email;
-    //         //     password = h_pwd;
-    //         // }
-
-    //         // Submit form data to the users collection of the firebase DB
-    //         // createUserWithEmailAndPasswordFunction(email, password, username, role, profile);
-    //     }
-    // }, [user, isSubmitting]);
 
     // useEffect to validate the form when email, password, or password confirmation validity changes
     useEffect(() => {
@@ -85,14 +57,15 @@ export default function Signup() {
     }, [emailValid, pwdValid, pwdConfirmValid]);
 
     // Function to handle form submission
-    const handleFormSubmit = (event) => {
+    const handleFormSubmit = async (event) => {
         event.preventDefault();
         let email, password, role;
-        email = role === 'participant' ? user.p_emailp_email : user.h_email;
-        password = role === 'participant' ? user.p_pwd : user.h_pwd;
+        email = user.role === 'participant' ? user.p_email : user.h_email;
+        // console.log(user.p_email);
+        password = user.role === 'participant' ? user.p_pwd : user.h_pwd;
         role = user.role;
-        // ---合并以更新函数---
-        createUserWithEmailAndPasswordFunction(email, password, role);
+        await createUserWithEmailAndPasswordFunction(email, password, role);
+        // console.log('Submit successfully');
         setSubmitting(true);
     }
 
@@ -411,7 +384,7 @@ export default function Signup() {
                                     name="host_proceed"
                                     disabled={!formValid}
                                     // onClick={handleFormSubmit}
-                                    href='./register_profile_host'
+                                    // href='./register_profile_host'
                                     sx={{
                                         width: '425px',
                                         height: '40px',

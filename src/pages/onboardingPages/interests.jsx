@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { AppContext } from '../../Components/AppContextProvider'
 import TagsSelector from '../../Components/tagsSelector'
 import Typography from '@mui/material/Typography';
@@ -8,30 +9,69 @@ import Grid from '@mui/material/Grid';
 // This is the main function that returns the interests component
 export default function Interests({ TagsSelectorComponent = TagsSelector }) {
     // TODO: import firebase function from Context API 3个函数 - 两个创建 1个取数
-    const { } = useContext(AppContext);
+    const { createParticipantProfile, createHostProfile, getAllTags } = useContext(AppContext);
 
-    // TODO: Sample tags for the user to choose from
-    const tags = ['Tag 1', 'Tag 2', 'Tag 3', 'Tag 4', 'Tag 5', 'Tag 6', 'Tag 7', 'Tag 8', 'Tag 9', 'Tag 10', 'Tag 11', 'Tag 12'];
 
     // obtain data from local storage
-    const participantProfile = JSON.parse(window.localStorage.getItem('participantProfile'));
-    // state hook for participantProfileFinal
-    const [participantProfileFinal, setParticipantProfileFinal] = useState(participantProfile);
+    const role = window.localStorage.getItem('role');
 
-    // Function to handle the submission of selected tags
+    // obtain profile data from local storage
+    const storedProfile = role === 'participant'
+        ? JSON.parse(window.localStorage.getItem('participantProfile'))
+        : JSON.parse(window.localStorage.getItem('hostProfile'))
+
+    // state hook for profile data management
+    const [profile, setProfile] = useState(storedProfile);
+
+    // if (role === 'participant') {
+    //     setProfile(JSON.parse(window.localStorage.getItem('participantProfile')));
+    // } else {
+    //     setProfile(JSON.parse(window.localStorage.getItem('hostProfile')));
+    // }
+    // const participantProfile = JSON.parse(window.localStorage.getItem('participantProfile'));
+
+    // TODO: Sample tags for the user to choose from
+    // const tags = ['Tag 1', 'Tag 2', 'Tag 3', 'Tag 4', 'Tag 5', 'Tag 6', 'Tag 7', 'Tag 8', 'Tag 9', 'Tag 10', 'Tag 11', 'Tag 12'];
+
+    // obtain tags from DB
+    const collectionName = role === 'participant' ? 'participantTags' : 'hostTags';
+    const [tags, setTags] = useState([])
+
+    useEffect(() => {
+        async function fetchData() {
+            const storedTags = await getAllTags(collectionName);
+            setTags(storedTags);
+        }
+        fetchData();
+    }, []);
+
+    // const tags = getAllTags('participantTags');
+    console.log(tags);
+
+    // console.log(participantProfile);
+    // state hook for profile
+    // const [profile, setProfile] = useState(participantProfile);
+
+    // Function to handle the submission of participant or host profile
     const handleTagsSubmit = (selectedTags) => {
         console.log('Selected tags:', selectedTags);
-        // Handle the selected tags, for example, send a request to the server
-        setParticipantProfileFinal((prevState) => ({
+        setProfile((prevState) => ({
             ...prevState,
             tags: selectedTags
         }))
     };
 
     // TODO: firebase function - create user profile based on role
-    useEffect(async () => {
-        // await 
-    }, [participantProfileFinal])
+    useEffect(() => {
+        async function registerProfile() {
+            if (role === 'participant') {
+                await createParticipantProfile(profile);
+            } else {
+                await createHostProfile(profile);
+            }
+        }
+        registerProfile();
+    }, [profile])
 
     return (
         <>

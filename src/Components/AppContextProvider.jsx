@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import { createUserWithEmailAndPasswordFunction } from './firebase/firebaseFunction'
+import { 
+    createUserWithEmailAndPasswordFunction,
+    createParticipantProfile,
+    createHostProfile,
+    getAllTags
+ } from './firebase/firebaseFunction'
 
 export const AppContext = React.createContext();
 
@@ -7,9 +12,10 @@ export default function AppContextProvider({ children }) {
     const [hostProfile, setHostProfile] = useState({});
 
     const context = {
-        hostProfile,
-        setHostProfile,
-        createUserWithEmailAndPasswordFunction
+        createUserWithEmailAndPasswordFunction,
+        createParticipantProfile,
+        createHostProfile,
+        getAllTags
     }
 
     return (
