@@ -2,7 +2,8 @@ import { Avatar, Box, Button, Divider, IconButton, List, ListItem, ListItemAvata
 import theme from "../../Components/theme";
 import * as React from 'react';
 import { useParams } from "react-router";
-import { getHackathon } from "../../Components/firebase/firebaseFunction";
+import { getHackathon, retriveSubCollections } from "../../Components/firebase/firebaseFunction";
+import { AppContext } from "../../Components/AppContextProvider";
 
 const TabPanel = ({children,index,value}) => { 
     return (
@@ -95,39 +96,83 @@ function EditComponent({hackathonid,title,description,setTitle,setDescription}) 
     )
 }
 
-function SubmissionList() {
+function SubmissionList({hackathonid}) {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
+    const [submissions,setSubmissions] = React.useState([]);
+
+    React.useEffect(()=>{
+        const sub = retriveSubCollections(hackathonid,'Submissions');
+
+        sub.then(function(result){
+            const data = result.map((doc)=>{
+                return doc.data().user;
+            });
+            setSubmissions([...submissions,...data]);
+        });
+    },[hackathonid]);
 
     return(
         <div>
             <List component="nav" aria-label="secondary mailbox folder">
-                <ListItemButton
-                    selected={selectedIndex === 0}
-                    onClick={() => setSelectedIndex(0)}
-                >
-                <ListItemText primary="Participant 1" />
-                <ListItemSecondaryAction>
-                    <Button>Download Submission</Button>
-                </ListItemSecondaryAction>
-                </ListItemButton>
-                <ListItemButton
-                    selected={selectedIndex === 1}
-                    onClick={() => setSelectedIndex(1)}
-                >
-                <ListItemText primary="Participant 2" />
-                <ListItemSecondaryAction>
-                    <Button>Download Submission</Button>
-                </ListItemSecondaryAction>
-                </ListItemButton>
+                {submissions.map((sub,index) => (
+                    <ListItemButton
+                        selected={selectedIndex === index}
+                        onClick={() => setSelectedIndex(index)}
+                        key={index}
+                    >
+                    <ListItemText primary={sub} />
+                    <ListItemSecondaryAction>
+                        <Button>Download Submission</Button>
+                    </ListItemSecondaryAction>
+                    </ListItemButton>
+                ))}
             </List>
 
-            <Button>
+            <Button
+                onClick={()=>{console.log(submissions)}}
+            >
                 Choose winner
             </Button>
         </div>
     )
 }
 
+function RegistrationList({hackathonid}) {
+    const [selectedIndex, setSelectedIndex] = React.useState(0);
+    const [registrations,setRegistrations] = React.useState([]);
+
+    React.useEffect(()=>{
+        const reg = retriveSubCollections(hackathonid,'Registrations');
+
+        reg.then(function(result){
+            const data = result.map((doc)=>{
+                return doc.data().user;
+            });
+            console.log(data);
+            setRegistrations([...registrations,...data]);
+        });
+    },[hackathonid]);
+
+
+    return(
+        <div>
+            <List component="nav" aria-label="secondary mailbox folder">
+                {registrations.map((reg,index) => (
+                    <ListItemButton
+                        selected={selectedIndex === index}
+                        onClick={() => setSelectedIndex(index)}
+                        key={index}
+                    >
+                    <ListItemText primary={reg} />
+                    <ListItemSecondaryAction>
+                        <Button>Download Submission</Button>
+                    </ListItemSecondaryAction>
+                    </ListItemButton>
+                ))}
+            </List>
+        </div>
+    )
+}
 
 export default function EventEdit() {
     const [value, setValue] = React.useState(0);
@@ -145,7 +190,6 @@ export default function EventEdit() {
 
     React.useEffect(() => {
         hackathon.then(function(result){
-            console.log(result);
             setTitle(result.title);
             setDescription(result.description);
     
@@ -160,8 +204,8 @@ export default function EventEdit() {
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                         <Tab label="Event page"  />
-                        <Tab label="Submissions"  />
-                        <Tab label="Registrations"/>
+                        <Tab label="Registrations"  />
+                        <Tab label="Submissions"/>
                         <Tab label="Edit forms"/>
                     </Tabs>
                 </Box>
@@ -181,7 +225,17 @@ export default function EventEdit() {
                     value={value}
                     index={1}
                 >
-                    <SubmissionList/>
+                    <RegistrationList
+                        hackathonid={id}
+                    />
+                </TabPanel>
+                <TabPanel
+                    value={value}
+                    index={2}
+                >
+                    <SubmissionList
+                        hackathonid={id}
+                    />
                 </TabPanel>
             </Box>
         </ThemeProvider>
