@@ -13,7 +13,6 @@ import { auth } from '../../firebaseConfig';
 // This is the main function that returns the profile component
 export default function Profile() {
     const [user, setUser] = React.useState(null);
-    const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
         const fetchData = async () => {
@@ -36,10 +35,6 @@ export default function Profile() {
     }, []);
 
     console.log(user);
-
-    if (loading) {
-        return <div>Loading...</div>;
-    }
 
     return (
         <ThemeProvider theme={theme}>
