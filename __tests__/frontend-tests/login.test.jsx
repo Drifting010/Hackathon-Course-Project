@@ -2,12 +2,23 @@ import React from 'react';
 import { test, expect } from 'vitest';
 import { render, fireEvent, getByRole } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import Login from '../../src/pages/Login';
+import Login from '../../src/pages/onboardingPages/Login';
+import { BrowserRouter } from 'react-router-dom';
+import { AppContext } from '../../src/Components/AppContextProvider';
 
 describe('Renders page correctly', () => {
   test('Username input field exists and works', () => {
+    const signInWithEmailAndPasswordFunction = vi.fn();
+    const getUser = vi.fn();
+    const getCurrentUser = vi.fn();
     //Render login page
-    const { getByLabelText } = render(<Login/>);
+    const { getByLabelText } = render(
+      <BrowserRouter>
+        <AppContext.Provider value={{ signInWithEmailAndPasswordFunction, getUser, getCurrentUser }}>
+                <Login />
+        </AppContext.Provider>
+      </BrowserRouter>
+    );
   
     //Find email textfield
     const inputElement = getByLabelText(/^Enter email/i);
@@ -20,8 +31,17 @@ describe('Renders page correctly', () => {
   });
   
   test('Password input field exists and works', () => {
+    const signInWithEmailAndPasswordFunction = vi.fn();
+    const getUser = vi.fn();
+    const getCurrentUser = vi.fn();
     //Render login page
-    const { getByLabelText } = render(<Login/>);
+    const { getByLabelText } = render(
+      <BrowserRouter>
+        <AppContext.Provider value={{ signInWithEmailAndPasswordFunction, getUser, getCurrentUser }}>
+                <Login />
+        </AppContext.Provider>
+      </BrowserRouter>
+    );
 
     //Find email textfield
     const inputElement = getByLabelText(/^Password/i);
@@ -34,8 +54,17 @@ describe('Renders page correctly', () => {
   });
 
   it('Login button exists', () => {
+    const signInWithEmailAndPasswordFunction = vi.fn();
+    const getUser = vi.fn();
+    const getCurrentUser = vi.fn();
     //Render login page
-    const { getByRole } = render(<Login/>);
+    const { getByRole } = render(
+      <BrowserRouter>
+        <AppContext.Provider value={{ signInWithEmailAndPasswordFunction, getUser, getCurrentUser }}>
+                <Login />
+        </AppContext.Provider>
+      </BrowserRouter>
+    );
     
     //Find login button
     const loginButton = getByRole("button", { name: /log in/i });
