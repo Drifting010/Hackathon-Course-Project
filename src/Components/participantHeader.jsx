@@ -94,7 +94,7 @@ export default function ParticipantHeader() {
                     </Box>
 
                     {/* Second Box: Contains the logo and AdbIcon */}
-                    <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+                    <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', mr: 3 }}>
                         <AdbIcon sx={{ display: { xs: 'none', md: 'flex', color: '#FF9300' }, mr: 1 }} />
                         <Typography
                             variant="h6"
@@ -111,7 +111,7 @@ export default function ParticipantHeader() {
                             }}
                         >
                             {/* LOGO */}
-                            Hackathon
+                            H A C K A T H O N
                         </Typography>
                     </Box>
 

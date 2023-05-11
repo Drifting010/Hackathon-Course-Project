@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../Components/theme';
-import HackathonList from './HackathonList'
+import HackathonList from '../../Components/HackathonList'
 import { EmojiPeople } from '@mui/icons-material';
 
 // This is the main function that returns the participantHome component

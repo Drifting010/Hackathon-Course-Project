@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getHackathonByTag } from '../../Components/firebase/firebaseFunction';
+import { getHackathonByFilterByHost, getHackathonByFilterByParticipant } from './firebase/firebaseFunction';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -9,9 +9,9 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { LinearProgress } from '@mui/material';
-import { daysDiff, hackathonPercentage } from '../../hooks/dateFunctions';
+import { daysDiff, hackathonPercentage } from '../hooks/dateFunctions';
 
-const initialFilters = { tag: null, offset: null, status: null };
+const initialFilters = { tag: null, offset: null, status: null, role: null };
 // const limit = 10
 
 // This is the main function that returns the hackathonList component
@@ -19,11 +19,20 @@ function HackathonList({ filters = initialFilters }) {
   // const [offset, setOffset] = useState(0)
   const [data, setData] = useState([]);
   useEffect(() => {
-    async function fetchData() {
-      const Data = await getHackathonByTag(filters);
+    async function fetchDataByHost() {
+      const Data = await getHackathonByFilterByHost(filters);
       setData(Data);
     }
-    fetchData();
+    async function fetchDataByParticipant() {
+      const Data = await getHackathonByFilterByParticipant(filters);
+      setData(Data);
+    }
+    const role = filters.role;
+    if (role === 'host'){
+      fetchDataByHost();
+    } else if (role === 'participant') {
+      fetchDataByParticipant();
+    }
   }, [filters]);
   // const pages = Math.ceil(data.HackathonsCount / limit)
 
@@ -35,7 +44,7 @@ function HackathonList({ filters = initialFilters }) {
             <Grid item key={card} xs={12} sm={6} md={4}>
               <Card
                 sx={{
-                  height: "300px",
+                  height: "320px",
                   display: "flex",
                   flexDirection: "column",
                   border: '1px solid #30363D',
