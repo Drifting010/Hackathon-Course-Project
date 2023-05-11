@@ -314,7 +314,7 @@ describe("Firebase update participants", () => {
     const userSnapshot = await getDoc(userRef);
     // Verify that the hackathon reference was added to the user profile
     expect(userSnapshot.exists()).toBeTruthy();
-    signOutFunction();
+    await signOutFunction();
   });
 
   test("retriveSubCollections", async () => {
@@ -332,7 +332,7 @@ describe("Firebase update participants", () => {
     // Here we assume that you know what documents should be in the subcollection.
     // Replace "expectedDocumentId" and "expectedData" with the real values.
     expect(result.length).toBeGreaterThan(0);
-    signOutFunction();
+    await signOutFunction();
   });
 
   // Test deleteParticipatedHackathon
@@ -367,7 +367,7 @@ describe("Firebase update participants", () => {
 
     // Verify that the hackathon reference was deleted from the user profile
     expect(userSnapshot.exists()).toBeFalsy();
-    signOutFunction();
+    await signOutFunction();
   });
 });
 
@@ -472,15 +472,17 @@ describe("Firebase SubCollection Functions", () => {
 
     // Call the function
     await resetPassword(newPassword);
-    await resetPassword(testPassword);
-
     // Verify the result (check if the password was updated for the current user)
-  });
+    await signOutFunction();
+    const user = await signInWithEmailAndPasswordFunction(testEmail, newPassword);
+    expect(user).not.toBeNull();
+
+    //set the test password back
+    await resetPassword(testPassword);
+  },20000);
 
   test("test detect incorrect hackathon ID  ", async () => {
     const hackathon = await getHackathon('invalid');
     expect(hackathon).toBeNull;
   })
-
-  
 });

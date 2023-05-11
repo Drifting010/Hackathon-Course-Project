@@ -438,14 +438,13 @@ const signOutFunction = async () => {
 //reset userPassowrd
 const resetPassword = async (newPassword) => {
   const user = auth.currentUser;
-  updatePassword(user, newPassword).then(() => {
-    console.log('password changed succesfully')
-    // Update successful.
-  }).catch((error) => {
+  try {
+  await updatePassword(user, newPassword);
+  } catch(error){
     // An error ocurred
     // ...
     console.error('error resetting password', error)
-  });
+  };
 }
 
 
