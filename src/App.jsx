@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 // header
 import { HeaderWrapper } from './Components/headerWrapper';
 // footer
-import { HomeFooter } from './Components/';
+import { FooterWrapper } from './Components/footerWrapper';
 //part one - onboarding
 import { Home } from './pages/onboardingPages';
 import Signup from './pages/onboardingPages/signup'
@@ -71,7 +71,7 @@ export default function App() {
               <Route path="/publish_hackathon" element={<PublishHackathonPage />} />
             </Routes>
           </main>
-          <HomeFooter />
+          <FooterWrapper />
         </Container>
       </BrowserRouter>
     </ThemeProvider>
