@@ -6,12 +6,12 @@ import {
     getAllTags,
     getCurrentUser,
     getUser,
-    signInWithEmailAndPasswordFunction
+    signInWithEmailAndPasswordFunction,
+    addDocumentToSubCollection,
+    addHackathon
 } from './firebase/firebaseFunction'
 import { onAuthStateChanged } from '@firebase/auth';
 import { auth } from '../firebaseConfig';
-import React from 'react';
-import { addHackathon, createUserWithEmailAndPasswordFunction, getCurrentUser, getUser, signInWithEmailAndPasswordFunction, addDocumentToSubCollection } from './firebase/firebaseFunction'
 
 export const AppContext = React.createContext();
 
@@ -35,7 +35,7 @@ export default function AppContextProvider({ children }) {
         getUser,
         signInWithEmailAndPasswordFunction,
         addDocumentToSubCollection,
-        addHackathon
+        addHackathon,
         currentUser
     }
 
