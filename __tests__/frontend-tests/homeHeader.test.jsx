@@ -11,7 +11,7 @@ describe('HomeHeader', () => {
     afterEach(cleanup)
 
     test('renders logo and navigation links', () => {
-        const Hackathon = screen.getByText('Hackathon');
+        const Hackathon = screen.getByText('H A C K A T H O N');
 
         expect(Hackathon).toBeInTheDocument();
     });

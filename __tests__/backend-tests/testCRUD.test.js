@@ -18,6 +18,7 @@ import {
   createUserWithEmailAndPasswordFunction,
   signOutFunction,
   setWinner,
+  retriveSubCollections,
   addDocumentToSubCollection,
   deleteDocumentFromSubCollection,
   updateDocumentFromSubCollection,
@@ -311,9 +312,26 @@ describe("Firebase update participants", () => {
       hackathonId
     );
     const userSnapshot = await getDoc(userRef);
-
     // Verify that the hackathon reference was added to the user profile
     expect(userSnapshot.exists()).toBeTruthy();
+    signOutFunction();
+  });
+
+  test("retriveSubCollections", async () => {
+    // Prepare test data
+    const hackathonId = "hackathonExample";
+    const userEmail = "testParticipant@example.com";
+    const testpassword = 'testpassword'
+    const subCollectionName = "participants";
+
+    await signInWithEmailAndPasswordFunction(userEmail, testpassword);
+
+    // Call the function
+    const result = await retriveSubCollections(hackathonId, subCollectionName);
+    // Verify the result
+    // Here we assume that you know what documents should be in the subcollection.
+    // Replace "expectedDocumentId" and "expectedData" with the real values.
+    expect(result.length).toBeGreaterThan(0);
     signOutFunction();
   });
 
@@ -435,7 +453,6 @@ describe("Firebase SubCollection Functions", () => {
     const docSnapshot = await getDoc(docRef);
     expect(docSnapshot.exists()).toBeFalsy();
   });
-
   
   test("setWinner", async () => {
     // Prepare test data
@@ -459,4 +476,11 @@ describe("Firebase SubCollection Functions", () => {
 
     // Verify the result (check if the password was updated for the current user)
   });
+
+  test("test detect incorrect hackathon ID  ", async () => {
+    const hackathon = await getHackathon('invalid');
+    expect(hackathon).toBeNull;
+  })
+
+  
 });

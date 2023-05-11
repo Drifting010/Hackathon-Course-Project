@@ -19,8 +19,8 @@ const addToArray = async (collectionName, documentName, fieldName, dataToAdd) =>
   });
 };
 
-//
-const removeFromArray = async (collectionName, documentName, fieldName, dataToRemove) => {
+//Automatically remove a item from array field
+const removeFromArray = async(collectionName, documentName, fieldName, dataToRemove) => {
   const ref = doc(db, collectionName, documentName);
 
 
@@ -44,9 +44,8 @@ const getHackathon = async (hackathonId) => {
   try {
     const hackathonRef = doc(collection(db, 'hackathons'), hackathonId);
     const hackathonSnapshot = await getDoc(hackathonRef);
-
-    if (!hackathonSnapshot.exists) {
-      console.error(`Hackathon with ID '${hackathonId}' not found`);
+    if (!hackathonSnapshot.exists() || !hackathonSnapshot.data()) {
+      console.error(`Hackathon with ID '${hackathonId}' not found or is empty`);
       return null;
     }
 
@@ -164,7 +163,7 @@ const getAllTags = async (collectionName) => {
 const addHackathon = async (hackathonData) => {
   try {
     const hackathonRef = doc(collection(db, 'hackathons'), hackathonData.id);
-    await setDoc(hackathonRef, hackathonData);
+    await setDoc(hackathonRef, hackathonData, {merge: true});
   } catch (error) {
     console.error('Error adding hackathon: ', error);
   }
@@ -219,6 +218,7 @@ const deleteDocumentFromSubCollection = async (collectionName, documentId, subCo
   }
 };
 
+//update document from the subcollelction
 const updateDocumentFromSubCollection = async (collectionName, documentId, subCollectionName, nestedDocumentId, data) => {
   try {
     const documentRef = doc(db, collectionName, documentId, subCollectionName, nestedDocumentId);
@@ -231,12 +231,30 @@ const updateDocumentFromSubCollection = async (collectionName, documentId, subCo
 //Set Winner similar cause can use this as an example
 //Add single user to winner, with price
 const setWinner = async (hackathonId, email, data) => {
-  try {
-    await addDocumentToSubCollection('hackathons', hackathonId, 'winners', email, data)
+  try{
+    await addDocumentToSubCollection('hackathons', hackathonId, 'winners',email, data);
   } catch (error) {
     console.error('Error adding winner');
   }
 };
+
+//Retrive Registrations and submissions from hackathon
+//Sub Collection Name can be anything
+const retriveSubCollections = async (hackathonId, subCollectionName) => {
+  try{
+    const mainCollectionRef = doc(db, 'hackathons',hackathonId);
+    const subCollectionRef = collection(mainCollectionRef, subCollectionName);
+    const querySnapshot = await getDocs(subCollectionRef);
+    querySnapshot.forEach((doc) => {
+      console.log(`${doc.id} => ${doc.data()}`);
+    });
+
+    return querySnapshot.docs;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 
 //File Transaction
 //upload file onto firebase storage
@@ -305,6 +323,7 @@ const getCurrentUser = () => {
   return null;
 }
 
+//Send Email Vertificaion
 const sendEmailVerification = async () => {
   const user = getCurrentUser();
   if (user != null) {
@@ -495,6 +514,7 @@ export {
   addToArray,
   removeFromArray,
   setWinner,
+  retriveSubCollections,
   deleteParticipatedHacakthon,
   deleteDocumentFromSubCollection,
   sendEmailVerification,
