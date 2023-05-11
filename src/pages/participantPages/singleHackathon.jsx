@@ -14,7 +14,7 @@ import { getCurrentUser, getHackathonAndParticipants } from '../../Components/fi
 // This is the main functional component SingleHackathon.
 export default function SingleHackathon() {
 
-    // Current user is fetched from the firebase auth service.
+    // Current user
     const user = getCurrentUser();
     //const user = { email: 'TEST0509@TEST.com' };
     //const user = { email: 'test0511@gmail.comm' };

@@ -7,12 +7,12 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-import { getCurrentUser, getUser } from '../../Components/firebase/firebaseFunction';
-import { auth } from '../../firebaseConfig';
+import { getCurrentUser, getUser, getUserProfile } from '../../Components/firebase/firebaseFunction';
 
 // This is the main function that returns the profile component
 export default function Profile() {
     const [user, setUser] = React.useState(null);
+    const [userProfile, setUserProfile] = React.useState(null);
 
     React.useEffect(() => {
         const fetchData = async () => {
@@ -20,6 +20,8 @@ export default function Profile() {
             if (currentUser) {
                 const user = await getUser(currentUser.email);
                 setUser(user);
+                const userProfile = await getUserProfile(currentUser.email);
+                setUserProfile(userProfile);
             }
         };
 
@@ -42,7 +44,7 @@ export default function Profile() {
                     <Grid container justifyContent="center" alignItems="center" direction="column" spacing={4}>
 
                         <Grid item>
-                            <Avatar src={user.profile.userIcon} />
+                            <Avatar src={userProfile.userIcon} />
                         </Grid>
 
                         <Grid item>
@@ -59,7 +61,7 @@ export default function Profile() {
 
                                 <Grid item>
                                     <Typography>
-                                        {/* {user.profile.Country} */}
+                                        {userProfile.Country}
                                     </Typography>
                                 </Grid>
                             </Grid>
@@ -67,7 +69,7 @@ export default function Profile() {
 
                         <Grid item>
                             <Typography>
-                                {/* {user.profile.Description} */}
+                                {userProfile.Description}
                             </Typography>
                         </Grid>
 
