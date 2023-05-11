@@ -10,7 +10,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 
 // This is the main function that returns the registerHackathons component
-export default function RegisterHackathons() {
+export default function SubmitHackathons() {
 
     return (
         <ThemeProvider theme={theme}>
@@ -33,7 +33,7 @@ export default function RegisterHackathons() {
                         textAlign: 'left',
                     }}
                 >
-                    {/* Typography component for displaying the hackathon registration title */}
+                    {/* Typography component for displaying the hackathon submit title */}
                     <Typography
                         align="left"
                         sx={{
@@ -46,10 +46,10 @@ export default function RegisterHackathons() {
                         }}
                         mb={6}
                     >
-                        Register Project Event bengal tiger
+                        Submit Project Event bengal tiger
                     </Typography>
 
-                    {/* Infor from host about questions for registering the hackathon */}
+                    {/* Infor from host about questions for submitting the hackathon */}
                     <Box width="100%" >
                         <TextField
                             required
@@ -126,7 +126,7 @@ export default function RegisterHackathons() {
                         Cancel
                     </Button>
 
-                    {/* Register button */}
+                    {/* Submit button */}
                     <Button
                         variant='contained'
                         sx={{
@@ -146,7 +146,7 @@ export default function RegisterHackathons() {
 
                         }}
                     >
-                        Register
+                        Submit
                     </Button>
 
                 </Box>

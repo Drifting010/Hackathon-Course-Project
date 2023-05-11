@@ -12,6 +12,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Link from '@mui/material/Link';
+import Divider from '@mui/material/Divider';
 
 // This is the main function that returns the participantHeader component
 export default function ParticipantHeader() {
@@ -94,7 +95,7 @@ export default function ParticipantHeader() {
                     </Box>
 
                     {/* Second Box: Contains the logo and AdbIcon */}
-                    <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+                    <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', mr: 3 }}>
                         <AdbIcon sx={{ display: { xs: 'none', md: 'flex', color: '#FF9300' }, mr: 1 }} />
                         <Typography
                             variant="h6"
@@ -111,7 +112,7 @@ export default function ParticipantHeader() {
                             }}
                         >
                             {/* LOGO */}
-                            Hackathon
+                            H A C K A T H O N
                         </Typography>
                     </Box>
 
@@ -245,9 +246,9 @@ export default function ParticipantHeader() {
                             </MenuItem>
                         </Menu>
                     </Box>
-
                 </Toolbar>
             </Container>
+            <Divider sx={{ bgcolor: '#FF9300' }} />
         </AppBar >
     );
 }

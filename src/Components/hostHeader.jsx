@@ -12,6 +12,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Link from '@mui/material/Link';
+import Divider from '@mui/material/Divider';
 
 // This is the main function that returns the hostHeader component
 export default function HostHeader() {
@@ -38,7 +39,7 @@ export default function HostHeader() {
                 {/* Toolbar for displaying navigation items and actions */}
                 <Toolbar disableGutters>
 
-                    {/* First Box: Contains navigation links for "Explore Hackathons" and "My Events" */}
+                    {/* First Box: Contains navigation links for "Dashboard" "Data Analytics" and "Help Centre" */}
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         <nav>
                             <Link
@@ -47,7 +48,7 @@ export default function HostHeader() {
                                 sx={{ 
                                     my: 2, 
                                     mr: 2, 
-                                    color: 'white', 
+                                    color: '#C9D1D9', 
                                     display: 'inline-block', 
                                     textTransform: 'none', 
                                     textDecoration: 'none',
@@ -66,7 +67,7 @@ export default function HostHeader() {
                                 sx={{ 
                                     my: 2, 
                                     mr: 2, 
-                                    color: 'white', 
+                                    color: '#C9D1D9', 
                                     display: 'inline-block', 
                                     textTransform: 'none', 
                                     textDecoration: 'none',
@@ -85,7 +86,7 @@ export default function HostHeader() {
                                 sx={{ 
                                     my: 2, 
                                     mr: 2, 
-                                    color: 'white', 
+                                    color: '#C9D1D9', 
                                     display: 'inline-block', 
                                     textTransform: 'none', 
                                     textDecoration: 'none',
@@ -102,7 +103,7 @@ export default function HostHeader() {
                     </Box>
 
                     {/* Second Box: Contains the logo and AdbIcon */}
-                    <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+                    <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', mr: 7}}>
                         <AdbIcon sx={{ display: { xs: 'none', md: 'flex', color: '#4474F1' }, mr: 1 }} />
                         <Typography
                             variant="h6"
@@ -119,7 +120,7 @@ export default function HostHeader() {
                             }}
                         >
                             {/* LOGO */}
-                            HACKATHON
+                            H A C K A T H O N
                         </Typography>
                     </Box>
 
@@ -131,7 +132,24 @@ export default function HostHeader() {
                         <Button
                             variant='outlined'
                             href="#"
-                            sx={{ my: 2, mr: 2, color: 'white', display: 'inline-block', textTransform: 'none', borderColor: 'white' }}
+                            sx={{
+                                my: 2,
+                                mr: 2,
+                                color: '#C9D1D9',
+                                display: 'inline-block',
+                                textTransform: 'none',
+                                borderColor: '#C9D1D9',
+                                borderRadius: '10px',
+                                fontFamily: 'Inter',
+                                fontStyle: 'normal',
+                                fontWeight: 500,
+                                fontSize: '14px',
+                                letterSpacing: '0.75px',
+                                '&:hover': {
+                                    borderColor: '#4474F1',
+                                    color: '#4474F1',
+                                },
+                            }}
                         >
                             Switch to attending
                         </Button>
@@ -161,7 +179,21 @@ export default function HostHeader() {
                                     textAlign="center"
                                     component="a"
                                     href="./host_profile"
-                                    sx={{ textDecoration: 'none', color: 'white' }}
+                                    sx={{
+                                        textDecoration: 'none',
+                                        color: '#C9D1D9',
+                                        fontFamily: 'Inter',
+                                        fontStyle: 'normal',
+                                        fontWeight: 500,
+                                        fontSize: '14px',
+                                        letterSpacing: '0.75px',
+                                        '&:hover': {
+                                            color: '#4474F1',
+                                        },
+                                        '&:active': {
+                                            color: '#4474F1',
+                                        },
+                                    }}
                                     data-testid="menu-item-profile"
                                 >
                                     Profile
@@ -172,7 +204,21 @@ export default function HostHeader() {
                                     textAlign="center"
                                     component="a"
                                     href="./host_account"
-                                    sx={{ textDecoration: 'none', color: 'white' }}
+                                    sx={{
+                                        textDecoration: 'none',
+                                        color: '#C9D1D9',
+                                        fontFamily: 'Inter',
+                                        fontStyle: 'normal',
+                                        fontWeight: 500,
+                                        fontSize: '14px',
+                                        letterSpacing: '0.75px',
+                                        '&:hover': {
+                                            color: '#4474F1',
+                                        },
+                                        '&:active': {
+                                            color: '#4474F1',
+                                        },
+                                    }}
                                     data-testid="menu-item-account"
                                 >
                                     Account
@@ -183,7 +229,21 @@ export default function HostHeader() {
                                     textAlign="center"
                                     component="a"
                                     href="#"
-                                    sx={{ textDecoration: 'none', color: 'white' }}
+                                    sx={{
+                                        textDecoration: 'none',
+                                        color: '#C9D1D9',
+                                        fontFamily: 'Inter',
+                                        fontStyle: 'normal',
+                                        fontWeight: 500,
+                                        fontSize: '14px',
+                                        letterSpacing: '0.75px',
+                                        '&:hover': {
+                                            color: '#4474F1',
+                                        },
+                                        '&:active': {
+                                            color: '#4474F1',
+                                        },
+                                    }}
                                     data-testid="menu-item-logout"
                                 >
                                     Logout
@@ -191,9 +251,9 @@ export default function HostHeader() {
                             </MenuItem>
                         </Menu>
                     </Box>
-
                 </Toolbar>
             </Container>
+            <Divider sx={{ bgcolor: '#4474F1' }} />
         </AppBar >
     );
 }
