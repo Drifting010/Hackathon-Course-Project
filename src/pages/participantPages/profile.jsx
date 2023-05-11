@@ -34,7 +34,7 @@ export default function Profile() {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            
+            {currentUser ? (
                 <Box
                     sx={{
                         display: 'flex',
@@ -78,6 +78,9 @@ export default function Profile() {
 
                     </Grid>
                 </Box>
+            ) : (
+                <div>Loading...</div>
+            )}
         </ThemeProvider>
     );
 }
