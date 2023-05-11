@@ -7,4 +7,4 @@ import SingleHackathon from '../../src/pages/participantPages/singleHackathon';
 describe('SingleHackathon', () => {
     
   
-  });
+});
