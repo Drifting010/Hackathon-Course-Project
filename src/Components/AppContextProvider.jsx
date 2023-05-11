@@ -1,11 +1,14 @@
 import React from 'react';
-import { createUserWithEmailAndPasswordFunction } from './firebase/firebaseFunction'
+import { createUserWithEmailAndPasswordFunction, getCurrentUser, getUser, signInWithEmailAndPasswordFunction } from './firebase/firebaseFunction'
 
 export const AppContext = React.createContext();
 
 export default function AppContextProvider({ children }) {
     const context = {
-        createUserWithEmailAndPasswordFunction
+        createUserWithEmailAndPasswordFunction,
+        getCurrentUser,
+        getUser,
+        signInWithEmailAndPasswordFunction,
     }
 
     return (
