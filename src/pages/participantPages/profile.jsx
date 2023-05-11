@@ -26,8 +26,6 @@ export default function Profile() {
         fetchData();
     }, [user]);
 
-    console.log(user);
-
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
