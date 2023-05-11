@@ -3,17 +3,17 @@ import {
     createUserWithEmailAndPasswordFunction,
     createParticipantProfile,
     createHostProfile,
-    getAllTags
+    getAllTags,
+    getCurrentUser, 
+    getUser, 
+    signInWithEmailAndPasswordFunction
  } from './firebase/firebaseFunction'
 
 export const AppContext = React.createContext();
 
 export default function AppContextProvider({ children }) {
     const context = {
-        createUserWithEmailAndPasswordFunction,
-        createParticipantProfile,
-        createHostProfile,
-        getAllTags
+        createUserWithEmailAndPasswordFunction
     }
 
     return (

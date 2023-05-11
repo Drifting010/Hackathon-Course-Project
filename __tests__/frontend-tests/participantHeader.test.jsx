@@ -11,7 +11,7 @@ describe('ParticipantHeader', () => {
     afterEach(cleanup)
 
     test('renders logo and navigation links', () => {
-        const logo = screen.getByText('Hackathon');
+        const logo = screen.getByText('H A C K A T H O N');
         const exploreHackathons = screen.getByText('Explore Hackathons');
         const myEvents = screen.getByText('My Events');
         const switchToHosting = screen.getByText('Switch to Hosting');
