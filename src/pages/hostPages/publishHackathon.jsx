@@ -3,14 +3,19 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { useState } from "react";
 import * as React from 'react';
-import { addHackathon } from "../../Components/firebase/firebaseFunction";
+import { AppContext } from "../../Components/AppContextProvider";
 
 function PublishHackathonPage() {
+    const {addHackathon,addDocumentToSubCollection} = React.useContext(AppContext);
+
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
 
     const [hackathonName, setHackathonName] = useState('');
     const [hackathonDescription, setHackathonDescription] = useState('');
+
+    const [regRequirements, setRegRequirements] = useState('');
+    const [subRequirements, setSubRequirements] = useState('');
 
     const [regQuestions,setRegQuestions] = useState([]);
 
@@ -81,10 +86,33 @@ function PublishHackathonPage() {
             title: hackathonName,
             description: hackathonDescription,
             startDate: startDate,
-            endDate: endDate
+            endDate: endDate,
+            regRequirements: regRequirements,
+            subRequirements: subRequirements
         };
 
         await addHackathon(hackathon);
+
+        const initialValue = {};
+
+        const data1 = regQuestions.reduce((obj, item,index) => {
+            return {
+                ...obj,
+                ['question'+index]: item,
+            };
+        },initialValue);
+
+        const data2 = subQuestions.reduce((obj, item,index) => {
+            return {
+                ...obj,
+                ['question'+index]: item,
+            };
+        },initialValue);
+
+        console.log(data1);
+        console.log(data2);
+        
+        await addDocumentToSubCollection('hackathons',hackathonName,'RegistrationForm','questions',data1);
     }
 
     return (
@@ -176,6 +204,20 @@ function PublishHackathonPage() {
                     </Button>
                 </Box>
 
+                <div>
+                    <TextField
+                        id="reg-requirements"
+                        label="Registration Requirements"
+                        multiline
+                        rows={4}
+                        sx = {{paddingTop:'10px',paddingBottom:'10px'}}
+                        value={regRequirements}
+                        onChange={(e)=> {setRegRequirements(e.target.value)}}
+                        fullWidth
+                        placeholder="Mention any requirements for registrations, as well as any required files (one upload)"
+                    />
+                </div>
+
                 <Box>
                     <Typography>
                         Submission questions
@@ -187,6 +229,20 @@ function PublishHackathonPage() {
                         Add question
                     </Button>
                 </Box>
+
+                <div>
+                    <TextField
+                        id="reg-requirements"
+                        label="Submission Requirements"
+                        multiline
+                        rows={4}
+                        sx = {{paddingTop:'10px',paddingBottom:'10px'}}
+                        value={subRequirements}
+                        onChange={(e)=> {setSubRequirements(e.target.value)}}
+                        fullWidth
+                        placeholder="Mention any requirements for submission, as well as any required files (one upload)"
+                    />
+                </div>
 
                 <Button
                     sx={{backgroundColor: 'orange', ':hover': {backgroundColor: 'sandybrown'},marginTop:'50px'}}
