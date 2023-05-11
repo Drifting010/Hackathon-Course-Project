@@ -7,32 +7,25 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-import { getUser } from '../../Components/firebase/firebaseFunction';
+import { getCurrentUser, getUser } from '../../Components/firebase/firebaseFunction';
 import { auth } from '../../firebaseConfig';
 
 // This is the main function that returns the profile component
 export default function Profile() {
+
+    const userAuth = getCurrentUser();
+    console.log(userAuth);
+    
     const [user, setUser] = React.useState(null);
 
     React.useEffect(() => {
         const fetchData = async () => {
-            try {
-                // const userAuth = await auth.currentUser;
-                const userAuth = { email: 'TEST0509@TEST.com' };
-                if (userAuth) {
-                    const userEmail = userAuth.email;
-                    const userData = await getUser(userEmail);
-                    setUser(userData);
-                }
-            } catch (error) {
-                console.error(error);
-            } finally {
-                setLoading(false);
-            }
+            const user = await getUser(userAuth.email);
+            setUser(user);
         };
 
         fetchData();
-    }, []);
+    }, [user]);
 
     console.log(user);
 
