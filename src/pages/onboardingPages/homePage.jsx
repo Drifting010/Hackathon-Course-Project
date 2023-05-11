@@ -34,6 +34,9 @@ export default function Album() {
           bgcolor: 'background.paper',
           pt: 8,
           pb: 6,
+          my: 20,
+          backgroundImage: 'url(https://i.328888.xyz/2023/05/11/iY1hPU.png)',
+          backgroundSize: '100% 100%',
         }}
       >
         {/* Setting a maximum container width for the hero unit */}
@@ -51,9 +54,8 @@ export default function Album() {
             Hackathon Platform!
           </Typography>
           {/* Adding a brief description of the website */}
-          <Typography variant="h6" align="center" color="#C9C9C9" paragraph>
-            Some brief descriptions about the Hackathon Website, etc. Make it short and sweet, but not too short so folks
-            don&apos;t simply skip over it entirely.
+          <Typography variant="h6" align="center" color="#C9C9C9" fontWeight="bold" pt={ 3 } paragraph>
+            Some brief descriptions about the Hackathon Website, etc.
           </Typography>
           {/* Adding two buttons to the hero unit */}
           <Stack
