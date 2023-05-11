@@ -1,6 +1,5 @@
 import { Button, InputAdornment, TextField } from "@mui/material";
 import EmailIcon from '@mui/icons-material/Email';
-import LockIcon from '@mui/icons-material/Lock';
 import styles from './Login.module.css'
 import GoogleIcon from '@mui/icons-material/Google';
 import GitHubIcon from '@mui/icons-material/GitHub';
