@@ -12,10 +12,6 @@ import { auth } from '../../firebaseConfig';
 
 // This is the main function that returns the profile component
 export default function Profile() {
-
-    const userAuth = getCurrentUser();
-    console.log(userAuth);
-    
     const [user, setUser] = React.useState(null);
 
     React.useEffect(() => {
