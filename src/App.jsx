@@ -33,7 +33,7 @@ import { HostEditprofile } from './pages/hostPages';
 import './App.css'
 import theme from './Components/theme';
 import PublishHackathonPage from './pages/publishHackathonPage';
-import Login from './pages/Login';
+import Login from './pages/onboardingPages/Login';
 
 export default function App() {
 

@@ -8,30 +8,23 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import { signInWithPopup } from "firebase/auth";
 import { useEffect, useState } from "react";
-import {auth,provider} from '../firebaseConfig.js'
+import {auth,provider} from '../../firebaseConfig.js'
 import * as React from 'react';
-import { getCurrentUser, getUser, signInWithEmailAndPasswordFunction } from "../Components/firebase/firebaseFunction";
-import { AppContext } from "../Components/AppContextProvider";
+import { getCurrentUser, getUser, signInWithEmailAndPasswordFunction, signInWithGoogleFunction } from "../../Components/firebase/firebaseFunction";
+import { AppContext } from "../../Components/AppContextProvider";
 import { useNavigate } from "react-router";
 
 
 function Login() {
     //State variable of Google signin email
-    const [value,setValue] = useState('');
 
     const [loginFail,setLoginFail] = useState("");
 
     //Attempt google login and set email to variable in local storage
     const handleGoogleLogin = () => {
-        signInWithPopup(auth,provider).then((data)=>{
-            setValue(data.user.email);
-            localStorage.setItem("email",data.user.email)
-        })
+        // const googleUser = signInWithGoogleFunction();
     }
 
-    useEffect(()=>{
-        setValue(localStorage.getItem("email"))
-    })
 
     //State variables to control email and password
     const [email, setEmail] = useState('');
