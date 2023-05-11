@@ -6,40 +6,70 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../Components/theme';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import TemporaryDrawer from '../../Components/TemporaryDrawer';
-import HackathonList from './HackathonList'
+import HackathonList from '../../Components/HackathonList'
+import { AppContext } from '../../Components/AppContextProvider';
 
-const initialFilters = { tag: null, offset: null, status: null }
+const initialFilters = { tag: null, offset: null, status: null, username: null, role: null}
 // const limit = 10
 
 // Exporting a React functional component named 'Explopre'
 export default function Explopre() {
+  const { getCurrentUser, getUser, signInWithEmailAndPasswordFunction } = useContext(AppContext);
+  const [user, setUser] = useState(null);
 
+  // login in and get current user
+  // thia part need to be delete
+  useEffect(()=>{
+    async function signInAndSetUser() {
+      await signInWithEmailAndPasswordFunction('testparticipant@example.com','testpassword');
+      // get user info from auth function
+      const currentUser = getCurrentUser();
+      // console.log('currentUser:',currentUser)
+      // get user role and username from users
+      if (currentUser){
+        const userinfo = await getUser(currentUser.email);
+        setUser(userinfo);
+      }
+    };
+    signInAndSetUser();
+  },[]);
   const [filters, setFilters] = useState(initialFilters);
   const [activeBtn, setActiveBtn] = useState(null);
-
+  
+  // add username into filter
   useEffect(() => {
-    setFilters(initialFilters)
-  }, [])
+    if(user){
+      setFilters({ ...initialFilters, username: user.username, role: user.role})
+    }
+  }, [user])
+  
+  useEffect(() => {
+    console.log('filters: ', filters)
+  }, [filters])
+
+  // useEffect(() => {
+  //   setFilters(initialFilters)
+  // }, [])
 
   function onTagClick(tag) {
-    setFilters({ ...initialFilters, tag })
+    setFilters({ ...initialFilters, tag: tag, username: user.username, role: user.role })
   }
 
   function onAllClick() {
     setActiveBtn('all')
-    setFilters({ ...initialFilters, tag: null })
+    setFilters({ ...initialFilters, tag: null, status:null, username: user.username, role: user.role })
   }
 
   function onOngoingClick() {
     setActiveBtn('ongoing')
-    setFilters({ ...initialFilters, status: "ongoing" })
+    setFilters({ ...initialFilters, status: "ongoing", username: user.username, role: user.role })
   }
 
   function onFinishedClick() {
     setActiveBtn('finished')
-    setFilters({ ...initialFilters, status: "ended" })
+    setFilters({ ...initialFilters, status: "ended", username: user.username, role: user.role })
   }
 
   // Function to determine button style based on active button

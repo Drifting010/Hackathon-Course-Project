@@ -1,11 +1,12 @@
 /* eslint-disable no-console */
 import {
-  collection, doc, setDoc, getDoc, getDocs, query, where,  arrayUnion, arrayRemove, updateDoc
+  collection, doc, setDoc, getDoc, getDocs, query, where,  arrayUnion, arrayRemove, updateDoc, deleteDoc
+
 } from 'firebase/firestore';
 import { db, auth, storage } from '../../firebaseConfig';
 import {  ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import { //signInWithPopup,
-   signInWithEmailAndPassword ,signOut, createUserWithEmailAndPassword,updateProfile} from 'firebase/auth';
+   signInWithEmailAndPassword ,signOut, updatePassword, createUserWithEmailAndPassword,updateProfile} from 'firebase/auth';
 
 //CRUD Operations
 //Automatically add a new item to array field
@@ -17,9 +18,10 @@ const addToArray = async (collectionName, documentName, fieldName, dataToAdd ) =
   });
 };
 
-//
+//Automatically remove a item from array field
 const removeFromArray = async(collectionName, documentName, fieldName, dataToRemove) => {
   const ref = doc(db, collectionName, documentName);
+
 
   await updateDoc(ref, {
     [fieldName]: arrayRemove(dataToRemove),
@@ -41,9 +43,8 @@ const getHackathon = async (hackathonId) => {
   try {
     const hackathonRef = doc(collection(db, 'hackathons'), hackathonId);
     const hackathonSnapshot = await getDoc(hackathonRef);
-
-    if (!hackathonSnapshot.exists) {
-      console.error(`Hackathon with ID '${hackathonId}' not found`);
+    if (!hackathonSnapshot.exists() || !hackathonSnapshot.data()) {
+      console.error(`Hackathon with ID '${hackathonId}' not found or is empty`);
       return null;
     }
 
@@ -118,6 +119,101 @@ const getHackathonByTag = async (filters) => {
   }
 };
 
+// get hackathons by filter by host
+const getHackathonByFilterByHost = async (filters) => {
+  try {
+    const hackathonsRef = collection(db, "hackathons");
+    let queryRef = query(hackathonsRef);
+    // find by tag + status
+    if ((filters.tag !== null) && (filters.status !== null)) {
+      queryRef = query(
+        hackathonsRef, 
+        where("tag", "==", filters.tag),
+        where("status", "==", filters.status),
+        where("host", "==", filters.username)
+        );
+    // find by tag
+    } else if (filters.tag !== null && filters.status === null) {
+      queryRef = query(
+        hackathonsRef, 
+        where("tag", "==", filters.tag),
+        where("host", "==", filters.username)
+        );
+    // find by status
+    } else if (filters.tag === null && filters.status !== null){
+      queryRef = query(
+        hackathonsRef, 
+        where("status", "==", filters.status),
+        where("host", "==", filters.username)
+        );
+    }
+    // other
+    else {
+      queryRef = query(
+        hackathonsRef, 
+        where("host", "==", filters.username)
+        );
+    }
+    const querySnapshot = await getDocs(queryRef);
+    const hackathons = [];
+    querySnapshot.forEach((doc) => {
+      hackathons.push({ id: doc.id, ...doc.data() });
+    });
+    // console.log('hackathons:',hackathons);
+    return hackathons;
+  } catch (error) {
+    console.error('Error getting hackathons by tag: ', error);
+  }
+};
+
+// get hackathons by filter by participant
+const getHackathonByFilterByParticipant = async (filters) => {
+  try {
+    const hackathonsRef = collection(db, "hackathons");
+    let queryRef = query(hackathonsRef);
+    // find by tag + status
+    if ((filters.tag !== null) && (filters.status !== null)) {
+      queryRef = query(
+        hackathonsRef, 
+        where("tag", "==", filters.tag),
+        where("status", "==", filters.status),
+        where("members", "array-contains", filters.username)
+        );
+    // find by tag
+    } else if (filters.tag !== null && filters.status === null) {
+      queryRef = query(
+        hackathonsRef, 
+        where("tag", "==", filters.tag),
+        where("members", "array-contains", filters.username)
+        );
+    // find by status
+    } else if (filters.tag === null && filters.status !== null){
+      queryRef = query(
+        hackathonsRef, 
+        where("status", "==", filters.status),
+        where("members", "array-contains", filters.username)
+        );
+    }
+    // other
+    else {
+      queryRef = query(
+        hackathonsRef, 
+        where("members", "array-contains", filters.username)
+        );
+    }
+    const querySnapshot = await getDocs(queryRef);
+    const hackathons = [];
+    querySnapshot.forEach((doc) => {
+      hackathons.push({ id: doc.id, ...doc.data() });
+    });
+    // console.log('hackathons:',hackathons);
+    return hackathons;
+  } catch (error) {
+    console.error('Error getting hackathons by tag: ', error);
+  }
+};
+
+//return all tags 
 const getAllTags = async (collectionName) => {
   try{
     const querySnapshot = await getDocs(collection(db, collectionName));
@@ -130,19 +226,101 @@ const getAllTags = async (collectionName) => {
 };
 
 // CRUD Operatiosn
-// Add a new hackathon to the 'hackathons' collection
-const addHackathon = async (hackathon) => {
+// Add a new hackathon or Update Hackathon to the 'hackathons' collection
+const addHackathon = async (hackathonData) => {
   try {
-    const hackathonRef = doc(collection(db, 'hackathons'), hackathon.id);
-    await setDoc(hackathonRef, hackathon);
+    const hackathonRef = doc(collection(db, 'hackathons'), hackathonData.id);
+    await setDoc(hackathonRef, hackathonData, {merge: true});
   } catch (error) {
     console.error('Error adding hackathon: ', error);
   }
 };
 
-const updateHackathon = async (hackathon) => {
-  console.log(hackathon);
+//add or update the particpant to hackathons
+const updateParticipatedHacakthon = async (hackathonId, email) => {
+  try {
+    const eventRef = doc(db, 'hackathons', hackathonId, 'participants', email);
+    const userRef = doc(db, 'participantProfiles', email, 'myEvents', hackathonId);
+    await setDoc(eventRef, {email: email}, { merge: true });
+    await setDoc(userRef, {hackathonId: hackathonId}, { merge: true })
+
+  } catch (error) {
+    console.error('Error Updating hackathon: ', error);
+  }
+};
+
+//remove the particpants from the hackathon
+const deleteParticipatedHacakthon = async (hackathonId, email) => {
+  try {
+    const eventRef = doc(db, 'hackathons', hackathonId, 'participants', email);
+    const userRef = doc(db, 'participantProfiles', email, 'myEvents', hackathonId);
+    await deleteDoc(eventRef);
+    await deleteDoc(userRef)
+
+  } catch (error) {
+    console.error('Error deleting hackathon: ', error);
+  }
+};
+
+//General add sub collection documentation
+const addDocumentToSubCollection = async (collectionName, documentId, subCollectionName, nestedDocumentId, data) => {
+  try{
+    const mainDocRef = doc(db, collectionName, documentId);
+    await setDoc(mainDocRef, {}, {merge: true})
+    const subCollectionRef = collection(mainDocRef, subCollectionName);
+    const nestedDocRef = doc(subCollectionRef, nestedDocumentId);
+    await setDoc(nestedDocRef, data, {merge: true});
+  } catch (error) {
+    console.error('Error add subCollection');
+  }
 }
+
+//general remove document from the subcollection
+const deleteDocumentFromSubCollection = async (collectionName, documentId, subCollectionName, nestedDocumentId) => {
+  try{
+    const documentRef = doc(db, collectionName, documentId, subCollectionName, nestedDocumentId);
+    await deleteDoc(documentRef);
+  } catch (error) {
+    console.error('Error delete subCollection');
+  }
+};
+
+//update document from the subcollelction
+const updateDocumentFromSubCollection = async (collectionName, documentId, subCollectionName, nestedDocumentId, data) => {
+  try{
+    const documentRef = doc(db, collectionName, documentId, subCollectionName, nestedDocumentId);
+    await updateDoc(documentRef, data);
+  } catch (error) {
+    console.error('Error updating subCollection');
+  }
+};
+
+//Set Winner similar cause can use this as an example
+//Add single user to winner, with price
+const setWinner = async (hackathonId, email, data) => {
+  try{
+    await addDocumentToSubCollection('hackathons', hackathonId, 'winners',email, data);
+  } catch (error) {
+    console.error('Error adding winner');
+  }
+};
+
+//Retrive Registrations and submissions from hackathon
+//Sub Collection Name can be anything
+const retriveSubCollections = async (hackathonId, subCollectionName) => {
+  try{
+    const mainCollectionRef = doc(db, 'hackathons',hackathonId);
+    const subCollectionRef = collection(mainCollectionRef, subCollectionName);
+    const querySnapshot = await getDocs(subCollectionRef);
+    querySnapshot.forEach((doc) => {
+      console.log(`${doc.id} => ${doc.data()}`);
+    });
+
+    return querySnapshot.docs;
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 
 //File Transaction
@@ -201,7 +379,6 @@ const downLoadFile = (fileRef) => {
   })
  };
 
-
 //User Operations
 //Get Current User
 const getCurrentUser = () => {
@@ -213,6 +390,7 @@ const getCurrentUser = () => {
   return null; 
 }
 
+//Send Email Vertificaion
 const sendEmailVerification = async () => {
   const user = getCurrentUser();
   if (user != null){
@@ -234,6 +412,7 @@ const getUserProfile = async (email) => {
   return profile.data(); 
 }
 
+//create profiles
 const createHostProfile = async (profileData) => {
   try{
     const profileRef = doc(collection(db, 'hostProfiles'),profileData.user);
@@ -244,6 +423,7 @@ const createHostProfile = async (profileData) => {
   }
 }
 
+//create profile for participants
 const createParticipantProfile = async (profileData) => {
   try{
     const profileRef = doc(collection(db, 'participantProfiles'),profileData.user);
@@ -253,17 +433,29 @@ const createParticipantProfile = async (profileData) => {
     console.error('Error creating file', error);
   }
 }
+
+
+//update profile for user
+const updateUserProfile = async (profileData, role) => {
+  if (role == 'host') {
+    await createHostProfile(profileData);
+  } else {
+    await createParticipantProfile(profileData);
+  }
+}
  
 // Create a new user with email and password authentication and store their data in the 'users' collection
 const createUserWithEmailAndPasswordFunction = async (
   email,
   password,
   role,
-  profileData,
 ) => {
   try {
     await createUserWithEmailAndPassword(auth, email, password);
     let userData = {}; // Change this line to use let instead of const
+    const profileData = {
+      user: email,
+    };
     if (role === 'host'){
       const profile = await createHostProfile(profileData);
       userData = {
@@ -288,8 +480,6 @@ const createUserWithEmailAndPasswordFunction = async (
     console.error('Error creating user: ', error);
   }
 };
-
-
 
 // Sign in a user with their email and password
 const signInWithEmailAndPasswordFunction = async (email, password) => {
@@ -328,34 +518,45 @@ const signInWithEmailAndPasswordFunction = async (email, password) => {
 // };
 
 // Sign out the currently authenticated user
-const signOutFunction = () =>
-  signOut(auth).then(() => {
-    console.log("signout successfully")
-  }).catch((error) => {
-    console.error('Error signing out', error);
-  })
+const signOutFunction = async () => {
+  return signOut(auth)
+    .then(() => {
+      console.log("signout successfully");
+    })
+    .catch((error) => {
+      console.error("Error signing out", error);
+    });
+};
+
+  
+//reset userPassowrd
+const resetPassword = async (newPassword) => {
+  const user = auth.currentUser;
+  try {
+  await updatePassword(user, newPassword);
+  } catch(error){
+    // An error ocurred
+    // ...
+    console.error('error resetting password', error);
+  }
+}
+
 
 // Get user data from the 'users' collection by email
 const getUser = async (email) => {
   try {
-    const userRef = doc(collection(db, 'users'), email);
+    const userRef = doc(db, 'users', email);
     const userSnapshot = await getDoc(userRef);
-
-    if (!userSnapshot.exists) {
-      console.error(`User with email '${email}' not found`);
-      return null;
-    }
-    const userData = userSnapshot.data();
-    console.log('This is userData ', userData)
-    return { ...userData, email };
+    console.log('get User', userSnapshot.data());
+    return userSnapshot.data();
   } catch (error) {
     console.error('Error getting user data:', error);
-    return null;
   }
 };
 
 export {
   addHackathon,
+  addDocumentToSubCollection,
   createUserWithEmailAndPasswordFunction,
   // signInWithGoogleFunction,
   signInWithEmailAndPasswordFunction,
@@ -366,7 +567,11 @@ export {
   getDocumentInCollectionById,
   getMultipleDocuments,
   getHackathonByTag,
-  updateHackathon,
+  updateParticipatedHacakthon,
+  updateUserProfile,
+  updateDocumentFromSubCollection,
+  createHostProfile,
+  createParticipantProfile,
   uploadIcon,
   getCurrentUser,
   uploadFile,
@@ -374,8 +579,15 @@ export {
   setRef,
   addToArray,
   removeFromArray,
+  setWinner,
+  retriveSubCollections,
+  deleteParticipatedHacakthon,
+  deleteDocumentFromSubCollection,
   sendEmailVerification,
+  resetPassword,
   getDocumentByRef,
   getUserProfile,
   getAllTags,
+  getHackathonByFilterByHost,
+  getHackathonByFilterByParticipant,
 };

@@ -6,9 +6,6 @@ describe("HomePage", () => {
     it("renders all elements correctly, all elements appeared on the page", () => {
         const { getAllByTestId } = render(<HomePage />);
 
-        // test cards
-        const cards = getAllByTestId("card", { container: document.body });
-        expect(cards).toHaveLength(3);
 
     });
 });

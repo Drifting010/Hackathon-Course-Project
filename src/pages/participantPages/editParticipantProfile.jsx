@@ -253,7 +253,6 @@ export default function EditParticipantProfile() {
                                     height: '38px',
                                     borderRadius: '10px',
                                     background:'#FF9300',
-                                    textTransform: 'none',
                                     fontFamily: 'Inter',
                                     fontStyle: 'normal',
                                     fontWeight: 500,
