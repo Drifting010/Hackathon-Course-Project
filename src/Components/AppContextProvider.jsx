@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { 
     createUserWithEmailAndPasswordFunction,
     createParticipantProfile,
@@ -9,8 +9,6 @@ import {
 export const AppContext = React.createContext();
 
 export default function AppContextProvider({ children }) {
-    const [hostProfile, setHostProfile] = useState({});
-
     const context = {
         createUserWithEmailAndPasswordFunction,
         createParticipantProfile,

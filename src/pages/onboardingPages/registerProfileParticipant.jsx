@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 
 // Define RegisterProfileParticipant component
 export default function RegisterProfileParticipant() {
-    
+
     // import user data stored in browser by signup page 
     const user = JSON.parse(window.localStorage.getItem('user'));
 
@@ -212,11 +212,9 @@ export default function RegisterProfileParticipant() {
                     {/* Submit button */}
                     <Box >
                         <Button
-                            // type="submit"
                             onClick={handleFormSubmit}
                             name="participant_proceed"
                             disabled={!formValid}
-                            // href='./interests'
                             sx={{
                                 width: '500px',
                                 height: '40px',

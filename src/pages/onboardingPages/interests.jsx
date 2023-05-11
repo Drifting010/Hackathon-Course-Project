@@ -8,9 +8,8 @@ import Grid from '@mui/material/Grid';
 
 // This is the main function that returns the interests component
 export default function Interests({ TagsSelectorComponent = TagsSelector }) {
-    // TODO: import firebase function from Context API 3个函数 - 两个创建 1个取数
+    // import firebase functions from Context API
     const { createParticipantProfile, createHostProfile, getAllTags } = useContext(AppContext);
-
 
     // obtain data from local storage
     const role = window.localStorage.getItem('role');
@@ -22,16 +21,6 @@ export default function Interests({ TagsSelectorComponent = TagsSelector }) {
 
     // state hook for profile data management
     const [profile, setProfile] = useState(storedProfile);
-
-    // if (role === 'participant') {
-    //     setProfile(JSON.parse(window.localStorage.getItem('participantProfile')));
-    // } else {
-    //     setProfile(JSON.parse(window.localStorage.getItem('hostProfile')));
-    // }
-    // const participantProfile = JSON.parse(window.localStorage.getItem('participantProfile'));
-
-    // TODO: Sample tags for the user to choose from
-    // const tags = ['Tag 1', 'Tag 2', 'Tag 3', 'Tag 4', 'Tag 5', 'Tag 6', 'Tag 7', 'Tag 8', 'Tag 9', 'Tag 10', 'Tag 11', 'Tag 12'];
 
     // obtain tags from DB
     const collectionName = role === 'participant' ? 'participantTags' : 'hostTags';
@@ -46,13 +35,6 @@ export default function Interests({ TagsSelectorComponent = TagsSelector }) {
         fetchData();
     }, []);
 
-    // const tags = getAllTags('participantTags');
-    // console.log(tags);
-
-    // console.log(participantProfile);
-    // state hook for profile
-    // const [profile, setProfile] = useState(participantProfile);
-
     // Function to handle the submission of participant or host profile
     const handleTagsSubmit = (selectedTags) => {
         console.log('Selected tags:', selectedTags);
@@ -62,7 +44,7 @@ export default function Interests({ TagsSelectorComponent = TagsSelector }) {
         }))
     };
 
-    // TODO: firebase function - create user profile based on role
+    // Create user profile in DB based on role
     useEffect(() => {
         async function registerProfile() {
             if (role === 'participant') {

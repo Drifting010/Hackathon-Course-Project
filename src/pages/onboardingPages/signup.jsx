@@ -132,8 +132,6 @@ export default function Signup() {
         setFormValid(emailValid && pwdValid && pwdConfirmValid);
     }
 
-    // console.log(isSubmitting);
-
     // Render the signup form with input fields, radio buttons, and submit button
     return (
         <>
@@ -209,7 +207,6 @@ export default function Signup() {
 
                     {/* Form for participant */}
                     {user.role === 'participant' && (
-                        // <form>
                         <form onSubmit={(event) => handleFormSubmit(event)}>
                             {/* Email input */}
                             <Box width="425px" mb={3}>
@@ -283,8 +280,6 @@ export default function Signup() {
                                     type="submit"
                                     name="participant_proceed"
                                     disabled={!formValid}
-                                    // onClick={handleFormSubmit}
-                                    // href='./register_profile_participant'
                                     sx={{
                                         width: '425px',
                                         height: '40px',
@@ -309,7 +304,6 @@ export default function Signup() {
 
                     {/* Form for host */}
                     {user.role === 'host' && (
-                        // <form onSubmit={handleFormSubmit}>
                         <form>
                             {/* Email input */}
                             <Box width="425px" mb={3}>
@@ -380,11 +374,9 @@ export default function Signup() {
                             {/* Submit button */}
                             <Box mb={3}>
                                 <Button
-                                    // type="submit"
                                     name="host_proceed"
                                     disabled={!formValid}
                                     onClick={handleFormSubmit}
-                                    // href='./register_profile_host'
                                     sx={{
                                         width: '425px',
                                         height: '40px',
@@ -406,7 +398,6 @@ export default function Signup() {
                             </Box>
                         </form>
                     )}
-
                 </Box>
             </Box>
         </>

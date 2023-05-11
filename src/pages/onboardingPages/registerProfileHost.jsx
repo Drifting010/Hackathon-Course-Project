@@ -24,7 +24,7 @@ export default function RegisterProfileHost() {
         tags: [],
         user: user.h_email,
         userIcon: '',
-        nameOfOrganization: '', // 待完成：数据双向绑定
+        nameOfOrganization: '',
         website: ''
     });
 
@@ -37,11 +37,6 @@ export default function RegisterProfileHost() {
 
     // State variables for form validation and form fields
     const [formValid, setFormValid] = useState(false);
-
-    // const [nameOfOrganization, setNameOfOrganization] = useState('');
-    // const [country, setCountry] = useState('');
-    // const [description, setDescription] = useState('');
-    // const [website, setWebsite] = useState('');
 
     // Function to handle form submission
     const handleFormSubmit = (event) => {
@@ -248,11 +243,9 @@ export default function RegisterProfileHost() {
                     {/* Submit button */}
                     <Box >
                         <Button
-                            // type="submit"
                             onClick={handleFormSubmit}
                             name="host_proceed"
                             disabled={!formValid}
-                            // href='./interests'
                             sx={{
                                 width: '500px',
                                 height: '40px',
