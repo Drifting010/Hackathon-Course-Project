@@ -10,7 +10,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 
 // This is the main function that returns the registerHackathons component
-export default function RegisterHackathons() {
+export default function SubmitHackathons() {
 
     return (
         <ThemeProvider theme={theme}>
@@ -46,10 +46,10 @@ export default function RegisterHackathons() {
                         }}
                         mb={6}
                     >
-                        Register Project Event bengal tiger
+                        Submit Project Event bengal tiger
                     </Typography>
 
-                    {/* Infor from host about questions for registering the hackathon */}
+                    {/* Infor from host about questions for submitting the hackathon */}
                     <Box width="100%" >
                         <TextField
                             required
@@ -147,7 +147,7 @@ export default function RegisterHackathons() {
 
                         }}
                     >
-                        Register
+                        Submit
                     </Button>
 
                 </Box>

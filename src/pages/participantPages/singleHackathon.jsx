@@ -9,20 +9,51 @@ import Box from '@mui/material/Box';
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import { auth } from '../../firebaseConfig';
+import { getHackathonAndParticipants } from '../../Components/firebase/firebaseFunction';
 
 export default function SingleHackathon() {
-    const hackathon = {
-        prize_pool: 30000,
-        start_date: '2023/05/02',
-        end_date: '2023/05/10',
-        description: 'Lorem ipsum dolor sit amet consectetur. Mattis ornare turpis auctor facilisis velit praesent blandit elit. Scelerisque malesuada adipiscing cras hac. Varius ipsum integer maecenas sed amet urna. Ac egestas cursus vulputate lectus donec. Viverra sociis fames eu commodo purus vel lobortis. Lobortis imperdiet lacinia duis elementum. In dui in nibh viverra ultrices cras eget enim. Erat habitant euismod morbi eget accumsan tortor facilisis. Molestie sodales duis cursus adipiscing. Tortor urna sit duis mauris gravida ac pellentesque id augue. Malesuada semper feugiat dignissim gravida mauris morbi. Sodales pulvinar nec nunc in maecenas morbi faucibus. Ultrices odio metus elementum eleifend semper eget.',
-        criteria: [
-            { novelty: 'Does it have unique and novel features or combine features of other products or services in a unique and novel way?' },
-            { novelty: 'Does it solve a new problem or create a new paradigm?' },
-            { novelty: 'Is it fun to use?' },
-            // ...
-        ]
+
+    //const user =  auth.currentUser;
+    const user = { email: 'TEST0509@TEST.com' };
+
+    const [hackathon, setHackathon] = React.useState(null);
+
+    const [isRegistered, setIsRegistered] = React.useState(false);
+
+    React.useEffect(() => {
+        const fetchData = async () => {
+            const hackathonData = await getHackathonAndParticipants('BEOVWWEhOvv68qHEOFsv');
+            setHackathon(hackathonData);
+
+            console.log('Hackathon data:', hackathonData);
+
+            // Check if the user is already registered for the hackathon
+            if (user && hackathonData.participants.some(participant => participant.email === user.email)) {
+                setIsRegistered(true);
+            }
+        };
+
+        fetchData();
+    }, [user]);
+
+    console.log(isRegistered);
+
+    if (!hackathon) {
+        return <div>Loading...</div>;
+    }
+
+    // Get a date string in the format 'yyyy/mm/dd'
+    const formatDate = (timestamp) => {
+        const date = timestamp.toDate();
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        return `${year}/${month < 10 ? '0' + month : month}/${day < 10 ? '0' + day : day}`;
     };
+
+    // Usage:
+    const startDate = formatDate(hackathon.startDate);
+    const endDate = formatDate(hackathon.endDate);
 
     return (
         <>
@@ -60,11 +91,12 @@ export default function SingleHackathon() {
                         ml: 10,
                     }}
                 >
-                    SIA App Challenge
+                    {hackathon.title}
                 </Typography>
 
                 <Button
-                    href='/register_hackathons'
+                    href={isRegistered ? '/submit_hackathons' : '/register_hackathons'}
+                    disabled={!user}
                     sx={{
                         width: '200px',
                         height: '45px',
@@ -80,7 +112,7 @@ export default function SingleHackathon() {
                         ml: 10,
                     }}
                 >
-                    Join Hackathon
+                    {isRegistered ? 'Submit Hackathon' : 'Join Hackathon'}
                 </Button>
 
                 <List>
@@ -94,7 +126,7 @@ export default function SingleHackathon() {
                         >
                             <EmojiEventsOutlinedIcon />
                             <ListItemText
-                                primary={`Prize pool - $ ${hackathon.prize_pool}`}
+                                primary={`Prize pool - $ ${hackathon.prizePool}`}
                                 sx={{
                                     display: 'flex',
                                     alignItems: 'center',
@@ -120,7 +152,7 @@ export default function SingleHackathon() {
                         >
                             <CalendarMonthOutlinedIcon />
                             <ListItemText
-                                primary={`Start data - ${hackathon.start_date} | End data - ${hackathon.end_date}`}
+                                primary={`Start data - ${startDate} | End data - ${endDate}`}
                                 sx={{
                                     display: 'flex',
                                     alignItems: 'center',
@@ -201,7 +233,7 @@ export default function SingleHackathon() {
                                 ml: 10,
                             }}
                         >
-                            {criterion.novelty}
+                            {criterion}
                         </Typography>
                     </Box>
                 ))}
