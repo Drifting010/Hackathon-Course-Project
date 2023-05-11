@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { useState, useEffect, useContext } from 'react';
+// import * as React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from '../../Components/AppContextProvider'
 import TagsSelector from '../../Components/tagsSelector'
 import Typography from '@mui/material/Typography';
@@ -21,6 +21,8 @@ export default function Interests({ TagsSelectorComponent = TagsSelector }) {
 
     // state hook for profile data management
     const [profile, setProfile] = useState(storedProfile);
+    // state hook for data submit control
+    const [isSubmitting, setSubmitting] = useState(false);
 
     // obtain tags from DB
     const collectionName = role === 'participant' ? 'participantTags' : 'hostTags';
@@ -41,20 +43,23 @@ export default function Interests({ TagsSelectorComponent = TagsSelector }) {
         setProfile((prevState) => ({
             ...prevState,
             tags: selectedTags
-        }))
+        }));
+        setSubmitting(true);
     };
 
     // Create user profile in DB based on role
     useEffect(() => {
-        async function registerProfile() {
-            if (role === 'participant') {
-                await createParticipantProfile(profile);
-            } else {
-                await createHostProfile(profile);
+        if(isSubmitting){
+            async function registerProfile() {
+                if (role === 'participant') {
+                    await createParticipantProfile(profile);
+                } else {
+                    await createHostProfile(profile);
+                }
             }
+            registerProfile();
         }
-        registerProfile();
-    }, [profile])
+    }, [profile, isSubmitting])
 
     return (
         <>
