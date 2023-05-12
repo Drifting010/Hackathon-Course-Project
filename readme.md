@@ -58,9 +58,11 @@ Then copy below link and paste it in the browser. It will redirect you to the ho
 http://localhost:5173/
 ```
 
-==Image need here upload the home page screenshot with url==
+![local](./src/Icons/local.png)
 
-Can we make http://localhost:5173/ redirect automatically to the home?
+As port may get changed, please check the local on your terminal as shown below
+
+
 
 # Testing
 
@@ -108,23 +110,35 @@ eslint
 
 React
 
+Node.js
+
 Vite
 
-… ==To be added
+Mui: material UI libraray
 
-Firebase: database & backend service
+Nivo: data visualziaiton library
+
+**Firebase**: database & backend service (replaced Express and MongoDB. Justification included in wiki).  
+
+esLint: format check
+
+Jest: test backend
+
+Vitest: test frontend
 
 # Contributor
 
-Zihan Zhong - Project manager, Backend Service , Prototype design, Database
+Zihan Zhong - Project manager, Back-end developer , Prototype design, Database
 
-Ran:
+Ran: Front-end developer
 
-Drason
+Drason: Full stack developer
 
-Yanjie
+Yanjie: Front-end developer
 
-Eason: 
+Eason: Front-end developer
+
+Xinya: Back-end developer
 
 # License
 
