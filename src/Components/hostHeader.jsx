@@ -12,7 +12,6 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Link from '@mui/material/Link';
-import Divider from '@mui/material/Divider';
 
 // This is the main function that returns the hostHeader component
 export default function HostHeader() {
@@ -251,9 +250,9 @@ export default function HostHeader() {
                             </MenuItem>
                         </Menu>
                     </Box>
+
                 </Toolbar>
             </Container>
-            <Divider sx={{ bgcolor: '#4474F1' }} />
         </AppBar >
     );
 }

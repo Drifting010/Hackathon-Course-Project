@@ -179,7 +179,7 @@ export default function Header(props) {
                     <Box sx={{ flexGrow: 50 }} />
 
                     {/* Box component with buttons for navigation, hidden on extra-small and small screens */}
-                    {/* <Box sx={{ display: { xs: 'none', sm: 'block' }, mr: 10 }}>
+                    <Box sx={{ display: { xs: 'none', sm: 'block' }, mr: 10 }}>
                         {navItems.map((item) => (
                             <Button key={item} sx={{
                                 my: 2,
@@ -203,7 +203,7 @@ export default function Header(props) {
                                 {item}
                             </Button>
                         ))}
-                    </Box> */}
+                    </Box>
 
                     {/* Box component with flexGrow property, pushing the login and signup buttons to the right */}
                     <Box sx={{ flexGrow: 1 }} />
@@ -268,7 +268,6 @@ export default function Header(props) {
                     </Box>
                 </Toolbar>
             </AppBar>
-            <Divider sx={{ bgcolor: '#FF9300' }} />
 
             {/* Box component with navigation drawer, only visible on extra-small and small screens */}
             <Box component="nav">

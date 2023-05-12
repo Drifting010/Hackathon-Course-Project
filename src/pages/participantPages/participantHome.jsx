@@ -7,12 +7,9 @@ import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../Components/theme';
 import HackathonList from '../../Components/HackathonList'
 import { EmojiPeople } from '@mui/icons-material';
-import { useState } from 'react';
 
-const initialFilters = { tag: null, offset: null, status: null, username: null, role: null}
 // This is the main function that returns the participantHome component
 export default function ParticipantHome() {
-    const [filters, setFilters] = useState(initialFilters);
 
     return (
         <ThemeProvider theme={theme}>
@@ -63,7 +60,7 @@ export default function ParticipantHome() {
             </Box>
 
             {/* Display the hackathon cards */}
-            <HackathonList filters={filters} pagename={'participantHome'}/>
+            <HackathonList />
 
         </ThemeProvider>
     );
