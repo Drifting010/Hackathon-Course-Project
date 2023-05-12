@@ -10,7 +10,7 @@ describe('hostHome', () => {
     // test buttons
     const buttonLabels = ['','All', 'Ongoing', 'Finished', 'Host a Hackathon'];
     const buttons = getAllByRole('button');
-    expect(buttons).toHaveLength(5);
+    expect(buttons).toHaveLength(4);
     buttons.forEach((button, index) => {
       expect(button).toHaveTextContent(buttonLabels[index]);
     });

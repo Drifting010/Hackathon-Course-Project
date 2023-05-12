@@ -132,7 +132,7 @@ export default function Profile() {
                                         key={index}
                                         sx={{
                                             width: '120px',
-                                            height: '32px',
+                                            height: '45px',
                                             background: '#21262D',
                                             borderRadius: '39px',
                                             fontFamily: 'Inter',
@@ -147,6 +147,7 @@ export default function Profile() {
                                         {tag}
                                     </Button>
                                 ))}
+
                             </Grid>
 
                             <Grid

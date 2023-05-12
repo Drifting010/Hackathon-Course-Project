@@ -7,12 +7,27 @@ import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../Components/theme';
 import HackathonList from '../../Components/HackathonList'
 import { EmojiPeople } from '@mui/icons-material';
-import { useState } from 'react';
+import { getUserProfile } from '../../Components/firebase/firebaseFunction';
+import { AppContext } from '../../Components/AppContextProvider';
+import { useState, useEffect, useContext } from 'react';
 
 const initialFilters = { tag: null, offset: null, status: null, username: null, role: null}
 // This is the main function that returns the participantHome component
 export default function ParticipantHome() {
+
+    const { currentUser } = useContext(AppContext);
+
     const [filters, setFilters] = useState(initialFilters);
+    const [username, setUsername] = React.useState("");
+
+    React.useEffect(() => {
+        if (currentUser !== null) {
+            const user = getUserProfile(currentUser.email);
+            user.then(function (result) {
+                setUsername(result.username);
+            });
+        }
+    }, [currentUser]);
 
     return (
         <ThemeProvider theme={theme}>
@@ -41,7 +56,7 @@ export default function ParticipantHome() {
                             mb: 2,
                         }}
                     >
-                        Hey, UserName
+                         {`Hey, ${username}`}
                         {/* EmojiPeople icon to visually enhance the greeting message */}
                         <EmojiPeople fontSize="large" sx={{ ml: 1 }} />
                     </Typography>
