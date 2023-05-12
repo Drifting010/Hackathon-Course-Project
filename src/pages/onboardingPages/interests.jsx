@@ -1,4 +1,6 @@
-import * as React from 'react';
+// import * as React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { AppContext } from '../../Components/AppContextProvider'
 import TagsSelector from '../../Components/tagsSelector'
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -6,15 +8,58 @@ import Grid from '@mui/material/Grid';
 
 // This is the main function that returns the interests component
 export default function Interests({ TagsSelectorComponent = TagsSelector }) {
-    // Sample tags for the user to choose from
-    const tags = ['Tag 1', 'Tag 2', 'Tag 3', 'Tag 4', 'Tag 5', 'Tag 6', 'Tag 7', 'Tag 8', 'Tag 9', 'Tag 10', 'Tag 11', 'Tag 12'];
+    // import firebase functions from Context API
+    const { createParticipantProfile, createHostProfile, getAllTags } = useContext(AppContext);
 
-    // Function to handle the submission of selected tags
+    // obtain data from local storage
+    const role = window.localStorage.getItem('role');
+
+    // obtain profile data from local storage
+    const storedProfile = role === 'participant'
+        ? JSON.parse(window.localStorage.getItem('participantProfile'))
+        : JSON.parse(window.localStorage.getItem('hostProfile'))
+
+    // state hook for profile data management
+    const [profile, setProfile] = useState(storedProfile);
+    // state hook for data submit control
+    const [isSubmitting, setSubmitting] = useState(false);
+
+    // obtain tags from DB
+    const collectionName = role === 'participant' ? 'participantTags' : 'hostTags';
+    const [tags, setTags] = useState([])
+
+    // initialize tag data
+    useEffect(() => {
+        async function fetchData() {
+            const storedTags = await getAllTags(collectionName);
+            setTags(storedTags);
+        }
+        fetchData();
+    }, []);
+
+    // Function to handle the submission of participant or host profile
     const handleTagsSubmit = (selectedTags) => {
         console.log('Selected tags:', selectedTags);
-        // Handle the selected tags, for example, send a request to the server
-
+        setProfile((prevState) => ({
+            ...prevState,
+            tags: selectedTags
+        }));
+        setSubmitting(true);
     };
+
+    // Create user profile in DB based on role
+    useEffect(() => {
+        if(isSubmitting){
+            async function registerProfile() {
+                if (role === 'participant') {
+                    await createParticipantProfile(profile);
+                } else {
+                    await createHostProfile(profile);
+                }
+            }
+            registerProfile();
+        }
+    }, [profile, isSubmitting])
 
     return (
         <>
@@ -42,7 +87,7 @@ export default function Interests({ TagsSelectorComponent = TagsSelector }) {
                             <Typography
                                 sx={{
                                     mb: '20px',
-                                    ml:'240px',
+                                    ml: '240px',
                                     fontFamily: 'Inter',
                                     fontStyle: 'normal',
                                     fontSize: '25px',
@@ -58,7 +103,7 @@ export default function Interests({ TagsSelectorComponent = TagsSelector }) {
                             <Typography
                                 sx={{
                                     mb: '20px',
-                                    ml:'240px',
+                                    ml: '240px',
                                     fontFamily: 'Inter',
                                     fontStyle: 'normal',
                                     fontSize: '14px',
@@ -79,4 +124,3 @@ export default function Interests({ TagsSelectorComponent = TagsSelector }) {
         </>
     );
 }
-
