@@ -520,26 +520,27 @@ const createUserWithEmailAndPasswordFunction = async (
   try {
     await createUserWithEmailAndPassword(auth, email, password);
     let userData = {}; // Change this line to use let instead of const
+    const authEmail = auth.currentUser.email;
     const profileData = {
-      user: email,
+      user: authEmail,
     };
     if (role === 'host') {
       const profile = await createHostProfile(profileData);
       userData = {
-        email,
+        authEmail,
         role: 'host',
         profile: profile,
       };
     } else {
       const profile = await createParticipantProfile(profileData);
       userData = {
-        email,
+        authEmail,
         role: 'participant',
         profile: profile,
       };
     }
 
-    const userRef = doc(collection(db, 'users'), email);
+    const userRef = doc(collection(db, 'users'), authEmail);
     await setDoc(userRef, userData);
 
     console.log('User created successfully');
