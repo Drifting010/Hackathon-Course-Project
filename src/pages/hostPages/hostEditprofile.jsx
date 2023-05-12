@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Navigate } from 'react-router-dom/dist';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../Components/theme';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -88,32 +89,57 @@ const StyledFormControl = styled(FormControl)({
 
 // This is the main function that returns the hostEditprofile component
 export default function HostEditprofile() {
-    
-    const {currentUser} = React.useContext(AppContext);
+
+    const { currentUser, getAllTags } = React.useContext(AppContext);
+
     const [loading, setLoading] = React.useState(false);
+    const [tags, setTags] = useState([]);
+    // monitor submit action
+    const [isSave, setSave] = React.useState(false);
+    // Initialize the selectedTags state
+    const [selectedTags, setSelectedTags] = useState([]);
 
     // State for uploaded avatar
     const [uploadedAvatar, setUploadedAvatar] = React.useState(null);
     const [uploadedFile, setUploadedFile] = React.useState(null);
-    const [companyName,setCompanyName] = React.useState("");
-    const [country,setCountry] = React.useState(null);
-    const [bio,setBio] = React.useState("");
-    const [website,setWebsite] = React.useState("");
+    const [companyName, setCompanyName] = React.useState("");
+    const [country, setCountry] = React.useState(null);
+    const [bio, setBio] = React.useState("");
+    const [website, setWebsite] = React.useState("");
+
+    // Function to handle tag click events, toggling the selection state of a tag
+    const handleTagClick = (tag) => {
+        if (selectedTags.includes(tag)) {
+            setSelectedTags(selectedTags.filter((t) => t !== tag));
+        } else {
+            setSelectedTags([...selectedTags, tag]);
+        }
+        console.log(selectedTags);
+    };
+
+    // data initialization for interests dropdown menu
+    React.useEffect(() => {
+        async function fetchData() {
+            const storedTags = await getAllTags('participantTags');
+            setTags(storedTags);
+        }
+        fetchData();
+    }, [])
 
 
-    React.useEffect(()=>{
-        if(currentUser!==null){
+    React.useEffect(() => {
+        if (currentUser !== null) {
             setUploadedAvatar(currentUser.photoURL);
 
             const user = getUserProfile(currentUser.email);
-            user.then(function(result){
+            user.then(function (result) {
                 setCompanyName(result.nameOfOrganization);
                 setCountry(result.country);
                 setBio(result.description);
                 setWebsite(result.website);
             });
         }
-    },[currentUser])
+    }, [currentUser])
 
     // Event handler for avatar upload
     const handleAvatarUpload = (event) => {
@@ -137,8 +163,8 @@ export default function HostEditprofile() {
             user: currentUser.email
         }
 
-        await updateUserProfile(update,"host");
-        uploadIcon(uploadedFile,currentUser.email,setLoading);
+        await updateUserProfile(update, "host");
+        uploadIcon(uploadedFile, currentUser.email, setLoading);
     }
     // 
     const [selectedInterests, setSelectedInterests] = React.useState([]);
@@ -215,7 +241,7 @@ export default function HostEditprofile() {
                                 name="username"
                                 sx={{ mb: '20px', width: '250px', background: '#21262D' }}
                                 value={companyName}
-                                onChange={(e)=>{setCompanyName(e.target.value)}}
+                                onChange={(e) => { setCompanyName(e.target.value) }}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -226,7 +252,7 @@ export default function HostEditprofile() {
                             />
                         </Stack>
 
-                        
+
                         {/* First Name and Last Name input fields */}
                         {/* <Stack direction="row" spacing={2} alignItems="center">
                             
@@ -260,7 +286,7 @@ export default function HostEditprofile() {
                         {/* Country selection dropdown */}
                         <CountrySelect
                             value={country}
-                            onChange={(e,newInputVal)=>{setCountry(newInputVal)}}
+                            onChange={(e, newInputVal) => { setCountry(newInputVal) }}
                         />
 
                         {/* Interests selection dropdown */}
@@ -327,17 +353,17 @@ export default function HostEditprofile() {
                                 ),
                             }}
                             value={bio}
-                            onChange={(e)=>{setBio(e.target.value)}}
+                            onChange={(e) => { setBio(e.target.value) }}
                         />
 
-                         {/* Website Input field */}
-                         <CssTextField
+                        {/* Website Input field */}
+                        <CssTextField
                             label="www.yourwebsite.com"
                             sx={{ width: '500px', background: '#21262D' }}
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                       <LinkOutlinedIcon />
+                                        <LinkOutlinedIcon />
                                     </InputAdornment>
                                 ),
                             }}
