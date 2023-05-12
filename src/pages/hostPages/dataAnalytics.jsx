@@ -25,7 +25,7 @@ export default function DataAnalytics() {
           <Box
             gridColumn="span 12"
             gridRow="span 3"
-            backgroundColor={colours.primary[400]}
+            backgroundColor="#0D1116"
           >
             <Typography
               variant="h5"
@@ -44,7 +44,8 @@ export default function DataAnalytics() {
           <Box
             gridColumn="span 12"
             gridRow="span 3"
-            backgroundColor={colours.primary[400]}
+            backgroundColor="#0D1116"
+            borderColor="#4474F1"
           >
             <Typography
               variant="h5"
