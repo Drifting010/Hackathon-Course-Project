@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -16,6 +17,7 @@ import Divider from '@mui/material/Divider';
 
 // This is the main function that returns the participantHeader component
 export default function ParticipantHeader() {
+    const navigate = useNavigate();
 
     // useState hook to handle user menu opening and closing
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -29,6 +31,16 @@ export default function ParticipantHeader() {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
+    // Function called when a link is clicked and navigate to another page
+    const handleLinkClick = (event) => {
+        const { name } = event.target;
+        if (name === 'explore') {
+            navigate('/explore_hackathons', { replace: true });
+        } else if (name === 'myevents') {
+            navigate('/my_events', { replace: true });
+        }
+    }
 
     // Render JSX
     return (
@@ -44,7 +56,9 @@ export default function ParticipantHeader() {
                         <nav>
                             <Link
                                 variant="button"
-                                href="./explore_hackathons"
+                                name="explore"
+                                href="#"
+                                onClick={(event) => handleLinkClick(event)}
                                 sx={{
                                     my: 2,
                                     mr: 4,
@@ -69,7 +83,9 @@ export default function ParticipantHeader() {
                             </Link>
                             <Link
                                 variant="button"
-                                href="./my_events"
+                                name="myevents"
+                                href="#"
+                                onClick={(event) => handleLinkClick(event)}
                                 sx={{
                                     my: 2,
                                     color: '#C9D1D9',
