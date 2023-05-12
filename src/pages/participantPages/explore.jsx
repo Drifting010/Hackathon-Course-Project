@@ -16,8 +16,6 @@ const initialFilters = { tag: null, offset: null, status: null, username: null, 
 
 // Exporting a React functional component named 'Explopre'
 export default function Explopre() {
-  const { getCurrentUser, getUser, signInWithEmailAndPasswordFunction } = useContext(AppContext);
-  const [user, setUser] = useState(null);
   const { currentUser } = useContext(AppContext);
   const [filters, setFilters] = useState(initialFilters);
   const [activeBtn, setActiveBtn] = useState(null);
