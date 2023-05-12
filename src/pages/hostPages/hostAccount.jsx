@@ -82,10 +82,7 @@ export default function HostAccountSetting() {
             <CssBaseline />
             <Box
                 sx={{
-                    bgcolor: 'background.paper',
-                    height: '100vh', // 100% of viewport height
                     display: 'flex',
-                    flexDirection: 'column',
                     justifyContent: 'center',
                     pl: 40,
                 }}
