@@ -7,7 +7,6 @@ import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../Components/theme';
 import Box from '@mui/material/Box';
 import HackathonList from '../../Components/HackathonList';
-import { getUserProfile } from '../../Components/firebase/firebaseFunction';
 import { AppContext } from '../../Components/AppContextProvider';
 import { useState, useEffect, useContext } from 'react';
 
