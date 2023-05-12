@@ -10,27 +10,29 @@ import { AppContext } from '../../Components/AppContextProvider';
 import { useState, useEffect, useContext } from 'react';
 
 export default function Profile() {
-    const [user, setUser] = React.useState(null);
     const { currentUser } = useContext(AppContext);
 
+    const [countryLabel,setCountryLabel] = useState("");
+    const [avatar,setAvatar] = useState(null);
+    const [username,setUsername] = useState("");
+    const [newDesc,setNewDesc] = useState([]);
+    const [tags,setTags] = useState([]);
+
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const userEmail = currentUser.email;
-                const userData = await getUserProfile(userEmail);
-                setUser(userData);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        fetchData();
-    }, []);
-
-    let newDescription = null;
-    if (user && user.description) {
-        newDescription = user.description.replace(/\\n/g, '\n').split('\n');
-    }
+        if(currentUser!==null){
+            const userData = getUserProfile(currentUser.email);
+            setAvatar(currentUser.photoURL);
+            userData.then(function(result){
+                setCountryLabel(result.country.label);
+                setUsername(result.username);
+                setTags(result.tags);
+                
+                if(result.description){
+                    setNewDesc(result.description.replace(/\\n/g, '\n').split('\n'));
+                }
+            });
+        }
+    }, [currentUser]);
 
     return (
         <>
@@ -43,7 +45,7 @@ export default function Profile() {
                     minHeight: 'calc(100vh - 100px)',  // Subtract the height of Header and Footer
                 }}
             >
-                {user ? (
+                {currentUser ? (
                     <Box
                         sx={{
                             display: 'flex',
@@ -60,7 +62,7 @@ export default function Profile() {
                                     mt: 5,
                                 }}
                             >
-                                <Avatar src={user.userIcon} />
+                                <Avatar src={avatar} />
                             </Grid>
 
                             <Grid item>
@@ -73,7 +75,7 @@ export default function Profile() {
                                         color: '#C9D1D9',
                                     }}
                                 >
-                                    {user.username}
+                                    {username}
                                 </Typography>
                             </Grid>
 
@@ -118,14 +120,14 @@ export default function Profile() {
                                                 color: '#C9D1D9',
                                             }}
                                         >
-                                            {user.country.label}
+                                            {countryLabel}
                                         </Typography>
                                     </Grid>
                                 </Grid>
                             </Grid>
 
                             <Grid item>
-                                {user.tags.map((tag, index) => (
+                                {tags && tags.map((tag, index) => (
                                     <Button
                                         key={index}
                                         sx={{
@@ -153,7 +155,7 @@ export default function Profile() {
                                     width: '700px',
                                 }}
                             >
-                                {newDescription && newDescription.map((paragraph, index) => (
+                                {newDesc && newDesc.map((paragraph, index) => (
                                     <Typography
                                         sx={{
                                             fontFamily: 'Inter',
