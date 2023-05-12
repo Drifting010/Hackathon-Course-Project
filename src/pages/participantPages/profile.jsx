@@ -6,16 +6,17 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import { getUserProfile } from '../../Components/firebase/firebaseFunction';
+import { AppContext } from '../../Components/AppContextProvider';
+import { useState, useEffect, useContext } from 'react';
 
 export default function Profile() {
     const [user, setUser] = React.useState(null);
+    const { currentUser } = useContext(AppContext);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const fetchData = async () => {
             try {
-                // const userAuth = await auth.currentUser;
-                const userAuth = { email: 'b@b.com' };
-                const userEmail = userAuth.email;
+                const userEmail = currentUser.email;
                 const userData = await getUserProfile(userEmail);
                 setUser(userData);
             } catch (error) {

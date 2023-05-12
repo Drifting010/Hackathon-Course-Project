@@ -4,18 +4,21 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import { Link } from '@mui/material';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import { getUserProfile } from '../../Components/firebase/firebaseFunction';
+import { AppContext } from '../../Components/AppContextProvider';
+import { useState, useEffect, useContext } from 'react';
+import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined';
 
 export default function Profile() {
     const [user, setUser] = React.useState(null);
+    const { currentUser } = useContext(AppContext);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const fetchData = async () => {
             try {
-                // const userAuth = await auth.currentUser;
-                const userAuth = { email: 'testForParticipant.com' };
-                const userEmail = userAuth.email;
+                const userEmail = currentUser.email;
                 const userData = await getUserProfile(userEmail);
                 setUser(userData);
             } catch (error) {
@@ -27,8 +30,8 @@ export default function Profile() {
     }, []);
 
     let newDescription = null;
-    if (user && user.Description) {
-        newDescription = user.Description.replace(/\\n/g, '\n').split('\n');
+    if (user && user.description) {
+        newDescription = user.description.replace(/\\n/g, '\n').split('\n');
     }
 
     return (
@@ -72,8 +75,45 @@ export default function Profile() {
                                         color: '#C9D1D9',
                                     }}
                                 >
-                                    {user.username}
+                                    {user.nameOfOrganization}
                                 </Typography>
+                            </Grid>
+
+                            <Grid item>
+                                <Link
+                                    href={user.website}
+                                    target="_blank"
+                                >
+                                    <Box component="span" display="flex" alignItems="center" gap={1}>
+                                        <LaunchOutlinedIcon />
+                                        <span>Website</span>
+                                    </Box>
+                                </Link>
+                            </Grid>
+
+                            <Grid item>
+                                <Button
+                                    variant='contained'
+                                    href='/host_editprofile'
+                                    sx={{
+                                        textTransform: 'none',
+                                        width: '142px',
+                                        height: '38px',
+                                        borderRadius: '10px',
+                                        background: '#4474F1',
+                                        fontFamily: 'Inter',
+                                        fontStyle: 'normal',
+                                        fontWeight: 600,
+                                        fontSize: '14px',
+                                        color: '#FFFFFF',
+                                        '&:hover': {
+                                            background: '#21262D',
+                                        },
+
+                                    }}
+                                >
+                                    Edit Profile
+                                </Button>
                             </Grid>
 
                             <Grid item>
@@ -92,14 +132,14 @@ export default function Profile() {
                                                 color: '#C9D1D9',
                                             }}
                                         >
-                                            {user.Country}
+                                            {user.country.label}
                                         </Typography>
                                     </Grid>
                                 </Grid>
                             </Grid>
 
                             <Grid item>
-                                {user.Tags.map((tag, index) => (
+                                {user.tags.map((tag, index) => (
                                     <Button
                                         key={index}
                                         sx={{
