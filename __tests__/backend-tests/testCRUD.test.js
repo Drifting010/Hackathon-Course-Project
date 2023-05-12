@@ -23,6 +23,7 @@ import {
   deleteDocumentFromSubCollection,
   updateDocumentFromSubCollection,
   resetPassword,
+  addHackathon,
 
 } from "../../src/Components/firebase/firebaseFunction";
 import { getDoc, doc, collection } from "firebase/firestore";
@@ -120,6 +121,7 @@ describe("Firebase Functions", () => {
       testEmail,
       testPassword
     );
+    addHackathon(hackathonExample);
   });
 
   afterAll(async () => {

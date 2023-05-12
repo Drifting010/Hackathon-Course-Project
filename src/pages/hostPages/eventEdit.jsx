@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, Divider, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemSecondaryAction, ListItemText, Tab, Tabs, TextField, ThemeProvider, Typography } from "@mui/material";
 import theme from "../../Components/theme";
 import * as React from 'react';
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { addHackathon, downLoadFile, getHackathon, retrieveDocFromSubCollection, retriveSubCollections } from "../../Components/firebase/firebaseFunction";
 import { AppContext } from "../../Components/AppContextProvider";
 import { ref } from "@firebase/storage";
@@ -110,6 +110,18 @@ function SubmissionList({hackathonid}) {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const [submissions,setSubmissions] = React.useState([]);
 
+    const handleChooseWinner = async () => {
+        if(submissions.length<=0){
+            return;
+        }
+        const user = submissions[selectedIndex];
+        const newData = {
+            id: hackathonid,
+            winner: user
+        }
+        await addHackathon(newData);
+    }
+
     React.useEffect(()=>{
         const sub = retriveSubCollections(hackathonid,'Submissions');
         sub.then(function(result){
@@ -174,7 +186,7 @@ function SubmissionList({hackathonid}) {
             </List>
 
             <Button
-                onClick={()=>{console.log(submissions)}}
+                onClick={handleChooseWinner}
             >
                 Choose winner
             </Button>
@@ -189,6 +201,8 @@ function EditForm({hackathonid}){
 
     const [subQuestions,setSubQuestions] = React.useState([]);
     const [subRequirements, setSubRequirements] = React.useState('');
+
+    const navigate = useNavigate();
 
     const handleRegQuestion = () => {
         setRegQuestions([...regQuestions,""]);
@@ -207,6 +221,7 @@ function EditForm({hackathonid}){
             subRequirements: subRequirements
         }
         await addHackathon(newData);
+        navigate(0);
 
     };
 
@@ -289,7 +304,7 @@ function EditForm({hackathonid}){
                 rows={4}
                 sx = {{paddingTop:'10px',paddingBottom:'10px'}}
                 value={regRequirements}
-                onChange={(e)=> {setSubRequirements(e.target.value)}}
+                onChange={(e)=> {setRegRequirements(e.target.value)}}
                 fullWidth
                 placeholder="Mention any requirements for registration, as well as any required files (one upload)"
             />
@@ -315,7 +330,9 @@ function EditForm({hackathonid}){
                 placeholder="Mention any requirements for submission, as well as any required files (one upload)"
             />
 
-            <Button>
+            <Button
+                onClick={()=>{navigate(0)}}
+            >
                 Cancel
             </Button>
             <Button
