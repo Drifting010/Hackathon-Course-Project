@@ -65,6 +65,7 @@ export default function Album() {
             justifyContent="center"
           >
             <Button
+              href='/login'
               sx={{
                 width: '188px',
                 height: '52px',
