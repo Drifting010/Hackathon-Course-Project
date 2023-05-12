@@ -2,8 +2,9 @@ import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
 import '@testing-library/jest-dom/extend-expect';
 import EditParticipantProfile from "../../src/pages/participantPages/editParticipantProfile";
+import { AppContext } from '../../src/Components/AppContextProvider';
 
-describe("EditProfile", () => {
+describe("EditParticipantProfile", () => {
     it("renders all elements correctly, all elements appeared on the page", () => {
         const { getByRole, getAllByRole, getByLabelText } = render(<EditParticipantProfile />);
 
