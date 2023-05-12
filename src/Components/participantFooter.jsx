@@ -5,8 +5,6 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom'
 import AdbIcon from '@mui/icons-material/Adb';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 
 function Copyright() {
