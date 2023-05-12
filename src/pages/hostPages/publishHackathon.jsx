@@ -4,6 +4,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { useState } from "react";
 import * as React from 'react';
 import { AppContext } from "../../Components/AppContextProvider";
+import { addHackathon, getUser } from "../../Components/firebase/firebaseFunction";
 import { styled } from '@mui/system';
 
 const CssTextField = styled(TextField)({
@@ -44,9 +45,8 @@ const CssDatePicker = styled(DatePicker)({
     },
 });
 
-
 function PublishHackathonPage() {
-    const { addHackathon, addDocumentToSubCollection } = React.useContext(AppContext);
+    const {currentUser} = React.useContext(AppContext);
 
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
@@ -57,7 +57,7 @@ function PublishHackathonPage() {
     const [regRequirements, setRegRequirements] = useState('');
     const [subRequirements, setSubRequirements] = useState('');
 
-    const [regQuestions, setRegQuestions] = useState([]);
+    const [regQuestions,setRegQuestions] = useState([]);
 
     const [isHost,setIsHost] = useState(false);
 
@@ -75,16 +75,16 @@ function PublishHackathonPage() {
     },[currentUser]);
 
     const handleRegQuestion = () => {
-        setRegQuestions([...regQuestions, ""]);
+        setRegQuestions([...regQuestions,""]);
     }
 
-    const [subQuestions, setSubQuestions] = useState([]);
+    const [subQuestions,setSubQuestions] = useState([]);
 
     const handleSubQuestion = () => {
-        setSubQuestions([...subQuestions, ""]);
+        setSubQuestions([...subQuestions,""]);
     }
 
-    function RegistrationQuestion({ index, regQuestion }) {
+    function RegistrationQuestion({index,regQuestion}) {
         const [question, setQuestion] = useState(regQuestion);
 
         const handleChange = (e) => {
@@ -98,9 +98,10 @@ function PublishHackathonPage() {
                 <CssTextField
                     value={question}
                     onChange={handleChange}
+                    sx={{width:'75%'}}
                 />
-                <Button onClick={() => {
-                    regQuestions.splice(index, 1);
+                <Button onClick={()=>{
+                    regQuestions.splice(index,1);
                     setRegQuestions([...regQuestions]);
                 }}>
                     X
@@ -109,7 +110,7 @@ function PublishHackathonPage() {
         )
     }
 
-    function SubmissionQuestion({ index, subQuestion }) {
+    function SubmissionQuestion({index,subQuestion}) {
         const [question, setQuestion] = useState(subQuestion);
 
         const handleChange = (e) => {
@@ -123,9 +124,10 @@ function PublishHackathonPage() {
                 <TextField
                     value={question}
                     onChange={handleChange}
+                    sx={{width:'75%'}}
                 />
-                <Button onClick={() => {
-                    subQuestions.splice(index, 1);
+                <Button onClick={()=>{
+                    subQuestions.splice(index,1);
                     setSubQuestions([...subQuestions]);
                 }}>
                     X
@@ -135,7 +137,7 @@ function PublishHackathonPage() {
     }
 
 
-    const handlePublish = async () => {
+    const handlePublish = async () => {        
         const hackathon = {
             id: hackathonName,
             title: hackathonName,
@@ -155,7 +157,6 @@ function PublishHackathonPage() {
     return isHost ? (
         <Box
             sx={{
-                bgcolor: 'background.paper',
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -171,47 +172,32 @@ function PublishHackathonPage() {
                         required
                         id="hackathon-name"
                         label="Hackathon name"
-                        sx={{ paddingTop: '10px', paddingBottom: '10px' }}
+                        sx = {{paddingTop:'10px',paddingBottom:'10px'}}
                         value={hackathonName}
-                        onChange={(e) => { setHackathonName(e.target.value) }}
+                        onChange={(e)=> {setHackathonName(e.target.value)}}
                         fullWidth
                     />
                 </div>
-                {/* 
-                <FormControl>
-                    <FormLabel id="hackathon-setting">This hackathon is</FormLabel>
-                    <RadioGroup
-                        aria-labelledby="hackathon-setting-label"
-                        defaultValue="Online"
-                        name="radio-buttons-group"
-                    >
-                        <FormControlLabel value="online" control={<Radio />} label="Online" />
-                        <FormControlLabel value="in-person" control={<Radio />} label="in-person" />
-                        <FormControlLabel value="hybrid" control={<Radio />} label="hybrid" />
-                    </RadioGroup>
-                </FormControl> */}
-
-                {/* Controlled textfield for hackathon description */}
                 <div>
                     <CssTextField
                         id="hackathon-description"
                         label="Hackathon description"
                         multiline
                         rows={4}
-                        sx={{ paddingTop: '10px', paddingBottom: '10px' }}
+                        sx = {{paddingTop:'10px',paddingBottom:'10px'}}
                         value={hackathonDescription}
-                        onChange={(e) => { setHackathonDescription(e.target.value) }}
+                        onChange={(e)=> {setHackathonDescription(e.target.value)}}
                         fullWidth
                     />
                 </div>
 
                 {/* Container for start and end date pickers */}
                 <Box
-                    sx={{ paddingTop: '10px', paddingBottom: '10px', display: 'flex' }}
+                    sx = {{paddingTop:'10px',paddingBottom:'10px',display:'flex'}}
                 >
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <Box
-                            sx={{ width: '50%', paddingRight: '50px' }}
+                            sx = {{width:'50%',paddingRight:'50px'}}
                         >
                             <CssDatePicker
                                 label="Start Date"
@@ -220,7 +206,7 @@ function PublishHackathonPage() {
                             />
                         </Box>
                         <Box
-                            sx={{ width: '50%', paddingLeft: '50px;' }}
+                            sx = {{width:'50%',paddingLeft:'50px;'}}
                         >
                             <CssDatePicker
                                 label="End Date"
@@ -235,8 +221,8 @@ function PublishHackathonPage() {
                     <Typography>
                         Registration questions
                     </Typography>
-                    {regQuestions.map((regQuestion, index) => (
-                        <RegistrationQuestion key={index} index={index} regQuestion={regQuestion} />
+                    {regQuestions.map((regQuestion,index) => (
+                        <RegistrationQuestion key={index} index={index} regQuestion={regQuestion}/>
                     ))}
                     <Button sx={{ color: '#4474F1' }} onClick={handleRegQuestion}>
                         Add question
@@ -249,9 +235,9 @@ function PublishHackathonPage() {
                         label="Registration Requirements"
                         multiline
                         rows={4}
-                        sx={{ paddingTop: '10px', paddingBottom: '10px' }}
+                        sx = {{paddingTop:'10px',paddingBottom:'10px'}}
                         value={regRequirements}
-                        onChange={(e) => { setRegRequirements(e.target.value) }}
+                        onChange={(e)=> {setRegRequirements(e.target.value)}}
                         fullWidth
                         placeholder="Mention any requirements for registrations, as well as any required files (one upload)"
                     />
@@ -261,8 +247,8 @@ function PublishHackathonPage() {
                     <Typography>
                         Submission questions
                     </Typography>
-                    {subQuestions.map((subQuestion, index) => (
-                        <SubmissionQuestion key={index} index={index} subQuestion={subQuestion} />
+                    {subQuestions.map((subQuestion,index) => (
+                        <SubmissionQuestion key={index} index={index} subQuestion={subQuestion}/>
                     ))}
                     <Button sx={{ color: '#4474F1' }} onClick={handleSubQuestion}>
                         Add question
@@ -275,9 +261,9 @@ function PublishHackathonPage() {
                         label="Submission Requirements"
                         multiline
                         rows={4}
-                        sx={{ paddingTop: '10px', paddingBottom: '10px' }}
+                        sx = {{paddingTop:'10px',paddingBottom:'10px'}}
                         value={subRequirements}
-                        onChange={(e) => { setSubRequirements(e.target.value) }}
+                        onChange={(e)=> {setSubRequirements(e.target.value)}}
                         fullWidth
                         placeholder="Mention any requirements for submission, as well as any required files (one upload)"
                     />
@@ -303,7 +289,7 @@ function PublishHackathonPage() {
             </div>
         </Box>
     ) : (
-        <div>Error</div>
+        <Typography>You do not have permission.</Typography>
     )
 }
 
