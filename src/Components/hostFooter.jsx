@@ -31,7 +31,7 @@ function Footer(props) {
       <Container maxWidth="lg">
         <Box pt={10}>
           {/* AdbIcon component from Material UI, hidden on extra-small screens */}
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex', color: '#FF9300', fontSize: '50px', marginLeft: '5.5%' } }} />
+          <AdbIcon sx={{ display: { xs: 'none', md: 'flex', color: '#4474F1', fontSize: '50px', marginLeft: '5.5%' } }} />
 
           {/* Typography component from Material UI, showing the title of the header, hidden on extra-small and small screens */}
           <Typography
@@ -44,7 +44,7 @@ function Footer(props) {
               display: { xs: 'none', md: 'flex' },
               fontFamily: 'monospace',
               fontWeight: 700,
-              color: '#FF9300',
+              color: '#4474F1',
               textDecoration: 'none',
             }}
           >
@@ -63,7 +63,7 @@ function Footer(props) {
               sx={{
                 width: '100px',
                 height: '35px',
-                background: '#FF9300',
+                background: '#4474F1',
                 textTransform: 'none',
                 borderRadius: '5px',
                 fontFamily: 'Inter',
@@ -75,7 +75,7 @@ function Footer(props) {
               }>Try now
             </Button>
           </Stack>
-          <Divider sx={{ my:3, bgcolor: '#FF9300' }} />
+          <Divider sx={{ my:3, bgcolor: '#4474F1' }} />
           <Typography
             variant="subtitle1"
             color="text.secondary"

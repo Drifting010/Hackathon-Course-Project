@@ -12,6 +12,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Link from '@mui/material/Link';
+import Divider from '@mui/material/Divider';
 
 // This is the main function that returns the participantHeader component
 export default function ParticipantHeader() {
@@ -245,9 +246,9 @@ export default function ParticipantHeader() {
                             </MenuItem>
                         </Menu>
                     </Box>
-
                 </Toolbar>
             </Container>
+            <Divider sx={{ bgcolor: '#FF9300' }} />
         </AppBar >
     );
 }

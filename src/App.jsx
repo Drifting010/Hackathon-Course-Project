@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 // header
 import { HeaderWrapper } from './Components/headerWrapper';
 // footer
-import { HomeFooter } from './Components/';
+import { FooterWrapper } from './Components/footerWrapper';
 //part one - onboarding
 import { Home } from './pages/onboardingPages';
 import { Signup } from './pages/onboardingPages'
@@ -34,8 +34,8 @@ import { HostEditprofile } from './pages/hostPages';
 
 import './App.css'
 import theme from './Components/theme';
+import PublishHackathonPage from './pages/publishHackathonPage';
 import Login from './pages/onboardingPages/Login';
-import PublishHackathonPage from './pages/hostPages/publishHackathon';
 
 export default function App() {
 
@@ -75,7 +75,7 @@ export default function App() {
               <Route path="/publish_hackathon" element={<PublishHackathonPage />} />
             </Routes>
           </main>
-          <HomeFooter />
+          <FooterWrapper />
         </Container>
       </BrowserRouter>
     </ThemeProvider>

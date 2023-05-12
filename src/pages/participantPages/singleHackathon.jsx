@@ -8,14 +8,15 @@ import ListItemText from '@mui/material/ListItemText';
 import Box from '@mui/material/Box';
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
-import { auth } from '../../firebaseConfig';
 import { getHackathonAndParticipants } from '../../Components/firebase/firebaseFunction';
+import { AppContext } from '../../Components/AppContextProvider';
 
 // This is the main functional component SingleHackathon.
 export default function SingleHackathon() {
 
-    // Current user is fetched from the firebase auth service.
-    const user = auth.currentUser;
+    // Current user
+    const user  = React.useContext(AppContext).currentUser;
+    // alert(JSON.stringify(user))
     //const user = { email: 'TEST0509@TEST.com' };
     //const user = { email: 'test0511@gmail.comm' };
 
@@ -210,7 +211,7 @@ export default function SingleHackathon() {
                 </Typography>
 
                 {hackathon.criteria.map((criterion, index) => (
-                    <Box>
+                    <Box key={index}>
                         <Typography
                             sx={{
                                 fontFamily: 'Inter',
