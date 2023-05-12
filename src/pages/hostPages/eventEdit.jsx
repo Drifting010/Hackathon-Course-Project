@@ -152,11 +152,10 @@ function SubmissionList({hackathonid}) {
         <div>
             <List component="nav" aria-label="secondary mailbox folder">
                 {submissions.map((sub,index) => (
-                    <div>
+                    <div key={index}>
                         <ListItemButton
                             selected={selectedIndex === index}
                             onClick={() => setSelectedIndex(index)}
-                            key={index}
                         >
                         <ListItemText primary={sub} />
                         <ListItemSecondaryAction>
