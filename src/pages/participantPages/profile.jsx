@@ -27,11 +27,6 @@ export default function Profile() {
         fetchData();
     }, []);
 
-    let newDescription = null;
-    if (user && user.description) {
-        newDescription = user.description.replace(/\\n/g, '\n').split('\n');
-    }
-
     return (
         <>
             <Box
@@ -166,8 +161,8 @@ export default function Profile() {
                                         }}
                                         key={index}
                                     >
-                                        {paragraph}
-                                    </Typography>
+                                    {bio}
+                                </Typography>
                                 ))}
                             </Grid>
 
