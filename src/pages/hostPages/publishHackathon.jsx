@@ -4,9 +4,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { useState } from "react";
 import * as React from 'react';
 import { AppContext } from "../../Components/AppContextProvider";
+import { addHackathon, getUser } from "../../Components/firebase/firebaseFunction";
 
 function PublishHackathonPage() {
-    const {addHackathon,addDocumentToSubCollection} = React.useContext(AppContext);
+    const {currentUser} = React.useContext(AppContext);
 
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
@@ -18,6 +19,21 @@ function PublishHackathonPage() {
     const [subRequirements, setSubRequirements] = useState('');
 
     const [regQuestions,setRegQuestions] = useState([]);
+
+    const [isHost,setIsHost] = useState(false);
+
+    React.useEffect(()=>{
+        if(currentUser!==null){
+            const user = getUser(currentUser.email);
+            user.then(function(result){
+                if(result.role==="host"){
+                    setIsHost(true);
+                }else{
+                    setIsHost(false);
+                }
+            });
+        }
+    },[currentUser]);
 
     const handleRegQuestion = () => {
         setRegQuestions([...regQuestions,""]);
@@ -90,13 +106,14 @@ function PublishHackathonPage() {
             regRequirements: regRequirements,
             subRequirements: subRequirements,
             regQuestions: regQuestions,
-            subQuestions: subQuestions
+            subQuestions: subQuestions,
+            host: currentUser.email,
         };
 
         await addHackathon(hackathon);
     }
 
-    return (
+    return isHost ? (
         <Box
             sx={{
                 bgcolor: 'background.paper',
@@ -234,6 +251,8 @@ function PublishHackathonPage() {
                 </Button>
             </div>
         </Box>
+    ) : (
+        <div>Error</div>
     )
 }
 
