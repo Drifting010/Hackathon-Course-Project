@@ -189,7 +189,7 @@ export default function SingleHackathon() {
                         >
                             <CalendarMonthOutlinedIcon />
                             <ListItemText
-                                primary={`Start date - ${startDate} | End date - ${endDate}`}
+                                primary={`Start date - ${new Date(startDate)} | End date - ${new Date(endDate)}`}
                                 sx={{
                                     display: 'flex',
                                     alignItems: 'center',
