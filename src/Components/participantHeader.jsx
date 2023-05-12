@@ -123,7 +123,7 @@ export default function ParticipantHeader() {
                     <Box sx={{ flexGrow: 0 }}>
                         <Button
                             variant='outlined'
-                            href="#"
+                            href="/login"
                             sx={{
                                 my: 2,
                                 mr: 2,

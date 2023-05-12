@@ -40,19 +40,19 @@ function HackathonList({filters, pagename}) {
       setData(Data);
     }
     const role = filters.role;
-    if (role === 'participant' && pagename==='myEvents'){
+    if (pagename==='myEvents'){
       fetchDataByParticipant();
       console.log('it is participant myEvents')
       console.log('filter: ',filters)
-    } else if (role === 'participant'&& pagename==='explore') {
+    } else if (pagename==='explore') {
       fetchDataForExplore();
       console.log('it is participant explore')
       console.log('filter: ',filters)
-    } else if (role === 'host'&& pagename==='dashBoard') {
+    } else if (pagename==='dashBoard') {
       fetchDataByHost();
       console.log('it is host dashBoard')
       console.log('filter: ',filters)
-    } else if (role === 'participant'&& pagename==='homePage') {
+    } else if (pagename==='homePage') {
       fetchDataByGuest();
       console.log('it is participant homePage')
       console.log('filter: ',filters)
