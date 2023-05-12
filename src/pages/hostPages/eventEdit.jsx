@@ -145,12 +145,68 @@ function SubmissionList({hackathonid}) {
 }
 
 
-function EditForm(){
+function EditForm({hackathonid}){
     const [regQuestions,setRegQuestions] = React.useState([]);
+    const [regRequirements, setRegRequirements] = React.useState('');
+
+    const [subQuestions,setSubQuestions] = React.useState([]);
+    const [subRequirements, setSubRequirements] = React.useState('');
 
     const handleRegQuestion = () => {
         setRegQuestions([...regQuestions,""]);
     }
+
+    const handleSubQuestion = () => {
+        setSubQuestions([...subQuestions,""]);
+    }
+
+    const handleSave = async ()=>{
+        const newData = {
+            id: hackathonid,
+            regQuestions: regQuestions,
+            regRequirements: regRequirements,
+            subQuestions: subQuestions,
+            subRequirements: subRequirements
+        }
+        await addHackathon(newData);
+
+    };
+
+    React.useEffect(()=>{
+        const sub = getHackathon(hackathonid);
+        sub.then(function(result){
+            setRegRequirements(result.regRequirements);
+            setRegQuestions(result.regQuestions);
+            setSubRequirements(result.subRequirements);
+            setSubQuestions(result.subQuestions);
+        });
+    },[hackathonid]);
+
+    function SubmissionQuestion({index,subQuestion}) {
+        const [question, setQuestion] = React.useState(subQuestion);
+
+        const handleChange = (e) => {
+            setQuestion(e.target.value);
+
+            subQuestions[index] = e.target.value;
+        }
+
+        return (
+            <div>
+                <TextField
+                    value={question}
+                    onChange={handleChange}
+                />
+                <Button onClick={()=>{
+                    subQuestions.splice(index,1);
+                    setSubQuestions([...subQuestions]);
+                }}>
+                    X
+                </Button>
+            </div>
+        )
+    }
+
 
     function RegistrationQuestion({index,regQuestion}) {
         const [question, setQuestion] = React.useState(regQuestion);
@@ -188,6 +244,47 @@ function EditForm(){
             <Button onClick={handleRegQuestion}>
                 Add question
             </Button>
+            <TextField
+                id="reg-requirements"
+                label="Registration Requirements"
+                multiline
+                rows={4}
+                sx = {{paddingTop:'10px',paddingBottom:'10px'}}
+                value={regRequirements}
+                onChange={(e)=> {setSubRequirements(e.target.value)}}
+                fullWidth
+                placeholder="Mention any requirements for registration, as well as any required files (one upload)"
+            />
+
+            <Typography>
+                Submission questions
+            </Typography>
+            {subQuestions.map((subQuestion,index) => (
+                <SubmissionQuestion key={index} index={index} subQuestion={subQuestion}/>
+            ))}
+            <Button onClick={handleSubQuestion}>
+                Add question
+            </Button>
+            <TextField
+                id="reg-requirements"
+                label="Submission Requirements"
+                multiline
+                rows={4}
+                sx = {{paddingTop:'10px',paddingBottom:'10px'}}
+                value={subRequirements}
+                onChange={(e)=> {setSubRequirements(e.target.value)}}
+                fullWidth
+                placeholder="Mention any requirements for submission, as well as any required files (one upload)"
+            />
+
+            <Button>
+                Cancel
+            </Button>
+            <Button
+                onClick={handleSave}
+            >
+                Save
+            </Button>
         </Box>
     )
 }
@@ -203,7 +300,6 @@ function RegistrationList({hackathonid}) {
             const data = result.map((doc)=>{
                 return doc.data().user;
             });
-            console.log(data);
             setRegistrations([...data]);
         });
     },[hackathonid]);
@@ -296,7 +392,9 @@ export default function EventEdit() {
                     value={value}
                     index={3}
                 >
-                    <EditForm/>
+                    <EditForm
+                        hackathonid={id}
+                    />
                 </TabPanel>
             </Box>
         </ThemeProvider>
