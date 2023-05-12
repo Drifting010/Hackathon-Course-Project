@@ -25,35 +25,8 @@ const interests = [
     'Cba',
 ];
 
-const skills = [
-    'Abc',
-    'Bac',
-    'Cba',
-];
-
 // This is the main function that returns the hostEditprofile component
 export default function HostEditprofile() {
-
-    // State for Cancel and Save buttons hover
-    const [isCancelHovered, setIsCancelHovered] = React.useState(false);
-    const [isSaveHovered, setIsSaveHovered] = React.useState(false);
-
-    // Event handlers for Cancel and Save buttons hover
-    const handleCancelMouseEnter = () => {
-        setIsCancelHovered(true);
-    };
-
-    const handleCancelMouseLeave = () => {
-        setIsCancelHovered(false);
-    };
-
-    const handleSaveMouseEnter = () => {
-        setIsSaveHovered(true);
-    };
-
-    const handleSaveMouseLeave = () => {
-        setIsSaveHovered(false);
-    };
 
     // State for uploaded avatar
     const [uploadedAvatar, setUploadedAvatar] = React.useState(null);
@@ -120,28 +93,16 @@ export default function HostEditprofile() {
 
                             {/* User Name input field */}
                             <TextField
-                                id="outlined-username"
-                                label="User Name"
-                                defaultValue=""
-
-                            />
-                        </Stack>
-
-                        {/* First Name and Last Name input fields */}
-                        <Stack direction="row" spacing={2} alignItems="center">
-                            {/* First Name input field */}
-                            <TextField
-                                id="outlined-firstname"
-                                label="First Name"
-                                defaultValue=""
-
-                            />
-
-                            {/* Last Name input field */}
-                            <TextField
-                                id="outlined-lastname"
-                                label="Last Name"
-                                defaultValue=""
+                                label="Username"
+                                name="username"
+                                sx={{ mb: '20px', width: '250px', background: '#21262D' }}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <PersonOutlineOutlinedIcon />
+                                        </InputAdornment>
+                                    ),
+                                }}
                             />
                         </Stack>
 
