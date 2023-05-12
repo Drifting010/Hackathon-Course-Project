@@ -107,7 +107,7 @@ export default function SingleHackathon() {
 
                 {/* Button component to navigate to hackathon submission or registration based on the user's registration status. */}
                 <Button
-                    href={isRegistered ? '/submit_hackathons' : '/register_hackathons'}
+                    href={isRegistered ? '/submit_hackathons/'+hackathonId : '/register_hackathons/'+hackathonId}
                     disabled={!user}
                     sx={{
                         width: '200px',

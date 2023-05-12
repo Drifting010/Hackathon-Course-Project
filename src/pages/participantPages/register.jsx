@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 import InputAdornment from '@mui/material/InputAdornment';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import { AppContext } from '../../Components/AppContextProvider';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { addDocumentToSubCollection, addToArray, getHackathon, retrieveDocFromSubCollection, retriveSubCollections, uploadFile } from '../../Components/firebase/firebaseFunction';
 import { ref } from '@firebase/storage';
 import { storage } from '../../firebaseConfig';
@@ -20,6 +20,8 @@ export default function RegisterHackathons() {
     const {currentUser} = React.useContext(AppContext);
 
     const {id} = useParams();
+
+    const navigate = useNavigate();
 
     const [regQuestions,setRegQuestions] = React.useState([]);
     const [requirements,setRequirements] = React.useState("");
@@ -62,6 +64,8 @@ export default function RegisterHackathons() {
 
         const fileRef = ref(storage, 'hackathons/' + id +'/registrations/' +currentUser.email);
         await uploadFile(fileUploaded,fileRef);
+        
+        navigate('/single_hackathon/'+id);
     }
 
     function QuestionField({label,index}){
@@ -226,7 +230,7 @@ export default function RegisterHackathons() {
                             },
 
                         }}
-
+                        onClick={()=>{navigate('/single_hackathon/'+id)}}
                     >
                         Cancel
                     </Button>
