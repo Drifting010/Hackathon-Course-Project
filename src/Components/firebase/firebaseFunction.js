@@ -389,6 +389,23 @@ const retriveSubCollections = async (hackathonId, subCollectionName) => {
   }
 };
 
+//Retrive doc from subcollection
+const retrieveDocFromSubCollection = async (hackathonId, subCollectionName, documentId) => {
+  try{
+    const mainCollectionRef = doc(db, 'hackathons',hackathonId);
+    const subCollectionRef = collection(mainCollectionRef, subCollectionName);
+    const docRef = doc(subCollectionRef,documentId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log('Document data', docSnap.data());
+      return docSnap.data();
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 
 //File Transaction
 //upload file onto firebase storage
@@ -520,26 +537,27 @@ const createUserWithEmailAndPasswordFunction = async (
   try {
     await createUserWithEmailAndPassword(auth, email, password);
     let userData = {}; // Change this line to use let instead of const
+    const authEmail = auth.currentUser.email;
     const profileData = {
-      user: email,
+      user: authEmail,
     };
     if (role === 'host') {
       const profile = await createHostProfile(profileData);
       userData = {
-        email,
+        authEmail,
         role: 'host',
         profile: profile,
       };
     } else {
       const profile = await createParticipantProfile(profileData);
       userData = {
-        email,
+        authEmail,
         role: 'participant',
         profile: profile,
       };
     }
 
-    const userRef = doc(collection(db, 'users'), email);
+    const userRef = doc(collection(db, 'users'), authEmail);
     await setDoc(userRef, userData);
 
     console.log('User created successfully');
@@ -659,4 +677,5 @@ export {
   getHackathonByFilterByParticipant,
   getHackathonAndParticipants,
   getHackathonByFilterExplore,
+  retrieveDocFromSubCollection
 };

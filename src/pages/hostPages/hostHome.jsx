@@ -11,7 +11,7 @@ import HackathonList from '../../Components/HackathonList'
 import { useState, useEffect } from 'react';
 
 // define initial filter
-const initialFilters = { tag: null, offset: null, status: null };
+const initialFilters = { tag: null, offset: null, status: null, username: null };
 
 // Exporting a React functional component named 'HostHome'
 export default function HostHome() {
