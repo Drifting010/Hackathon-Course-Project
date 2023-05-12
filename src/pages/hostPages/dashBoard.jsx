@@ -16,7 +16,6 @@ const initialFilters = { tag: null, offset: null, status: null, username: null}
 
 // This is the main function that returns the Dashboard component
 export default function Dashboard() {
-  const { getCurrentUser, getUser } = useContext(AppContext);
   const [user, setUser] = useState(null);
 
   const { currentUser } = useContext(AppContext);
