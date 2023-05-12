@@ -7,7 +7,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../Components/theme';
 import Box from '@mui/material/Box';
 import HackathonList from '../../Components/HackathonList';
-import { getUser } from '../../Components/firebase/firebaseFunction';
+import { getUserProfile } from '../../Components/firebase/firebaseFunction';
 import { AppContext } from '../../Components/AppContextProvider';
 import { useState, useEffect, useContext } from 'react';
 
@@ -22,28 +22,13 @@ export default function MyEvents() {
 
   const { currentUser } = useContext(AppContext);
 
-  console.log('currentUser: ', currentUser);
-  // console.log('user: ',user);
-
-  // const [loading, setLoading] = React.useState(false);
-
-
-
   const [filters, setFilters] = useState(initialFilters);
   const [isParticipant, setisParticipant] = useState(false);
 
   // add username into filter
-  useEffect(() => {
-    if (currentUser) {
       setFilters({ ...initialFilters, username: currentUser.email })
     }
-  }, [currentUser])
-
-  useEffect(() => {
-    if (currentUser) {
-      setisParticipant(true);
-    }
-  }, [currentUser])
+  }, [currentUser]);
 
   return (
     <div data-testid="MyEvents">
