@@ -22,9 +22,9 @@ export default function ControlledAccordions() {
           id="panel1bh-header"
         >
           <Typography sx={{ width: '33%', flexShrink: 0 }}>
-            General settings
+            General help-01
           </Typography>
-          <Typography sx={{ color: 'text.secondary' }}>I am an accordion</Typography>
+          <Typography sx={{ color: 'text.secondary' }}>Help-01 title</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
@@ -39,9 +39,11 @@ export default function ControlledAccordions() {
           aria-controls="panel2bh-content"
           id="panel2bh-header"
         >
-          <Typography sx={{ width: '33%', flexShrink: 0 }}>Users</Typography>
+          <Typography sx={{ width: '33%', flexShrink: 0 }}>
+            General help-02
+          </Typography>
           <Typography sx={{ color: 'text.secondary' }}>
-            You are currently not an owner
+            Help-02 title
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -59,10 +61,10 @@ export default function ControlledAccordions() {
           id="panel3bh-header"
         >
           <Typography sx={{ width: '33%', flexShrink: 0 }}>
-            Advanced settings1
+            General help-03
           </Typography>
           <Typography sx={{ color: 'text.secondary' }}>
-            Filtering has been entirely disabled for whole web server
+            Help-03 title
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -79,10 +81,10 @@ export default function ControlledAccordions() {
           id="panel3bh-header"
         >
           <Typography sx={{ width: '33%', flexShrink: 0 }}>
-            Advanced settings2
+            General help-04
           </Typography>
           <Typography sx={{ color: 'text.secondary' }}>
-            Filtering has been entirely disabled for whole web server
+            Help-04 title
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -99,10 +101,10 @@ export default function ControlledAccordions() {
           id="panel3bh-header"
         >
           <Typography sx={{ width: '33%', flexShrink: 0 }}>
-            Advanced settings3
+            General help-05
           </Typography>
           <Typography sx={{ color: 'text.secondary' }}>
-            Filtering has been entirely disabled for whole web server
+            Help-05 title
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
