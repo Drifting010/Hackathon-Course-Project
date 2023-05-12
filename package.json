@@ -27,6 +27,7 @@
     "@vitejs/plugin-react-swc": "^3.3.0",
     "ci": "^2.2.0",
     "dayjs": "^1.11.7",
+    "file-saver": "^2.0.5",
     "firebase": "^9.21.0",
     "fs": "^0.0.1-security",
     "jest-fetch-mock": "^3.0.3",
