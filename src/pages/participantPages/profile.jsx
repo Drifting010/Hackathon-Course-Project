@@ -166,6 +166,7 @@ export default function Profile() {
                                             letterSpacing: '0.115emm',
                                             color: '#C9D1D9',
                                             mb: 1.5,
+                                            overflowWrap: 'break-word',
                                         }}
                                         key={index}
                                     >
