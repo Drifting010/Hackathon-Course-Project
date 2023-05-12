@@ -137,6 +137,54 @@ function SubmissionList({hackathonid}) {
     )
 }
 
+
+function EditForm(){
+    const [regQuestions,setRegQuestions] = React.useState([]);
+
+    const handleRegQuestion = () => {
+        setRegQuestions([...regQuestions,""]);
+    }
+
+    function RegistrationQuestion({index,regQuestion}) {
+        const [question, setQuestion] = React.useState(regQuestion);
+
+        const handleChange = (e) => {
+            setQuestion(e.target.value);
+
+            regQuestions[index] = e.target.value;
+        }
+
+        return (
+            <div>
+                <TextField
+                    value={question}
+                    onChange={handleChange}
+                />
+                <Button onClick={()=>{
+                    regQuestions.splice(index,1);
+                    setRegQuestions([...regQuestions]);
+                }}>
+                    X
+                </Button>
+            </div>
+        )
+    }
+
+    return (
+        <Box>
+            <Typography>
+                Registration questions
+            </Typography>
+            {regQuestions.map((regQuestion,index) => (
+                <RegistrationQuestion key={index} index={index} regQuestion={regQuestion}/>
+            ))}
+            <Button onClick={handleRegQuestion}>
+                Add question
+            </Button>
+        </Box>
+    )
+}
+
 function RegistrationList({hackathonid}) {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const [registrations,setRegistrations] = React.useState([]);
@@ -236,6 +284,12 @@ export default function EventEdit() {
                     <SubmissionList
                         hackathonid={id}
                     />
+                </TabPanel>
+                <TabPanel
+                    value={value}
+                    index={3}
+                >
+                    <EditForm/>
                 </TabPanel>
             </Box>
         </ThemeProvider>
