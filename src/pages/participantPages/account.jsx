@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { TextField, InputAdornment, Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import HttpsOutlinedIcon from '@mui/icons-material/HttpsOutlined';
+import { Navigate } from 'react-router-dom/dist';
+import { AppContext } from '../../Components/AppContextProvider';
 
 
 // This is the main function that returns the accountSetting component
 export default function AccountSetting() {
+    // Import firebase function thourgh Context API
+    const { resetPassword } = useContext(AppContext);
 
     // States for managing password and confirm password values and error messages
     const [password, setPassword] = useState('');
@@ -19,6 +23,9 @@ export default function AccountSetting() {
     // States for managing password and confirm password validity
     const [pwdValid, setPwdValid] = useState(false);
     const [pwdConfirmValid, setPwdConfirmValid] = useState(false);
+
+    // States for form submit control
+    const [isSubmitting, setSubmtting] = useState(false);
 
     // Functions to handle changes in password and confirm password fields
     const handlePasswordChange = (e) => {
@@ -60,6 +67,13 @@ export default function AccountSetting() {
         setErrorMessage(fieldValidationErrors);
     };
 
+    // Function to handle form submit
+    const handleFormSubmit = async (event) => {
+        event.preventDefault();
+        await resetPassword(password);
+        setSubmtting(true);
+    }
+
     // Function to validate password length
     const validatePassword = (password) => {
         return password.length >= 8;
@@ -72,6 +86,7 @@ export default function AccountSetting() {
 
     return (
         <>
+            {isSubmitting && <Navigate to='/login' />}
             {/* Center-aligned content */}
             <Box
                 sx={{
@@ -150,7 +165,8 @@ export default function AccountSetting() {
                     {/* Submit button */}
                     <Box width="425px" mb={3}>
                         <Button
-                            type="submit"
+                            // type="submit"
+                            onClick={(event) => { handleFormSubmit(event) }}
                             name="save"
                             disabled={!pwdValid || !pwdConfirmValid}
                             sx={{

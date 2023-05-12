@@ -8,6 +8,7 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { //signInWithPopup,
   signInWithEmailAndPassword, signOut, updatePassword, createUserWithEmailAndPassword, updateProfile
 } from 'firebase/auth';
+import { saveAs } from 'file-saver';
 
 //CRUD Operations
 //Automatically add a new item to array field
@@ -240,6 +241,46 @@ const getHackathonByFilterByParticipant = async (filters) => {
   }
 };
 
+// get hackathons for explore page
+// get hackathons by filter by participant
+const getHackathonByFilterExplore = async (filters) => {
+  try {
+    const hackathonsRef = collection(db, "hackathons");
+    let queryRef = query(hackathonsRef);
+    console.log('filters.username: ',filters.username)
+    // find by tag + status
+    if ((filters.tag !== null) && (filters.status !== null)) {
+      queryRef = query(
+        hackathonsRef, 
+        where("tag", "==", filters.tag),
+        where("status", "==", filters.status),
+        );
+    // find by tag
+    } else if (filters.tag !== null && filters.status === null) {
+      queryRef = query(
+        hackathonsRef, 
+        where("tag", "==", filters.tag),
+        );
+    // find by status
+    } else if (filters.tag === null && filters.status !== null){
+      queryRef = query(
+        hackathonsRef, 
+        where("status", "==", filters.status),
+        );
+    }
+    const querySnapshot = await getDocs(queryRef);
+    const hackathons = [];
+    querySnapshot.forEach((doc) => {
+      if (doc.data().members && !doc.data().members.includes(filters.username) )
+      hackathons.push({ id: doc.id, ...doc.data() });
+    });
+    // console.log('hackathons:',hackathons);
+    return hackathons;
+  } catch (error) {
+    console.error('Error getting hackathons by tag: ', error);
+  }
+};
+
 //return all tags 
 const getAllTags = async (collectionName) => {
   try {
@@ -349,6 +390,23 @@ const retriveSubCollections = async (hackathonId, subCollectionName) => {
   }
 };
 
+//Retrive doc from subcollection
+const retrieveDocFromSubCollection = async (hackathonId, subCollectionName, documentId) => {
+  try{
+    const mainCollectionRef = doc(db, 'hackathons',hackathonId);
+    const subCollectionRef = collection(mainCollectionRef, subCollectionName);
+    const docRef = doc(subCollectionRef,documentId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log('Document data', docSnap.data());
+      return docSnap.data();
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 
 //File Transaction
 //upload file onto firebase storage
@@ -396,6 +454,7 @@ const downLoadFile = (fileRef) => {
     xhr.responseType = 'blob';
     xhr.onload = (event) => {
       const blob = xhr.response;
+      saveAs(blob,'filename');
       return [event, blob];
     }
     xhr.open('GET', url);
@@ -480,26 +539,27 @@ const createUserWithEmailAndPasswordFunction = async (
   try {
     await createUserWithEmailAndPassword(auth, email, password);
     let userData = {}; // Change this line to use let instead of const
+    const authEmail = auth.currentUser.email;
     const profileData = {
-      user: email,
+      user: authEmail,
     };
     if (role === 'host') {
       const profile = await createHostProfile(profileData);
       userData = {
-        email,
+        authEmail,
         role: 'host',
         profile: profile,
       };
     } else {
       const profile = await createParticipantProfile(profileData);
       userData = {
-        email,
+        authEmail,
         role: 'participant',
         profile: profile,
       };
     }
 
-    const userRef = doc(collection(db, 'users'), email);
+    const userRef = doc(collection(db, 'users'), authEmail);
     await setDoc(userRef, userData);
 
     console.log('User created successfully');
@@ -618,4 +678,6 @@ export {
   getHackathonByFilterByHost,
   getHackathonByFilterByParticipant,
   getHackathonAndParticipants,
+  getHackathonByFilterExplore,
+  retrieveDocFromSubCollection
 };

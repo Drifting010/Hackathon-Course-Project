@@ -53,7 +53,7 @@ test("get document in collection by id", async () => {
     testId
   );
   // Verify that the document data is correct
-  expect(documentData.email).toEqual(testId);
+  expect(documentData.authEmail).toEqual(testId);
 });
 
 // Test getMultipleDocuments
@@ -88,8 +88,8 @@ const hackathonExample = {
   bannerImage: "gs://a-plus-on-the-way.appspot.com/hackathon1/banner.jpeg",
   description: "This is a long hackathon description",
   endDate: "28 May 2023 at 23:20:21 UTC+12",
-  host: "/hosts/testHost@example.com",
-  participants: ["/participants/testParticipant@example.com"],
+  host: "/hosts/testhost@example.com",
+  participants: ["/participants/testparticipant@example.com"],
   prizePool: "1000",
   startDate: "23 May 2023 at 04:18:53 UTC+12",
   status: "ongoing",
@@ -130,7 +130,7 @@ describe("Firebase Functions", () => {
     const user = await getUser(testEmail);
 
     expect(user).not.toBeNull();
-    expect(user.email).toEqual(testEmail);
+    expect(user.authEmail).toEqual(testEmail);
     expect(user.role).toEqual(testRole);
   });
 
@@ -184,7 +184,7 @@ describe("Firebase Functions", () => {
   // Test createHostProfile
   test("create host profile", async () => {
     const profileData = {
-      user: "testHost@example.com",
+      user: "testhost@example.com",
       Country: "China",
       Description: "pretend this is a description",
       Tags: ["tag1", "tag2", "tag3"],
@@ -205,7 +205,7 @@ describe("Firebase Functions", () => {
   // Test createParticipantProfile
   test("create participant profile", async () => {
     const profileData = {
-      user: "testParticipant@example.com",
+      user: "testparticipant@example.com",
       Country: "China",
       Description: "pretend this is a description",
       Tags: ["tag1", "tag2", "tag3"],
@@ -226,7 +226,7 @@ describe("Firebase Functions", () => {
   // Test updateUserProfile
   test("update user profile", async () => {
     const intialData = {
-      user: "testUpdate@example.com",
+      user: "testupdate@example.com",
       Country: "China",
       Description: "pretend this is a description",
       Tags: ["tag1", "tag2", "tag3"],
@@ -234,7 +234,7 @@ describe("Firebase Functions", () => {
       username: "Cur",
     };
     const profileData = {
-      user: "testUpdate@example.com",
+      user: "testupdate@example.com",
       Country: "China",
       Description: "pretend this is a alterd description",
       Tags: ["tag1", "tag2", "tag3"],
@@ -278,7 +278,7 @@ describe("Firebase update participants", () => {
   // Test updateParticipatedHackathon
   test("update participated hackathon", async () => {
     const hackathonId = "hackathonExample";
-    const userEmail = "testParticipant@example.com";
+    const userEmail = "testparticipant@example.com";
     const testpassword = 'testpassword'
     await createUserWithEmailAndPasswordFunction(userEmail, testpassword);
     await signInWithEmailAndPasswordFunction(userEmail, testpassword);
@@ -320,7 +320,7 @@ describe("Firebase update participants", () => {
   test("retriveSubCollections", async () => {
     // Prepare test data
     const hackathonId = "hackathonExample";
-    const userEmail = "testParticipant@example.com";
+    const userEmail = "testparticipant@example.com";
     const testpassword = 'testpassword'
     const subCollectionName = "participants";
 
@@ -338,7 +338,7 @@ describe("Firebase update participants", () => {
   // Test deleteParticipatedHackathon
   test("delete participated hackathon", async () => {
     const hackathonId = "hackathonExample";
-    const userEmail = "testParticipant@example.com";
+    const userEmail = "testparticipant@example.com";
     await signInWithEmailAndPasswordFunction(userEmail, testPassword);
 
     // Make sure the user exists in the database before running the test

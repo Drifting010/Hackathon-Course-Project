@@ -44,6 +44,10 @@ describe('Interests', () => {
             'Tag 11', 'Tag 12'
         ]);
 
+        const tags = ['Tag 1', 'Tag 2', 'Tag 3', 'Tag 4', 'Tag 5',
+        'Tag 6', 'Tag 7', 'Tag 8', 'Tag 9', 'Tag 10',
+        'Tag 11', 'Tag 12']
+
         // Render the Interests component
         const { } = render(
             <AppContext.Provider value={{ createParticipantProfile, createHostProfile, getAllTags }}>

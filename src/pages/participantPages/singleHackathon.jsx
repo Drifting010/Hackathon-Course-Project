@@ -1,4 +1,5 @@
 import React from "react";
+import { AppContext } from "../../Components/AppContextProvider";
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -8,14 +9,18 @@ import ListItemText from '@mui/material/ListItemText';
 import Box from '@mui/material/Box';
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
-import { auth } from '../../firebaseConfig';
 import { getHackathonAndParticipants } from '../../Components/firebase/firebaseFunction';
+import { useParams } from "react-router-dom/dist";
 
 // This is the main functional component SingleHackathon.
 export default function SingleHackathon() {
+    // TODO: obtain id of current hackathon project
+    const hackathonId = useParams().id;
+    console.log(hackathonId);
 
-    // Current user is fetched from the firebase auth service.
-    const user = auth.currentUser;
+    // Current user
+    const user  = React.useContext(AppContext).currentUser;
+    // alert(JSON.stringify(user))
     //const user = { email: 'TEST0509@TEST.com' };
     //const user = { email: 'test0511@gmail.comm' };
 
@@ -26,7 +31,8 @@ export default function SingleHackathon() {
     // The useEffect hook runs when the component is first mounted and whenever the `user` state changes.
     React.useEffect(() => {
         const fetchData = async () => {
-            const hackathonData = await getHackathonAndParticipants('BEOVWWEhOvv68qHEOFsv');
+            // const hackathonData = await getHackathonAndParticipants('BEOVWWEhOvv68qHEOFsv');
+            const hackathonData = await getHackathonAndParticipants(hackathonId);
             setHackathon(hackathonData);
 
             // Check if the user is already registered for the hackathon
@@ -73,7 +79,7 @@ export default function SingleHackathon() {
                         background: '#050505',
                     }} />
                     <img
-                        src='src\Icons\background.png'
+                        src='../src/Icons/background.png'
                         alt="bg_img"
                         style={{
                             width: '100%',
@@ -191,60 +197,6 @@ export default function SingleHackathon() {
                 >
                     {hackathon.description}
                 </Typography>
-
-                {/* Heading for Judging Criteria section */}
-                <Typography
-                    sx={{
-                        fontFamily: 'Inter',
-                        fontStyle: 'normal',
-                        fontWeight: 500,
-                        fontSize: '18px',
-                        letterSpacing: '0.75px',
-                        color: '#C9D1D9',
-                        mt: 6,
-                        mb: 2,
-                        ml: 10,
-                    }}
-                >
-                    JUDGING CRITERIA
-                </Typography>
-
-                {hackathon.criteria.map((criterion, index) => (
-                    <Box>
-                        <Typography
-                            sx={{
-                                fontFamily: 'Inter',
-                                fontStyle: 'normal',
-                                fontWeight: 500,
-                                fontSize: '18px',
-                                letterSpacing: '0.75px',
-                                color: '#C9D1D9',
-                                mt: 3,
-                                mb: 2,
-                                ml: 10,
-                            }}
-                        >
-                            Novelty & Creativity
-                        </Typography>
-
-                        <Typography
-                            sx={{
-                                fontFamily: 'Inter',
-                                fontStyle: 'normal',
-                                fontWeight: 500,
-                                fontSize: '14px',
-                                letterSpacing: '0.75px',
-                                color: '#8B949E',
-                                mt: 3,
-                                mb: 2,
-                                ml: 10,
-                            }}
-                        >
-                            {criterion}
-                        </Typography>
-                    </Box>
-                ))}
-
             </Container>
         </>
     );

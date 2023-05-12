@@ -14,54 +14,44 @@ import { useState, useEffect, useContext } from 'react';
 // const cards = [1];
 
 // initial filter
-const initialFilters = { tag: null, offset: null, status: null, username: null, role: null}
+const initialFilters = { tag: null, offset: null, status: null, username: null, role: null }
 
 // This is the main function that returns the myEvents component
 export default function MyEvents() {
-  const { getCurrentUser, getUser, signInWithEmailAndPasswordFunction } = useContext(AppContext);
-  const [user, setUser] = useState(null);
 
-  // login in and get current user
-  // thia part need to be delete
-  useEffect(()=>{
-    async function signInAndSetUser() {
-      // await signInWithEmailAndPasswordFunction('testparticipant@example.com','testpassword');
-      // get user info from auth function
-      const currentUser = getCurrentUser();
-      // console.log('currentUser:',currentUser)
-      // get user role and username from users
-      if (currentUser){
-        const userinfo = await getUser(currentUser.email);
-        setUser(userinfo);
-      }
-    };
-    signInAndSetUser();
-  },[]);
+  const { currentUser } = useContext(AppContext);
+  
+  console.log('currentUser: ',currentUser);
+  // console.log('user: ',user);
+  
+  // const [loading, setLoading] = React.useState(false);
+
+
+
   const [filters, setFilters] = useState(initialFilters);
   const [isParticipant, setisParticipant] = useState(false);
-  
+
   // add username into filter
   useEffect(() => {
-    if(user){
-      setFilters({ ...initialFilters, username: user.username, role: user.role})
+    if (currentUser) {
+      setFilters({ ...initialFilters, username: currentUser.email })
     }
-  }, [user])
+  }, [currentUser])
 
   useEffect(() => {
-    if (user){
-      const role = user.role
-      setisParticipant(role === 'participant');
+    if (currentUser) {
+      setisParticipant(true);
     }
-  }, [user])
+  }, [currentUser])
 
   return (
     <div data-testid="MyEvents">
       {isParticipant ? (
         <ThemeProvider theme={theme}>
           <CssBaseline />
-            <Box>
-              <HackathonList filters={filters} />
-            </Box>
+          <Box>
+            <HackathonList filters={filters} pagename={'myEvents'} />
+          </Box>
         </ThemeProvider>
       ) : (
         <ThemeProvider theme={theme}>

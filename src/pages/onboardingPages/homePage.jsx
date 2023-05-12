@@ -12,16 +12,19 @@ import HackathonList from '../../Components/HackathonList';
 import { useState, useEffect } from 'react';
 
 // An array to hold some dummy card values
-const initialFilters = { tag: null, offset: null, status: null, username: null, role: null }
+const initialFilters = { tag: null, offset: null, status: null, username: null }
 
 
 // Defining the main Album component as the default export
 export default function Album() {
 
+  // State for filter condition
   const [filters, setFilters] = useState(initialFilters);
   useEffect(() => {
     setFilters(initialFilters)
-  }, [])
+  }, []);
+
+
   // Rendering the Album component and returning JSX elements
   return (
     // Wrapping the entire component with the Material UI ThemeProvider component to apply the theme
@@ -54,7 +57,7 @@ export default function Album() {
             Hackathon Platform!
           </Typography>
           {/* Adding a brief description of the website */}
-          <Typography variant="h6" align="center" color="#C9C9C9" fontWeight="bold" pt={ 3 } paragraph>
+          <Typography variant="h6" align="center" color="#C9C9C9" fontWeight="bold" pt={3} paragraph>
             Some brief descriptions about the Hackathon Website, etc.
           </Typography>
           {/* Adding two buttons to the hero unit */}
@@ -65,6 +68,7 @@ export default function Album() {
             justifyContent="center"
           >
             <Button
+              href='/login'
               sx={{
                 width: '188px',
                 height: '52px',
@@ -85,7 +89,7 @@ export default function Album() {
       {/* Adding a container for the card section */}
       {/* display cards */}
       <Box>
-        <HackathonList filters={filters} />
+        <HackathonList filters={filters} pagename={'homePage'}/>
       </Box>
 
     </ThemeProvider>

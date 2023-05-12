@@ -131,7 +131,7 @@ export default function HostHeader() {
                     <Box sx={{ flexGrow: 0 }}>
                         <Button
                             variant='outlined'
-                            href="#"
+                            href="/login"
                             sx={{
                                 my: 2,
                                 mr: 2,
@@ -228,7 +228,7 @@ export default function HostHeader() {
                                 <Typography
                                     textAlign="center"
                                     component="a"
-                                    href="#"
+                                    href="./"
                                     sx={{
                                         textDecoration: 'none',
                                         color: '#C9D1D9',
