@@ -59,7 +59,7 @@ export default function SubmitHackathons() {
 
         await addDocumentToSubCollection('hackathons',id,'Submissions',currentUser.email,data);
 
-        const fileRef = ref(storage, 'hackathons/' + id +'/' +currentUser.email);
+        const fileRef = ref(storage, 'hackathons/' + id +'/submissions/' +currentUser.email);
         await uploadFile(fileUploaded,fileRef);
     }
 
