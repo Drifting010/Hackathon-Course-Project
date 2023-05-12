@@ -14,7 +14,7 @@ export default function Profile() {
         const fetchData = async () => {
             try {
                 // const userAuth = await auth.currentUser;
-                const userAuth = { email: 'testForParticipant.com' };
+                const userAuth = { email: 'testParticipantProfile@gmail.com' };
                 const userEmail = userAuth.email;
                 const userData = await getUserProfile(userEmail);
                 setUser(userData);
@@ -74,6 +74,30 @@ export default function Profile() {
                                 >
                                     {user.username}
                                 </Typography>
+                            </Grid>
+
+                            <Grid item>
+                                <Button
+                                    variant='contained'
+                                    sx={{
+                                        textTransform: 'none',
+                                        width: '142px',
+                                        height: '38px',
+                                        borderRadius: '10px',
+                                        background: '#FF9300',
+                                        fontFamily: 'Inter',
+                                        fontStyle: 'normal',
+                                        fontWeight: 600,
+                                        fontSize: '14px',
+                                        color: '#FFFFFF',
+                                        '&:hover': {
+                                            background: '#21262D',
+                                        },
+
+                                    }}
+                                >
+                                    Edit Profile
+                                </Button>
                             </Grid>
 
                             <Grid item>
