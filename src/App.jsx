@@ -34,9 +34,9 @@ import { HostEditprofile } from './pages/hostPages';
 
 import './App.css'
 import theme from './Components/theme';
-import PublishHackathonPage from './pages/publishHackathonPage';
 import Login from './pages/onboardingPages/Login';
 import EventEdit from './pages/hostPages/eventEdit';
+import PublishHackathonPage from './pages/hostPages/publishHackathon';
 
 export default function App() {
 
