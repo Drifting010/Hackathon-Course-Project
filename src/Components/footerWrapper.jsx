@@ -20,7 +20,7 @@ export function FooterWrapper() {
     // Header3 covers 1 pages
     if (location.pathname.startsWith('/host_home') || location.pathname.startsWith('/dashboard') || location.pathname.startsWith('/data_analytics') ||
         location.pathname.startsWith('/help_centre') || location.pathname.startsWith('/host_account') || location.pathname.startsWith('/host_editprofile') ||
-        location.pathname.startsWith('/host_profile') || location.pathname.startsWith('/publish_hackathon')) {
+        location.pathname.startsWith('/host_profile') || location.pathname.startsWith('/publish_hackathon') || location.pathname.startsWith('/host_editevent/')) {
         return <HostFooter />;
     }
 
