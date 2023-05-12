@@ -2,8 +2,10 @@ import { Avatar, Box, Button, Divider, IconButton, List, ListItem, ListItemAvata
 import theme from "../../Components/theme";
 import * as React from 'react';
 import { useParams } from "react-router";
-import { addHackathon, getHackathon, retrieveDocFromSubCollection, retriveSubCollections } from "../../Components/firebase/firebaseFunction";
+import { addHackathon, downLoadFile, getHackathon, retrieveDocFromSubCollection, retriveSubCollections } from "../../Components/firebase/firebaseFunction";
 import { AppContext } from "../../Components/AppContextProvider";
+import { ref } from "@firebase/storage";
+import { storage } from "../../firebaseConfig";
 
 const TabPanel = ({children,index,value}) => { 
     return (
@@ -158,7 +160,7 @@ function SubmissionList({hackathonid}) {
                         >
                         <ListItemText primary={sub} />
                         <ListItemSecondaryAction>
-                            <Button>Download Submission</Button>
+                            <Button>Download File</Button>
                         </ListItemSecondaryAction>
                         </ListItemButton>
 
@@ -325,6 +327,10 @@ function RegistrationList({hackathonid}) {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const [registrations,setRegistrations] = React.useState([]);
 
+    const handleDownload = () => {
+        downLoadFile()
+    }
+
     function ParticipantAnswer({userID}){
         const [questions,setQuestions] = React.useState([]);
         const [answers,setAnswers] = React.useState([]);
@@ -377,7 +383,12 @@ function RegistrationList({hackathonid}) {
                         >
                         <ListItemText primary={reg} />
                         <ListItemSecondaryAction>
-                            <Button>Download Submission</Button>
+                            <Button
+                                onClick={()=>{
+                                    const fileRef = ref(storage, 'hackathons/'+hackathonid+'/registrations/'+reg);
+                                    downLoadFile(fileRef);
+                                }}
+                            >Download File</Button>
                         </ListItemSecondaryAction>
                         </ListItemButton>
 
