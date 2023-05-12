@@ -19,14 +19,7 @@ const initialFilters = { tag: null, offset: null, status: null, username: null, 
 
 // This is the main function that returns the myEvents component
 export default function MyEvents() {
-
   const { currentUser } = useContext(AppContext);
-
-  
-  // const [loading, setLoading] = React.useState(false);
-
-
-
   const [filters, setFilters] = useState(initialFilters);
   const [isParticipant, setisParticipant] = useState(false);
 

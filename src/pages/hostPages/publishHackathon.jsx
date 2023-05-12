@@ -152,6 +152,7 @@ function PublishHackathonPage() {
             regQuestions: regQuestions,
             subQuestions: subQuestions,
             host: currentUser.email,
+            members: [],
         };
 
         await addHackathon(hackathon);
