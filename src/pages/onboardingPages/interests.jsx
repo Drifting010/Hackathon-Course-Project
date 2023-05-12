@@ -1,5 +1,6 @@
 // import * as React from 'react';
 import React, { useState, useEffect, useContext } from 'react';
+import { Navigate } from 'react-router-dom';
 import { AppContext } from '../../Components/AppContextProvider'
 import TagsSelector from '../../Components/tagsSelector'
 import Typography from '@mui/material/Typography';
@@ -49,7 +50,7 @@ export default function Interests({ TagsSelectorComponent = TagsSelector }) {
 
     // Create user profile in DB based on role
     useEffect(() => {
-        if(isSubmitting){
+        if (isSubmitting) {
             async function registerProfile() {
                 if (role === 'participant') {
                     await createParticipantProfile(profile);
@@ -63,6 +64,7 @@ export default function Interests({ TagsSelectorComponent = TagsSelector }) {
 
     return (
         <>
+            {isSubmitting && <Navigate to='/login' />}
             {/* Outer Box for centering the inner content */}
             <Box
                 sx={{
