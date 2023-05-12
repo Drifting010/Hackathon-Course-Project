@@ -429,10 +429,10 @@ export default function EventEdit() {
             <Box sx={{ width: '100%' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                        <Tab label="Event page"  />
-                        <Tab label="Registrations"  />
-                        <Tab label="Submissions"/>
-                        <Tab label="Edit forms"/>
+                        <Tab sx={{ color: '#4474F1' }} label="Event page" />
+                        <Tab sx={{ color: '#C9C9C9' }} label="Registrations" />
+                        <Tab sx={{ color: '#C9C9C9' }} label="Submissions" />
+                        <Tab sx={{ color: '#C9C9C9' }} label="Edit forms" />
                     </Tabs>
                 </Box>
                 <TabPanel
