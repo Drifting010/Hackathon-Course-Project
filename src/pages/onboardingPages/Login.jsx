@@ -12,25 +12,34 @@ import { AppContext } from "../../Components/AppContextProvider";
 import { useNavigate } from "react-router";
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { getUser, signInWithEmailAndPasswordFunction } from "../../Components/firebase/firebaseFunction";
 
 
 function Login() {
     //State variable of Google signin email
 
-    const [loginFail, setLoginFail] = useState("");
+    const [loginFail, setLoginFail] = useState("")
 
-    const { getUser, getCurrentUser, signInWithEmailAndPasswordFunction } = React.useContext(AppContext);
-
-    //Attempt google login and set email to variable in local storage
-    const handleGoogleLogin = () => {
-        // const googleUser = signInWithGoogleFunction();
-    }
-
+    const {currentUser} = React.useContext(AppContext);
 
     //State variables to control email and password
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+
+    React.useEffect(()=>{
+        if(currentUser!==null){
+            const userDetails = getUser(currentUser.email);
+
+            userDetails.then(function(result) {
+                if (result.role === "participant") {
+                    navigate("/explore_hackathons");
+                } else if (result.role === "host") {
+                    navigate("/dashboard");
+                }
+            });
+        }
+    },[currentUser])
 
     const handleLogin = () => {
         setLoginFail("");
@@ -39,17 +48,6 @@ function Login() {
         login.then(function (result) {
             if (result === null) {
                 setLoginFail("Invalid username and password");
-            } else {
-                const user = getCurrentUser();
-                const userDetails = getUser(user.email);
-
-                userDetails.then(function (result) {
-                    if (result.role === "participant") {
-                        navigate("/explore_hackathons");
-                    } else if (result.role === "host") {
-                        navigate("/dashboard");
-                    }
-                });
             }
         }, function () {
             setLoginFail("An error occured.")
@@ -123,7 +121,6 @@ function Login() {
                             }}
                             variant="contained"
                             startIcon={<GoogleIcon />}
-                            onClick={handleGoogleLogin}
                         >
                             Google
                         </Button>

@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Link from '@mui/material/Link';
 import Divider from '@mui/material/Divider';
+import { signOutFunction } from './firebase/firebaseFunction';
 
 // This is the main function that returns the participantHeader component
 export default function ParticipantHeader() {
@@ -235,7 +236,10 @@ export default function ParticipantHeader() {
                                 </Typography>
                             </MenuItem>
 
-                            <MenuItem key="logout" onClick={handleCloseUserMenu}>
+                            <MenuItem key="logout" onClick={()=>{
+                                handleCloseUserMenu();
+                                signOutFunction();
+                            }}>
                                 <Typography
                                     textAlign="center"
                                     component="a"
