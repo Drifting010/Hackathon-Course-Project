@@ -103,7 +103,9 @@ export default function HostHome() {
                             </Grid>
                         </Grid>
                         <Grid item xs={6} container justifyContent="flex-end">
-                            <Button sx={{
+                            <Button 
+                            href='/publish_hackathon'
+                            sx={{
                                 width: '220px',
                                 background: '#4474F1',
                                 textTransform: 'none',

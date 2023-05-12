@@ -225,10 +225,10 @@ function Login() {
                         />
                     </Box>
 
-                    <div className={styles.container} >
+                    <div>
                         <TextField
                             required
-                            sx={{ background: '#21262D', width: "425px", }}
+                            sx={{ background: '#21262D', width: "100%", mb: 2, }}
                             name="email-required"
                             id="email-required"
                             label="Enter email"
@@ -247,7 +247,7 @@ function Login() {
                     <div>
                         <TextField
                             id="password-required"
-                            sx={{ background: '#21262D', width: "425px", mb: 2, }}
+                            sx={{ background: '#21262D', width: "100%", mb: 2, }}
                             label="Enter Password"
                             type="password"
                             required
@@ -294,7 +294,27 @@ function Login() {
                     <div>
                         <Button
                             sx={{
-                                width: '425px',
+                                width: '100%',
+                                height: '40px',
+                                background: '#FF9300',
+                                textTransform: 'none',
+                                borderRadius: '5px',
+                                fontFamily: 'Inter',
+                                fontStyle: 'normal',
+                                fontWeight: 700,
+                                fontSize: '14px',
+                                color: '#F7F7FC',
+                                mb: 2
+                            }}
+                            onClick={handleLogin}
+                        >
+                            Log in
+                        </Button>
+                    </div>
+                    <div>
+                        <Button
+                            sx={{
+                                width: '100%',
                                 height: '40px',
                                 background: '#FF9300',
                                 textTransform: 'none',
@@ -305,9 +325,9 @@ function Login() {
                                 fontSize: '14px',
                                 color: '#F7F7FC',
                             }}
-                            onClick={handleLogin}
+                            href="/signup"
                         >
-                            Log in
+                            Sign up
                         </Button>
                     </div>
                 </Box>

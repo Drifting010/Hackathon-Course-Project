@@ -54,28 +54,7 @@ function Footer(props) {
             Host, Join, and Win with Our Hackathon Platform!<br />
             Some brief descriptions about the Hackathon Website, etc.
           </Typography>
-          <Stack
-            sx={{ pt: 2 }}
-            direction="row"
-            spacing={2}
-          >
-            <Button
-              href='/login'
-              sx={{
-                width: '100px',
-                height: '35px',
-                background: '#FF9300',
-                textTransform: 'none',
-                borderRadius: '5px',
-                fontFamily: 'Inter',
-                fontStyle: 'normal',
-                fontWeight: 600,
-                fontSize: '12px',
-                color: '#F7F7FC',
-              }
-              }>Try now
-            </Button>
-          </Stack>
+          
           <Divider sx={{ my: 3, bgcolor: '#FF9300' }} />
           <Typography
             variant="subtitle1"

@@ -49,7 +49,7 @@ export default function MyEvents() {
       {isParticipant ? (
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Box>
+          <Box sx={{ mt: 10 }}>
             <HackathonList filters={filters} pagename={'myEvents'} />
           </Box>
         </ThemeProvider>
