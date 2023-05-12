@@ -34,8 +34,9 @@ import { HostEditprofile } from './pages/hostPages';
 
 import './App.css'
 import theme from './Components/theme';
-import PublishHackathonPage from './pages/publishHackathonPage';
 import Login from './pages/onboardingPages/Login';
+import EventEdit from './pages/hostPages/eventEdit';
+import PublishHackathonPage from './pages/hostPages/publishHackathon';
 
 export default function App() {
 
@@ -48,7 +49,7 @@ export default function App() {
           <main>
             <Routes>
               {/* part 01 */}
-              <Route path="/home" element={<Home />} />
+              <Route path="/" element={<Home />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/register_profile_participant" element={<RegisterProfileParticipant />} />
               <Route path="/register_profile_host" element={<RegisterProfileHost />} />
@@ -73,6 +74,7 @@ export default function App() {
               <Route path='/host_profile' element={<HostProfile />} />
               <Route path='/host_editprofile' element={<HostEditprofile />} />
               <Route path="/publish_hackathon" element={<PublishHackathonPage />} />
+              <Route path='/host_editevent/:id' element={<EventEdit />} />
             </Routes>
           </main>
           <FooterWrapper />
