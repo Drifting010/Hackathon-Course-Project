@@ -197,60 +197,6 @@ export default function SingleHackathon() {
                 >
                     {hackathon.description}
                 </Typography>
-
-                {/* Heading for Judging Criteria section */}
-                <Typography
-                    sx={{
-                        fontFamily: 'Inter',
-                        fontStyle: 'normal',
-                        fontWeight: 500,
-                        fontSize: '18px',
-                        letterSpacing: '0.75px',
-                        color: '#C9D1D9',
-                        mt: 6,
-                        mb: 2,
-                        ml: 10,
-                    }}
-                >
-                    JUDGING CRITERIA
-                </Typography>
-
-                {hackathon.criteria.map((criterion, index) => (
-                    <Box key={index}>
-                        <Typography
-                            sx={{
-                                fontFamily: 'Inter',
-                                fontStyle: 'normal',
-                                fontWeight: 500,
-                                fontSize: '18px',
-                                letterSpacing: '0.75px',
-                                color: '#C9D1D9',
-                                mt: 3,
-                                mb: 2,
-                                ml: 10,
-                            }}
-                        >
-                            Novelty & Creativity
-                        </Typography>
-
-                        <Typography
-                            sx={{
-                                fontFamily: 'Inter',
-                                fontStyle: 'normal',
-                                fontWeight: 500,
-                                fontSize: '14px',
-                                letterSpacing: '0.75px',
-                                color: '#8B949E',
-                                mt: 3,
-                                mb: 2,
-                                ml: 10,
-                            }}
-                        >
-                            {criterion}
-                        </Typography>
-                    </Box>
-                ))}
-
             </Container>
         </>
     );
