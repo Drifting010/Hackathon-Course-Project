@@ -40,17 +40,15 @@ const interests = ['', 'Interest 1', 'Interest 2', 'Interest 3'];
 
 // This is the main function that returns the editProfile component
 export default function EditParticipantProfile() {
-    const { currentUser, getAllTags } = React.useContext(AppContext);
+    const { currentUser } = React.useContext(AppContext);
 
     const [loading, setLoading] = React.useState(false);
-    const [tags, setTags] = React.useState([]);
 
     const [uploadedAvatar, setUploadedAvatar] = React.useState(null);
     const [uploadedFile, setUploadedFile] = React.useState(null);
     const [username, setUsername] = React.useState("");
     const [country, setCountry] = React.useState(null);
     const [bio, setBio] = React.useState("");
-
 
     React.useEffect(() => {
         if (currentUser !== null) {
@@ -64,15 +62,6 @@ export default function EditParticipantProfile() {
             });
         }
     }, [currentUser])
-
-    // data initialization: tags data from DB for interests rendering
-    React.useEffect(() => {
-        async function fetchData() {
-            const storedTags = await getAllTags('participantTags');
-            setTags(storedTags);
-        }
-        fetchData();
-    }, [])
 
     const handleAvatarUpload = (event) => {
         const file = event.target.files[0];
@@ -229,13 +218,13 @@ export default function EditParticipantProfile() {
                                 )}
                                 MenuProps={MenuProps}
                             >
-                                {tags.map((tag, index) => (
+                                {interests.map((interest, index) => (
                                     <MenuItem
-                                        key={tag}
-                                        value={tag}
+                                        key={interest}
+                                        value={interest}
                                         sx={{ display: index === 0 ? 'none' : 'block' }}
                                     >
-                                        {tag}
+                                        {interest}
                                     </MenuItem>
                                 ))}
                             </Select>
