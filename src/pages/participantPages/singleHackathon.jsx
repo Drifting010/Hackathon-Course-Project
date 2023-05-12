@@ -136,6 +136,21 @@ export default function SingleHackathon() {
                     {isRegistered ? 'Submit Hackathon' : 'Join Hackathon'}
                 </Button>
 
+                {hackathon.winner && <Typography
+                    sx={{
+                        fontFamily: 'Inter',
+                        fontStyle: 'normal',
+                        fontWeight: 700,
+                        fontSize: '24px',
+                        letterSpacing: '0.75px',
+                        color: '#FFFFFF',
+                        mt: 2,
+                        mb: 2,
+                        ml: 10,
+                    }}
+                >
+                    Winner: {hackathon.winner}
+                </Typography>}
                 {/* List component to list down the hackathon details. */}
                 <List>
                     <ListItem>
@@ -148,7 +163,7 @@ export default function SingleHackathon() {
                         >
                             <EmojiEventsOutlinedIcon />
                             <ListItemText
-                                primary={`Prize pool - $ ${hackathon.prizePool}`}
+                                primary={`Prize pool - $ ${hackathon.prize}`}
                                 sx={{
                                     display: 'flex',
                                     alignItems: 'center',
@@ -174,7 +189,7 @@ export default function SingleHackathon() {
                         >
                             <CalendarMonthOutlinedIcon />
                             <ListItemText
-                                primary={`Start data - ${startDate} | End data - ${endDate}`}
+                                primary={`Start date - ${startDate} | End date - ${endDate}`}
                                 sx={{
                                     display: 'flex',
                                     alignItems: 'center',
