@@ -4,6 +4,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { useState } from "react";
 import * as React from 'react';
 import { AppContext } from "../../Components/AppContextProvider";
+import { addHackathon, getUser } from "../../Components/firebase/firebaseFunction";
 import { styled } from '@mui/system';
 
 const CssTextField = styled(TextField)({
@@ -43,7 +44,6 @@ const CssDatePicker = styled(DatePicker)({
         },
     },
 });
-
 
 function PublishHackathonPage() {
     const { addHackathon, addDocumentToSubCollection } = React.useContext(AppContext);
@@ -98,6 +98,7 @@ function PublishHackathonPage() {
                 <CssTextField
                     value={question}
                     onChange={handleChange}
+                    sx={{width:'75%'}}
                 />
                 <Button onClick={() => {
                     regQuestions.splice(index, 1);
@@ -123,6 +124,7 @@ function PublishHackathonPage() {
                 <TextField
                     value={question}
                     onChange={handleChange}
+                    sx={{width:'75%'}}
                 />
                 <Button onClick={() => {
                     subQuestions.splice(index, 1);
@@ -155,7 +157,6 @@ function PublishHackathonPage() {
     return isHost ? (
         <Box
             sx={{
-                bgcolor: 'background.paper',
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -177,21 +178,6 @@ function PublishHackathonPage() {
                         fullWidth
                     />
                 </div>
-                {/* 
-                <FormControl>
-                    <FormLabel id="hackathon-setting">This hackathon is</FormLabel>
-                    <RadioGroup
-                        aria-labelledby="hackathon-setting-label"
-                        defaultValue="Online"
-                        name="radio-buttons-group"
-                    >
-                        <FormControlLabel value="online" control={<Radio />} label="Online" />
-                        <FormControlLabel value="in-person" control={<Radio />} label="in-person" />
-                        <FormControlLabel value="hybrid" control={<Radio />} label="hybrid" />
-                    </RadioGroup>
-                </FormControl> */}
-
-                {/* Controlled textfield for hackathon description */}
                 <div>
                     <CssTextField
                         id="hackathon-description"
@@ -303,7 +289,7 @@ function PublishHackathonPage() {
             </div>
         </Box>
     ) : (
-        <div>Error</div>
+        <Typography>You do not have permission.</Typography>
     )
 }
 
