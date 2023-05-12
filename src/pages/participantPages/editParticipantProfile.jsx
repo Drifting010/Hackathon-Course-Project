@@ -127,7 +127,7 @@ export default function EditParticipantProfile() {
             country: country,
             description: bio,
             user: currentUser.email,
-            interests: selectedTags
+            tags: selectedTags
         }
 
         await updateUserProfile(update, "participant");
