@@ -10,22 +10,27 @@ import { AppContext } from '../../Components/AppContextProvider';
 import { useState, useEffect, useContext } from 'react';
 
 export default function Profile() {
-    const [user, setUser] = React.useState(null);
+
     const { currentUser } = useContext(AppContext);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const userEmail = currentUser.email;
-                const userData = await getUserProfile(userEmail);
-                setUser(userData);
-            } catch (error) {
-                console.error(error);
-            }
-        };
+    const [uploadedAvatar, setUploadedAvatar] = React.useState(null);
+    const [username, setUsername] = React.useState("");
+    const [country, setCountry] = React.useState(null);
+    const [bio, setBio] = React.useState("");
+    const [tags, setTags] = React.useState("");
 
-        fetchData();
-    }, []);
+    React.useEffect(() => {
+        if (currentUser !== null) {
+            setUploadedAvatar(currentUser.photoURL);
+            const user = getUserProfile(currentUser.email);
+            user.then(function (result) {
+                setUsername(result.username);
+                setCountry(result.country.label);
+                setBio(result.description);
+                setTags(result.tags.split(','));
+            });
+        }
+    }, [currentUser]);
 
     return (
         <>
@@ -38,7 +43,7 @@ export default function Profile() {
                     minHeight: 'calc(100vh - 100px)',  // Subtract the height of Header and Footer
                 }}
             >
-                {user ? (
+                {currentUser ? (
                     <Box
                         sx={{
                             display: 'flex',
@@ -55,7 +60,7 @@ export default function Profile() {
                                     mt: 5,
                                 }}
                             >
-                                <Avatar src={user.userIcon} />
+                                <Avatar src={uploadedAvatar} />
                             </Grid>
 
                             <Grid item>
@@ -68,7 +73,7 @@ export default function Profile() {
                                         color: '#C9D1D9',
                                     }}
                                 >
-                                    {user.username}
+                                    {username}
                                 </Typography>
                             </Grid>
 
@@ -113,19 +118,19 @@ export default function Profile() {
                                                 color: '#C9D1D9',
                                             }}
                                         >
-                                            {user.country.label}
+                                            {country}
                                         </Typography>
                                     </Grid>
                                 </Grid>
                             </Grid>
 
                             <Grid item>
-                                {user.tags.map((tag, index) => (
+                                {tags && Array.isArray(tags) && tags.map((tag, index) => (
                                     <Button
                                         key={index}
                                         sx={{
                                             width: '120px',
-                                            height: '32px',
+                                            height: '45px',
                                             background: '#21262D',
                                             borderRadius: '39px',
                                             fontFamily: 'Inter',
@@ -140,6 +145,7 @@ export default function Profile() {
                                         {tag}
                                     </Button>
                                 ))}
+
                             </Grid>
 
                             <Grid
@@ -148,22 +154,20 @@ export default function Profile() {
                                     width: '700px',
                                 }}
                             >
-                                {newDescription && newDescription.map((paragraph, index) => (
-                                    <Typography
-                                        sx={{
-                                            fontFamily: 'Inter',
-                                            fontStyle: 'normal',
-                                            fontSize: '15px',
-                                            fontWeight: 500,
-                                            letterSpacing: '0.115emm',
-                                            color: '#C9D1D9',
-                                            mb: 1.5,
-                                        }}
-                                        key={index}
-                                    >
+                                <Typography
+                                    sx={{
+                                        fontFamily: 'Inter',
+                                        fontStyle: 'normal',
+                                        fontSize: '15px',
+                                        fontWeight: 500,
+                                        letterSpacing: '0.115emm',
+                                        color: '#C9D1D9',
+                                        mb: 1.5,
+                                        overflowWrap: 'break-word',
+                                    }}
+                                >
                                     {bio}
                                 </Typography>
-                                ))}
                             </Grid>
 
                         </Grid>

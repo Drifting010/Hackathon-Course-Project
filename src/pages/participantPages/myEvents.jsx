@@ -7,6 +7,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../Components/theme';
 import Box from '@mui/material/Box';
 import HackathonList from '../../Components/HackathonList';
+import { getUser } from '../../Components/firebase/firebaseFunction';
 import { AppContext } from '../../Components/AppContextProvider';
 import { useState, useEffect, useContext } from 'react';
 
@@ -20,10 +21,10 @@ const initialFilters = { tag: null, offset: null, status: null, username: null, 
 export default function MyEvents() {
 
   const { currentUser } = useContext(AppContext);
-  
-  console.log('currentUser: ',currentUser);
+
+  console.log('currentUser: ', currentUser);
   // console.log('user: ',user);
-  
+
   // const [loading, setLoading] = React.useState(false);
 
 
