@@ -7,6 +7,7 @@ import { AppContext } from "../../Components/AppContextProvider";
 import { addHackathon, getAllTags, getUser } from "../../Components/firebase/firebaseFunction";
 import { styled } from '@mui/system';
 import { useNavigate } from "react-router";
+import { Timestamp } from "@firebase/firestore";
 
 const CssTextField = styled(TextField)({
     '& .MuiOutlinedInput-root': {
@@ -65,6 +66,18 @@ function PublishHackathonPage() {
     const navigate = useNavigate();
 
     const [tags, setTags] = React.useState([]);
+    // Initialize the selectedTags state
+    const [selectedTags, setSelectedTags] = useState([]);
+
+    // Function to handle tag click events, toggling the selection state of a tag
+    const handleTagClick = (tag) => {
+        if (selectedTags.includes(tag)) {
+            setSelectedTags(selectedTags.filter((t) => t !== tag));
+        } else {
+            setSelectedTags([...selectedTags, tag]);
+        }
+        console.log(selectedTags);
+    };
     const [selectedTag, setSelectedTag] = useState("");
 
     const [prize, setPrize] = React.useState(0);
@@ -154,13 +167,15 @@ function PublishHackathonPage() {
     }
 
 
-    const handlePublish = async () => {        
+    const handlePublish = async () => {  
+        const start = Timestamp.fromDate(startDate);   
+        const end = Timestamp.fromDate(endDate);   
         const hackathon = {
             id: hackathonName,
             title: hackathonName,
             description: hackathonDescription,
-            startDate: startDate,
-            endDate: endDate,
+            startDate: start,
+            endDate: end,
             regRequirements: regRequirements,
             subRequirements: subRequirements,
             regQuestions: regQuestions,
