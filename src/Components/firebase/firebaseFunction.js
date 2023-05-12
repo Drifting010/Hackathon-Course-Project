@@ -406,7 +406,6 @@ const uploadIcon = async (file, userId, setLoading) => {
 
   setLoading(true);
 
-  const snapshot = await uploadBytes(fileRef, file);
   const photoURL = await getDownloadURL(fileRef)
   const currentUser = getCurrentUser();
   if (currentUser != null) {
@@ -421,7 +420,6 @@ const uploadIcon = async (file, userId, setLoading) => {
 //Upload files with given file reference in db and file
 const uploadFile = async (file, fileRef) => {
 
-  const snapshot = await uploadBytes(fileRef, file);
   const downLoadURL = await getDownloadURL(fileRef)
   alert("uploaded!")
   return downLoadURL;
