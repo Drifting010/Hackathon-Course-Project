@@ -1,46 +1,151 @@
-# Attention!
-Current github auto workflow is out of limit. So the test will failed anyway.
- **Make sure you local test is passed**
-# React + Vite 
+# Project Overview
+
+## What this project is about
+
+Briefly describe what your project is about, its purpose, and its main features.
+
+We, knowledgeable Kiwis presents this innovative **online hackathons platform**. The term “Hackathon” is a combination of the words ‘hack’ and “marathon”. The primary purpose of hackathons is to rapidly prototype and develop new software. It brings programmers together to collaborate intensively on a project for a period of time. Participants who pariticipate in a hacakthon will focusing on solving a specifc problem or develop a new innovative solution. At the end, the host of the hackathon will select the winner and offer the prize. 
+
+## Purpose
+
+Hackathon have been getting more and more popularity worldwide in rencent decades. Tech companies like Facebook, Google, startup and even government organiztions hosts hackathons to create innovations. As the number of hackathons continues to grow, the need for a robust online platform to revolutionize the way individuals and organizations manage and participate in these events has become increasingly clear. Existing online hackathon platforms have demonstrated several shortcomings that hinder their efficacy. For instance, users find it challenging to search for desired hackathons Additionally, these platforms often feature rigid system designs that lack customization options to suit the varying needs of different hackathons. These issues have created a demand for a more dynamic and user-friendly platform, which our project aims to address.
+
+## Features
+
+Our hackathon platform aims to enhance user experience and project management efficency and customizability. These include the ability to host and participate in events, manage events, register for events, make submissions, and award winners.
+
+One of our platform's standout features is a tag system, which serves to aid in event filtering. Hackathons inherently span multiple domains, and this tag system allows both hosts and participants to align and find events that match their areas of interest more easily. Another significant feature of our platform is the customizable registration and submission forms. Recognizing that every hackathon has its unique needs and requirements, we provide the flexibility for host to design these forms. This customization feature ensures a smooth and tailored user experience for both hosts and participants.
+
+# Getting Started
+
+**!!Important!!**
+
+Run below codes in terminals
+
+```
+git clone https://github.com/UOA-CS732-SE750-Students-2023/project-group-knowledgeable-kiwis.git
+```
+
+## Check out the master branch
+
+```
+git checkout master
+```
+
+## Install dependency
+
+```
 npm install
+```
 
-# How to make contribution
-## Contribute On Codebase
-1. Checkout out your own branch ==**Do not work on master!**==
-2. Make a issue on the things you are doing
-3. working on own barnch
-4. after test and self-review make a PR ==**Test your code locally before PR and Do not use action for your self-rivew**==
-5. Ask for approval
+## Start the server
 
-## Contribute on peer-review
-Approve Issues or PRs
-1. Add your comment with indicating the sections
-2. If Approved, then comment on your approve with approved
-3. If Rejected, indicate where the improve may get occurs.
+```
+npm run dev
+```
 
-# How to make a test file
-1. go to root directory '__tests__' folder
-2. backend tests go to 'backend-tests' and 'frontend-tests' for frontend tests
-3. make a test file named with xxxx.***test.js***  Jest will automatically discover and run test files with the .test.js or .spec.js extension within the src directory.
+The server will run on the local **port: 5173**. Make sure it is not opccupied by other application. 
 
-# Package Version
-node.js: 16
-eslint: 8.39
-database: firebase
+# Usage
 
-# How to run test locally
-```  
-npm ci
-npm test
+Open your modern browser, which support react and node.js . 
+
+Then copy below link and paste it in the browser. It will redirect you to the home page!
+
+## URL:
+
+```
+http://localhost:5173/
+```
+
+![local](./src/Icons/local.png)
+
+As port may get changed, please check the local on your terminal as shown below
+
+
+
+# Testing
+
+## How to run the Test
+
+### Run all tests
+
+```
+npm run test
+```
+
+This will run both backend and frontend test suites.
+
+### Run backend tests only
+
+```
+npm run test:backend
+```
+
+The backend uses 
+
+1. jest
+2. node test environment
+
+### Run frontend tests only
+
+```
+npm run test:frontend
+```
+
+The frontend uses
+
+1. Vitest
+2. jsdom environment
+
+### Run style test (Additional)
+
+```
 npm run lint
 ```
 
-# How to use firebase in components
-Import and use Firebase in your React components: In any React component where you want to use Firebase, import the initialized app and analytics instances from the firebaseConfig.js file. For example:
+eslint 
 
-## How to use testcase
-See 
-testCRUD.test.js & testRead.test.js
-To access firebase directly to view data send your mail link to zihan, not uni email (banned)
-Ask Zihan, if you need help. 
+# Technologies Used
 
+React
+
+Node.js
+
+Vite
+
+Mui: material UI libraray
+
+Nivo: data visualziaiton library
+
+**Firebase**: database & backend service (replaced Express and MongoDB. Justification included in wiki).  
+
+esLint: format check
+
+Jest: test backend
+
+Vitest: test frontend
+
+# Contributor
+
+Zihan Zhong - Project manager, Back-end developer , Prototype design, Database
+
+Ran: Front-end developer
+
+Drason: Full stack developer
+
+Yanjie: Front-end developer
+
+Eason: Front-end developer
+
+Xinya: Back-end developer
+
+# License
+
+Unless otherwise specified, all contributions will be licensed under MIT. 
+
+
+
+# Contributing (Reference)
+
+<script src="https://gist.github.com/briandk/3d2e8b3ec8daf5a27a62.js"></script>
