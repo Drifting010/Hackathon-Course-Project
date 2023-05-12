@@ -16,7 +16,6 @@ const initialFilters = { tag: null, offset: null, status: null, username: null}
 
 // This is the main function that returns the Dashboard component
 export default function Dashboard() {
-  const [user, setUser] = useState(null);
 
   const { currentUser } = useContext(AppContext);
   const [filters, setFilters] = useState(initialFilters);
@@ -24,16 +23,16 @@ export default function Dashboard() {
   
   // add username into filter
   useEffect(() => {
-    if(user){
-      setFilters({ ...initialFilters, username: currentUser.username})
+    if(currentUser){
+      setFilters({ ...initialFilters, username: currentUser.email})
     }
-  }, [user])
+  }, [currentUser])
 
   useEffect(() => {
     if (currentUser){
       setisParticipant(true);
     }
-  }, [user])
+  }, [currentUser])
 
   return (
     <div>
