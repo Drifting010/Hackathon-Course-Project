@@ -270,7 +270,7 @@ const getHackathonByFilterExplore = async (filters) => {
     const querySnapshot = await getDocs(queryRef);
     const hackathons = [];
     querySnapshot.forEach((doc) => {
-      if (!doc.data().members.includes(filters.username) )
+      if (doc.data().members && !doc.data().members.includes(filters.username) )
       hackathons.push({ id: doc.id, ...doc.data() });
     });
     // console.log('hackathons:',hackathons);
