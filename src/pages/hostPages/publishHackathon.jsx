@@ -1,12 +1,13 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { useState } from "react";
 import * as React from 'react';
 import { AppContext } from "../../Components/AppContextProvider";
-import { addHackathon, getUser } from "../../Components/firebase/firebaseFunction";
+import { addHackathon, getAllTags, getUser } from "../../Components/firebase/firebaseFunction";
 import { styled } from '@mui/system';
 import { useNavigate } from "react-router";
+import { Timestamp } from "@firebase/firestore";
 
 const CssTextField = styled(TextField)({
     '& .MuiOutlinedInput-root': {
@@ -63,6 +64,32 @@ function PublishHackathonPage() {
     const [isHost,setIsHost] = useState(false);
 
     const navigate = useNavigate();
+
+    const [tags, setTags] = React.useState([]);
+    // Initialize the selectedTags state
+    const [selectedTags, setSelectedTags] = useState([]);
+
+    // Function to handle tag click events, toggling the selection state of a tag
+    const handleTagClick = (tag) => {
+        if (selectedTags.includes(tag)) {
+            setSelectedTags(selectedTags.filter((t) => t !== tag));
+        } else {
+            setSelectedTags([...selectedTags, tag]);
+        }
+        console.log(selectedTags);
+    };
+    const [selectedTag, setSelectedTag] = useState("");
+
+    const [prize, setPrize] = React.useState(0);
+
+    // data initialization for interests dropdown menu
+    React.useEffect(() => {
+        async function fetchData() {
+            const storedTags = await getAllTags('hackathonTags');
+            setTags(storedTags);
+        }
+        fetchData();
+    }, [])
 
     React.useEffect(()=>{
         if(currentUser!==null){
@@ -140,19 +167,24 @@ function PublishHackathonPage() {
     }
 
 
-    const handlePublish = async () => {        
+    const handlePublish = async () => {  
+        const start = Timestamp.fromDate(startDate);   
+        const end = Timestamp.fromDate(endDate);   
         const hackathon = {
             id: hackathonName,
             title: hackathonName,
             description: hackathonDescription,
-            startDate: startDate,
-            endDate: endDate,
+            startDate: start,
+            endDate: end,
             regRequirements: regRequirements,
             subRequirements: subRequirements,
             regQuestions: regQuestions,
             subQuestions: subQuestions,
             host: currentUser.email,
             members: [],
+            status: 'ongoing',
+            tag: selectedTag,
+            prize: prize
         };
 
         await addHackathon(hackathon);
@@ -273,6 +305,37 @@ function PublishHackathonPage() {
                         placeholder="Mention any requirements for submission, as well as any required files (one upload)"
                     />
                 </div>
+
+                <Box sx={{ minWidth: 120 }}>
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">Tag</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={selectedTag}
+                            label="Tag"
+                            onChange={(e)=>{setSelectedTag(e.target.value)}}
+                        >
+                            {tags.map((tag, index) => (
+                                <MenuItem
+                                    key={tag}
+                                    value={tag}
+                                    sx={{ display: index === 0 ? 'none' : 'block' }}
+                                >
+                                    {tag}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Box>
+
+                <TextField
+                    type="number"
+                    label="Prize money"
+                    sx={{ mt : 2 }}
+                    value={prize}
+                    onChange={(e)=>{setPrize(e.target.value)}}
+                />
 
                 <Button
                     sx={{
