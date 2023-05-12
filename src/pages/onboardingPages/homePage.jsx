@@ -18,10 +18,13 @@ const initialFilters = { tag: null, offset: null, status: null, username: null, 
 // Defining the main Album component as the default export
 export default function Album() {
 
+  // State for filter condition
   const [filters, setFilters] = useState(initialFilters);
   useEffect(() => {
     setFilters(initialFilters)
-  }, [])
+  }, []);
+
+
   // Rendering the Album component and returning JSX elements
   return (
     // Wrapping the entire component with the Material UI ThemeProvider component to apply the theme
@@ -54,7 +57,7 @@ export default function Album() {
             Hackathon Platform!
           </Typography>
           {/* Adding a brief description of the website */}
-          <Typography variant="h6" align="center" color="#C9C9C9" fontWeight="bold" pt={ 3 } paragraph>
+          <Typography variant="h6" align="center" color="#C9C9C9" fontWeight="bold" pt={3} paragraph>
             Some brief descriptions about the Hackathon Website, etc.
           </Typography>
           {/* Adding two buttons to the hero unit */}
