@@ -22,7 +22,6 @@ test("create user with email and password", async () => {
   // Call the createUserWithEmailAndPassword function
   await createUserWithEmailAndPasswordFunction(email, password, role);
   const user = await getUser(email);
-  console.log("This is the user data", user);
 
   // Verify that the user was created
   expect(user).not.toBeNull();

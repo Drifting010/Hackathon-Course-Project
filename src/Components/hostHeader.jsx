@@ -132,7 +132,10 @@ export default function HostHeader() {
                     <Box sx={{ flexGrow: 0 }}>
                         <Button
                             variant='outlined'
-                            href="/login"
+                            href="/"
+                            onClick={()=>{
+                                signOutFunction();
+                            }}
                             sx={{
                                 my: 2,
                                 mr: 2,

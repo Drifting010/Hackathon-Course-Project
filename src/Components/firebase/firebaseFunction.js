@@ -102,7 +102,6 @@ const getDocumentInCollectionById = async (collectionName, documentId) => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      console.log('Document data', docSnap.data());
       return docSnap.data();
     }
   } catch (error) {
@@ -187,7 +186,6 @@ const getHackathonByFilterByHost = async (filters) => {
     querySnapshot.forEach((doc) => {
       hackathons.push({ id: doc.id, ...doc.data() });
     });
-    // console.log('hackathons:',hackathons);
     return hackathons;
   } catch (error) {
     console.error('Error getting hackathons by tag: ', error);
@@ -247,7 +245,6 @@ const getHackathonByFilterExplore = async (filters) => {
   try {
     const hackathonsRef = collection(db, "hackathons");
     let queryRef = query(hackathonsRef);
-    console.log('filters.username: ',filters.username)
     // find by tag + status
     if ((filters.tag !== null) && (filters.status !== null)) {
       queryRef = query(
@@ -274,7 +271,6 @@ const getHackathonByFilterExplore = async (filters) => {
       if (doc.data().members && !doc.data().members.includes(filters.username) )
       hackathons.push({ id: doc.id, ...doc.data() });
     });
-    // console.log('hackathons:',hackathons);
     return hackathons;
   } catch (error) {
     console.error('Error getting hackathons by tag: ', error);
@@ -380,10 +376,6 @@ const retriveSubCollections = async (hackathonId, subCollectionName) => {
     const mainCollectionRef = doc(db, 'hackathons',hackathonId);
     const subCollectionRef = collection(mainCollectionRef, subCollectionName);
     const querySnapshot = await getDocs(subCollectionRef);
-    querySnapshot.forEach((doc) => {
-      console.log(`${doc.id} => ${doc.data()}`);
-    });
-
     return querySnapshot.docs;
   } catch (error) {
     console.error(error);
@@ -399,7 +391,6 @@ const retrieveDocFromSubCollection = async (hackathonId, subCollectionName, docu
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      console.log('Document data', docSnap.data());
       return docSnap.data();
     }
   } catch (error) {
@@ -415,9 +406,6 @@ const uploadIcon = async (file, userId, setLoading) => {
 
   setLoading(true);
 
-  const snapshot = await uploadBytes(fileRef, file);
-
-  console.log(snapshot);
   const photoURL = await getDownloadURL(fileRef)
   const currentUser = getCurrentUser();
   if (currentUser != null) {
@@ -432,9 +420,6 @@ const uploadIcon = async (file, userId, setLoading) => {
 //Upload files with given file reference in db and file
 const uploadFile = async (file, fileRef) => {
 
-  const snapshot = await uploadBytes(fileRef, file);
-
-  console.log(snapshot);
   const downLoadURL = await getDownloadURL(fileRef)
   alert("uploaded!")
   return downLoadURL;
@@ -494,7 +479,6 @@ const getUserProfile = async (email) => {
   const user = await getUser(email);
 
   const profile = await getDoc(user.profile);
-  console.log('Profile is', profile.data());
   return profile.data();
 }
 
@@ -561,8 +545,6 @@ const createUserWithEmailAndPasswordFunction = async (
 
     const userRef = doc(collection(db, 'users'), authEmail);
     await setDoc(userRef, userData);
-
-    console.log('User created successfully');
   } catch (error) {
     console.error('Error creating user: ', error);
   }
@@ -634,7 +616,6 @@ const getUser = async (email) => {
   try {
     const userRef = doc(db, 'users', email);
     const userSnapshot = await getDoc(userRef);
-    console.log('get User', userSnapshot.data());
     return userSnapshot.data();
   } catch (error) {
     console.error('Error getting user data:', error);

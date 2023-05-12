@@ -4,7 +4,7 @@
 
 Briefly describe what your project is about, its purpose, and its main features.
 
-We, knowledgeable Kiwis presents this innovative **online hackathons platform**. The term “Hackathon” is a combination of the words ‘hack’ and “marathon”. The primary purpose of hackathons is to rapidly prototype and develop new software. It brings programmers together to collaborate intensively on a project for a period of time. Participants who pariticipate in a hacakthon will focusing on solving a specifc problem or develop a new innovative solution. At the end, the host of the hackathon will select the winner and offer the prize. 
+We, knowledgeable Kiwis presents this innovative **online hackathons platform**. The term “Hackathon” is a combination of the words ‘hack’ and “marathon”. The primary purpose of hackathons is to rapidly prototype and develop new software. It brings programmers together to collaborate intensively on a project for a period of time. Participants who pariticipate in a hacakthon will focusing on solving a specifc problem or develop a new innovative solution. At the end, the host of the hackathon will select the winner and offer the prize.
 
 ## Purpose
 
@@ -15,6 +15,12 @@ Hackathon have been getting more and more popularity worldwide in rencent decade
 Our hackathon platform aims to enhance user experience and project management efficency and customizability. These include the ability to host and participate in events, manage events, register for events, make submissions, and award winners.
 
 One of our platform's standout features is a tag system, which serves to aid in event filtering. Hackathons inherently span multiple domains, and this tag system allows both hosts and participants to align and find events that match their areas of interest more easily. Another significant feature of our platform is the customizable registration and submission forms. Recognizing that every hackathon has its unique needs and requirements, we provide the flexibility for host to design these forms. This customization feature ensures a smooth and tailored user experience for both hosts and participants.
+
+### Upcoming features
+
+Sign in with third-party authentication provider. Like google and github etc. Buttons are already.
+
+Data visualizations: provide host and admin analytical data to help them better manage and improve on their existing platform or hacakthons.
 
 # Getting Started
 
@@ -44,11 +50,11 @@ npm install
 npm run dev
 ```
 
-The server will run on the local **port: 5173**. Make sure it is not opccupied by other application. 
+The server will run on the local **port: 5173**. Make sure it is not opccupied by other application.
 
 # Usage
 
-Open your modern browser, which support react and node.js . 
+Open your modern browser, which support react and node.js .
 
 Then copy below link and paste it in the browser. It will redirect you to the home page!
 
@@ -61,8 +67,6 @@ http://localhost:5173/
 ![local](./src/Icons/local.png)
 
 As port may get changed, please check the local on your terminal as shown below
-
-
 
 # Testing
 
@@ -82,7 +86,7 @@ This will run both backend and frontend test suites.
 npm run test:backend
 ```
 
-The backend uses 
+The backend uses
 
 1. jest
 2. node test environment
@@ -104,7 +108,7 @@ The frontend uses
 npm run lint
 ```
 
-eslint 
+eslint
 
 # Technologies Used
 
@@ -118,7 +122,7 @@ Mui: material UI libraray
 
 Nivo: data visualziaiton library
 
-**Firebase**: database & backend service (replaced Express and MongoDB. Justification included in wiki).  
+**Firebase**: database & backend service (replaced Express and MongoDB. Justification included in wiki).
 
 esLint: format check
 
@@ -142,9 +146,7 @@ Xinya: Back-end developer
 
 # License
 
-Unless otherwise specified, all contributions will be licensed under MIT. 
-
-
+Unless otherwise specified, all contributions will be licensed under MIT.
 
 # Contributing (Reference)
 

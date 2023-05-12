@@ -140,7 +140,10 @@ export default function ParticipantHeader() {
                     <Box sx={{ flexGrow: 0 }}>
                         <Button
                             variant='outlined'
-                            href="/login"
+                            href="/"
+                            onClick={() => {
+                                signOutFunction();
+                            }}
                             sx={{
                                 my: 2,
                                 mr: 2,
@@ -236,7 +239,7 @@ export default function ParticipantHeader() {
                                 </Typography>
                             </MenuItem>
 
-                            <MenuItem key="logout" onClick={()=>{
+                            <MenuItem key="logout" onClick={() => {
                                 handleCloseUserMenu();
                                 signOutFunction();
                             }}>
