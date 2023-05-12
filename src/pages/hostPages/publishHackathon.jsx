@@ -6,6 +6,7 @@ import * as React from 'react';
 import { AppContext } from "../../Components/AppContextProvider";
 import { addHackathon, getUser } from "../../Components/firebase/firebaseFunction";
 import { styled } from '@mui/system';
+import { useNavigate } from "react-router";
 
 const CssTextField = styled(TextField)({
     '& .MuiOutlinedInput-root': {
@@ -60,6 +61,8 @@ function PublishHackathonPage() {
     const [regQuestions,setRegQuestions] = useState([]);
 
     const [isHost,setIsHost] = useState(false);
+
+    const navigate = useNavigate();
 
     React.useEffect(()=>{
         if(currentUser!==null){
@@ -152,6 +155,7 @@ function PublishHackathonPage() {
         };
 
         await addHackathon(hackathon);
+        navigate('/host_editevent/'+hackathonName);
     }
 
     return isHost ? (
