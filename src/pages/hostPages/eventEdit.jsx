@@ -159,7 +159,12 @@ function SubmissionList({hackathonid}) {
                         >
                         <ListItemText primary={sub} />
                         <ListItemSecondaryAction>
-                            <Button>Download File</Button>
+                            <Button
+                                onClick={()=>{
+                                    const fileRef = ref(storage, 'hackathons/'+hackathonid+'/submissions/'+sub);
+                                    downLoadFile(fileRef);
+                                }}
+                            >Download File</Button>
                         </ListItemSecondaryAction>
                         </ListItemButton>
 
@@ -325,10 +330,6 @@ function EditForm({hackathonid}){
 function RegistrationList({hackathonid}) {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const [registrations,setRegistrations] = React.useState([]);
-
-    const handleDownload = () => {
-        downLoadFile()
-    }
 
     function ParticipantAnswer({userID}){
         const [questions,setQuestions] = React.useState([]);
