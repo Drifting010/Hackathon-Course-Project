@@ -20,14 +20,29 @@ const initialFilters = { tag: null, offset: null, status: null, username: null, 
 export default function MyEvents() {
 
   const { currentUser } = useContext(AppContext);
+  
+  console.log('currentUser: ',currentUser);
+  // console.log('user: ',user);
+  
+  // const [loading, setLoading] = React.useState(false);
+
+
 
   const [filters, setFilters] = useState(initialFilters);
   const [isParticipant, setisParticipant] = useState(false);
 
   // add username into filter
+  useEffect(() => {
+    if (currentUser) {
       setFilters({ ...initialFilters, username: currentUser.email })
     }
-  }, [currentUser]);
+  }, [currentUser])
+
+  useEffect(() => {
+    if (currentUser) {
+      setisParticipant(true);
+    }
+  }, [currentUser])
 
   return (
     <div data-testid="MyEvents">
