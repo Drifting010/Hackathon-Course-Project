@@ -12,43 +12,27 @@ import { useState, useEffect, useContext } from 'react';
 
 // An array of card objects to be displayed
 // const cards = [1];
-const initialFilters = { tag: null, offset: null, status: null, username: null, role: null}
+const initialFilters = { tag: null, offset: null, status: null, username: null}
 
 // This is the main function that returns the Dashboard component
 export default function Dashboard() {
-  const { getCurrentUser, getUser, signInWithEmailAndPasswordFunction } = useContext(AppContext);
+  const { getCurrentUser, getUser } = useContext(AppContext);
   const [user, setUser] = useState(null);
 
-  // login in and get current user
-  // thia part need to be delete
-  useEffect(()=>{
-    async function signInAndSetUser() {
-      // await signInWithEmailAndPasswordFunction('testparticipant@example.com','testpassword');
-      // get user info from auth function
-      const currentUser = getCurrentUser();
-      // console.log('currentUser:',currentUser)
-      // get user role and username from users
-      if (currentUser){
-        const userinfo = await getUser(currentUser.email);
-        setUser(userinfo);
-      }
-    };
-    signInAndSetUser();
-  },[]);
+  const { currentUser } = useContext(AppContext);
   const [filters, setFilters] = useState(initialFilters);
   const [isHost, setisParticipant] = useState(false);
   
   // add username into filter
   useEffect(() => {
     if(user){
-      setFilters({ ...initialFilters, username: user.username, role: user.role})
+      setFilters({ ...initialFilters, username: currentUser.username})
     }
   }, [user])
 
   useEffect(() => {
-    if (user){
-      const role = user.role
-      setisParticipant(role === 'host');
+    if (currentUser){
+      setisParticipant(true);
     }
   }, [user])
 

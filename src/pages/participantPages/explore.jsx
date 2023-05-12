@@ -18,32 +18,16 @@ const initialFilters = { tag: null, offset: null, status: null, username: null, 
 export default function Explopre() {
   const { getCurrentUser, getUser, signInWithEmailAndPasswordFunction } = useContext(AppContext);
   const [user, setUser] = useState(null);
-
-  // // login in and get current user
-  // // thia part need to be delete
-  useEffect(()=>{
-    async function signInAndSetUser() {
-      // await signInWithEmailAndPasswordFunction('testparticipant@example.com','testpassword');
-      // get user info from auth function
-      const currentUser = getCurrentUser();
-      console.log('currentUser:',currentUser)
-      // get user role and username from users
-      if (currentUser){
-        const userinfo = await getUser(currentUser.email);
-        setUser(userinfo);
-      }
-    };
-    signInAndSetUser();
-  },[]);
+  const { currentUser } = useContext(AppContext);
   const [filters, setFilters] = useState(initialFilters);
   const [activeBtn, setActiveBtn] = useState(null);
   
   // // add username into filter
   useEffect(() => {
-    if(user){
-      setFilters({ ...initialFilters, username: user.username, role: user.role})
+    if(currentUser){
+      setFilters({ ...initialFilters, username: currentUser.email})
     }
-  }, [user])
+  }, [currentUser])
 
   function onTagClick(tag) {
     setFilters({ ...initialFilters, tag: tag})
