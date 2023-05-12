@@ -118,7 +118,7 @@ export default function ParticipantHeader() {
                             variant="h6"
                             noWrap
                             component="a"
-                            href="./participant_home"
+                            href="/participant_home"
                             sx={{
                                 mr: 2,
                                 display: { xs: 'none', md: 'flex' },
@@ -188,7 +188,7 @@ export default function ParticipantHeader() {
                                 <Typography
                                     textAlign="center"
                                     component="a"
-                                    href="./profile"
+                                    href="/profile"
                                     sx={{
                                         textDecoration: 'none',
                                         color: '#C9D1D9',
@@ -214,7 +214,7 @@ export default function ParticipantHeader() {
                                 <Typography
                                     textAlign="center"
                                     component="a"
-                                    href="./account"
+                                    href="/account"
                                     sx={{
                                         textDecoration: 'none',
                                         color: '#C9D1D9',
@@ -243,7 +243,7 @@ export default function ParticipantHeader() {
                                 <Typography
                                     textAlign="center"
                                     component="a"
-                                    href="./"
+                                    href="/"
                                     sx={{
                                         textDecoration: 'none',
                                         color: '#C9D1D9',
