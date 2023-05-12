@@ -9,7 +9,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Box from '@mui/material/Box';
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
-import { getHackathonAndParticipants } from '../../Components/firebase/firebaseFunction';
+import { getHackathonAndParticipants, retriveSubCollections } from '../../Components/firebase/firebaseFunction';
 import { useParams } from "react-router-dom/dist";
 
 // This is the main functional component SingleHackathon.
@@ -27,6 +27,7 @@ export default function SingleHackathon() {
     // State variables are declared using React's useState hook for the hackathon details and user's registration status.
     const [hackathon, setHackathon] = React.useState(null);
     const [isRegistered, setIsRegistered] = React.useState(false);
+    const [isSubmitted, setIsSubmitted] = React.useState(false);
 
     // The useEffect hook runs when the component is first mounted and whenever the `user` state changes.
     React.useEffect(() => {
@@ -35,9 +36,17 @@ export default function SingleHackathon() {
             const hackathonData = await getHackathonAndParticipants(hackathonId);
             setHackathon(hackathonData);
 
+            const hackathonParticipants = await retriveSubCollections(hackathonId,'Registrations');
+            const hackathonSubmits = await retriveSubCollections(hackathonId,'Submissions');
+
             // Check if the user is already registered for the hackathon
-            if (user && hackathonData.participants.some(participant => participant.email === user.email)) {
+            if (user && hackathonParticipants.some(participant => participant.data().user === user.email)) {
                 setIsRegistered(true);
+            }
+
+            // Check if the user is already registered for the hackathon
+            if (user && hackathonSubmits.some(participant => participant.data().user === user.email)) {
+                setIsSubmitted(true);
             }
         };
 
@@ -107,8 +116,8 @@ export default function SingleHackathon() {
 
                 {/* Button component to navigate to hackathon submission or registration based on the user's registration status. */}
                 <Button
-                    href={isRegistered ? '/submit_hackathons' : '/register_hackathons'}
-                    disabled={!user}
+                    href={isRegistered ? '/submit_hackathons/'+hackathonId : '/register_hackathons/'+hackathonId}
+                    disabled={!user || isSubmitted}
                     sx={{
                         width: '200px',
                         height: '45px',
