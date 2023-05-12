@@ -9,10 +9,6 @@ import { ParticipantFooter } from './'
 export function FooterWrapper() {
     const location = useLocation();
 
-    // Header1 covers 1 pages
-    if (location.pathname.startsWith('/home') || location.pathname.startsWith('/page2') || location.pathname.startsWith('/page3')) {
-        return <HomeFooter />;
-    }
 
     // Header2 covers 1 pages
     if (location.pathname.startsWith('/participant_home') || location.pathname.startsWith('/explore_hackathons') || location.pathname.startsWith('/my_events') ||
@@ -26,6 +22,12 @@ export function FooterWrapper() {
         location.pathname.startsWith('/help_centre') || location.pathname.startsWith('/host_account') || location.pathname.startsWith('/host_editprofile') ||
         location.pathname.startsWith('/host_profile') || location.pathname.startsWith('/publish_hackathon')) {
         return <HostFooter />;
+    }
+
+    
+    // Header1 covers 1 pages
+    if (location.pathname==='/' || location.pathname.startsWith('/page2') || location.pathname.startsWith('/page3')) {
+        return <HomeFooter />;
     }
 
     // Default header if no conditions are met

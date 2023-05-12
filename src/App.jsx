@@ -48,7 +48,7 @@ export default function App() {
           <main>
             <Routes>
               {/* part 01 */}
-              <Route path="/home" element={<Home />} />
+              <Route path="/" element={<Home />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/register_profile_participant" element={<RegisterProfileParticipant />} />
               <Route path="/register_profile_host" element={<RegisterProfileHost />} />
@@ -58,7 +58,7 @@ export default function App() {
               <Route path="/participant_home" element={<ParticipantHome />} />
               <Route path="/explore_hackathons" element={<ExploreHackathons />} />
               <Route path="/my_events" element={<MyEvents />} />
-              <Route path="/single_hackathon" element={<SingleHackathon />} />
+              <Route path="/single_hackathon/:id" element={<SingleHackathon />} />
               <Route path="/register_hackathons" element={<RegisterHackathons />} />
               <Route path="/submit_hackathons" element={<SubmitHackathons />} />
               <Route path="/profile" element={<Profile />} />

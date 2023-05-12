@@ -223,7 +223,7 @@ export default function ParticipantHeader() {
                                 <Typography
                                     textAlign="center"
                                     component="a"
-                                    href="#"
+                                    href="./"
                                     sx={{
                                         textDecoration: 'none',
                                         color: '#C9D1D9',

@@ -8,11 +8,6 @@ import { HostHeader } from './'
 export function HeaderWrapper() {
     const location = useLocation();
 
-    // Header1 covers 3 pages
-    if (location.pathname.startsWith('/home') || location.pathname.startsWith('/page2') || location.pathname.startsWith('/page3')) {
-        return <HomeHeader />;
-    }
-
     // Header2 covers 8 pages
     if (location.pathname.startsWith('/participant_home') || location.pathname.startsWith('/explore_hackathons') || location.pathname.startsWith('/my_events') ||
         location.pathname.startsWith('/register_hackathons') || location.pathname.startsWith('/account') || location.pathname.startsWith('/edit_participant_profile') ||
@@ -25,6 +20,11 @@ export function HeaderWrapper() {
         location.pathname.startsWith('/help_centre') || location.pathname.startsWith('/host_account') || location.pathname.startsWith('/host_editprofile') ||
         location.pathname.startsWith('/host_profile') || location.pathname.startsWith('/publish_hackathon')) {
         return <HostHeader />;
+    }
+
+    // Header1 covers 3 pages
+    if (location.pathname==='/' || location.pathname.startsWith('/page2') || location.pathname.startsWith('/page3')) {
+        return <HomeHeader />;
     }
 
     // Default header if no conditions are met
