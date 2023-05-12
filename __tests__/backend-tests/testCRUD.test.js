@@ -151,7 +151,6 @@ describe("Firebase Functions", () => {
 
   test("getUserProfile", async () => {
     const userProfile = await getUserProfile(testEmail);
-    console.log("this is the userProfile", userProfile);
     expect(userProfile).not.toBeNull();
     expect(userProfile.user).toEqual(testEmail);
   });
