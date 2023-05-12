@@ -28,10 +28,10 @@ test("create user with email and password", async () => {
   expect(user).not.toBeNull();
 
   // Get the user data from Firestore
-  const userData = await getUser(user.email);
+  const userData = await getUser(user.authEmail);
 
   // Verify that the user data is correct
-  expect(userData.uid).toEqual(user.uid);
+  expect(userData.authEmail).toEqual(user.authEmail);
   signOutFunction();
 });
 
@@ -57,7 +57,7 @@ test("create user with email and password", async () => {
 // Test signInWithEmailAndPassword
 // Test signInWithEmailAndPassword
 test("sign in with email and password and sign out", async () => {
-  const email = "testSignIn@example.com";
+  const email = "testsignin@example.com";
   const password = "testpassword";
   const role = "host";
 
@@ -71,7 +71,7 @@ test("sign in with email and password and sign out", async () => {
   const userData = await getUser(email);
 
   // Verify that the user data is correct
-  expect(userData.email).toEqual(email);
+  expect(userData.authEmail).toEqual(email);
 
   // Sign out the user
   signOutFunction();
@@ -80,7 +80,7 @@ test("sign in with email and password and sign out", async () => {
 // Test signUserOut
 test("sign out user", async () => {
   // Create and sign in the user first
-  const email = "testSignOut@example.com";
+  const email = "testsignout@example.com";
   const password = "testpassword";
   const role = "host";
 
