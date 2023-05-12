@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Divider, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemSecondaryAction, ListItemText, Tab, Tabs, TextField, ThemeProvider, Typography } from "@mui/material";
+import { Avatar, Box, Button, Divider, FormControl, FormControlLabel, FormLabel, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemSecondaryAction, ListItemText, Radio, RadioGroup, Tab, Tabs, TextField, ThemeProvider, Typography } from "@mui/material";
 import theme from "../../Components/theme";
 import * as React from 'react';
 import { useNavigate, useParams } from "react-router";
@@ -40,15 +40,17 @@ const TabPanel = ({ children, index, value }) => {
     );
 }
 
-function EditComponent({ hackathonid, title, description, setTitle, setDescription }) {
+function EditComponent({ hackathonid, title, description, setTitle, setDescription, status, setStatus }) {
     const [isEdit, setEdit] = React.useState(false);
 
     const [titleBackup, setTitleBackup] = React.useState("");
     const [descBackup, setDescBackup] = React.useState("");
+    const [statusBackup, setStatusBackup] = React.useState(null);
 
     const handleEdit = (() => {
         setTitleBackup(title);
         setDescBackup(description);
+        setStatusBackup(status);
         setEdit(!isEdit);
     })
 
@@ -58,7 +60,8 @@ function EditComponent({ hackathonid, title, description, setTitle, setDescripti
         const newData = {
             id: hackathonid,
             title: title,
-            description: description
+            description: description,
+            status: status
         }
         await addHackathon(newData);
 
@@ -67,6 +70,7 @@ function EditComponent({ hackathonid, title, description, setTitle, setDescripti
     const handleCancel = (() => {
         setTitle(titleBackup);
         setDescription(descBackup);
+        setStatus(statusBackup);
         setEdit(!isEdit);
     })
 
@@ -106,7 +110,7 @@ function EditComponent({ hackathonid, title, description, setTitle, setDescripti
 
             {!isEdit ?
                 <Typography
-                    component="body2"
+                    component="h5"
                     mb={5}
                     mt={2}
                 >
@@ -120,6 +124,29 @@ function EditComponent({ hackathonid, title, description, setTitle, setDescripti
                     value={description}
                     onChange={(e) => { setDescription(e.target.value) }}
                 />
+            }
+            <Box sx={{mb:5}}></Box>
+            {!isEdit ?
+                <Typography
+                    component="h5"
+                    mb={5}
+                    mt={2}
+                >
+                    Status: {status}
+                </Typography>
+                :
+                <FormControl>
+                    <FormLabel id="demo-controlled-radio-buttons-group">Status</FormLabel>
+                    <RadioGroup
+                        aria-labelledby="demo-controlled-radio-buttons-group"
+                        name="controlled-radio-buttons-group"
+                        value={status}
+                        onChange={(e)=>{setStatus(event.target.value)}}
+                    >
+                        <FormControlLabel value="ongoing" control={<Radio />} label="Ongoing" />
+                        <FormControlLabel value="ended" control={<Radio />} label="Ended" />
+                    </RadioGroup>
+                </FormControl>
             }
         </div>
     )
@@ -451,11 +478,13 @@ export default function EventEdit() {
     const [title, setTitle] = React.useState("test");
     const [description, setDescription] = React.useState("test");
     const [validHackathon, setValidHackathon] = React.useState(false);
+    const [hStatus, setStatus] = React.useState('ongoing');
 
     React.useEffect(() => {
         hackathon.then(function (result) {
             setTitle(result.title);
             setDescription(result.description);
+            setStatus(result.status);
 
             setValidHackathon(true);
         });
@@ -481,8 +510,10 @@ export default function EventEdit() {
                         hackathonid={id}
                         title={title}
                         description={description}
+                        status={hStatus}
                         setTitle={setTitle}
                         setDescription={setDescription}
+                        setStatus={setStatus}
                     />
                 </TabPanel>
                 <TabPanel
