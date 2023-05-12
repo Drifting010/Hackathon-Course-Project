@@ -60,6 +60,7 @@ function Footer(props) {
             spacing={2}
           >
             <Button
+              href='/login'
               sx={{
                 width: '100px',
                 height: '35px',
@@ -75,7 +76,7 @@ function Footer(props) {
               }>Try now
             </Button>
           </Stack>
-          <Divider sx={{ my:3, bgcolor: '#FF9300' }} />
+          <Divider sx={{ my: 3, bgcolor: '#FF9300' }} />
           <Typography
             variant="subtitle1"
             color="text.secondary"

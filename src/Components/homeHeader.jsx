@@ -229,7 +229,8 @@ export default function Header(props) {
                                     color: '#FF9300',
                                 },
                             }
-                            }>Login</Button>
+                            } 
+                            href='./login'>Login</Button>
                         <Button variant="outlined"
                             sx={{
                                 my: 2,
@@ -249,7 +250,8 @@ export default function Header(props) {
                                     color: '#FF9300',
                                 },
                             }
-                            }>Sign up</Button>
+                            }
+                            href='./signup'>Sign up</Button>
 
                     </Box>
 

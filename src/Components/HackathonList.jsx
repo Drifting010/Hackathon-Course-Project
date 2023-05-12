@@ -80,12 +80,22 @@ function HackathonList({filters, pagename}) {
                 }}
                 data-testid="card"
               >
-                <CardMedia
+                {/* <CardMedia
                   component="img"
+                  href={`/single_hackathon/${data.id}`}
                   sx={{}}
                   image="https://source.unsplash.com/random"
                   alt="random"
-                />
+                /> */}
+                <a href={`/single_hackathon/${card.id}`}>
+                  <CardMedia
+                    component="img"
+                    // href={`/single_hackathon/${data.id}`}
+                    sx={{}}
+                    image="https://source.unsplash.com/random"
+                    alt="random"
+                  />
+                </a>
                 <CardContent sx={{ flexGrow: 1 }}>
                   {card && (
                     <Typography
