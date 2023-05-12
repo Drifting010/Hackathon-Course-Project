@@ -6,16 +6,17 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import { getUserProfile } from '../../Components/firebase/firebaseFunction';
+import { AppContext } from '../../Components/AppContextProvider';
+import { useState, useEffect, useContext } from 'react';
 
 export default function Profile() {
     const [user, setUser] = React.useState(null);
+    const { currentUser } = useContext(AppContext);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const fetchData = async () => {
             try {
-                // const userAuth = await auth.currentUser;
-                const userAuth = { email: 'testForParticipant.com' };
-                const userEmail = userAuth.email;
+                const userEmail = currentUser.email;
                 const userData = await getUserProfile(userEmail);
                 setUser(userData);
             } catch (error) {
@@ -27,8 +28,8 @@ export default function Profile() {
     }, []);
 
     let newDescription = null;
-    if (user && user.Description) {
-        newDescription = user.Description.replace(/\\n/g, '\n').split('\n');
+    if (user && user.description) {
+        newDescription = user.description.replace(/\\n/g, '\n').split('\n');
     }
 
     return (
@@ -77,6 +78,31 @@ export default function Profile() {
                             </Grid>
 
                             <Grid item>
+                                <Button
+                                    variant='contained'
+                                    href='/edit_participant_profile'
+                                    sx={{
+                                        textTransform: 'none',
+                                        width: '142px',
+                                        height: '38px',
+                                        borderRadius: '10px',
+                                        background: '#FF9300',
+                                        fontFamily: 'Inter',
+                                        fontStyle: 'normal',
+                                        fontWeight: 600,
+                                        fontSize: '14px',
+                                        color: '#FFFFFF',
+                                        '&:hover': {
+                                            background: '#21262D',
+                                        },
+
+                                    }}
+                                >
+                                    Edit Profile
+                                </Button>
+                            </Grid>
+
+                            <Grid item>
                                 <Grid container alignItems="center" direction="row" spacing={1}>
                                     <Grid item>
                                         <LocationOnOutlinedIcon />
@@ -92,14 +118,14 @@ export default function Profile() {
                                                 color: '#C9D1D9',
                                             }}
                                         >
-                                            {user.Country}
+                                            {user.country.label}
                                         </Typography>
                                     </Grid>
                                 </Grid>
                             </Grid>
 
                             <Grid item>
-                                {user.Tags.map((tag, index) => (
+                                {user.tags.map((tag, index) => (
                                     <Button
                                         key={index}
                                         sx={{
