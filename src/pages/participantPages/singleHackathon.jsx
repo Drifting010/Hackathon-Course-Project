@@ -79,7 +79,7 @@ export default function SingleHackathon() {
                         background: '#050505',
                     }} />
                     <img
-                        src='src\Icons\background.png'
+                        src='../src/Icons/background.png'
                         alt="bg_img"
                         style={{
                             width: '100%',
