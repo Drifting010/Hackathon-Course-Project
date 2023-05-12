@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { getHackathonByFilterByHost, getHackathonByFilterByParticipant,getHackathonByTag } from './firebase/firebaseFunction';
+import { Navigate, Link, NavLink } from 'react-router-dom/dist';
+import { getHackathonByFilterByHost, getHackathonByFilterByParticipant, getHackathonByTag } from './firebase/firebaseFunction';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -35,7 +36,7 @@ function HackathonList({ filters = initialFilters }) {
       setData(Data);
     }
     const role = filters.role;
-    if (role === 'host'){
+    if (role === 'host') {
       fetchDataByHost();
     } else if (role === 'participant') {
       fetchDataByParticipant();
@@ -61,12 +62,22 @@ function HackathonList({ filters = initialFilters }) {
                 }}
                 data-testid="card"
               >
-                <CardMedia
+                {/* <CardMedia
                   component="img"
+                  href={`/single_hackathon/${data.id}`}
                   sx={{}}
                   image="https://source.unsplash.com/random"
                   alt="random"
-                />
+                /> */}
+                <a href={`/single_hackathon/${card.id}`}>
+                  <CardMedia
+                    component="img"
+                    // href={`/single_hackathon/${data.id}`}
+                    sx={{}}
+                    image="https://source.unsplash.com/random"
+                    alt="random"
+                  />
+                </a>
                 <CardContent sx={{ flexGrow: 1 }}>
                   {card && (
                     <Typography

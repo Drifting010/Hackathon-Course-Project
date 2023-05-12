@@ -58,7 +58,7 @@ export default function App() {
               <Route path="/participant_home" element={<ParticipantHome />} />
               <Route path="/explore_hackathons" element={<ExploreHackathons />} />
               <Route path="/my_events" element={<MyEvents />} />
-              <Route path="/single_hackathon" element={<SingleHackathon />} />
+              <Route path="/single_hackathon/:id" element={<SingleHackathon />} />
               <Route path="/register_hackathons" element={<RegisterHackathons />} />
               <Route path="/submit_hackathons" element={<SubmitHackathons />} />
               <Route path="/profile" element={<Profile />} />

@@ -10,9 +10,13 @@ import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import { auth } from '../../firebaseConfig';
 import { getHackathonAndParticipants } from '../../Components/firebase/firebaseFunction';
+import { useParams } from "react-router-dom/dist";
 
 // This is the main functional component SingleHackathon.
 export default function SingleHackathon() {
+    // TODO: obtain id of current hackathon project
+    const hackathonId = useParams().id;
+    console.log(hackathonId);
 
     // Current user is fetched from the firebase auth service.
     const user = auth.currentUser;
@@ -26,7 +30,8 @@ export default function SingleHackathon() {
     // The useEffect hook runs when the component is first mounted and whenever the `user` state changes.
     React.useEffect(() => {
         const fetchData = async () => {
-            const hackathonData = await getHackathonAndParticipants('BEOVWWEhOvv68qHEOFsv');
+            // const hackathonData = await getHackathonAndParticipants('BEOVWWEhOvv68qHEOFsv');
+            const hackathonData = await getHackathonAndParticipants(hackathonId);
             setHackathon(hackathonData);
 
             // Check if the user is already registered for the hackathon
