@@ -10,7 +10,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import { AppContext } from '../../Components/AppContextProvider';
 import { useParams } from 'react-router';
-import { addDocumentToSubCollection, getHackathon, retrieveDocFromSubCollection, retriveSubCollections } from '../../Components/firebase/firebaseFunction';
+import { addDocumentToSubCollection, addToArray, getHackathon, retrieveDocFromSubCollection, retriveSubCollections } from '../../Components/firebase/firebaseFunction';
 
 // This is the main function that returns the registerHackathons component
 export default function RegisterHackathons() {
@@ -46,6 +46,7 @@ export default function RegisterHackathons() {
         }
 
         await addDocumentToSubCollection('hackathons',id,'Registrations',currentUser.email,data);
+        await addToArray('hackathons',id,'members',currentUser.email);
     }
 
     function QuestionField({label,index}){
