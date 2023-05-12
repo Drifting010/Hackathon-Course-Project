@@ -33,8 +33,8 @@ export default function AppContextProvider({ children }) {
         getCurrentUser,
         getUser,
         signInWithEmailAndPasswordFunction,
+        resetPassword,
         currentUser,
-        resetPassword
     }
 
     return (
