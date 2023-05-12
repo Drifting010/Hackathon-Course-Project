@@ -2,7 +2,7 @@ import { Avatar, Box, Button, Divider, IconButton, List, ListItem, ListItemAvata
 import theme from "../../Components/theme";
 import * as React from 'react';
 import { useParams } from "react-router";
-import { getHackathon, retriveSubCollections } from "../../Components/firebase/firebaseFunction";
+import { addHackathon, getHackathon, retriveSubCollections } from "../../Components/firebase/firebaseFunction";
 import { AppContext } from "../../Components/AppContextProvider";
 
 const TabPanel = ({children,index,value}) => { 
@@ -30,9 +30,17 @@ function EditComponent({hackathonid,title,description,setTitle,setDescription}) 
         setEdit(!isEdit);
     })
 
-    const handleSave = (()=>{
+    const handleSave = async ()=>{
         setEdit(!isEdit);
-    })
+
+        const newData = {
+            id: hackathonid,
+            title: title,
+            description: description
+        }
+        await addHackathon(newData);
+
+    };
 
     const handleCancel = (()=>{
         setTitle(titleBackup);
@@ -102,12 +110,11 @@ function SubmissionList({hackathonid}) {
 
     React.useEffect(()=>{
         const sub = retriveSubCollections(hackathonid,'Submissions');
-
         sub.then(function(result){
             const data = result.map((doc)=>{
                 return doc.data().user;
             });
-            setSubmissions([...submissions,...data]);
+            setSubmissions([...data]);
         });
     },[hackathonid]);
 
@@ -197,7 +204,7 @@ function RegistrationList({hackathonid}) {
                 return doc.data().user;
             });
             console.log(data);
-            setRegistrations([...registrations,...data]);
+            setRegistrations([...data]);
         });
     },[hackathonid]);
 
