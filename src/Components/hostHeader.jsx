@@ -45,7 +45,7 @@ export default function HostHeader() {
                         <nav>
                             <Link
                                 variant="button"
-                                href="./dashboard"
+                                href="/dashboard"
                                 sx={{ 
                                     my: 2, 
                                     mr: 2, 
@@ -64,7 +64,7 @@ export default function HostHeader() {
                             </Link>
                             <Link
                                 variant="button"
-                                href="./data_analytics"
+                                href="/data_analytics"
                                 sx={{ 
                                     my: 2, 
                                     mr: 2, 
@@ -83,7 +83,7 @@ export default function HostHeader() {
                             </Link>
                             <Link
                                 variant="button"
-                                href="./help_centre"
+                                href="/help_centre"
                                 sx={{ 
                                     my: 2, 
                                     mr: 2, 
@@ -110,7 +110,7 @@ export default function HostHeader() {
                             variant="h6"
                             noWrap
                             component="a"
-                            href="./host_home"
+                            href="/host_home"
                             sx={{
                                 mr: 2,
                                 display: { xs: 'none', md: 'flex' },
@@ -179,7 +179,7 @@ export default function HostHeader() {
                                 <Typography
                                     textAlign="center"
                                     component="a"
-                                    href="./host_profile"
+                                    href="/host_profile"
                                     sx={{
                                         textDecoration: 'none',
                                         color: '#C9D1D9',
@@ -204,7 +204,7 @@ export default function HostHeader() {
                                 <Typography
                                     textAlign="center"
                                     component="a"
-                                    href="./host_account"
+                                    href="/host_account"
                                     sx={{
                                         textDecoration: 'none',
                                         color: '#C9D1D9',
@@ -232,7 +232,7 @@ export default function HostHeader() {
                                 <Typography
                                     textAlign="center"
                                     component="a"
-                                    href="./"
+                                    href="/"
                                     sx={{
                                         textDecoration: 'none',
                                         color: '#C9D1D9',
