@@ -59,6 +59,21 @@ function PublishHackathonPage() {
 
     const [regQuestions, setRegQuestions] = useState([]);
 
+    const [isHost,setIsHost] = useState(false);
+
+    React.useEffect(()=>{
+        if(currentUser!==null){
+            const user = getUser(currentUser.email);
+            user.then(function(result){
+                if(result.role==="host"){
+                    setIsHost(true);
+                }else{
+                    setIsHost(false);
+                }
+            });
+        }
+    },[currentUser]);
+
     const handleRegQuestion = () => {
         setRegQuestions([...regQuestions, ""]);
     }
@@ -130,13 +145,14 @@ function PublishHackathonPage() {
             regRequirements: regRequirements,
             subRequirements: subRequirements,
             regQuestions: regQuestions,
-            subQuestions: subQuestions
+            subQuestions: subQuestions,
+            host: currentUser.email,
         };
 
         await addHackathon(hackathon);
     }
 
-    return (
+    return isHost ? (
         <Box
             sx={{
                 bgcolor: 'background.paper',
@@ -286,6 +302,8 @@ function PublishHackathonPage() {
                 </Button>
             </div>
         </Box>
+    ) : (
+        <div>Error</div>
     )
 }
 

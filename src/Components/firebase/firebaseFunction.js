@@ -8,6 +8,7 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { //signInWithPopup,
   signInWithEmailAndPassword, signOut, updatePassword, createUserWithEmailAndPassword, updateProfile
 } from 'firebase/auth';
+import { saveAs } from 'file-saver';
 
 //CRUD Operations
 //Automatically add a new item to array field
@@ -453,6 +454,7 @@ const downLoadFile = (fileRef) => {
     xhr.responseType = 'blob';
     xhr.onload = (event) => {
       const blob = xhr.response;
+      saveAs(blob,'filename');
       return [event, blob];
     }
     xhr.open('GET', url);
