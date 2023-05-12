@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Navigate } from 'react-router-dom/dist';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../../Components/theme';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -41,30 +42,53 @@ const interests = ['', 'Interest 1', 'Interest 2', 'Interest 3'];
 
 // This is the main function that returns the editProfile component
 export default function EditParticipantProfile() {
-    const {currentUser} = React.useContext(AppContext);
+    const { currentUser, getAllTags } = React.useContext(AppContext);
 
     const [loading, setLoading] = React.useState(false);
+    const [tags, setTags] = React.useState([]);
+    // monitor submit action
+    const [isSave, setSave] = React.useState(false);
 
     const [uploadedAvatar, setUploadedAvatar] = React.useState(null);
     const [uploadedFile, setUploadedFile] = React.useState(null);
-    const [username,setUsername] = React.useState("");
-    const [country,setCountry] = React.useState(null);
-    const [bio,setBio] = React.useState("");
+    const [username, setUsername] = React.useState("");
+    const [country, setCountry] = React.useState(null);
+    const [bio, setBio] = React.useState("");
 
-    const navigate = useNavigate();
+    // Initialize the selectedTags state
+    const [selectedTags, setSelectedTags] = useState([]);
 
-    React.useEffect(()=>{
-        if(currentUser!==null){
+    // Function to handle tag click events, toggling the selection state of a tag
+    const handleTagClick = (tag) => {
+        if (selectedTags.includes(tag)) {
+            setSelectedTags(selectedTags.filter((t) => t !== tag));
+        } else {
+            setSelectedTags([...selectedTags, tag]);
+        }
+        console.log(selectedTags);
+    };
+
+    React.useEffect(() => {
+        if (currentUser !== null) {
             setUploadedAvatar(currentUser.photoURL);
 
             const user = getUserProfile(currentUser.email);
-            user.then(function(result){
+            user.then(function (result) {
                 setUsername(result.username);
                 setCountry(result.country);
                 setBio(result.description);
             });
         }
-    },[currentUser])
+    }, [currentUser])
+
+    // data initialization for interests dropdown menu
+    React.useEffect(() => {
+        async function fetchData() {
+            const storedTags = await getAllTags('participantTags');
+            setTags(storedTags);
+        }
+        fetchData();
+    }, [])
 
     const handleAvatarUpload = (event) => {
         const file = event.target.files[0];
@@ -102,213 +126,216 @@ export default function EditParticipantProfile() {
             username: username,
             country: country,
             description: bio,
-            user: currentUser.email
+            user: currentUser.email,
+            interests: selectedTags
         }
 
-        await updateUserProfile(update,"participant");
-        uploadIcon(uploadedFile,currentUser.email,setLoading);
-        navigate("/profile");
+        await updateUserProfile(update, "participant");
+        uploadIcon(uploadedFile, currentUser.email, setLoading);
+        setSave(true);
     }
 
 
     return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
+        <>
+            {isSave && <Navigate to='/profile' />}
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
 
-            {/* Container for the whole form */}
-            <Box
-                sx={{
-                    bgcolor: "background.paper",
-                    minHeight: "100vh", // Use minHeight instead of height
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    pl: 40,
-                    pt: 5, // Add padding to the top
-                    pb: 5, // Add padding to the bottom
-                }}
-            >
-                <Container maxWidth="md">
-                    <Stack spacing={4} alignItems="flex-start">
-                        {/* Edit Profile title */}
-                        <Typography
-                            sx={{
-                                ...theme.typography,
-                                fontWeight: 700,
-                                fontSize: '25px',
-                                color: '#FFFFFF',
-                            }}
+                {/* Container for the whole form */}
+                <Box
+                    sx={{
+                        bgcolor: "background.paper",
+                        minHeight: "100vh", // Use minHeight instead of height
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        pl: 40,
+                        pt: 5, // Add padding to the top
+                        pb: 5, // Add padding to the bottom
+                    }}
+                >
+                    <Container maxWidth="md">
+                        <Stack spacing={4} alignItems="flex-start">
+                            {/* Edit Profile title */}
+                            <Typography
+                                sx={{
+                                    ...theme.typography,
+                                    fontWeight: 700,
+                                    fontSize: '25px',
+                                    color: '#FFFFFF',
+                                }}
 
-                        >
-                            Edit Profile
-                        </Typography>
-
-                        {/* Avatar and User Name */}
-                        <Stack direction="row" spacing={2} alignItems="center">
-                            {/* Avatar upload button */}
-                            <IconButton
-                                color="primary"
-                                aria-label="upload picture"
-                                component="label"
-                                disabled={loading}
                             >
-                                <input
-                                    hidden
-                                    accept="image/*"
-                                    type="file"
-                                    onChange={handleAvatarUpload}
-                                />
-                                <Avatar src={uploadedAvatar} />
-                            </IconButton>
+                                Edit Profile
+                            </Typography>
 
-                            {/* User Name input field */}
+                            {/* Avatar and User Name */}
+                            <Stack direction="row" spacing={2} alignItems="center">
+                                {/* Avatar upload button */}
+                                <IconButton
+                                    color="primary"
+                                    aria-label="upload picture"
+                                    component="label"
+                                    disabled={loading}
+                                >
+                                    <input
+                                        hidden
+                                        accept="image/*"
+                                        type="file"
+                                        onChange={handleAvatarUpload}
+                                    />
+                                    <Avatar src={uploadedAvatar} />
+                                </IconButton>
+
+                                {/* User Name input field */}
+                                <TextField
+                                    label="Username"
+                                    name="username"
+                                    sx={{ mb: '20px', width: '250px', background: '#21262D' }}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <PersonOutlineOutlinedIcon />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                    value={username}
+                                    onChange={(e) => { setUsername(e.target.value) }}
+                                />
+                            </Stack>
+
+                            {/* Country selection dropdown */}
+                            <CountrySelect
+                                value={country}
+                                onChange={(e, newInputVal) => { setCountry(newInputVal) }}
+                            />
+
+                            {/* Interests selection dropdown */}
+                            <FormControl sx={{ m: 1, width: 300 }}>
+                                <InputLabel id="demo-multiple-chip-label">Select Interests</InputLabel>
+                                <Select
+                                    labelId="demo-multiple-chip-label"
+                                    id="demo-multiple-chip"
+                                    multiple
+                                    value={selectedInterests}
+                                    onChange={handleChange}
+                                    input={<OutlinedInput
+                                        id="select-multiple-chip"
+                                        label="Select Interests"
+                                        startAdornment={
+                                            <InputAdornment position="start">
+                                                <InterestsOutlinedIcon />
+                                            </InputAdornment>
+                                        }
+                                        sx={{ width: '500px', background: '#21262D' }}
+                                    />}
+                                    renderValue={(selected) => (
+                                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                            {selected.filter(value => value).map((value) => (
+                                                <Chip
+                                                    key={value}
+                                                    label={value}
+                                                    onDelete={handleDelete(value)}
+                                                    sx={{
+                                                        border: '1px solid #FF9300',
+                                                        color: '#FF9300',
+                                                    }}
+                                                    deleteIcon={<CloseIcon style={{ color: '#FF9300' }} />}
+                                                    onMouseDown={(event) => event.stopPropagation()}
+                                                />
+                                            ))}
+                                        </Box>
+                                    )}
+                                    MenuProps={MenuProps}
+                                >
+                                    {tags.map((tag, index) => (
+                                        <MenuItem
+                                            key={tag}
+                                            value={tag}
+                                            sx={{ display: index === 0 ? 'none' : 'block' }}
+                                            onClick={() => handleTagClick(tag)}
+                                        >
+                                            {tag}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+
+                            {/* Description Input field */}
                             <TextField
-                                label="Username"
-                                name="username"
-                                sx={{ mb: '20px', width: '250px', background: '#21262D' }}
+                                id="outlined-helperText"
+                                label="Description"
+                                helperText="Add more details about your organization / company and what it does"
+                                sx={{ width: '500px', background: '#21262D' }}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
-                                            <PersonOutlineOutlinedIcon />
+                                            <DescriptionOutlinedIcon />
                                         </InputAdornment>
                                     ),
                                 }}
-                                value={username}
-                                onChange={(e)=>{setUsername(e.target.value)}}
+                                value={bio}
+                                onChange={(e) => { setBio(e.target.value) }}
                             />
+
+                            {/* Cancel and Save buttons */}
+                            <Stack direction="row" spacing={4}>
+                                {/* Cancel button */}
+                                <Button
+                                    variant='outlined'
+                                    sx={{
+                                        mr: 2,
+                                        ml: 10,
+                                        textTransform: 'none',
+                                        width: '142px',
+                                        height: '38px',
+                                        borderRadius: '10px',
+                                        borderColor: '#FF9300',
+                                        fontFamily: 'Inter',
+                                        fontStyle: 'normal',
+                                        fontWeight: 500,
+                                        fontSize: '14px',
+                                        color: '#FF9300',
+                                        '&:hover': {
+                                            borderColor: '#FF9300',
+                                        },
+
+                                    }}
+
+                                >
+                                    Cancel
+                                </Button>
+
+                                {/* Save button */}
+                                <Button
+                                    variant='contained'
+                                    sx={{
+                                        textTransform: 'none',
+                                        width: '142px',
+                                        height: '38px',
+                                        borderRadius: '10px',
+                                        background: '#FF9300',
+                                        fontFamily: 'Inter',
+                                        fontStyle: 'normal',
+                                        fontWeight: 500,
+                                        fontSize: '16px',
+                                        color: '#F7F7FC',
+                                        '&:hover': {
+                                            background: '#21262D',
+                                        },
+
+                                    }}
+                                    onClick={handleSave}
+                                >
+                                    Save
+                                </Button>
+                            </Stack>
+
                         </Stack>
-
-                        {/* Country selection dropdown */}
-                        <CountrySelect 
-                            value={country}
-                            onChange={(e,newInputVal)=>{setCountry(newInputVal)}}
-                        />
-
-                        {/* Interests selection dropdown */}
-                        <FormControl sx={{ m: 1, width: 300 }}>
-                            <InputLabel id="demo-multiple-chip-label">Select Interests</InputLabel>
-                            <Select
-                                labelId="demo-multiple-chip-label"
-                                id="demo-multiple-chip"
-                                multiple
-                                value={selectedInterests}
-                                onChange={handleChange}
-                                input={<OutlinedInput
-                                    id="select-multiple-chip"
-                                    label="Select Interests"
-                                    startAdornment={
-                                        <InputAdornment position="start">
-                                            <InterestsOutlinedIcon />
-                                        </InputAdornment>
-                                    }
-                                    sx={{ width: '500px', background: '#21262D' }}
-                                />}
-                                renderValue={(selected) => (
-                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                        {selected.filter(value => value).map((value) => (
-                                            <Chip
-                                                key={value}
-                                                label={value}
-                                                onDelete={handleDelete(value)}
-                                                sx={{
-                                                    border: '1px solid #FF9300',
-                                                    color: '#FF9300',
-                                                }}
-                                                deleteIcon={<CloseIcon style={{ color: '#FF9300' }} />}
-                                                onMouseDown={(event) => event.stopPropagation()}
-                                            />
-                                        ))}
-                                    </Box>
-                                )}
-                                MenuProps={MenuProps}
-                            >
-                                {interests.map((interest, index) => (
-                                    <MenuItem
-                                        key={interest}
-                                        value={interest}
-                                        sx={{ display: index === 0 ? 'none' : 'block' }}
-                                    >
-                                        {interest}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-
-                        {/* Description Input field */}
-                        <TextField
-                            id="outlined-helperText"
-                            label="Description"
-                            helperText="Add more details about your organization / company and what it does"
-                            sx={{ width: '500px', background: '#21262D' }}
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <DescriptionOutlinedIcon />
-                                    </InputAdornment>
-                                ),
-                            }}
-                            value={bio}
-                            onChange={(e)=>{setBio(e.target.value)}}
-                        />
-
-                        {/* Cancel and Save buttons */}
-                        <Stack direction="row" spacing={4}>
-                            {/* Cancel button */}
-                            <Button
-                                variant='outlined'
-                                sx={{
-                                    mr: 2,
-                                    ml:10,
-                                    textTransform: 'none',
-                                    width: '142px',
-                                    height: '38px',
-                                    borderRadius: '10px',
-                                    borderColor:'#FF9300',
-                                    fontFamily: 'Inter',
-                                    fontStyle: 'normal',
-                                    fontWeight: 500,
-                                    fontSize: '14px',
-                                    color:'#FF9300',
-                                    '&:hover': {
-                                        borderColor:'#FF9300',
-                                    },
-                                    
-                                }}
-                                onClick={()=>{
-                                    navigate("/profile");
-                                }}
-                            >
-                                Cancel
-                            </Button>
-
-                            {/* Save button */}
-                            <Button
-                                variant='contained'
-                                sx={{
-                                    textTransform: 'none',
-                                    width: '142px',
-                                    height: '38px',
-                                    borderRadius: '10px',
-                                    background:'#FF9300',
-                                    fontFamily: 'Inter',
-                                    fontStyle: 'normal',
-                                    fontWeight: 500,
-                                    fontSize: '16px',
-                                    color:'#F7F7FC',
-                                    '&:hover': {
-                                        background:'#21262D',
-                                    },
-                                    
-                                }}
-                                onClick={handleSave}
-                            >
-                                Save
-                            </Button>
-                        </Stack>
-
-                    </Stack>
-                </Container>
-            </Box>
-        </ThemeProvider >
+                    </Container>
+                </Box>
+            </ThemeProvider >
+        </>
     );
 }
