@@ -9,7 +9,6 @@ import Box from '@mui/material/Box';
 import HackathonList from '../../Components/HackathonList';
 import { AppContext } from '../../Components/AppContextProvider';
 import { useState, useEffect, useContext } from 'react';
-import { getUserProfile } from '../../Components/firebase/firebaseFunction';
 
 // An array of card objects to be displayed
 // const cards = [1];
@@ -19,52 +18,13 @@ const initialFilters = { tag: null, offset: null, status: null, username: null, 
 
 // This is the main function that returns the myEvents component
 export default function MyEvents() {
-  // const { getCurrentUser, getUser, signInWithEmailAndPasswordFunction } = useContext(AppContext);
-  // const [user, setUser] = useState(null);
 
-  // login in and get current user
-  // thia part need to be delete
-  // useEffect(()=>{
-  //   async function signInAndSetUser() {
-  //     // await signInWithEmailAndPasswordFunction('testparticipant@example.com','testpassword');
-  //     // get user info from auth function
-  //     const currentUser = getCurrentUser();
-  //     console.log('currentUser:',currentUser)
-  //     // get user role and username from users
-  //     if (currentUser){
-  //       const userinfo = await getUser(currentUser.email);
-  //       setUser(userinfo);
-  //     }
-  //   };
-  //   signInAndSetUser();
-  // },[]);
-
-  const { currentUser } = React.useContext(AppContext);
+  const { currentUser } = useContext(AppContext);
   
-  // console.log('currentUser: ',currentUser);
+  console.log('currentUser: ',currentUser);
   // console.log('user: ',user);
   
-  const [loading, setLoading] = React.useState(false);
-
-  const [uploadedAvatar, setUploadedAvatar] = React.useState(null);
-  const [uploadedFile, setUploadedFile] = React.useState(null);
-  const [username,setUsername] = React.useState("");
-  const [country,setCountry] = React.useState(null);
-  const [bio,setBio] = React.useState("");
-
-  React.useEffect(() => {
-    if (currentUser !== null) {
-      setUploadedAvatar(currentUser.photoURL);
-      // setUser(currentUser);
-
-      const user = getUserProfile(currentUser.email);
-      user.then(function (result) {
-        setUsername(result.username);
-        setCountry(result.country);
-        setBio(result.description);
-      });
-    }
-  }, [currentUser])
+  // const [loading, setLoading] = React.useState(false);
 
 
 

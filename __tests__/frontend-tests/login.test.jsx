@@ -44,7 +44,7 @@ describe('Renders page correctly', () => {
     );
 
     //Find email textfield
-    const inputElement = getByLabelText(/^Password/i);
+    const inputElement = getByLabelText(/^Enter Password/i);
   
     // Simulate user input by firing a change event
     fireEvent.change(inputElement, { target: { value: 'User input' } });

@@ -6,7 +6,8 @@ import {
     getAllTags,
     getCurrentUser,
     getUser,
-    signInWithEmailAndPasswordFunction
+    signInWithEmailAndPasswordFunction,
+    resetPassword
 } from './firebase/firebaseFunction'
 import { onAuthStateChanged } from '@firebase/auth';
 import { auth } from '../firebaseConfig';
@@ -32,7 +33,8 @@ export default function AppContextProvider({ children }) {
         getCurrentUser,
         getUser,
         signInWithEmailAndPasswordFunction,
-        currentUser
+        currentUser,
+        resetPassword
     }
 
     return (

@@ -1,11 +1,18 @@
 import '@testing-library/jest-dom';
 import { render, fireEvent } from '@testing-library/react';
 import AccountSetting from '../../src/pages/participantPages/account';
+import { AppContext } from '../../src/Components/AppContextProvider';
 
 describe('AccountSetting', () => {
     it('Renders all input and button elements correctly', () => {
+        // mock function called inside component
+        const resetPassword = vi.fn();
         // render component
-        const { getByLabelText, getByText, getByRole } = render(<AccountSetting />);
+        const { getByLabelText, getByText, getByRole } = render(
+            <AppContext.Provider value={{ resetPassword }}>
+                <AccountSetting />
+            </AppContext.Provider>
+        );
         // test: input elements are rendered for password and confirm password
         expect(getByLabelText('Password')).toBeInTheDocument();
         expect(getByLabelText('Confirm Password')).toBeInTheDocument();
@@ -19,8 +26,14 @@ describe('AccountSetting', () => {
     });
 
     it('Enables save button when password and confirm password match and are at least 8 characters long', () => {
+        // mock function called inside component
+        const resetPassword = vi.fn();
         // render component
-        const { getByLabelText, getByRole } = render(<AccountSetting />);
+        const { getByLabelText, getByRole } = render(
+            <AppContext.Provider value={{resetPassword}}>
+                <AccountSetting />
+            </AppContext.Provider>
+        );
 
         // input elements
         const passwordInput = getByLabelText('Password');
