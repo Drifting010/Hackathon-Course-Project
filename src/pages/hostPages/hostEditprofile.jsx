@@ -190,7 +190,7 @@ export default function HostEditprofile() {
 
     return (
         <>
-            {isSave && <Navigate to='host_account' />}
+            {isSave && <Navigate to='/host_profile' />}
             <ThemeProvider theme={theme}>
                 <CssBaseline />
 
