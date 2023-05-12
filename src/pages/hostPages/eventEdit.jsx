@@ -351,11 +351,13 @@ function EditForm({ hackathonid }) {
 
             <Button
                 onClick={() => { navigate(0) }}
+                sx={{ color: 'white', my: 3, bgcolor: '#4474F1', fontWeight: 'bold', mr: 3 }}
             >
                 Cancel
             </Button>
             <Button
                 onClick={handleSave}
+                sx={{ color: 'white', my: 3, bgcolor: '#4474F1', fontWeight: 'bold', mr: 3 }}
             >
                 Save
             </Button>
