@@ -40,28 +40,39 @@ const interests = ['', 'Interest 1', 'Interest 2', 'Interest 3'];
 
 // This is the main function that returns the editProfile component
 export default function EditParticipantProfile() {
-    const {currentUser} = React.useContext(AppContext);
+    const { currentUser, getAllTags } = React.useContext(AppContext);
 
     const [loading, setLoading] = React.useState(false);
+    const [tags, setTags] = React.useState([]);
 
     const [uploadedAvatar, setUploadedAvatar] = React.useState(null);
     const [uploadedFile, setUploadedFile] = React.useState(null);
-    const [username,setUsername] = React.useState("");
-    const [country,setCountry] = React.useState(null);
-    const [bio,setBio] = React.useState("");
+    const [username, setUsername] = React.useState("");
+    const [country, setCountry] = React.useState(null);
+    const [bio, setBio] = React.useState("");
 
-    React.useEffect(()=>{
-        if(currentUser!==null){
+
+    React.useEffect(() => {
+        if (currentUser !== null) {
             setUploadedAvatar(currentUser.photoURL);
 
             const user = getUserProfile(currentUser.email);
-            user.then(function(result){
+            user.then(function (result) {
                 setUsername(result.username);
                 setCountry(result.country);
                 setBio(result.description);
             });
         }
-    },[currentUser])
+    }, [currentUser])
+
+    // data initialization: tags data from DB for interests rendering
+    React.useEffect(() => {
+        async function fetchData() {
+            const storedTags = await getAllTags('participantTags');
+            setTags(storedTags);
+        }
+        fetchData();
+    }, [])
 
     const handleAvatarUpload = (event) => {
         const file = event.target.files[0];
@@ -102,8 +113,8 @@ export default function EditParticipantProfile() {
             user: currentUser.email
         }
 
-        await updateUserProfile(update,"participant");
-        uploadIcon(uploadedFile,currentUser.email,setLoading);
+        await updateUserProfile(update, "participant");
+        uploadIcon(uploadedFile, currentUser.email, setLoading);
     }
 
 
@@ -170,14 +181,14 @@ export default function EditParticipantProfile() {
                                     ),
                                 }}
                                 value={username}
-                                onChange={(e)=>{setUsername(e.target.value)}}
+                                onChange={(e) => { setUsername(e.target.value) }}
                             />
                         </Stack>
 
                         {/* Country selection dropdown */}
-                        <CountrySelect 
+                        <CountrySelect
                             value={country}
-                            onChange={(e,newInputVal)=>{setCountry(newInputVal)}}
+                            onChange={(e, newInputVal) => { setCountry(newInputVal) }}
                         />
 
                         {/* Interests selection dropdown */}
@@ -218,13 +229,13 @@ export default function EditParticipantProfile() {
                                 )}
                                 MenuProps={MenuProps}
                             >
-                                {interests.map((interest, index) => (
+                                {tags.map((tag, index) => (
                                     <MenuItem
-                                        key={interest}
-                                        value={interest}
+                                        key={tag}
+                                        value={tag}
                                         sx={{ display: index === 0 ? 'none' : 'block' }}
                                     >
-                                        {interest}
+                                        {tag}
                                     </MenuItem>
                                 ))}
                             </Select>
@@ -244,7 +255,7 @@ export default function EditParticipantProfile() {
                                 ),
                             }}
                             value={bio}
-                            onChange={(e)=>{setBio(e.target.value)}}
+                            onChange={(e) => { setBio(e.target.value) }}
                         />
 
                         {/* Cancel and Save buttons */}
@@ -254,21 +265,21 @@ export default function EditParticipantProfile() {
                                 variant='outlined'
                                 sx={{
                                     mr: 2,
-                                    ml:10,
+                                    ml: 10,
                                     textTransform: 'none',
                                     width: '142px',
                                     height: '38px',
                                     borderRadius: '10px',
-                                    borderColor:'#FF9300',
+                                    borderColor: '#FF9300',
                                     fontFamily: 'Inter',
                                     fontStyle: 'normal',
                                     fontWeight: 500,
                                     fontSize: '14px',
-                                    color:'#FF9300',
+                                    color: '#FF9300',
                                     '&:hover': {
-                                        borderColor:'#FF9300',
+                                        borderColor: '#FF9300',
                                     },
-                                    
+
                                 }}
 
                             >
@@ -283,16 +294,16 @@ export default function EditParticipantProfile() {
                                     width: '142px',
                                     height: '38px',
                                     borderRadius: '10px',
-                                    background:'#FF9300',
+                                    background: '#FF9300',
                                     fontFamily: 'Inter',
                                     fontStyle: 'normal',
                                     fontWeight: 500,
                                     fontSize: '16px',
-                                    color:'#F7F7FC',
+                                    color: '#F7F7FC',
                                     '&:hover': {
-                                        background:'#21262D',
+                                        background: '#21262D',
                                     },
-                                    
+
                                 }}
                                 onClick={handleSave}
                             >
