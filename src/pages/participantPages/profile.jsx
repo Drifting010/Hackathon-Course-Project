@@ -14,7 +14,7 @@ export default function Profile() {
         const fetchData = async () => {
             try {
                 // const userAuth = await auth.currentUser;
-                const userAuth = { email: 'testParticipantProfile@gmail.com' };
+                const userAuth = { email: 'b@b.com' };
                 const userEmail = userAuth.email;
                 const userData = await getUserProfile(userEmail);
                 setUser(userData);
@@ -27,8 +27,8 @@ export default function Profile() {
     }, []);
 
     let newDescription = null;
-    if (user && user.Description) {
-        newDescription = user.Description.replace(/\\n/g, '\n').split('\n');
+    if (user && user.description) {
+        newDescription = user.description.replace(/\\n/g, '\n').split('\n');
     }
 
     return (
@@ -79,6 +79,7 @@ export default function Profile() {
                             <Grid item>
                                 <Button
                                     variant='contained'
+                                    href='/edit_participant_profile'
                                     sx={{
                                         textTransform: 'none',
                                         width: '142px',
@@ -116,14 +117,14 @@ export default function Profile() {
                                                 color: '#C9D1D9',
                                             }}
                                         >
-                                            {user.Country}
+                                            {user.country.label}
                                         </Typography>
                                     </Grid>
                                 </Grid>
                             </Grid>
 
                             <Grid item>
-                                {user.Tags.map((tag, index) => (
+                                {user.tags.map((tag, index) => (
                                     <Button
                                         key={index}
                                         sx={{
