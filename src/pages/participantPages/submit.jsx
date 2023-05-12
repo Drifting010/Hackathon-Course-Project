@@ -10,7 +10,9 @@ import InputAdornment from '@mui/material/InputAdornment';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import { AppContext } from '../../Components/AppContextProvider';
 import { useParams } from 'react-router';
-import { addDocumentToSubCollection, getHackathon } from '../../Components/firebase/firebaseFunction';
+import { addDocumentToSubCollection, getHackathon, uploadFile } from '../../Components/firebase/firebaseFunction';
+import { ref } from '@firebase/storage';
+import { storage } from '../../firebaseConfig';
 
 // This is the main function that returns the registerHackathons component
 export default function SubmitHackathons() {
@@ -24,6 +26,16 @@ export default function SubmitHackathons() {
     const [title,setTitle] = React.useState("");
     const [desc,setDesc] = React.useState("");
     const [ans,setAns] = React.useState([]);
+
+    const [fileName,setFileName] = React.useState("");
+    const [fileUploaded,setFileUploaded] = React.useState(null);
+
+    const handleFileUpload = event => {
+        setFileUploaded(event.target.files[0]);
+        setFileName(event.target.files[0].name)
+    };
+
+    const fileInput = React.useRef(null);
 
     React.useEffect(()=>{
         if(currentUser!==null){
@@ -46,6 +58,9 @@ export default function SubmitHackathons() {
         }
 
         await addDocumentToSubCollection('hackathons',id,'Submissions',currentUser.email,data);
+
+        const fileRef = ref(storage, 'hackathons/' + id +'/' +currentUser.email);
+        await uploadFile(fileUploaded,fileRef);
     }
 
     function QuestionField({label,index}){
@@ -161,6 +176,32 @@ export default function SubmitHackathons() {
                     >
                         {requirements}
                     </Typography>
+
+                    <input
+                        type="file"
+                        ref={fileInput}
+                        onChange={handleFileUpload}
+                        style={{display: 'none'}}
+                    />
+
+                    <Box
+                        sx={{mb:5,display:'flex'}}
+                    >
+                        <Button
+                            sx={{ mr: 2, textTransform: 'none' }}
+                            onClick={() => fileInput.current.click()}
+                        >
+                            Upload Submission
+                        </Button>
+                        <Typography
+                            variant="h5"
+                            align="left"
+                            color="text.secondary"
+                            paragraph
+                        >
+                            {fileName}
+                        </Typography>
+                    </Box>
 
                     {/* Cancel button to cancel the registration process */}
                     {/* Cancel button */}
