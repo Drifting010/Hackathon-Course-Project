@@ -16,7 +16,7 @@ jest.mock('../../src/Components/firebase/firebaseFunction', () => ({
 
 // ... other test cases
 test('get all data when filter is null', async () => {
-  const filter = {tag: '', username:'testname', role:'participant'};
+  const filter = {tag: '', username:'test', role:'host'};
 
   const hackathonData = await getHackathonByFilterByParticipant(filter);
 
@@ -30,7 +30,7 @@ test('get all data when filter is null', async () => {
 });
 
 test('get data according to the tag', async () => {
-    const filter = {tag: 'Test Hackathon', username:'testname', role:'participant'};
+    const filter = {tag: 'Test Hackathon', username:'test', role:'host'};
   
     const hackathonData = await getHackathonByFilterByParticipant(filter);
   
@@ -44,7 +44,7 @@ test('get data according to the tag', async () => {
   });
 
   test('get data according to the status', async () => {
-    const filter = {status: 'ongoing', username:'testname', role:'participant'};
+    const filter = {status: 'ongoing', username:'test', role:'host'};
   
     const hackathonData = await getHackathonByFilterByParticipant(filter);
   

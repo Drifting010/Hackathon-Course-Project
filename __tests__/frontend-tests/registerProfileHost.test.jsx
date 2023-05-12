@@ -9,10 +9,6 @@ describe("RegisterProfileHost", () => {
 
     // Test case: Check if the component renders all elements correctly
     it("renders all elements correctly, all elements appeared on the page", () => {
-        // dummy data
-        const user = {h_email:'test@test.com'};
-        window.localStorage.setItem('user', JSON.stringify(user));
-
         const { getByRole, getByLabelText } = render(<RegisterProfileHost />);
 
         // Test text fields render user input correctly
@@ -34,7 +30,7 @@ describe("RegisterProfileHost", () => {
         });
 
         // Test Host Proceed button
-        const proceedButton = screen.getByRole("button", { name: /host proceed/i });
+        const proceedButton = screen.getByRole("link", { name: /host proceed/i });
         expect(proceedButton).toBeInTheDocument();
 
         // Test the CountrySelect component
@@ -62,11 +58,10 @@ describe("RegisterProfileHost", () => {
         render(<RegisterProfileHost />);
 
         // Get the 'Host Proceed' button
-        const proceedButton = screen.getByRole("button", { name: /host proceed/i });
+        const proceedButton = screen.getByRole("link", { name: /host proceed/i });
 
         // Ensure the button is initially disabled
-        // expect(proceedButton).toHaveAttribute("aria-disabled", "true");
-        expect(proceedButton).toBeDisabled();
+        expect(proceedButton).toHaveAttribute("aria-disabled", "true");
 
         // Fill in the name, description, and website but leave the country empty (invalid form)
         fireEvent.change(screen.getByLabelText("Name of company / organization"), { target: { value: "Test Organization" } });
@@ -74,8 +69,7 @@ describe("RegisterProfileHost", () => {
         fireEvent.change(screen.getByLabelText("www.yourwebsite.com"), { target: { value: "https://www.testwebsite.com" } });
 
         // The button should still be disabled as the form is not valid
-        // expect(proceedButton).toHaveAttribute("aria-disabled", "true");
-        expect(proceedButton).toBeDisabled();
+        expect(proceedButton).toHaveAttribute("aria-disabled", "true");
     });
 
 });

@@ -51,7 +51,7 @@ const TagsSelector = ({ tags, onSubmit }) => {
                                                 fontFamily: 'Inter',
                                                 fontStyle: 'normal',
                                                 fontWeight: 500,
-                                                fontSize: '10px',
+                                                fontSize: '14px',
                                                 textTransform: 'none',
                                                 textAlign: 'center',
                                                 letterSpacing: '0.75px',

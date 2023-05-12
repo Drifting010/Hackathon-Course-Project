@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getHackathonByFilterByHost, getHackathonByFilterByParticipant,getHackathonByTag,getHackathonByFilterExplore } from './firebase/firebaseFunction';
+import { getHackathonByFilterByHost, getHackathonByFilterByParticipant } from './firebase/firebaseFunction';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -11,57 +11,29 @@ import Container from '@mui/material/Container';
 import { LinearProgress } from '@mui/material';
 import { daysDiff, hackathonPercentage } from '../hooks/dateFunctions';
 
-// const initialFilters = { tag: null, offset: null, status: null, role: null };
+const initialFilters = { tag: null, offset: null, status: null, role: null };
 // const limit = 10
 
 // This is the main function that returns the hackathonList component
-function HackathonList({filters, pagename}) {
+function HackathonList({ filters = initialFilters }) {
   // const [offset, setOffset] = useState(0)
   const [data, setData] = useState([]);
   useEffect(() => {
-    // dashBoard function
     async function fetchDataByHost() {
       const Data = await getHackathonByFilterByHost(filters);
       setData(Data);
     }
-    // myEvents function
     async function fetchDataByParticipant() {
       const Data = await getHackathonByFilterByParticipant(filters);
       setData(Data);
     }
-    // homePage function
-    async function fetchDataByGuest() {
-      const Data = await getHackathonByTag(filters);
-      setData(Data);
-    }
-    // explore function getting hackathon that participant does not participate
-    async function fetchDataForExplore() {
-      const Data = await getHackathonByFilterExplore(filters);
-      setData(Data);
-    }
     const role = filters.role;
-    if (role === 'participant' && pagename==='myEvents'){
-      fetchDataByParticipant();
-      console.log('it is participant myEvents')
-      console.log('filter: ',filters)
-    } else if (role === 'participant'&& pagename==='explore') {
-      fetchDataForExplore();
-      console.log('it is participant explore')
-      console.log('filter: ',filters)
-    } else if (role === 'host'&& pagename==='dashBoard') {
+    if (role === 'host'){
       fetchDataByHost();
-      console.log('it is host dashBoard')
-      console.log('filter: ',filters)
-    } else if (role === 'participant'&& pagename==='homePage') {
-      fetchDataByGuest();
-      console.log('it is participant homePage')
-      console.log('filter: ',filters)
-    }else {
-      fetchDataByGuest();
-      console.log('it is guest')
-      console.log('filter: ',filters)
+    } else if (role === 'participant') {
+      fetchDataByParticipant();
     }
-  }, [filters,pagename]);
+  }, [filters]);
   // const pages = Math.ceil(data.HackathonsCount / limit)
 
   return (

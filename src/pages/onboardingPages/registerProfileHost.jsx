@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import CountrySelect, { countries } from '../../Components/countrySelect';
@@ -14,64 +13,56 @@ import Button from '@mui/material/Button';
 // Define a RegisterProfileHost component for registering a host (organization)
 export default function RegisterProfileHost() {
 
-    // import user data stored in browser by signup page 
-    const user = JSON.parse(window.localStorage.getItem('user'));
-
-    // state: participantProfile
-    const [hostProfile, setHostProfile] = useState({
-        country: '',
-        description: '',
-        tags: [],
-        user: user.h_email,
-        userIcon: '',
-        nameOfOrganization: '',
-        website: ''
-    });
-
-    // store data in the browser
-    useEffect(() => {
-        window.localStorage.setItem('hostProfile', JSON.stringify(hostProfile));
-    }, [hostProfile]);
-
-    const [isSubmitting, setSubmitting] = useState(false);
-
     // State variables for form validation and form fields
     const [formValid, setFormValid] = useState(false);
+    const [nameOfOrganization, setNameOfOrganization] = useState('');
+    const [country, setCountry] = useState('');
+    const [description, setDescription] = useState('');
+    const [website, setWebsite] = useState('');
 
     // Function to handle form submission
     const handleFormSubmit = (event) => {
         event.preventDefault();
         // Add form submission logic here
-        setSubmitting(true);
     };
 
     // Function to handle form data changes
     const handleFormDataChange = (event) => {
         const { name, value } = event.target;
-        // Update the state based on the input field being changed
-        setHostProfile((prevState) => ({
-            ...prevState,
-            [name]: value
-        }));
+        // Update state variables based on the input field
+        switch (name) {
+            case 'nameOfOrganization':
+                setNameOfOrganization(value.trim());
+                break;
+            case 'country':
+                setCountry(value);
+                break;
+            case 'description':
+                setDescription(value.trim());
+                break;
+            case 'website':
+                setWebsite(value.trim());
+                break;
+            default:
+                break;
+        }
+         // Check form validity
+        checkFormValid();
     };
 
     // Function to check form validity
     const checkFormValid = () => {
-        const isValid = 
-            hostProfile.nameOfOrganization !== '' 
-            && hostProfile.country !== '' && hostProfile.description !== '' 
-            && hostProfile.website !== '';
+        const isValid = nameOfOrganization !== '' && country !== '' && description !== '' && website !== '';
         setFormValid(isValid);
     };
 
     // Effect hook to update form validation state
     useEffect(() => {
         checkFormValid();
-    }, [hostProfile.nameOfOrganization, hostProfile.country, hostProfile.description, hostProfile.website]);
+    }, [nameOfOrganization, country, description, website]);
 
     return (
         <>
-            {isSubmitting && <Navigate to='/interests' />}
             {/* Outer Box for centering the inner content */}
             <Box
                 sx={{
@@ -121,7 +112,7 @@ export default function RegisterProfileHost() {
                     <TextField
                         label="Name of company / organization"
                         name="nameOfOrganization"
-                        value={hostProfile.nameOfOrganization}
+                        value={nameOfOrganization}
                         onChange={handleFormDataChange}
                         sx={{ mb: '20px', width: '500px', background: '#21262D' }}
                         InputProps={{
@@ -162,7 +153,7 @@ export default function RegisterProfileHost() {
                     </Typography>
                     <CountrySelect
                         name="country"
-                        value={countries.find((option) => option.label === hostProfile.country)}
+                        value={countries.find((option) => option.label === country)}
                         onChange={(event, newValue) => {
                             handleFormDataChange({ target: { name: 'country', value: newValue || '' } });
                         }}
@@ -199,7 +190,7 @@ export default function RegisterProfileHost() {
                     <TextField
                         label="Description"
                         name="description"
-                        value={hostProfile.description}
+                        value={description}
                         onChange={handleFormDataChange}
                         sx={{ mb: '15px', width: '500px', background: '#21262D' }}
                         InputProps={{
@@ -228,7 +219,7 @@ export default function RegisterProfileHost() {
                     <TextField
                         label="www.yourwebsite.com"
                         name="website"
-                        value={hostProfile.website}
+                        value={website}
                         onChange={handleFormDataChange}
                         sx={{ mb: '30px', width: '500px', background: '#21262D' }}
                         InputProps={{
@@ -243,9 +234,10 @@ export default function RegisterProfileHost() {
                     {/* Submit button */}
                     <Box >
                         <Button
-                            onClick={handleFormSubmit}
+                            type="submit"
                             name="host_proceed"
                             disabled={!formValid}
+                            href='./interests'
                             sx={{
                                 width: '500px',
                                 height: '40px',
@@ -265,6 +257,8 @@ export default function RegisterProfileHost() {
                             Host Proceed
                         </Button>
                     </Box>
+
+
                 </Box>
             </Box>
         </>

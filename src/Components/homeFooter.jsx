@@ -4,18 +4,14 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom'
-import AdbIcon from '@mui/icons-material/Adb';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import Divider from '@mui/material/Divider';
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="text.secondary">
+    <Typography variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
-      <Link to="/home" underline="none">
-        Hackathon Website
-      </Link>
+      <Link color="inherit" to="/home" >
+        Your Website
+      </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -29,62 +25,18 @@ function Footer(props) {
   return (
     <Box component="footer" sx={{ bgcolor: 'background.paper', py: 6 }}>
       <Container maxWidth="lg">
-        <Box pt={10}>
-          {/* AdbIcon component from Material UI, hidden on extra-small screens */}
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex', color: '#FF9300', fontSize: '50px', marginLeft: '5.5%' } }} />
-
-          {/* Typography component from Material UI, showing the title of the header, hidden on extra-small and small screens */}
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            href="./home"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              color: '#FF9300',
-              textDecoration: 'none',
-            }}
-          >
-            H A C K A T H O N
-          </Typography>
-          <Typography variant="body2" color="#C9C9C9" pt={3} paragraph>
-            Host, Join, and Win with Our Hackathon Platform!<br />
-            Some brief descriptions about the Hackathon Website, etc.
-          </Typography>
-          <Stack
-            sx={{ pt: 2 }}
-            direction="row"
-            spacing={2}
-          >
-            <Button
-              sx={{
-                width: '100px',
-                height: '35px',
-                background: '#FF9300',
-                textTransform: 'none',
-                borderRadius: '5px',
-                fontFamily: 'Inter',
-                fontStyle: 'normal',
-                fontWeight: 600,
-                fontSize: '12px',
-                color: '#F7F7FC',
-              }
-              }>Try now
-            </Button>
-          </Stack>
-          <Divider sx={{ my:3, bgcolor: '#FF9300' }} />
-          <Typography
-            variant="subtitle1"
-            color="text.secondary"
-            component="p"
-          >
-            {description}
-          </Typography>
-          <Copyright />
-        </Box>
+        <Typography variant="h6" align="center" gutterBottom>
+          HACKATHON
+        </Typography>
+        <Typography
+          variant="subtitle1"
+          align="center"
+          color="text.secondary"
+          component="p"
+        >
+          {description}
+        </Typography>
+        <Copyright />
       </Container>
     </Box>
   );

@@ -7,34 +7,44 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-import { getUser, getUserProfile } from '../../Components/firebase/firebaseFunction';
-import { AppContext } from '../../Components/AppContextProvider';
+import { getUser } from '../../Components/firebase/firebaseFunction';
+import { auth } from '../../firebaseConfig';
 
 // This is the main function that returns the profile component
 export default function Profile() {
-
-    const currentUser  = React.useContext(AppContext).currentUser;
-
     const [user, setUser] = React.useState(null);
-    const [userProfile, setUserProfile] = React.useState(null);
+    const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
         const fetchData = async () => {
-            if (currentUser) {
-                const user = await getUser(currentUser.email);
-                setUser(user);
-                const userProfile = await getUserProfile(currentUser.email);
-                setUserProfile(userProfile);
+            try {
+                // const userAuth = await auth.currentUser;
+                const userAuth = { email: 'TEST0509@TEST.com' };
+                if (userAuth) {
+                    const userEmail = userAuth.email;
+                    const userData = await getUser(userEmail);
+                    setUser(userData);
+                }
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchData();
-    }, [user]);
+    }, []);
+
+    console.log(user);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            {currentUser ? (
+            {user ? (
                 <Box
                     sx={{
                         display: 'flex',
@@ -47,7 +57,7 @@ export default function Profile() {
                     <Grid container justifyContent="center" alignItems="center" direction="column" spacing={4}>
 
                         <Grid item>
-                            <Avatar src={userProfile.userIcon} />
+                            <Avatar src={user.profile.userIcon} />
                         </Grid>
 
                         <Grid item>
@@ -64,7 +74,7 @@ export default function Profile() {
 
                                 <Grid item>
                                     <Typography>
-                                        {userProfile.Country}
+                                        {/* {user.profile.Country} */}
                                     </Typography>
                                 </Grid>
                             </Grid>
@@ -72,7 +82,7 @@ export default function Profile() {
 
                         <Grid item>
                             <Typography>
-                                {userProfile.Description}
+                                {/* {user.profile.Description} */}
                             </Typography>
                         </Grid>
 

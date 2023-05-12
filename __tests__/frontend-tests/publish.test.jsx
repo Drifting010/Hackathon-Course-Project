@@ -2,13 +2,18 @@ import React from 'react';
 import { test, expect } from 'vitest';
 import { render, fireEvent, getByRole, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import PublishEssentials from '../../src/Components/Publish/publishEssentials';
-import PublishHackathonPage from '../../src/pages/publishHackathonPage';
+import PublishHackathonPage from '../../src/pages/hostPages/publishHackathon';
+import { AppContext } from '../../src/Components/AppContextProvider';
 
 describe('Renders page correctly', () => {
   test('Hackathon essential inputs exists and works', () => {
     //Render essential information component
-    const { getByLabelText } = render(<PublishEssentials/>);
+    const currentUser = vi.fn();
+    const { getByLabelText } = render(
+      <AppContext.Provider value={{ currentUser }}>
+        <PublishHackathonPage/>  
+      </AppContext.Provider>  
+    );
   
     //Find textfields for name and description
     const inputElement = getByLabelText(/^Hackathon name/i);
@@ -27,7 +32,11 @@ describe('Renders page correctly', () => {
   //Need to find a way to test that date picker actually works
   test('Start and end date input fields exist', () => {
     //Render essential information component
-    const { getByLabelText } = render(<PublishEssentials/>);
+    const currentUser = vi.fn();
+    const { getByLabelText } = render(
+    <AppContext.Provider value={{ currentUser }}>
+      <PublishHackathonPage/>  
+    </AppContext.Provider> );
   
     //Find date picker elements
     const inputElement = getByLabelText(/^Start Date/i);
@@ -40,7 +49,11 @@ describe('Renders page correctly', () => {
 
   test('Publish button exists', () => {
     //Render publish hackathon page
-    const { getByRole } = render(<PublishHackathonPage/>);
+    const currentUser = vi.fn();
+    const { getByRole } = render(
+    <AppContext.Provider value={{ currentUser }}>
+      <PublishHackathonPage/>  
+    </AppContext.Provider> );
 
     //Find button and verify presence
     const loginButton = getByRole("button", { name: /publish/i });

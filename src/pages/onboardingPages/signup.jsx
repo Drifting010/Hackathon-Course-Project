@@ -11,13 +11,11 @@ import Box from '@mui/material/Box';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import InputAdornment from '@mui/material/InputAdornment';
 import HttpsOutlinedIcon from '@mui/icons-material/HttpsOutlined';
-import { Navigate } from 'react-router-dom';
 
 // Signup function component
 export default function Signup() {
-    // Import firebase function from Context API
+    // Import firebase function to create a new user
     const { createUserWithEmailAndPasswordFunction } = useContext(AppContext);
-
     // State variables for validity of email, password, and password confirmation fields
     const [emailValid, setEmailValid] = useState(false);
     const [pwdValid, setPwdValid] = useState(false);
@@ -31,8 +29,11 @@ export default function Signup() {
         pwdConfirm: '',
     });
 
+    // state: form submit check
+    // const [success, setSuccess] = useState('');
+
     // State variables for storing form data and submitting state
-    const [user, setUser] = useState({
+    const [formData, setFormData] = useState({
         p_email: '',
         p_pwd: '',
         p_pwdConfirm: '',
@@ -41,15 +42,28 @@ export default function Signup() {
         h_pwdConfirm: '',
         role: 'participant' // by default
     });
-
-    // store data in local storage
-    useEffect(() => {
-        window.localStorage.setItem('user', JSON.stringify(user));
-        window.localStorage.setItem('role', user.role);
-    }, [user]);
-
-    // state hook for submit control
     const [isSubmitting, setSubmitting] = useState(false);
+
+    // useEffect to handle form submission
+    useEffect(() => {
+        if (isSubmitting) {
+            let email, password;
+            // TEST DATA: Need to change
+            let username = 'testData', profile = 'testData';
+
+            const { p_email, p_pwd, h_email, h_pwd, role } = formData;
+
+            if (role === 'participant') {
+                email = p_email;
+                password = p_pwd;
+            } else {
+                email = h_email;
+                password = h_pwd;
+            }
+            // Submit form data to the users collection of the firebase DB
+            createUserWithEmailAndPasswordFunction(email, password, username, role, profile);
+        }
+    }, [formData, isSubmitting]);
 
     // useEffect to validate the form when email, password, or password confirmation validity changes
     useEffect(() => {
@@ -57,16 +71,8 @@ export default function Signup() {
     }, [emailValid, pwdValid, pwdConfirmValid]);
 
     // Function to handle form submission
-    const handleFormSubmit = async (event) => {
+    const handleFormSubmit = (event) => {
         event.preventDefault();
-        // data to submit
-        let email, password, role;
-        email = user.role === 'participant' ? user.p_email : user.h_email;
-        password = user.role === 'participant' ? user.p_pwd : user.h_pwd;
-        role = user.role === 'participant' ? 'participant' : 'host';
-        // register new user
-        await createUserWithEmailAndPasswordFunction(email, password, role);
-        // submission approved
         setSubmitting(true);
     }
 
@@ -75,9 +81,9 @@ export default function Signup() {
         const { name, value } = event.target;
         const trimmedValue = value.trim();
 
-        setUser((prevState) => ({
+        setFormData((prevState) => ({
             ...prevState,
-            [name]: name === 'p_pwd' || name === 'h_pwd' ? (trimmedValue || '') : trimmedValue,
+            [name]: trimmedValue,
         }));
 
         validateField(name, trimmedValue);
@@ -92,7 +98,7 @@ export default function Signup() {
         return password.length >= 8;
     }
     const validateConfirmPassword = (pwdConfirm) => {
-        return pwdConfirm === user.p_pwd || pwdConfirm === user.h_pwd;
+        return pwdConfirm === formData.p_pwd || pwdConfirm === formData.h_pwd;
     }
 
     // Function to validate a specific field
@@ -135,9 +141,6 @@ export default function Signup() {
     // Render the signup form with input fields, radio buttons, and submit button
     return (
         <>
-            {isSubmitting && (
-                <Navigate to={user.role === 'participant' ? '/register_profile_participant' : '/register_profile_host'} />
-            )}
             {/* Outer Box for centering the inner content */}
             <Box
                 sx={{
@@ -187,9 +190,9 @@ export default function Signup() {
                     <FormControl component="fieldset" sx={{ mb: '10px' }}>
                         <RadioGroup
                             row
-                            value={user.role}
+                            value={formData.role}
                             onChange={(event) =>
-                                setUser({ ...user, role: event.target.value })
+                                setFormData({ ...formData, role: event.target.value })
                             }
                         >
                             <FormControlLabel
@@ -206,8 +209,8 @@ export default function Signup() {
                     </FormControl>
 
                     {/* Form for participant */}
-                    {user.role === 'participant' && (
-                        <form onSubmit={(event) => handleFormSubmit(event)}>
+                    {formData.role === 'participant' && (
+                        <form onSubmit={handleFormSubmit}>
                             {/* Email input */}
                             <Box width="425px" mb={3}>
                                 <TextField
@@ -215,7 +218,7 @@ export default function Signup() {
                                     label="Email (Participant)"
                                     type="text"
                                     name="p_email"
-                                    value={user.p_email}
+                                    value={formData.p_email}
                                     onChange={handleFormDataChange}
                                     error={!!errorMessage.email}
                                     helperText={errorMessage.email}
@@ -237,7 +240,7 @@ export default function Signup() {
                                     label="Password (Participant)"
                                     type="password"
                                     name="p_pwd"
-                                    value={user.p_pwd}
+                                    value={formData.p_pwd}
                                     onChange={handleFormDataChange}
                                     error={!!errorMessage.pwd}
                                     helperText={errorMessage.pwd}
@@ -259,7 +262,7 @@ export default function Signup() {
                                     label="Confirm Password (Participant)"
                                     type="password"
                                     name="p_pwdConfirm"
-                                    value={user.p_pwdConfirm}
+                                    value={formData.p_pwdConfirm}
                                     onChange={handleFormDataChange}
                                     error={!!errorMessage.pwdConfirm}
                                     helperText={errorMessage.pwdConfirm}
@@ -280,6 +283,8 @@ export default function Signup() {
                                     type="submit"
                                     name="participant_proceed"
                                     disabled={!formValid}
+                                    onClick={handleFormSubmit}
+                                    // href='./register_profile_participant'
                                     sx={{
                                         width: '425px',
                                         height: '40px',
@@ -299,12 +304,13 @@ export default function Signup() {
                                     Participant Proceed
                                 </Button>
                             </Box>
+
                         </form>
                     )}
 
                     {/* Form for host */}
-                    {user.role === 'host' && (
-                        <form>
+                    {formData.role === 'host' && (
+                        <form onSubmit={handleFormSubmit}>
                             {/* Email input */}
                             <Box width="425px" mb={3}>
                                 <TextField
@@ -312,7 +318,7 @@ export default function Signup() {
                                     label="Email (Host)"
                                     type="text"
                                     name="h_email"
-                                    value={user.h_email}
+                                    value={formData.h_email}
                                     onChange={handleFormDataChange}
                                     error={!!errorMessage.email}
                                     helperText={errorMessage.email}
@@ -334,7 +340,7 @@ export default function Signup() {
                                     label="Password (Host)"
                                     type="password"
                                     name="h_pwd"
-                                    value={user.h_pwd}
+                                    value={formData.h_pwd}
                                     onChange={handleFormDataChange}
                                     error={!!errorMessage.pwd}
                                     helperText={errorMessage.pwd}
@@ -356,7 +362,7 @@ export default function Signup() {
                                     label="Confirm Password (Host)"
                                     type="password"
                                     name="h_pwdConfirm"
-                                    value={user.h_pwdConfirm}
+                                    value={formData.h_pwdConfirm}
                                     onChange={handleFormDataChange}
                                     error={!!errorMessage.pwdConfirm}
                                     helperText={errorMessage.pwdConfirm}
@@ -374,9 +380,11 @@ export default function Signup() {
                             {/* Submit button */}
                             <Box mb={3}>
                                 <Button
+                                    type="submit"
                                     name="host_proceed"
                                     disabled={!formValid}
                                     onClick={handleFormSubmit}
+                                    // href='./register_profile_host'
                                     sx={{
                                         width: '425px',
                                         height: '40px',
@@ -398,6 +406,7 @@ export default function Signup() {
                             </Box>
                         </form>
                     )}
+
                 </Box>
             </Box>
         </>

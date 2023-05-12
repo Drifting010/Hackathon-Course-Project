@@ -240,46 +240,6 @@ const getHackathonByFilterByParticipant = async (filters) => {
   }
 };
 
-// get hackathons for explore page
-// get hackathons by filter by participant
-const getHackathonByFilterExplore = async (filters) => {
-  try {
-    const hackathonsRef = collection(db, "hackathons");
-    let queryRef = query(hackathonsRef);
-    console.log('filters.username: ',filters.username)
-    // find by tag + status
-    if ((filters.tag !== null) && (filters.status !== null)) {
-      queryRef = query(
-        hackathonsRef, 
-        where("tag", "==", filters.tag),
-        where("status", "==", filters.status),
-        );
-    // find by tag
-    } else if (filters.tag !== null && filters.status === null) {
-      queryRef = query(
-        hackathonsRef, 
-        where("tag", "==", filters.tag),
-        );
-    // find by status
-    } else if (filters.tag === null && filters.status !== null){
-      queryRef = query(
-        hackathonsRef, 
-        where("status", "==", filters.status),
-        );
-    }
-    const querySnapshot = await getDocs(queryRef);
-    const hackathons = [];
-    querySnapshot.forEach((doc) => {
-      if (!doc.data().members.includes(filters.username) )
-      hackathons.push({ id: doc.id, ...doc.data() });
-    });
-    // console.log('hackathons:',hackathons);
-    return hackathons;
-  } catch (error) {
-    console.error('Error getting hackathons by tag: ', error);
-  }
-};
-
 //return all tags 
 const getAllTags = async (collectionName) => {
   try {
@@ -658,5 +618,4 @@ export {
   getHackathonByFilterByHost,
   getHackathonByFilterByParticipant,
   getHackathonAndParticipants,
-  getHackathonByFilterExplore,
 };
