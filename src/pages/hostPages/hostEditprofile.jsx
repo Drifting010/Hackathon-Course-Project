@@ -27,10 +27,8 @@ import Chip from '@mui/material/Chip';
 import CloseIcon from '@mui/icons-material/Close';
 import { styled } from '@mui/system';
 import { getCurrentUser, uploadIcon } from '../../Components/firebase/firebaseFunction';
-
-import theme from '../../Components/theme';
 import { AppContext } from '../../Components/AppContextProvider';
-import { getUser, getUserProfile, updateUserProfile, uploadIcon } from '../../Components/firebase/firebaseFunction';
+import { getUser, getUserProfile, updateUserProfile } from '../../Components/firebase/firebaseFunction';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -212,12 +210,19 @@ export default function HostEditprofile() {
                             </IconButton>
 
                             {/* User Name input field */}
-                            <TextField
-                                id="outlined-username"
-                                label="Company Name"
+                            <CssTextField
+                                label="Name of organization"
+                                name="username"
+                                sx={{ mb: '20px', width: '250px', background: '#21262D' }}
                                 value={companyName}
                                 onChange={(e)=>{setCompanyName(e.target.value)}}
-
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <PersonOutlineOutlinedIcon />
+                                        </InputAdornment>
+                                    ),
+                                }}
                             />
                         </Stack>
 
@@ -313,16 +318,6 @@ export default function HostEditprofile() {
                             id="outlined-helperText"
                             label="Description"
                             helperText="Add more details about your organization / company and what it does"
-                            style={{ width: 500 }}
-                            value={bio}
-                            onChange={(e)=>{setBio(e.target.value)}}
-                        />
-
-                        {/* Website input field */}
-                        <TextField
-                            id="outlined-helperText"
-                            value={website}
-                            onChange={(e)=>{setWebsite(e.target.value)}}
                             sx={{ width: '500px', background: '#21262D' }}
                             InputProps={{
                                 startAdornment: (
@@ -331,6 +326,8 @@ export default function HostEditprofile() {
                                     </InputAdornment>
                                 ),
                             }}
+                            value={bio}
+                            onChange={(e)=>{setBio(e.target.value)}}
                         />
 
                          {/* Website Input field */}
