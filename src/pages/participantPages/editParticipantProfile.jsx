@@ -11,7 +11,7 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
-import { getCurrentUser, uploadIcon } from '../../Components/firebase/firebaseFunction';
+import { getCurrentUser, getUserProfile, updateUserProfile, uploadIcon } from '../../Components/firebase/firebaseFunction';
 import InputAdornment from '@mui/material/InputAdornment';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import InterestsOutlinedIcon from '@mui/icons-material/InterestsOutlined';
@@ -23,6 +23,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import CloseIcon from '@mui/icons-material/Close';
+import { AppContext } from '../../Components/AppContextProvider';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -39,27 +40,38 @@ const interests = ['', 'Interest 1', 'Interest 2', 'Interest 3'];
 
 // This is the main function that returns the editProfile component
 export default function EditParticipantProfile() {
+    const {currentUser} = React.useContext(AppContext);
 
     const [loading, setLoading] = React.useState(false);
-    const currentUser = getCurrentUser();
-
-    if (currentUser != null) {
-        const [uploadedAvatar, setUploadedAvatar] = React.useState(currentUser.photoURL);
-    }
 
     const [uploadedAvatar, setUploadedAvatar] = React.useState(null);
+    const [uploadedFile, setUploadedFile] = React.useState(null);
+    const [username,setUsername] = React.useState("");
+    const [country,setCountry] = React.useState(null);
+    const [bio,setBio] = React.useState("");
 
-    useEffect(() => {
-        if (currentUser != null)
+    React.useEffect(()=>{
+        if(currentUser!==null){
             setUploadedAvatar(currentUser.photoURL);
-    }, [currentUser])
 
-    // Event handler for avatar upload
+            const user = getUserProfile(currentUser.email);
+            user.then(function(result){
+                setUsername(result.username);
+                setCountry(result.country);
+                setBio(result.description);
+            });
+        }
+    },[currentUser])
+
     const handleAvatarUpload = (event) => {
         const file = event.target.files[0];
         if (file) {
-            console.log(currentUser.email);
-            uploadIcon(file, currentUser.email, setLoading)
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setUploadedAvatar(reader.result);
+                setUploadedFile(file);
+            };
+            reader.readAsDataURL(file);
         }
     };
 
@@ -81,6 +93,18 @@ export default function EditParticipantProfile() {
         event.stopPropagation(); // prevent event propagation
         setSelectedInterests((prev) => prev.filter((value) => value !== valueToDelete));
     };
+
+    const handleSave = async () => {
+        const update = {
+            username: username,
+            country: country,
+            description: bio,
+            user: currentUser.email
+        }
+
+        await updateUserProfile(update,"participant");
+        uploadIcon(uploadedFile,currentUser.email,setLoading);
+    }
 
 
     return (
@@ -145,11 +169,16 @@ export default function EditParticipantProfile() {
                                         </InputAdornment>
                                     ),
                                 }}
+                                value={username}
+                                onChange={(e)=>{setUsername(e.target.value)}}
                             />
                         </Stack>
 
                         {/* Country selection dropdown */}
-                        <CountrySelect />
+                        <CountrySelect 
+                            value={country}
+                            onChange={(e,newInputVal)=>{setCountry(newInputVal)}}
+                        />
 
                         {/* Interests selection dropdown */}
                         <FormControl sx={{ m: 1, width: 300 }}>
@@ -214,6 +243,8 @@ export default function EditParticipantProfile() {
                                     </InputAdornment>
                                 ),
                             }}
+                            value={bio}
+                            onChange={(e)=>{setBio(e.target.value)}}
                         />
 
                         {/* Cancel and Save buttons */}
@@ -263,6 +294,7 @@ export default function EditParticipantProfile() {
                                     },
                                     
                                 }}
+                                onClick={handleSave}
                             >
                                 Save
                             </Button>

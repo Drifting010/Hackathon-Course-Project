@@ -27,6 +27,8 @@ import Chip from '@mui/material/Chip';
 import CloseIcon from '@mui/icons-material/Close';
 import { styled } from '@mui/system';
 import { getCurrentUser, uploadIcon } from '../../Components/firebase/firebaseFunction';
+import { AppContext } from '../../Components/AppContextProvider';
+import { getUser, getUserProfile, updateUserProfile } from '../../Components/firebase/firebaseFunction';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -86,9 +88,32 @@ const StyledFormControl = styled(FormControl)({
 
 // This is the main function that returns the hostEditprofile component
 export default function HostEditprofile() {
+    
+    const {currentUser} = React.useContext(AppContext);
+    const [loading, setLoading] = React.useState(false);
 
     // State for uploaded avatar
     const [uploadedAvatar, setUploadedAvatar] = React.useState(null);
+    const [uploadedFile, setUploadedFile] = React.useState(null);
+    const [companyName,setCompanyName] = React.useState("");
+    const [country,setCountry] = React.useState(null);
+    const [bio,setBio] = React.useState("");
+    const [website,setWebsite] = React.useState("");
+
+
+    React.useEffect(()=>{
+        if(currentUser!==null){
+            setUploadedAvatar(currentUser.photoURL);
+
+            const user = getUserProfile(currentUser.email);
+            user.then(function(result){
+                setCompanyName(result.nameOfOrganization);
+                setCountry(result.country);
+                setBio(result.description);
+                setWebsite(result.website);
+            });
+        }
+    },[currentUser])
 
     // Event handler for avatar upload
     const handleAvatarUpload = (event) => {
@@ -97,11 +122,24 @@ export default function HostEditprofile() {
             const reader = new FileReader();
             reader.onloadend = () => {
                 setUploadedAvatar(reader.result);
+                setUploadedFile(file);
             };
             reader.readAsDataURL(file);
         }
     };
 
+    const handleSave = async () => {
+        const update = {
+            nameOfOrganization: companyName,
+            country: country,
+            description: bio,
+            website: website,
+            user: currentUser.email
+        }
+
+        await updateUserProfile(update,"host");
+        uploadIcon(uploadedFile,currentUser.email,setLoading);
+    }
     // 
     const [selectedInterests, setSelectedInterests] = React.useState([]);
 
@@ -173,6 +211,39 @@ export default function HostEditprofile() {
 
                             {/* User Name input field */}
                             <CssTextField
+                                label="Name of organization"
+                                name="username"
+                                sx={{ mb: '20px', width: '250px', background: '#21262D' }}
+                                value={companyName}
+                                onChange={(e)=>{setCompanyName(e.target.value)}}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <PersonOutlineOutlinedIcon />
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                        </Stack>
+
+                        
+                        {/* First Name and Last Name input fields */}
+                        {/* <Stack direction="row" spacing={2} alignItems="center">
+                            
+                            // First Name input field
+                            <TextField
+                                id="outlined-firstname"
+                                label="First Name"
+                                defaultValue=""
+
+                            />
+
+                            // Last Name input field
+                            <TextField
+                                id="outlined-lastname"
+                                label="Last Name"
+                                defaultValue=""
+                            <CssTextField
                                 label="name of organization"
                                 name="username"
                                 sx={{ mb: '20px', width: '250px', background: '#21262D' }}
@@ -184,10 +255,13 @@ export default function HostEditprofile() {
                                     ),
                                 }}
                             />
-                        </Stack>
+                        </Stack> */}
 
                         {/* Country selection dropdown */}
-                        <CountrySelect />
+                        <CountrySelect
+                            value={country}
+                            onChange={(e,newInputVal)=>{setCountry(newInputVal)}}
+                        />
 
                         {/* Interests selection dropdown */}
                         <StyledFormControl sx={{ m: 1, width: 300 }}>
@@ -252,6 +326,8 @@ export default function HostEditprofile() {
                                     </InputAdornment>
                                 ),
                             }}
+                            value={bio}
+                            onChange={(e)=>{setBio(e.target.value)}}
                         />
 
                          {/* Website Input field */}
@@ -297,6 +373,7 @@ export default function HostEditprofile() {
 
                             {/* Save button */}
                             <Button
+                                onClick={handleSave}
                                 variant='contained'
                                 sx={{
                                     textTransform: 'none',
