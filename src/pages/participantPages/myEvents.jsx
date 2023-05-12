@@ -9,6 +9,7 @@ import Box from '@mui/material/Box';
 import HackathonList from '../../Components/HackathonList';
 import { AppContext } from '../../Components/AppContextProvider';
 import { useState, useEffect, useContext } from 'react';
+import { getUser } from '../../Components/firebase/firebaseFunction';
 
 // An array of card objects to be displayed
 // const cards = [1];
@@ -20,9 +21,7 @@ const initialFilters = { tag: null, offset: null, status: null, username: null, 
 export default function MyEvents() {
 
   const { currentUser } = useContext(AppContext);
-  
-  console.log('currentUser: ',currentUser);
-  // console.log('user: ',user);
+
   
   // const [loading, setLoading] = React.useState(false);
 
@@ -35,12 +34,14 @@ export default function MyEvents() {
   useEffect(() => {
     if (currentUser) {
       setFilters({ ...initialFilters, username: currentUser.email })
-    }
-  }, [currentUser])
-
-  useEffect(() => {
-    if (currentUser) {
-      setisParticipant(true);
+      const user = getUser(currentUser.email);
+        user.then(function(result){
+            if(result.role==="host"){
+                setIsHost(true);
+            }else{
+                setIsHost(false);
+            }
+        });
     }
   }, [currentUser])
 

@@ -10,24 +10,26 @@ import { AppContext } from '../../Components/AppContextProvider';
 import { useState, useEffect, useContext } from 'react';
 
 export default function Profile() {
-
     const { currentUser } = useContext(AppContext);
 
-    const [uploadedAvatar, setUploadedAvatar] = React.useState(null);
-    const [username, setUsername] = React.useState("");
-    const [country, setCountry] = React.useState(null);
-    const [bio, setBio] = React.useState("");
-    const [tags, setTags] = React.useState("");
+    const [countryLabel,setCountryLabel] = useState("");
+    const [avatar,setAvatar] = useState(null);
+    const [username,setUsername] = useState("");
+    const [newDesc,setNewDesc] = useState([]);
+    const [tags,setTags] = useState([]);
 
-    React.useEffect(() => {
-        if (currentUser !== null) {
-            setUploadedAvatar(currentUser.photoURL);
-            const user = getUserProfile(currentUser.email);
-            user.then(function (result) {
+    useEffect(() => {
+        if(currentUser!==null){
+            const userData = getUserProfile(currentUser.email);
+            setAvatar(currentUser.photoURL);
+            userData.then(function(result){
+                setCountryLabel(result.country.label);
                 setUsername(result.username);
-                setCountry(result.country.label);
-                setBio(result.description);
-                setTags(result.tags.split(','));
+                setTags(result.tags);
+                
+                if(result.description){
+                    setNewDesc(result.description.replace(/\\n/g, '\n').split('\n'));
+                }
             });
         }
     }, [currentUser]);
@@ -60,7 +62,7 @@ export default function Profile() {
                                     mt: 5,
                                 }}
                             >
-                                <Avatar src={uploadedAvatar} />
+                                <Avatar src={avatar} />
                             </Grid>
 
                             <Grid item>
@@ -118,14 +120,14 @@ export default function Profile() {
                                                 color: '#C9D1D9',
                                             }}
                                         >
-                                            {country}
+                                            {countryLabel}
                                         </Typography>
                                     </Grid>
                                 </Grid>
                             </Grid>
 
                             <Grid item>
-                                {tags && Array.isArray(tags) && tags.map((tag, index) => (
+                                {tags && tags.map((tag, index) => (
                                     <Button
                                         key={index}
                                         sx={{
@@ -154,20 +156,22 @@ export default function Profile() {
                                     width: '700px',
                                 }}
                             >
-                                <Typography
-                                    sx={{
-                                        fontFamily: 'Inter',
-                                        fontStyle: 'normal',
-                                        fontSize: '15px',
-                                        fontWeight: 500,
-                                        letterSpacing: '0.115emm',
-                                        color: '#C9D1D9',
-                                        mb: 1.5,
-                                        overflowWrap: 'break-word',
-                                    }}
-                                >
-                                    {bio}
-                                </Typography>
+                                {newDesc && newDesc.map((paragraph, index) => (
+                                    <Typography
+                                        sx={{
+                                            fontFamily: 'Inter',
+                                            fontStyle: 'normal',
+                                            fontSize: '15px',
+                                            fontWeight: 500,
+                                            letterSpacing: '0.115emm',
+                                            color: '#C9D1D9',
+                                            mb: 1.5,
+                                        }}
+                                        key={index}
+                                    >
+                                        {paragraph}
+                                    </Typography>
+                                ))}
                             </Grid>
 
                         </Grid>
