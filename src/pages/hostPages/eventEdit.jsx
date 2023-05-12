@@ -6,33 +6,53 @@ import { addHackathon, downLoadFile, getHackathon, retrieveDocFromSubCollection,
 import { AppContext } from "../../Components/AppContextProvider";
 import { ref } from "@firebase/storage";
 import { storage } from "../../firebaseConfig";
+import { styled } from '@mui/system';
 
-const TabPanel = ({children,index,value}) => { 
+const CssTextField = styled(TextField)({
+    '& .MuiOutlinedInput-root': {
+        '&:hover fieldset': {
+            borderColor: '#4474F1',
+        },
+        '&.Mui-focused fieldset': {
+            borderColor: '#4474F1',
+        },
+    },
+    '& .MuiInputLabel-outlined': {
+        '&:hover': {
+            color: '#4474F1',
+        },
+        '&.Mui-focused': {
+            color: '#4474F1',
+        },
+    }
+});
+
+const TabPanel = ({ children, index, value }) => {
     return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-      >
-        {children}
-      </div>
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+        >
+            {children}
+        </div>
     );
 }
 
-function EditComponent({hackathonid,title,description,setTitle,setDescription}) {
-    const [isEdit,setEdit] = React.useState(false);
+function EditComponent({ hackathonid, title, description, setTitle, setDescription }) {
+    const [isEdit, setEdit] = React.useState(false);
 
-    const [titleBackup,setTitleBackup] = React.useState("");
-    const [descBackup,setDescBackup] = React.useState("");
+    const [titleBackup, setTitleBackup] = React.useState("");
+    const [descBackup, setDescBackup] = React.useState("");
 
-    const handleEdit = (()=>{
+    const handleEdit = (() => {
         setTitleBackup(title);
         setDescBackup(description);
         setEdit(!isEdit);
     })
 
-    const handleSave = async ()=>{
+    const handleSave = async () => {
         setEdit(!isEdit);
 
         const newData = {
@@ -44,24 +64,24 @@ function EditComponent({hackathonid,title,description,setTitle,setDescription}) 
 
     };
 
-    const handleCancel = (()=>{
+    const handleCancel = (() => {
         setTitle(titleBackup);
         setDescription(descBackup);
         setEdit(!isEdit);
     })
 
-    return(
+    return (
         <div>
             {!isEdit ?
-                <Button onClick={handleEdit}>
+                <Button sx={{ color: 'white', my: 3, bgcolor: '#4474F1', fontWeight: 'bold' }} onClick={handleEdit}>
                     Edit
                 </Button>
                 :
                 <div>
-                    <Button onClick={handleSave}>
+                    <Button sx={{ color: 'white', my: 3, bgcolor: '#4474F1', fontWeight: 'bold', mr: 3 }} onClick={handleSave}>
                         Save
                     </Button>
-                    <Button onClick={handleCancel}>
+                    <Button sx={{ color: 'white', my: 3, bgcolor: '#4474F1', fontWeight: 'bold' }} onClick={handleCancel}>
                         Cancel
                     </Button>
                 </div>
@@ -75,43 +95,42 @@ function EditComponent({hackathonid,title,description,setTitle,setDescription}) 
                     {title}
                 </Typography>
                 :
-                <TextField
+                <CssTextField
                     fullWidth
                     multiline
                     rows={4}
                     value={title}
-                    onChange={(e) => {setTitle(e.target.value)}}
+                    onChange={(e) => { setTitle(e.target.value) }}
                 />
             }
 
             {!isEdit ?
                 <Typography
-                    component="h4"
-                    variant="h4"
+                    component="body2"
                     mb={5}
                     mt={2}
                 >
                     {description}
                 </Typography>
                 :
-                <TextField
+                <CssTextField
                     fullWidth
                     multiline
-                    rows={4}
+                    rows={16}
                     value={description}
-                    onChange={(e) => {setDescription(e.target.value)}}
+                    onChange={(e) => { setDescription(e.target.value) }}
                 />
             }
         </div>
     )
 }
 
-function SubmissionList({hackathonid}) {
+function SubmissionList({ hackathonid }) {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
-    const [submissions,setSubmissions] = React.useState([]);
+    const [submissions, setSubmissions] = React.useState([]);
 
     const handleChooseWinner = async () => {
-        if(submissions.length<=0){
+        if (submissions.length <= 0) {
             return;
         }
         const user = submissions[selectedIndex];
@@ -122,32 +141,32 @@ function SubmissionList({hackathonid}) {
         await addHackathon(newData);
     }
 
-    React.useEffect(()=>{
-        const sub = retriveSubCollections(hackathonid,'Submissions');
-        sub.then(function(result){
-            const data = result.map((doc)=>{
+    React.useEffect(() => {
+        const sub = retriveSubCollections(hackathonid, 'Submissions');
+        sub.then(function (result) {
+            const data = result.map((doc) => {
                 return doc.data().user;
             });
             setSubmissions([...data]);
         });
-    },[hackathonid]);
+    }, [hackathonid]);
 
-    function ParticipantAnswer({userID}){
-        const [questions,setQuestions] = React.useState([]);
-        const [answers,setAnswers] = React.useState([]);
+    function ParticipantAnswer({ userID }) {
+        const [questions, setQuestions] = React.useState([]);
+        const [answers, setAnswers] = React.useState([]);
 
-        React.useEffect(()=>{
-            const user = retrieveDocFromSubCollection(hackathonid,'Submissions',userID);
-            user.then(function(result){
+        React.useEffect(() => {
+            const user = retrieveDocFromSubCollection(hackathonid, 'Submissions', userID);
+            user.then(function (result) {
                 setQuestions(result.questions);
                 setAnswers(result.answers);
             });
-        },[hackathonid]);
+        }, [hackathonid]);
 
-        return(
+        return (
             <div>
-                {questions.map((q,index)=>(
-                    <Box key={index} sx={{mb:2}}>
+                {questions.map((q, index) => (
+                    <Box key={index} sx={{ mb: 2 }}>
                         <Typography>
                             {q}
                         </Typography>
@@ -160,27 +179,27 @@ function SubmissionList({hackathonid}) {
         )
     }
 
-    return(
+    return (
         <div>
             <List component="nav" aria-label="secondary mailbox folder">
-                {submissions.map((sub,index) => (
+                {submissions.map((sub, index) => (
                     <div key={index}>
                         <ListItemButton
                             selected={selectedIndex === index}
                             onClick={() => setSelectedIndex(index)}
                         >
-                        <ListItemText primary={sub} />
-                        <ListItemSecondaryAction>
-                            <Button
-                                onClick={()=>{
-                                    const fileRef = ref(storage, 'hackathons/'+hackathonid+'/submissions/'+sub);
-                                    downLoadFile(fileRef);
-                                }}
-                            >Download File</Button>
-                        </ListItemSecondaryAction>
+                            <ListItemText primary={sub} />
+                            <ListItemSecondaryAction>
+                                <Button
+                                    onClick={() => {
+                                        const fileRef = ref(storage, 'hackathons/' + hackathonid + '/submissions/' + sub);
+                                        downLoadFile(fileRef);
+                                    }}
+                                >Download File</Button>
+                            </ListItemSecondaryAction>
                         </ListItemButton>
 
-                        {selectedIndex === index && <ParticipantAnswer userID={sub}/>} 
+                        {selectedIndex === index && <ParticipantAnswer userID={sub} />}
                     </div>
                 ))}
             </List>
@@ -195,24 +214,24 @@ function SubmissionList({hackathonid}) {
 }
 
 
-function EditForm({hackathonid}){
-    const [regQuestions,setRegQuestions] = React.useState([]);
+function EditForm({ hackathonid }) {
+    const [regQuestions, setRegQuestions] = React.useState([]);
     const [regRequirements, setRegRequirements] = React.useState('');
 
-    const [subQuestions,setSubQuestions] = React.useState([]);
+    const [subQuestions, setSubQuestions] = React.useState([]);
     const [subRequirements, setSubRequirements] = React.useState('');
 
     const navigate = useNavigate();
 
     const handleRegQuestion = () => {
-        setRegQuestions([...regQuestions,""]);
+        setRegQuestions([...regQuestions, ""]);
     }
 
     const handleSubQuestion = () => {
-        setSubQuestions([...subQuestions,""]);
+        setSubQuestions([...subQuestions, ""]);
     }
 
-    const handleSave = async ()=>{
+    const handleSave = async () => {
         const newData = {
             id: hackathonid,
             regQuestions: regQuestions,
@@ -225,17 +244,17 @@ function EditForm({hackathonid}){
 
     };
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
         const sub = getHackathon(hackathonid);
-        sub.then(function(result){
+        sub.then(function (result) {
             setRegRequirements(result.regRequirements);
             setRegQuestions(result.regQuestions);
             setSubRequirements(result.subRequirements);
             setSubQuestions(result.subQuestions);
         });
-    },[hackathonid]);
+    }, [hackathonid]);
 
-    function SubmissionQuestion({index,subQuestion}) {
+    function SubmissionQuestion({ index, subQuestion }) {
         const [question, setQuestion] = React.useState(subQuestion);
 
         const handleChange = (e) => {
@@ -250,8 +269,8 @@ function EditForm({hackathonid}){
                     value={question}
                     onChange={handleChange}
                 />
-                <Button onClick={()=>{
-                    subQuestions.splice(index,1);
+                <Button onClick={() => {
+                    subQuestions.splice(index, 1);
                     setSubQuestions([...subQuestions]);
                 }}>
                     X
@@ -261,7 +280,7 @@ function EditForm({hackathonid}){
     }
 
 
-    function RegistrationQuestion({index,regQuestion}) {
+    function RegistrationQuestion({ index, regQuestion }) {
         const [question, setQuestion] = React.useState(regQuestion);
 
         const handleChange = (e) => {
@@ -276,8 +295,8 @@ function EditForm({hackathonid}){
                     value={question}
                     onChange={handleChange}
                 />
-                <Button onClick={()=>{
-                    regQuestions.splice(index,1);
+                <Button onClick={() => {
+                    regQuestions.splice(index, 1);
                     setRegQuestions([...regQuestions]);
                 }}>
                     X
@@ -288,50 +307,50 @@ function EditForm({hackathonid}){
 
     return (
         <Box>
-            <Typography>
+            <Typography sx={{ my:2 }}>
                 Registration questions
             </Typography>
-            {regQuestions.map((regQuestion,index) => (
-                <RegistrationQuestion key={index} index={index} regQuestion={regQuestion}/>
+            {regQuestions.map((regQuestion, index) => (
+                <RegistrationQuestion sx={{ color: '#4474F1' }} key={index} index={index} regQuestion={regQuestion} />
             ))}
-            <Button onClick={handleRegQuestion}>
+            <Button sx={{ color: 'white', my: 3, bgcolor: '#4474F1', fontWeight: 600, mr: 3 }} onClick={handleRegQuestion}>
                 Add question
             </Button>
-            <TextField
+            <CssTextField
                 id="reg-requirements"
                 label="Registration Requirements"
                 multiline
                 rows={4}
-                sx = {{paddingTop:'10px',paddingBottom:'10px'}}
+                sx={{ paddingTop: '10px', paddingBottom: '10px' }}
                 value={regRequirements}
-                onChange={(e)=> {setRegRequirements(e.target.value)}}
+                onChange={(e) => { setRegRequirements(e.target.value) }}
                 fullWidth
                 placeholder="Mention any requirements for registration, as well as any required files (one upload)"
             />
 
-            <Typography>
+            <Typography sx={{ mt:2 }}>
                 Submission questions
             </Typography>
-            {subQuestions.map((subQuestion,index) => (
-                <SubmissionQuestion key={index} index={index} subQuestion={subQuestion}/>
+            {subQuestions.map((subQuestion, index) => (
+                <SubmissionQuestion key={index} index={index} subQuestion={subQuestion} />
             ))}
-            <Button onClick={handleSubQuestion}>
+            <Button sx={{ color: 'white', my: 3, bgcolor: '#4474F1', fontWeight: 600, mr: 3 }} onClick={handleSubQuestion}>
                 Add question
             </Button>
-            <TextField
+            <CssTextField
                 id="reg-requirements"
                 label="Submission Requirements"
                 multiline
                 rows={4}
-                sx = {{paddingTop:'10px',paddingBottom:'10px'}}
+                sx={{ paddingTop: '10px', paddingBottom: '10px' }}
                 value={subRequirements}
-                onChange={(e)=> {setSubRequirements(e.target.value)}}
+                onChange={(e) => { setSubRequirements(e.target.value) }}
                 fullWidth
                 placeholder="Mention any requirements for submission, as well as any required files (one upload)"
             />
 
             <Button
-                onClick={()=>{navigate(0)}}
+                onClick={() => { navigate(0) }}
             >
                 Cancel
             </Button>
@@ -344,26 +363,26 @@ function EditForm({hackathonid}){
     )
 }
 
-function RegistrationList({hackathonid}) {
+function RegistrationList({ hackathonid }) {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
-    const [registrations,setRegistrations] = React.useState([]);
+    const [registrations, setRegistrations] = React.useState([]);
 
-    function ParticipantAnswer({userID}){
-        const [questions,setQuestions] = React.useState([]);
-        const [answers,setAnswers] = React.useState([]);
+    function ParticipantAnswer({ userID }) {
+        const [questions, setQuestions] = React.useState([]);
+        const [answers, setAnswers] = React.useState([]);
 
-        React.useEffect(()=>{
-            const user = retrieveDocFromSubCollection(hackathonid,'Registrations',userID);
-            user.then(function(result){
+        React.useEffect(() => {
+            const user = retrieveDocFromSubCollection(hackathonid, 'Registrations', userID);
+            user.then(function (result) {
                 setQuestions(result.questions);
                 setAnswers(result.answers);
             });
-        },[hackathonid]);
+        }, [hackathonid]);
 
-        return(
+        return (
             <div>
-                {questions.map((q,index)=>(
-                    <Box key={index} sx={{mb:2}}>
+                {questions.map((q, index) => (
+                    <Box key={index} sx={{ mb: 2 }}>
                         <Typography>
                             {q}
                         </Typography>
@@ -376,40 +395,40 @@ function RegistrationList({hackathonid}) {
         )
     }
 
-    React.useEffect(()=>{
-        const reg = retriveSubCollections(hackathonid,'Registrations');
+    React.useEffect(() => {
+        const reg = retriveSubCollections(hackathonid, 'Registrations');
 
-        reg.then(function(result){
-            const data = result.map((doc)=>{
+        reg.then(function (result) {
+            const data = result.map((doc) => {
                 return doc.data().user;
             });
             setRegistrations([...data]);
         });
-    },[hackathonid]);
+    }, [hackathonid]);
 
 
-    return(
+    return (
         <div>
             <List component="nav" aria-label="secondary mailbox folder">
-                {registrations.map((reg,index) => (
+                {registrations.map((reg, index) => (
                     <div>
                         <ListItemButton
                             selected={selectedIndex === index}
                             onClick={() => setSelectedIndex(index)}
                             key={index}
                         >
-                        <ListItemText primary={reg} />
-                        <ListItemSecondaryAction>
-                            <Button
-                                onClick={()=>{
-                                    const fileRef = ref(storage, 'hackathons/'+hackathonid+'/registrations/'+reg);
-                                    downLoadFile(fileRef);
-                                }}
-                            >Download File</Button>
-                        </ListItemSecondaryAction>
+                            <ListItemText primary={reg} />
+                            <ListItemSecondaryAction>
+                                <Button
+                                    onClick={() => {
+                                        const fileRef = ref(storage, 'hackathons/' + hackathonid + '/registrations/' + reg);
+                                        downLoadFile(fileRef);
+                                    }}
+                                >Download File</Button>
+                            </ListItemSecondaryAction>
                         </ListItemButton>
 
-                        {selectedIndex === index && <ParticipantAnswer userID={reg}/>} 
+                        {selectedIndex === index && <ParticipantAnswer userID={reg} />}
                     </div>
                 ))}
             </List>
@@ -422,34 +441,34 @@ export default function EventEdit() {
 
     const { id } = useParams();
 
-    const handleChange = ((e,newValue)=>{
-       setValue(newValue);
+    const handleChange = ((e, newValue) => {
+        setValue(newValue);
     });
 
     const hackathon = getHackathon(id);
-    const [title,setTitle] = React.useState("test");
-    const [description,setDescription] = React.useState("test");
-    const [validHackathon,setValidHackathon] = React.useState(false);
+    const [title, setTitle] = React.useState("test");
+    const [description, setDescription] = React.useState("test");
+    const [validHackathon, setValidHackathon] = React.useState(false);
 
     React.useEffect(() => {
-        hackathon.then(function(result){
+        hackathon.then(function (result) {
             setTitle(result.title);
             setDescription(result.description);
-    
+
             setValidHackathon(true);
         });
-    },[id]);
-    
+    }, [id]);
+
 
     return validHackathon ? (
         <ThemeProvider theme={theme}>
             <Box sx={{ width: '100%' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                        <Tab label="Event page"  />
-                        <Tab label="Registrations"  />
-                        <Tab label="Submissions"/>
-                        <Tab label="Edit forms"/>
+                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" sx={{ '& .MuiTabs-indicator': { backgroundColor: '#4474F1' } }}>
+                        <Tab sx={{ '&.Mui-selected': { color: '#4474F1', fontSize: 15, fontWeight: 'bold' }, color: '#C9C9C9', fontSize: 15, fontWeight: 'bold' }} label="Event page" />
+                        <Tab sx={{ '&.Mui-selected': { color: '#4474F1', fontSize: 15, fontWeight: 'bold' }, color: '#C9C9C9', fontSize: 15, fontWeight: 'bold' }} label="Registrations" />
+                        <Tab sx={{ '&.Mui-selected': { color: '#4474F1', fontSize: 15, fontWeight: 'bold' }, color: '#C9C9C9', fontSize: 15, fontWeight: 'bold' }} label="Submissions" />
+                        <Tab sx={{ '&.Mui-selected': { color: '#4474F1', fontSize: 15, fontWeight: 'bold' }, color: '#C9C9C9', fontSize: 15, fontWeight: 'bold' }} label="Edit forms" />
                     </Tabs>
                 </Box>
                 <TabPanel
