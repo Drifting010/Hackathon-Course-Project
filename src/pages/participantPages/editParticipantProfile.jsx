@@ -24,6 +24,7 @@ import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import CloseIcon from '@mui/icons-material/Close';
 import { AppContext } from '../../Components/AppContextProvider';
+import { useNavigate } from 'react-router';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -49,6 +50,8 @@ export default function EditParticipantProfile() {
     const [username,setUsername] = React.useState("");
     const [country,setCountry] = React.useState(null);
     const [bio,setBio] = React.useState("");
+
+    const navigate = useNavigate();
 
     React.useEffect(()=>{
         if(currentUser!==null){
@@ -104,6 +107,7 @@ export default function EditParticipantProfile() {
 
         await updateUserProfile(update,"participant");
         uploadIcon(uploadedFile,currentUser.email,setLoading);
+        navigate("/profile");
     }
 
 
@@ -270,7 +274,9 @@ export default function EditParticipantProfile() {
                                     },
                                     
                                 }}
-
+                                onClick={()=>{
+                                    navigate("/profile");
+                                }}
                             >
                                 Cancel
                             </Button>
