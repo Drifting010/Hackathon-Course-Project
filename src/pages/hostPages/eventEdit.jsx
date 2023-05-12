@@ -2,7 +2,7 @@ import { Avatar, Box, Button, Divider, IconButton, List, ListItem, ListItemAvata
 import theme from "../../Components/theme";
 import * as React from 'react';
 import { useParams } from "react-router";
-import { addHackathon, getHackathon, retriveSubCollections } from "../../Components/firebase/firebaseFunction";
+import { addHackathon, getHackathon, retrieveDocFromSubCollection, retriveSubCollections } from "../../Components/firebase/firebaseFunction";
 import { AppContext } from "../../Components/AppContextProvider";
 
 const TabPanel = ({children,index,value}) => { 
@@ -118,20 +118,52 @@ function SubmissionList({hackathonid}) {
         });
     },[hackathonid]);
 
+    function ParticipantAnswer({userID}){
+        const [questions,setQuestions] = React.useState([]);
+        const [answers,setAnswers] = React.useState([]);
+
+        React.useEffect(()=>{
+            const user = retrieveDocFromSubCollection(hackathonid,'Submissions',userID);
+            user.then(function(result){
+                setQuestions(result.questions);
+                setAnswers(result.answers);
+            });
+        },[hackathonid]);
+
+        return(
+            <div>
+                {questions.map((q,index)=>(
+                    <Box key={index} sx={{mb:2}}>
+                        <Typography>
+                            {q}
+                        </Typography>
+                        <Typography>
+                            {answers[index]}
+                        </Typography>
+                    </Box>
+                ))}
+            </div>
+        )
+    }
+
     return(
         <div>
             <List component="nav" aria-label="secondary mailbox folder">
                 {submissions.map((sub,index) => (
-                    <ListItemButton
-                        selected={selectedIndex === index}
-                        onClick={() => setSelectedIndex(index)}
-                        key={index}
-                    >
-                    <ListItemText primary={sub} />
-                    <ListItemSecondaryAction>
-                        <Button>Download Submission</Button>
-                    </ListItemSecondaryAction>
-                    </ListItemButton>
+                    <div>
+                        <ListItemButton
+                            selected={selectedIndex === index}
+                            onClick={() => setSelectedIndex(index)}
+                            key={index}
+                        >
+                        <ListItemText primary={sub} />
+                        <ListItemSecondaryAction>
+                            <Button>Download Submission</Button>
+                        </ListItemSecondaryAction>
+                        </ListItemButton>
+
+                        {selectedIndex === index && <ParticipantAnswer userID={sub}/>} 
+                    </div>
                 ))}
             </List>
 
@@ -293,6 +325,34 @@ function RegistrationList({hackathonid}) {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const [registrations,setRegistrations] = React.useState([]);
 
+    function ParticipantAnswer({userID}){
+        const [questions,setQuestions] = React.useState([]);
+        const [answers,setAnswers] = React.useState([]);
+
+        React.useEffect(()=>{
+            const user = retrieveDocFromSubCollection(hackathonid,'Registrations',userID);
+            user.then(function(result){
+                setQuestions(result.questions);
+                setAnswers(result.answers);
+            });
+        },[hackathonid]);
+
+        return(
+            <div>
+                {questions.map((q,index)=>(
+                    <Box key={index} sx={{mb:2}}>
+                        <Typography>
+                            {q}
+                        </Typography>
+                        <Typography>
+                            {answers[index]}
+                        </Typography>
+                    </Box>
+                ))}
+            </div>
+        )
+    }
+
     React.useEffect(()=>{
         const reg = retriveSubCollections(hackathonid,'Registrations');
 
@@ -309,16 +369,20 @@ function RegistrationList({hackathonid}) {
         <div>
             <List component="nav" aria-label="secondary mailbox folder">
                 {registrations.map((reg,index) => (
-                    <ListItemButton
-                        selected={selectedIndex === index}
-                        onClick={() => setSelectedIndex(index)}
-                        key={index}
-                    >
-                    <ListItemText primary={reg} />
-                    <ListItemSecondaryAction>
-                        <Button>Download Submission</Button>
-                    </ListItemSecondaryAction>
-                    </ListItemButton>
+                    <div>
+                        <ListItemButton
+                            selected={selectedIndex === index}
+                            onClick={() => setSelectedIndex(index)}
+                            key={index}
+                        >
+                        <ListItemText primary={reg} />
+                        <ListItemSecondaryAction>
+                            <Button>Download Submission</Button>
+                        </ListItemSecondaryAction>
+                        </ListItemButton>
+
+                        {selectedIndex === index && <ParticipantAnswer userID={reg}/>} 
+                    </div>
                 ))}
             </List>
         </div>
