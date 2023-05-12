@@ -93,7 +93,7 @@ export default function Dashboard() {
                 }}
                 variant="contained"
                 text-decoration="none"
-                href='/host_home'>Host a Hackathon now</Button>
+                href='/publish_hackathon'>Host a Hackathon now</Button>
             </Box>
           </Container>
         </ThemeProvider>
