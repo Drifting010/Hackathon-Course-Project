@@ -17,11 +17,12 @@ export default function RegisterProfileParticipant() {
     const user = JSON.parse(window.localStorage.getItem('user'));
 
     // state: participantProfile
+    const email = user.p_email.toLowerCase();
     const [participantProfile, setParticipantProfile] = useState({
         country: '',
         description: '',
         tags: [],
-        user: user.p_email,
+        user: email,
         userIcon: '',
         username: ''
     });

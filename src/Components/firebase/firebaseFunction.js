@@ -419,7 +419,8 @@ const uploadIcon = async (file, userId, setLoading) => {
 
 //Upload files with given file reference in db and file
 const uploadFile = async (file, fileRef) => {
-
+  const snapshot = await uploadBytes(fileRef, file);
+  console.log(snapshot);
   const downLoadURL = await getDownloadURL(fileRef)
   alert("uploaded!")
   return downLoadURL;
@@ -523,21 +524,23 @@ const createUserWithEmailAndPasswordFunction = async (
   try {
     await createUserWithEmailAndPassword(auth, email, password);
     let userData = {}; // Change this line to use let instead of const
-    const authEmail = auth.currentUser.email;
+    const currentUser = auth.currentUser;
+    const authEmail = currentUser.email;
+    alert(authEmail)
     const profileData = {
       user: authEmail,
     };
     if (role === 'host') {
       const profile = await createHostProfile(profileData);
       userData = {
-        authEmail,
+        email:[authEmail],
         role: 'host',
         profile: profile,
       };
     } else {
       const profile = await createParticipantProfile(profileData);
       userData = {
-        authEmail,
+        email:[authEmail],
         role: 'participant',
         profile: profile,
       };
