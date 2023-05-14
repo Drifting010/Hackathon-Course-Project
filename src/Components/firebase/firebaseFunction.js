@@ -21,7 +21,7 @@ const addToArray = async (collectionName, documentName, fieldName, dataToAdd) =>
 };
 
 //Automatically remove a item from array field
-const removeFromArray = async(collectionName, documentName, fieldName, dataToRemove) => {
+const removeFromArray = async (collectionName, documentName, fieldName, dataToRemove) => {
   const ref = doc(db, collectionName, documentName);
 
 
@@ -154,32 +154,32 @@ const getHackathonByFilterByHost = async (filters) => {
     // find by tag + status
     if ((filters.tag !== null) && (filters.status !== null)) {
       queryRef = query(
-        hackathonsRef, 
+        hackathonsRef,
         where("tag", "==", filters.tag),
         where("status", "==", filters.status),
         where("host", "==", filters.username)
-        );
-    // find by tag
+      );
+      // find by tag
     } else if (filters.tag !== null && filters.status === null) {
       queryRef = query(
-        hackathonsRef, 
+        hackathonsRef,
         where("tag", "==", filters.tag),
         where("host", "==", filters.username)
-        );
-    // find by status
-    } else if (filters.tag === null && filters.status !== null){
+      );
+      // find by status
+    } else if (filters.tag === null && filters.status !== null) {
       queryRef = query(
-        hackathonsRef, 
+        hackathonsRef,
         where("status", "==", filters.status),
         where("host", "==", filters.username)
-        );
+      );
     }
     // other
     else {
       queryRef = query(
-        hackathonsRef, 
+        hackathonsRef,
         where("host", "==", filters.username)
-        );
+      );
     }
     const querySnapshot = await getDocs(queryRef);
     const hackathons = [];
@@ -200,32 +200,32 @@ const getHackathonByFilterByParticipant = async (filters) => {
     // find by tag + status
     if ((filters.tag !== null) && (filters.status !== null)) {
       queryRef = query(
-        hackathonsRef, 
+        hackathonsRef,
         where("tag", "==", filters.tag),
         where("status", "==", filters.status),
         where("members", "array-contains", filters.username)
-        );
-    // find by tag
+      );
+      // find by tag
     } else if (filters.tag !== null && filters.status === null) {
       queryRef = query(
-        hackathonsRef, 
+        hackathonsRef,
         where("tag", "==", filters.tag),
         where("members", "array-contains", filters.username)
-        );
-    // find by status
-    } else if (filters.tag === null && filters.status !== null){
+      );
+      // find by status
+    } else if (filters.tag === null && filters.status !== null) {
       queryRef = query(
-        hackathonsRef, 
+        hackathonsRef,
         where("status", "==", filters.status),
         where("members", "array-contains", filters.username)
-        );
+      );
     }
     // other
     else {
       queryRef = query(
-        hackathonsRef, 
+        hackathonsRef,
         where("members", "array-contains", filters.username)
-        );
+      );
     }
     const querySnapshot = await getDocs(queryRef);
     const hackathons = [];
@@ -248,28 +248,28 @@ const getHackathonByFilterExplore = async (filters) => {
     // find by tag + status
     if ((filters.tag !== null) && (filters.status !== null)) {
       queryRef = query(
-        hackathonsRef, 
+        hackathonsRef,
         where("tag", "==", filters.tag),
         where("status", "==", filters.status),
-        );
-    // find by tag
+      );
+      // find by tag
     } else if (filters.tag !== null && filters.status === null) {
       queryRef = query(
-        hackathonsRef, 
+        hackathonsRef,
         where("tag", "==", filters.tag),
-        );
-    // find by status
-    } else if (filters.tag === null && filters.status !== null){
+      );
+      // find by status
+    } else if (filters.tag === null && filters.status !== null) {
       queryRef = query(
-        hackathonsRef, 
+        hackathonsRef,
         where("status", "==", filters.status),
-        );
+      );
     }
     const querySnapshot = await getDocs(queryRef);
     const hackathons = [];
     querySnapshot.forEach((doc) => {
-      if (doc.data().members && !doc.data().members.includes(filters.username) )
-      hackathons.push({ id: doc.id, ...doc.data() });
+      if (doc.data().members && !doc.data().members.includes(filters.username))
+        hackathons.push({ id: doc.id, ...doc.data() });
     });
     return hackathons;
   } catch (error) {
@@ -294,7 +294,7 @@ const getAllTags = async (collectionName) => {
 const addHackathon = async (hackathonData) => {
   try {
     const hackathonRef = doc(collection(db, 'hackathons'), hackathonData.id);
-    await setDoc(hackathonRef, hackathonData, {merge: true});
+    await setDoc(hackathonRef, hackathonData, { merge: true });
   } catch (error) {
     console.error('Error adding hackathon: ', error);
   }
@@ -362,8 +362,8 @@ const updateDocumentFromSubCollection = async (collectionName, documentId, subCo
 //Set Winner similar cause can use this as an example
 //Add single user to winner, with price
 const setWinner = async (hackathonId, email, data) => {
-  try{
-    await addDocumentToSubCollection('hackathons', hackathonId, 'winners',email, data);
+  try {
+    await addDocumentToSubCollection('hackathons', hackathonId, 'winners', email, data);
   } catch (error) {
     console.error('Error adding winner');
   }
@@ -372,8 +372,8 @@ const setWinner = async (hackathonId, email, data) => {
 //Retrive Registrations and submissions from hackathon
 //Sub Collection Name can be anything
 const retriveSubCollections = async (hackathonId, subCollectionName) => {
-  try{
-    const mainCollectionRef = doc(db, 'hackathons',hackathonId);
+  try {
+    const mainCollectionRef = doc(db, 'hackathons', hackathonId);
     const subCollectionRef = collection(mainCollectionRef, subCollectionName);
     const querySnapshot = await getDocs(subCollectionRef);
     return querySnapshot.docs;
@@ -384,10 +384,10 @@ const retriveSubCollections = async (hackathonId, subCollectionName) => {
 
 //Retrive doc from subcollection
 const retrieveDocFromSubCollection = async (hackathonId, subCollectionName, documentId) => {
-  try{
-    const mainCollectionRef = doc(db, 'hackathons',hackathonId);
+  try {
+    const mainCollectionRef = doc(db, 'hackathons', hackathonId);
     const subCollectionRef = collection(mainCollectionRef, subCollectionName);
-    const docRef = doc(subCollectionRef,documentId);
+    const docRef = doc(subCollectionRef, documentId);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
@@ -419,7 +419,8 @@ const uploadIcon = async (file, userId, setLoading) => {
 
 //Upload files with given file reference in db and file
 const uploadFile = async (file, fileRef) => {
-
+  const snapshot = await uploadBytes(fileRef, file);
+  console.log(snapshot);
   const downLoadURL = await getDownloadURL(fileRef)
   alert("uploaded!")
   return downLoadURL;
@@ -439,7 +440,7 @@ const downLoadFile = (fileRef) => {
     xhr.responseType = 'blob';
     xhr.onload = (event) => {
       const blob = xhr.response;
-      saveAs(blob,'filename');
+      saveAs(blob, 'filename');
       return [event, blob];
     }
     xhr.open('GET', url);
@@ -523,7 +524,7 @@ const createUserWithEmailAndPasswordFunction = async (
   try {
     await createUserWithEmailAndPassword(auth, email, password);
     let userData = {}; // Change this line to use let instead of const
-    const authEmail = auth.currentUser.email;
+    const authEmail = auth.currentUser.email.toLowerCase();;
     const profileData = {
       user: authEmail,
     };
@@ -602,8 +603,8 @@ const signOutFunction = async () => {
 const resetPassword = async (newPassword) => {
   const user = auth.currentUser;
   try {
-  await updatePassword(user, newPassword);
-  } catch(error){
+    await updatePassword(user, newPassword);
+  } catch (error) {
     // An error ocurred
     // ...
     console.error('error resetting password', error);

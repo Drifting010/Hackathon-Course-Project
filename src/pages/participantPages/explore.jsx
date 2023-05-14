@@ -108,7 +108,7 @@ export default function Explopre() {
       </Box>
       {/* display cards */}
       <Box>
-        <HackathonList filters={filters} pagename={'explore'}/>
+        <HackathonList filters={filters} pagename={'explore'} isParticipant={true}/>
       </Box>
     </ThemeProvider>
   );
