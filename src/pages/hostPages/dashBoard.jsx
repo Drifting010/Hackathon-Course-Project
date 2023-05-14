@@ -163,7 +163,6 @@ export default function Dashboard() {
               }}>
               The hackathons hosted by you will be shown here
             </Typography>
-            
           </Container>
         </ThemeProvider>
       )}

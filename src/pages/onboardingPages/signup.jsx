@@ -65,9 +65,15 @@ export default function Signup() {
         password = user.role === 'participant' ? user.p_pwd : user.h_pwd;
         role = user.role === 'participant' ? 'participant' : 'host';
         // register new user
-        await createUserWithEmailAndPasswordFunction(email, password, role);
-        // submission approved
-        setSubmitting(true);
+        const state = await createUserWithEmailAndPasswordFunction(email, password, role);
+        if (state === null) {
+            alert("Eamil already in use");
+            setSubmitting(false);
+            setEmailValid(false);
+        } else {
+            // submission approved
+            setSubmitting(true);
+        }
     }
 
     // Function to handle form data changes
