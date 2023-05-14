@@ -54,7 +54,7 @@ test("get document in collection by id", async () => {
     testId
   );
   // Verify that the document data is correct
-  expect(documentData.authEmail).toEqual(testId);
+  expect(documentData.email).toEqual(testId);
 });
 
 // Test getMultipleDocuments
@@ -93,7 +93,7 @@ const hackathonExample = {
   participants: ["/participants/testparticipant@example.com"],
   prizePool: "1000",
   startDate: "23 May 2023 at 04:18:53 UTC+12",
-  status: "ongoing",
+  status: "ended",
   tags: [
     "/hackathonTags/Database",
     "/hackathonTags/Robotics",
@@ -132,7 +132,7 @@ describe("Firebase Functions", () => {
     const user = await getUser(testEmail);
 
     expect(user).not.toBeNull();
-    expect(user.authEmail).toEqual(testEmail);
+    expect(user.email).toEqual(testEmail);
     expect(user.role).toEqual(testRole);
   });
 

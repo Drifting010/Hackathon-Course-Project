@@ -532,14 +532,14 @@ const createUserWithEmailAndPasswordFunction = async (
     if (role === 'host') {
       const profile = await createHostProfile(profileData);
       userData = {
-        email:[authEmail],
+        email:authEmail,
         role: 'host',
         profile: profile,
       };
     } else {
       const profile = await createParticipantProfile(profileData);
       userData = {
-        email:[authEmail],
+        email: authEmail,
         role: 'participant',
         profile: profile,
       };
