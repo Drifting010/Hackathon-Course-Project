@@ -110,7 +110,7 @@ export default function HostHeader() {
                             variant="h6"
                             noWrap
                             component="a"
-                            href="/host_home"
+                            href="/dashboard"
                             sx={{
                                 mr: 2,
                                 display: { xs: 'none', md: 'flex' },
@@ -264,5 +264,3 @@ export default function HostHeader() {
         </AppBar >
     );
 }
-
-

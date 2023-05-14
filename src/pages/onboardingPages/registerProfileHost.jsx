@@ -16,13 +16,14 @@ export default function RegisterProfileHost() {
 
     // import user data stored in browser by signup page 
     const user = JSON.parse(window.localStorage.getItem('user'));
+    const email = user.h_email.toLowerCase();
 
     // state: participantProfile
     const [hostProfile, setHostProfile] = useState({
         country: '',
         description: '',
         tags: [],
-        user: user.h_email,
+        user: email,
         userIcon: '',
         nameOfOrganization: '',
         website: ''

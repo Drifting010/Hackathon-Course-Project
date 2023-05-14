@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { getHackathonByFilterByHost, getHackathonByFilterByParticipant,getHackathonByTag,getHackathonByFilterExplore } from './firebase/firebaseFunction';
+import React, { useState, useEffect} from 'react';
+import { getHackathonByFilterByHost, getHackathonByFilterByParticipant, getHackathonByTag, getHackathonByFilterExplore } from './firebase/firebaseFunction';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -15,19 +15,21 @@ import { daysDiff, hackathonPercentage } from '../hooks/dateFunctions';
 // const limit = 10
 
 // This is the main function that returns the hackathonList component
-function HackathonList({filters, pagename}) {
+function HackathonList({ filters, pagename, isParticipant, onDataLoaded }) {
   // const [offset, setOffset] = useState(0)
   const [data, setData] = useState([]);
   useEffect(() => {
     // dashBoard function
-    async function fetchDataByHost() {
+    async function fetchDataByHostAndFilter() {
       const Data = await getHackathonByFilterByHost(filters);
       setData(Data);
+      onDataLoaded(Data);
     }
     // myEvents function
     async function fetchDataByParticipant() {
       const Data = await getHackathonByFilterByParticipant(filters);
       setData(Data);
+      onDataLoaded(Data);
     }
     // homePage function
     async function fetchDataByGuest() {
@@ -39,30 +41,31 @@ function HackathonList({filters, pagename}) {
       const Data = await getHackathonByFilterExplore(filters);
       setData(Data);
     }
+
     const role = filters.role;
-    if (pagename==='myEvents'){
+
+    if (pagename === 'myEvents') {
       fetchDataByParticipant();
       console.log('it is participant myEvents')
-      console.log('filter: ',filters)
-    } else if (pagename==='explore') {
+      console.log('filter: ', filters)
+    } else if (pagename === 'explore') {
       fetchDataForExplore();
       console.log('it is participant explore')
-      console.log('filter: ',filters)
-    } else if (pagename==='dashBoard') {
-      fetchDataByHost();
+      console.log('filter: ', filters)
+    } else if (pagename === 'dashBoard') {
+      fetchDataByHostAndFilter();
       console.log('it is host dashBoard')
-      console.log('filter: ',filters)
-    } else if (pagename==='homePage') {
+      console.log('filter: ', filters)
+    } else if (pagename === 'homePage') {
       fetchDataByGuest();
       console.log('it is participant homePage')
-      console.log('filter: ',filters)
-    }else {
+      console.log('filter: ', filters)
+    } else {
       fetchDataByGuest();
       console.log('it is guest')
-      console.log('filter: ',filters)
+      console.log('filter: ', filters)
     }
-  }, [filters,pagename]);
-  // const pages = Math.ceil(data.HackathonsCount / limit)
+  }, [filters, pagename]);
 
   return (
     <Box data-testid="hackthonList">
@@ -87,15 +90,25 @@ function HackathonList({filters, pagename}) {
                   image="https://source.unsplash.com/random"
                   alt="random"
                 /> */}
-                <a href={`/single_hackathon/${card.id}`}>
-                  <CardMedia
-                    component="img"
-                    // href={`/single_hackathon/${data.id}`}
-                    sx={{}}
-                    image="https://source.unsplash.com/random"
-                    alt="random"
-                  />
-                </a>
+                {isParticipant ? (
+                  <a href={`/single_hackathon/${card.id}`}>
+                    <CardMedia
+                      component="img"
+                      // href={`/single_hackathon/${data.id}`}
+                      sx={{}}
+                      image="https://source.unsplash.com/random"
+                      alt="random"
+                    />
+                  </a>) : (
+                  <a href={`/host_editevent/${card.id}`}>
+                    <CardMedia
+                      component="img"
+                      // href={`/single_hackathon/${data.id}`}
+                      sx={{}}
+                      image="https://source.unsplash.com/random"
+                      alt="random"
+                    />
+                  </a>)}
                 <CardContent sx={{ flexGrow: 1 }}>
                   {card && (
                     <Typography

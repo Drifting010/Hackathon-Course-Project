@@ -51,6 +51,7 @@ export default function Interests({ TagsSelectorComponent = TagsSelector }) {
     // Create user profile in DB based on role
     useEffect(() => {
         if (isSubmitting) {
+            console.log(profile);
             async function registerProfile() {
                 if (role === 'participant') {
                     await createParticipantProfile(profile);

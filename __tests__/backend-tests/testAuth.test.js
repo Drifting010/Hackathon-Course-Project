@@ -7,7 +7,7 @@ import {
   // sendEmailVerification,
 } from "../../src/Components/firebase/firebaseFunction";
 import { getAuth } from "firebase/auth";
-import { app } from "../../src/firebaseConfig";
+import { app, auth } from "../../src/firebaseConfig";
 
 /// Replace this with your Firebase mocks or test Firebase instance
 const testAuth = getAuth();
@@ -27,10 +27,10 @@ test("create user with email and password", async () => {
   expect(user).not.toBeNull();
 
   // Get the user data from Firestore
-  const userData = await getUser(user.authEmail);
+  const userData = await getUser(user.email);
 
   // Verify that the user data is correct
-  expect(userData.authEmail).toEqual(user.authEmail);
+  expect(userData.email).toEqual(user.email);
   signOutFunction();
 });
 
@@ -70,7 +70,7 @@ test("sign in with email and password and sign out", async () => {
   const userData = await getUser(email);
 
   // Verify that the user data is correct
-  expect(userData.authEmail).toEqual(email);
+  expect(userData.email).toEqual(email);
 
   // Sign out the user
   signOutFunction();
@@ -83,14 +83,11 @@ test("sign out user", async () => {
   const password = "testpassword";
   const role = "host";
 
-  const newUser = await createUserWithEmailAndPasswordFunction(
+  await createUserWithEmailAndPasswordFunction(
     email,
     password,
     role
   );
-
-  // Verify that the user was created
-  expect(newUser).not.toBeNull();
 
   // Sign in the user
   const user = await signInWithEmailAndPasswordFunction(email, password);

@@ -24,7 +24,6 @@ import { Profile } from './pages/participantPages';
 import { EditParticipantProfile } from './pages/participantPages';
 import { AccountSetting } from './pages/participantPages';
 //part three - host
-import { HostHome } from './pages/hostPages';
 import { Dashboard } from './pages/hostPages';
 import { DataAnalytics } from './pages/hostPages';
 import { HelpCentre } from './pages/hostPages';
@@ -66,7 +65,6 @@ export default function App() {
               <Route path="/edit_participant_profile" element={<EditParticipantProfile />} />
               <Route path="/account" element={<AccountSetting />} />
               {/* part 03 */}
-              <Route path='/host_home' element={<HostHome />} />
               <Route path='/dashboard' element={<Dashboard />} />
               <Route path='/data_analytics' element={<DataAnalytics />} />
               <Route path='/help_centre' element={<HelpCentre />} />
