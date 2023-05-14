@@ -19,7 +19,7 @@ export default function SingleHackathon() {
     console.log(hackathonId);
 
     // Current user
-    const user  = React.useContext(AppContext).currentUser;
+    const user = React.useContext(AppContext).currentUser;
     // alert(JSON.stringify(user))
     //const user = { email: 'TEST0509@TEST.com' };
     //const user = { email: 'test0511@gmail.comm' };
@@ -36,8 +36,8 @@ export default function SingleHackathon() {
             const hackathonData = await getHackathonAndParticipants(hackathonId);
             setHackathon(hackathonData);
 
-            const hackathonParticipants = await retriveSubCollections(hackathonId,'Registrations');
-            const hackathonSubmits = await retriveSubCollections(hackathonId,'Submissions');
+            const hackathonParticipants = await retriveSubCollections(hackathonId, 'Registrations');
+            const hackathonSubmits = await retriveSubCollections(hackathonId, 'Submissions');
 
             // Check if the user is already registered for the hackathon
             if (user && hackathonParticipants.some(participant => participant.data().user === user.email)) {
@@ -116,7 +116,7 @@ export default function SingleHackathon() {
 
                 {/* Button component to navigate to hackathon submission or registration based on the user's registration status. */}
                 <Button
-                    href={isRegistered ? '/submit_hackathons/'+hackathonId : '/register_hackathons/'+hackathonId}
+                    href={isRegistered ? '/submit_hackathons/' + hackathonId : '/register_hackathons/' + hackathonId}
                     disabled={!user || isSubmitted}
                     sx={{
                         width: '200px',
@@ -135,6 +135,30 @@ export default function SingleHackathon() {
                 >
                     {isRegistered ? 'Submit Hackathon' : 'Join Hackathon'}
                 </Button>
+                {user ? (
+                    <div></div>
+                ) : (
+                    <Button
+                        href='/login'
+                        sx={{
+                            width: '200px',
+                            height: '45px',
+                            background: '#FF9300',
+                            borderRadius: '5px',
+                            fontFamily: 'Inter',
+                            fontStyle: 'normal',
+                            fontWeight: 600,
+                            fontSize: '13px',
+                            color: '#F7F7FC',
+                            mt: 2,
+                            mb: 2,
+                            ml: 10,
+                        }}
+                    >
+                        Login in
+                    </Button>
+                )}
+
 
                 {hackathon.winner && <Typography
                     sx={{

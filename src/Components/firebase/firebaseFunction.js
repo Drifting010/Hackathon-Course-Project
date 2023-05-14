@@ -405,7 +405,7 @@ const uploadIcon = async (file, userId, setLoading) => {
   const fileRef = ref(storage, 'userIcons/' + userId);
 
   setLoading(true);
-
+  const snapshot = await uploadBytes(fileRef, file);
   const photoURL = await getDownloadURL(fileRef)
   const currentUser = getCurrentUser();
   if (currentUser != null) {
@@ -526,7 +526,6 @@ const createUserWithEmailAndPasswordFunction = async (
     let userData = {}; // Change this line to use let instead of const
     const currentUser = auth.currentUser;
     const authEmail = currentUser.email;
-    alert(authEmail)
     const profileData = {
       user: authEmail,
     };
@@ -550,6 +549,7 @@ const createUserWithEmailAndPasswordFunction = async (
     await setDoc(userRef, userData);
   } catch (error) {
     console.error('Error creating user: ', error);
+    return null;
   }
 };
 
